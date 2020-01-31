@@ -1,0 +1,122 @@
+<project name="FinkBrowser"
+         default="war"
+         basedir="../run">
+
+  <description>
+    JHTools
+    </description>
+
+  <!-- Setup ================================================================-->
+
+  <property environment="env"/>
+  <property file="../ant/build-global.properties"/>
+  <property file="../ant/build-local.properties"/>
+  <property name="site" value="${env.site}"/>
+  
+  <echo>Building for site ${target}</echo>
+
+  <path id="classpath.build">
+    <pathelement path="${jhtools_jar}"/>
+    <fileset dir="../extlib">
+      <include name="*.jar"/>
+      </fileset>
+    </path>
+
+  <path id="classpath.run">
+    <fileset dir="../lib">
+      <include name="*.jar"/>
+      <exclude name="*.exe.jar"/>
+      </fileset>
+    <path refid="classpath.build"/>
+    </path>
+
+  <property name="classpath.build.content" refid="classpath.build"/>
+  <property name="classpath.run.content"   refid="classpath.run"/>
+
+  <target name="init"
+          description="Initialise environment">
+    <tstamp>
+      <format property="TSTAMP" pattern="dd/MMM/yyyy 'at' kk:mm:ss z"/>
+      </tstamp>
+    <mkdir dir="../build"/>
+    <mkdir dir="../lib"/>
+    <mkdir dir="../extlib"/>
+    <mkdir dir="../run"/>
+    <mkdir dir="../doc/JavaDoc"/>
+    </target>
+        
+  <!-- WAR ==================================================================-->
+
+  <target name="war"
+          depends="init"
+          description="Create WAR">
+ 		<copy file="${jhtools_ws}/CommandCenter.jsp"  tofile="../build/CommandCenter.jsp" overwrite="true"/>
+    <replace file="../build/CommandCenter.jsp" token="@VERSION@" value="${version}"/>
+    <replace file="../build/CommandCenter.jsp" token="@BUILD@"   value="${TSTAMP} by ${user.name}"/>
+    <war destfile="../lib/FinkBrowser.war" webxml="../src/ws/web.xml">
+      <fileset dir="../src/ws">
+        <include name="**/*.jsp"/>
+        <include name="**/*.html"/>
+        <include name="**/*.js"/>
+	    	<include name="**/*.css"/>
+	    	<include name="**/*.json"/>
+	    	<include name="**/*.jpeg"/>
+	    	<include name="**/*.gif"/>
+	    	<include name="**/*.png"/>
+	    	<include name="images/*"/>
+        </fileset>
+      <fileset dir="${jhtools_ws}">
+        <include name="**/*"/>
+        <exclude name="Stylesheet.js"/>
+        <exclude name="CommandCenter.jsp"/>
+        </fileset>
+      <fileset dir="../build">
+        <include name="CommandCenter.jsp"/>
+        </fileset>
+      <lib file="${jhtools_jar}"/>
+      <manifest>
+        <attribute name="Created-By" value="${user.name}"/>
+        <attribute name="AppName"    value="FinkBrowser"/>
+        <attribute name="AppVersion" value="${version} ${TSTAMP}"/>
+        </manifest>
+      </war>
+    </target>
+
+  <!-- Tomcat ===============================================================-->
+    
+  <target name="deploy"
+          depends="war"
+          description="Deploy Development WS">
+    <copy file="../lib/FinkBrowser.war"
+          tofile="${server_dir}/${user.name}-FinkBrowser.war"/>
+    </target>
+    
+  <target name="deploy-prod"
+          depends="war"
+          description="Deploy Production WS">
+    <copy file="../lib/FinkBrowser.war"
+          tofile="${server_dir}/FinkBrowser.war"/>
+    </target>
+      
+  <!-- Clean ================================================================-->
+
+  <target name="clean"
+          depends="init"
+          description="Clean up">
+    <delete includeEmptyDirs="true">
+      <fileset dir="../build" includes="**/*"/>
+      </delete>
+    <delete includeEmptyDirs="true">
+      <fileset dir="../lib" includes="**/*"/>
+      </delete>
+    <delete includeEmptyDirs="true">
+      <fileset dir="../doc" includes="**/*"/>
+      </delete>
+    <delete includeEmptyDirs="true">
+      <fileset dir="." includes="**/*"/>
+      </delete>
+   </target>
+  
+  <!-- ======================================================================-->
+
+  </project>
