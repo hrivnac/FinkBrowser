@@ -33,6 +33,8 @@
   <property name="classpath.build.content" refid="classpath.build"/>
   <property name="classpath.run.content"   refid="classpath.run"/>
 
+  <!-- Init =================================================================-->
+
   <target name="init"
           description="Initialise environment">
     <tstamp>
@@ -53,6 +55,8 @@
  		<copy file="${jhtools_ws}/CommandCenter.jsp"  tofile="../build/CommandCenter.jsp" overwrite="true"/>
     <replace file="../build/CommandCenter.jsp" token="@VERSION@" value="${version}"/>
     <replace file="../build/CommandCenter.jsp" token="@BUILD@"   value="${TSTAMP} by ${user.name}"/>
+    <replace file="../build/CommandCenter.jsp" token="@NAME@"   value="${browsername}"/>
+    <replace file="../build/CommandCenter.jsp" token="@LOGO@"   value="${browserlogo}"/>
     <war destfile="../lib/FinkBrowser.war" webxml="../src/ws/web.xml">
       <fileset dir="../src/ws">
         <include name="**/*.jsp"/>
