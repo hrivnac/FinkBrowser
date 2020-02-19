@@ -1,9 +1,11 @@
+ant/build-local.properties
+ant/Notes.txt
 /lib/*
 /build/*
 /run/*
 /doc/*
 /dosrc/*
-*~
-*.log
-.zshhistory
-#*
+**/*~
+**/*.log
+**/.zshhistory
+**/#*
