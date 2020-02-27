@@ -73,6 +73,7 @@
         <include name="**/*"/>
         <exclude name="Stylesheet.js"/>
         <exclude name="CommandCenter.jsp"/>
+        <exclude name="Servers.jsp"/>
         </fileset>
       <fileset dir="../build">
         <include name="CommandCenter.jsp"/>
