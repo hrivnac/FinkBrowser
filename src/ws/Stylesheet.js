@@ -62,8 +62,8 @@ stylesheet.nodes.AstroLabNet = {
 stylesheet.nodes.alert = {
   graphics: {
     label:{gremlin:"values('id')"}, 
-    title:{gremlin:"out().count().join().toString().concat(' out')"},        
-    subtitle:{gremlin:"in().count().join().toString().concat(' in')"},     
+    title:{gremlin:"values('id')"},        
+    subtitle:{gremlin:"sideEffect(outE().count().store('o')).sideEffect(inE().count().store('i')).cap('o', 'i').next().values().join().toString().replace('][', ' out, ').replace(']', ' in').replace('[', '')"},     
     group:" ",        
     shape:"dot",      
     image:" ",        
@@ -82,7 +82,7 @@ stylesheet.edges.is = {
     title:" ",
     subtitle:" ",
     arrows:"to",
-    value:"0",
+    value:"1",
     group:"is"
     },
   actions: [
@@ -95,7 +95,7 @@ stylesheet.edges.knows = {
     title:" ",
     subtitle:" ",
     arrows:"to",
-    value:"0",
+    value:"1",
     group:"knows"
     },
   actions: [

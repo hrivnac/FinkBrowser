@@ -57,6 +57,7 @@
     <replace file="../build/CommandCenter.jsp" token="@BUILD@"   value="${TSTAMP} by ${user.name}"/>
     <replace file="../build/CommandCenter.jsp" token="@NAME@"   value="${browsername}"/>
     <replace file="../build/CommandCenter.jsp" token="@LOGO@"   value="${browserlogo}"/>
+    <replace file="../build/CommandCenter.jsp" token="@BOOT@"   value="${bootgremlin}"/>
     <war destfile="../lib/FinkBrowser.war" webxml="../src/ws/web.xml">
       <fileset dir="../src/ws">
         <include name="**/*.jsp"/>
