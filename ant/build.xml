@@ -52,12 +52,18 @@
   <target name="war"
           depends="init"
           description="Create WAR">
- 		<copy file="${jhtools_ws}/CommandCenter.jsp"  tofile="../build/CommandCenter.jsp" overwrite="true"/>
-    <replace file="../build/CommandCenter.jsp" token="@VERSION@" value="${version}"/>
-    <replace file="../build/CommandCenter.jsp" token="@BUILD@"   value="${TSTAMP} by ${user.name}"/>
-    <replace file="../build/CommandCenter.jsp" token="@NAME@"   value="${browsername}"/>
-    <replace file="../build/CommandCenter.jsp" token="@LOGO@"   value="${browserlogo}"/>
-    <replace file="../build/CommandCenter.jsp" token="@BOOT@"   value="${bootgremlin}"/>
+ 		<copy file="${jhtools_ws}/Top.jsp"     tofile="../build/Top.jsp"     overwrite="true"/>
+ 		<copy file="${jhtools_ws}/TopMini.jsp" tofile="../build/TopMini.jsp" overwrite="true"/>
+    <replace file="../build/Top.jsp"     token="@VERSION@" value="${version}"/>
+    <replace file="../build/Top.jsp"     token="@BUILD@"   value="${TSTAMP} by ${user.name}"/>
+    <replace file="../build/Top.jsp"     token="@NAME@"    value="${browsername}"/>
+    <replace file="../build/Top.jsp"     token="@LOGO@"    value="${browserlogo}"/>
+    <replace file="../build/Top.jsp"     token="@BOOT@"    value="${bootgremlin}"/>
+    <replace file="../build/TopMini.jsp" token="@VERSION@" value="${version}"/>
+    <replace file="../build/TopMini.jsp" token="@BUILD@"   value="${TSTAMP} by ${user.name}"/>
+    <replace file="../build/TopMini.jsp" token="@NAME@"    value="${browsername}"/>
+    <replace file="../build/TopMini.jsp" token="@LOGO@"    value="${browserlogo}"/>
+    <replace file="../build/TopMini.jsp" token="@BOOT@"    value="${bootgremlin}"/>
     <war destfile="../lib/FinkBrowser.war" webxml="../src/ws/web.xml">
       <fileset dir="../src/ws">
         <include name="**/*.jsp"/>
@@ -73,13 +79,25 @@
       <fileset dir="${jhtools_ws}">
         <include name="**/*"/>
         <exclude name="Stylesheet.js"/>
-        <exclude name="CommandCenter.jsp"/>
+        <exclude name="Options.js"/>
+        <exclude name="Top.jsp"/>
+        <exclude name="TopMini.jsp"/>
         <exclude name="Servers.jsp"/>
         </fileset>
       <fileset dir="../build">
-        <include name="CommandCenter.jsp"/>
+        <include name="Top.jsp"/>
+        <include name="TopMini.jsp"/>
         </fileset>
       <lib file="${jhtools_jar}"/>
+      <lib file="${orgjson_jar}"/>
+      <lib file="${httpcore_jar}"/>
+      <lib file="${httpclient_jar}"/>
+      <lib file="${log4j_jar}"/>
+      <lib file="${slf4j_jar}"/>
+      <lib file="${slf4jlog4j_jar}"/>
+      <lib file="${logging_jar}"/>
+      <lib file="${hbasecommon_jar}"/>
+      <lib file="${hadoopcommon_jar}"/>
       <manifest>
         <attribute name="Created-By" value="${user.name}"/>
         <attribute name="AppName"    value="FinkBrowser"/>
