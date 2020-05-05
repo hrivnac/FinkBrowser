@@ -88,6 +88,9 @@
         <include name="Top.jsp"/>
         <include name="TopMini.jsp"/>
         </fileset>
+      <classes dir="${jhtools_ws}">
+        <include name="log4j.properties"/>
+        </classes>
       <lib file="${jhtools_jar}"/>
       <lib file="${orgjson_jar}"/>
       <lib file="${httpcore_jar}"/>
