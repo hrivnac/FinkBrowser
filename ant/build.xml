@@ -83,6 +83,7 @@
         <exclude name="Top.jsp"/>
         <exclude name="TopMini.jsp"/>
         <exclude name="Servers.jsp"/>
+        <exclude name="Graphs.jsp"/>
         </fileset>
       <fileset dir="../build">
         <include name="Top.jsp"/>
