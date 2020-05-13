@@ -1,20 +1,21 @@
-g.V('AstroLabNet').drop()
-g.V('site').drop()
+g.V().hasLabel('AstroLabNet').drop()
+g.V().hasLabel('site').drop()
 astrolabnet = g.addV('AstroLabNet').next();
-lal = g.addV('site').property('title',        'LAL').
-                     property('livy',         'http://vm-75222.lal.in2p3.fr:21111').
-                     property('spark',        'http://vm-75222.lal.in2p3.fr:20001').
-                     property('ganglia',      'http://vm-75222.lal.in2p3.fr/ganglia').
-                     property('hadoop',       'http://vm-74078.lal.in2p3.fr:8188/cluster').
-                     property('hbase',        'http://134.158.74.54:8080').
-                     property('sparkHistory', 'http://vm-75222.lal.in2p3.fr:20008').
+lal = g.addV('site').property('title',         'LAL').
+                     property('livy',          'http://vm-75222.lal.in2p3.fr:21111').
+                     property('spark',         'http://vm-75222.lal.in2p3.fr:20001').
+                     property('ganglia',       'http://vm-75222.lal.in2p3.fr/ganglia').
+                     property('hadoop',        'http://vm-74078.lal.in2p3.fr:8188/cluster').
+                     property('hbase',         'http://134.158.74.54:8080').
+                     property('sparkHistory',  'http://vm-75222.lal.in2p3.fr:20008').
+                     property('hbaseTest',     'HBaseTable.jsp?hbase=http://134.158.74.54:8080&htable=test_portal&limit=100').
+                     property('hbaseTestTiny', 'HBaseTable.jsp?hbase=http://134.158.74.54:8080&htable=test_portal_tiny.1&limit=100').
                      next();
 loc = g.addV('site').property('title',         'Local').
                      property('hadoop',        'http://localhost:9870').
                      property('hbase',         'http://localhost:16010').
-                     property('hbaseTest',     'HBaseTable.jsp?hbase=http://localhost:8080&table=test_portal&size=100').
-                     property('hbaseTestOld',  'HBaseTable.jsp?hbase=http://localhost:8080&table=astrolabnet.catalog.1&size=100').
-                     property('hbaseTestTiny', 'HBaseTable.jsp?hbase=http://localhost:8080&table=test_portal_tiny.1').
+                     property('hbaseTestOld',  'HBaseTable.jsp?hbase=http://localhost:8080&htable=astrolabnet.catalog.1&limit=100').
+                     property('hbaseTestTiny', 'HBaseTable.jsp?hbase=http://localhost:8080&htable=test_portal_tiny.1&limit=100').
                      next();
 g.V(astrolabnet).addE('has').to(lal).iterate();
 g.V(astrolabnet).addE('has').to(loc).iterate();

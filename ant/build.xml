@@ -52,17 +52,21 @@
   <target name="war"
           depends="init"
           description="Create WAR">
+ 		<copy file="${jhtools_ws}/index.jsp"   tofile="../build/index.jsp"   overwrite="true"/>
  		<copy file="${jhtools_ws}/Top.jsp"     tofile="../build/Top.jsp"     overwrite="true"/>
  		<copy file="${jhtools_ws}/TopMini.jsp" tofile="../build/TopMini.jsp" overwrite="true"/>
+    <replace file="../build/index.jsp"   token="@NAME@"    value="${browsername}"/>
     <replace file="../build/Top.jsp"     token="@VERSION@" value="${version}"/>
     <replace file="../build/Top.jsp"     token="@BUILD@"   value="${TSTAMP} by ${user.name}"/>
     <replace file="../build/Top.jsp"     token="@NAME@"    value="${browsername}"/>
     <replace file="../build/Top.jsp"     token="@LOGO@"    value="${browserlogo}"/>
+    <replace file="../build/Top.jsp"     token="@HOME@"    value="${browserurl}"/>
     <replace file="../build/Top.jsp"     token="@BOOT@"    value="${bootgremlin}"/>
     <replace file="../build/TopMini.jsp" token="@VERSION@" value="${version}"/>
     <replace file="../build/TopMini.jsp" token="@BUILD@"   value="${TSTAMP} by ${user.name}"/>
     <replace file="../build/TopMini.jsp" token="@NAME@"    value="${browsername}"/>
     <replace file="../build/TopMini.jsp" token="@LOGO@"    value="${browserlogo}"/>
+    <replace file="../build/TopMini.jsp" token="@HOME@"    value="${browserurl}"/>
     <replace file="../build/TopMini.jsp" token="@BOOT@"    value="${bootgremlin}"/>
     <war destfile="../lib/FinkBrowser.war" webxml="../src/ws/web.xml">
       <fileset dir="../src/ws">
@@ -80,12 +84,16 @@
         <include name="**/*"/>
         <exclude name="Stylesheet.js"/>
         <exclude name="Options.js"/>
+        <exclude name="index.jsp"/>
         <exclude name="Top.jsp"/>
         <exclude name="TopMini.jsp"/>
         <exclude name="Servers.jsp"/>
         <exclude name="Graphs.jsp"/>
+        <exclude name="Result.jsp"/>
+        <exclude name="HBaseTable-Specific.jsp"/>
         </fileset>
       <fileset dir="../build">
+        <include name="index.jsp"/>
         <include name="Top.jsp"/>
         <include name="TopMini.jsp"/>
         </fileset>

@@ -18,9 +18,9 @@ stylesheet.nodes.site = {
     {name:"Hadoop",           url:{gremlin:"properties('hadoop'       ).value()"}},
     {name:"HBase",            url:{gremlin:"properties('hbase'        ).value()"}},
     {name:"Ganglia",          url:{gremlin:"properties('ganglia'      ).value()"}},
-    {name:"HBase test",       url:{gremlin:"properties('hbaseTest'    ).value()"}},
-    {name:"HBase test old",   url:{gremlin:"properties('hbaseTestOld' ).value()"}},
-    {name:"HBase test tiny",  url:{gremlin:"properties('hbaseTestTiny').value()"}}
+    {name:"HBase test",       url:{gremlin:"properties('hbaseTest'    ).value()"}, embedded:true},
+    {name:"HBase test old",   url:{gremlin:"properties('hbaseTestOld' ).value()"}, embedded:true},
+    {name:"HBase test tiny",  url:{gremlin:"properties('hbaseTestTiny').value()"}, embedded:true}
     ]
   }
 stylesheet.nodes.AstroLabNet = {
