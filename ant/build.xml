@@ -110,6 +110,7 @@
       <lib file="${logging_jar}"/>
       <lib file="${hbasecommon_jar}"/>
       <lib file="${hadoopcommon_jar}"/>
+      <lib file="${javaxmail_jar}"/>
       <manifest>
         <attribute name="Created-By" value="${user.name}"/>
         <attribute name="AppName"    value="FinkBrowser"/>
