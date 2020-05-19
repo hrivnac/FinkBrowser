@@ -237,23 +237,14 @@
              private="true"
              additionalparam=" -linksource -breakiterator -keywords -author -version"
              source="1.8"
-             Overview="../src/java/net/hep/atlas/Database/GraphDB/overview.html"
-             windowtitle="Atlas GraphDB">
-      <doctitle><![CDATA[<u>]]>Atlas GraphDB<![CDATA[</u>]]></doctitle>
-      <Header><![CDATA[<center>]]>Atlas GraphDB version: ${version}<![CDATA[</center>]]></Header>
+             Overview="../src/java/com/astrolabsoftware/FinkBrowser/overview.html"
+             windowtitle="AstroLab FinkBrowser">
+      <doctitle><![CDATA[<u>]]>AstroLab FinkBrowser<![CDATA[</u>]]></doctitle>
+      <Header><![CDATA[<center>]]>AstroLab FinkBrowser version: ${version}<![CDATA[</center>]]></Header>
       <Footer><![CDATA[<center>Written by: <a href='http://cern.ch/hrivnac'>J.Hrivnac</a></center>]]></Footer>
       <bottom><![CDATA[<a href='TBD'>Documentation</a>]]> built ${TODAY} on ${os.name} by ${user.name}</bottom>
       <group title="Utils"            packages="net.hep.atlas.Database.GraphDB.Utils*"/>
-      <group title="Sockets"          packages="net.hep.atlas.Database.GraphDB.Sockets*"/>
-      <group title="JanusGraph"       packages="net.hep.atlas.Database.GraphDB.JanuseGraph*"/>
-      <group title="Phoenix"          packages="net.hep.atlas.Database.GraphDB.Phoenix*"/>
-      <group title="GremlinPlugin"    packages="net.hep.atlas.Database.GraphDB.GremlinPlugin*"/>
-      <link href="http://docs.oracle.com/javase/7/docs/api"/>
-      <link href="https://javadoc.io/doc/org.janusgraph/janusgraph-core/0.4.1"/>
-      <link href="http://tinkerpop.apache.org/javadocs/current/full"/>
-      <link href="https://atlas-event-index.cern.ch/doc/JavaDoc"/>
-      <link href="http://hadoop.apache.org/docs/current/api"/>
-      <link href="http://hbase.apache.org/apidocs"/>
+      <link href="http://docs.oracle.com/javase/8/docs/api"/>
       <classpath>
         <path refid="classpath.run"/>
         </classpath>
@@ -261,6 +252,31 @@
     <replace file="../doc/index.html" token="@VERSION@" value="${version}"/>
     <replace file="../doc/index.html" token="@BUILD@"   value="${TSTAMP} by ${user.name}"/>
   </target>
+  
+  <!-- Post =================================================================-->
+
+  <target name="post"
+          depends="init"
+          description="Post documentation">
+ 		<copy todir="${doc}">
+			<fileset dir="../doc" includes="**/*"/>
+      </copy>
+    </target>
+
+  <!-- JDepend ==============================================================-->
+
+  <target name="jdepend"
+          depends="init"
+          description="Analyse dependencies">
+    <java classname="jdepend.swingui.JDepend"
+          fork="true"
+          failonerror="true">
+      <arg value="../build"/>
+      <classpath>
+          <pathelement location="../extlib/jdepend-2.9.5.jar"/>
+          </classpath>
+      </java>
+    </target>
 
   <!-- j2h ==================================================================-->
 
@@ -341,7 +357,7 @@
         <path refid="classpath.run"/>
         </auxClasspath>
       <sourcePath path="../src" />
-      <class location="../lib/GraphDB.jar" />
+      <class location="../lib/FinkBrowser-${version}.jar" />
       </findbugs>   
     </target>
 
@@ -350,7 +366,7 @@
   <target name="cleanimports"
           description="Clean Unused Imports">
     <exec executable="../src/python/remove-unused-imports.py">
-      <arg line="../src/java/net/hep/atlas/Database/GraphDB"/>
+      <arg line="../src/java/com/astrolabsoftware/FinkBrowser"/>
       </exec>
     </target>
   
