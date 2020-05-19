@@ -17,6 +17,9 @@
 
   <path id="classpath.build">
     <pathelement path="${jhtools_jar}"/>
+    <fileset dir="${janusgraph_dir}/lib">
+      <include name="*.jar"/>
+      </fileset>
     <fileset dir="../extlib">
       <include name="*.jar"/>
       </fileset>
@@ -33,6 +36,21 @@
   <property name="classpath.build.content" refid="classpath.build"/>
   <property name="classpath.run.content"   refid="classpath.run"/>
 
+  <!-- Info =================================================================-->
+    
+  <target name="info"
+          description="Create Info class">
+    <mkdir dir="../build/net/hep/atlas/Database/GraphDB/Utils"/>
+    <copy file="../src/java/com/astrolabsoftware/FinkBrowser/Utils/Info.pre"
+          tofile="../build/com/astrolabsoftware/FinkBrowser/Utils/Info.java"/>
+    <replace file="../build/com/astrolabsoftware/FinkBrowser/Utils/Info.java" token="@version@"   value="${version}"/>
+    <replace file="../build/com/astrolabsoftware/FinkBrowser/Utils/Info.java" token="@TSTAMP@"    value="${TSTAMP}"/>
+    <replace file="../build/com/astrolabsoftware/FinkBrowser/Utils/Info.java" token="@user.name@" value="${user.name}"/>
+    <replace file="../build/com/astrolabsoftware/FinkBrowser/Utils/Info.java" token="@TMP@"       value="${tmp_dir}"/>
+    <replace file="../build/com/astrolabsoftware/FinkBrowser/Utils/Info.java" token="@MANAGER@"   value="${manager}"/>
+    </target>
+
+
   <!-- Init =================================================================-->
 
   <target name="init"
@@ -46,11 +64,50 @@
     <mkdir dir="../run"/>
     <mkdir dir="../doc/JavaDoc"/>
     </target>
+
+  <!-- Compile ==============================================================-->
+
+  <target name="compile"
+          depends="init,info"
+          description="Compile sources">
+    <echo message="Using Java version ${ant.java.version}."/>
+    <javac destdir="../build"
+           fork="yes"
+           debug="yes"
+           debuglevel="lines,vars,source"
+           optimize="yes"
+           source="1.8"
+           target="1.8">
+      <!--compilerarg value="-Xlint:unchecked"/-->
+      <!--compilerarg value="-Xlint:deprecation"/-->
+      <src path="../src/java/com/astrolabsoftware/FinkBrowser"/>
+      <src path="../build"/>
+      <classpath>
+        <path refid="classpath.build"/>
+        </classpath>
+      </javac>
+    </target>
+    
+  <!-- Create JAR ===========================================================-->
+  
+  <target name="jar"
+          depends="compile"
+          description="Create JARs">
+    <jar jarfile="../lib/FinkBrowser-${version}.jar" index="yes">
+      <fileset dir="../build"    includes="com/astrolabsoftware/FinkBrowser/**/*.class"/>
+      <fileset dir="../src/java" includes="com/astrolabsoftware/FinkBrowser/**/*.properties"/>
+      <manifest>
+        <attribute name="Created-By" value="${user.name}"/>
+        <attribute name="AppName"    value="FinkBrowser"/>
+        <attribute name="AppVersion" value="${version} ${TSTAMP}"/>
+        </manifest>
+      </jar>
+    </target>
         
   <!-- WAR ==================================================================-->
 
   <target name="war"
-          depends="init"
+          depends="jar"
           description="Create WAR">
  		<copy file="${jhtools_ws}/index.jsp"   tofile="../build/index.jsp"   overwrite="true"/>
  		<copy file="${jhtools_ws}/Top.jsp"     tofile="../build/Top.jsp"     overwrite="true"/>
@@ -90,16 +147,16 @@
         <exclude name="Servers.jsp"/>
         <exclude name="Graphs.jsp"/>
         <exclude name="Result.jsp"/>
-        <exclude name="HBaseTable-Specific.jsp"/>
         </fileset>
       <fileset dir="../build">
         <include name="index.jsp"/>
         <include name="Top.jsp"/>
         <include name="TopMini.jsp"/>
         </fileset>
-      <classes dir="${jhtools_ws}">
+      <classes dir="../src/ws">
         <include name="log4j.properties"/>
         </classes>
+      <lib file="../lib/FinkBrowser-${version}.jar"/>
       <lib file="${jhtools_jar}"/>
       <lib file="${orgjson_jar}"/>
       <lib file="${httpcore_jar}"/>
@@ -153,6 +210,149 @@
       <fileset dir="." includes="**/*"/>
       </delete>
    </target>
+   
+  <!-- JavaDoc ==============================================================-->
+
+  <target name="doc"
+          depends="jar,j2h,viz"
+          description="Construct documentation">
+ 		<copy todir="../doc">
+			<fileset dir="../src" includes="*.html"/>
+      </copy>
+ 		<copy todir="../doc/JavaDoc">
+			<fileset dir="../src/java" includes="**/doc-files/*"/>
+      </copy>
+   <mkdir dir="../doc/Gremlin"/>
+ 		<copy todir="../doc/Gremlin">
+			<fileset dir="../src/gremlin" includes="*.gremlin"/>
+      </copy>
+   <javadoc packagenames="*"
+             doclet="org.jboss.apiviz.APIviz"
+             docletpath="../extlib/apiviz-1.3.4.jar:../extlib/jdepend-2.9.5.jar:../extlib/tools-1.8.0.jar"
+             sourcepath="../src/java:../build"
+             destdir="../doc/JavaDoc"
+             author="true"
+             version="true"
+             use="true"
+             private="true"
+             additionalparam=" -linksource -breakiterator -keywords -author -version"
+             source="1.8"
+             Overview="../src/java/net/hep/atlas/Database/GraphDB/overview.html"
+             windowtitle="Atlas GraphDB">
+      <doctitle><![CDATA[<u>]]>Atlas GraphDB<![CDATA[</u>]]></doctitle>
+      <Header><![CDATA[<center>]]>Atlas GraphDB version: ${version}<![CDATA[</center>]]></Header>
+      <Footer><![CDATA[<center>Written by: <a href='http://cern.ch/hrivnac'>J.Hrivnac</a></center>]]></Footer>
+      <bottom><![CDATA[<a href='TBD'>Documentation</a>]]> built ${TODAY} on ${os.name} by ${user.name}</bottom>
+      <group title="Utils"            packages="net.hep.atlas.Database.GraphDB.Utils*"/>
+      <group title="Sockets"          packages="net.hep.atlas.Database.GraphDB.Sockets*"/>
+      <group title="JanusGraph"       packages="net.hep.atlas.Database.GraphDB.JanuseGraph*"/>
+      <group title="Phoenix"          packages="net.hep.atlas.Database.GraphDB.Phoenix*"/>
+      <group title="GremlinPlugin"    packages="net.hep.atlas.Database.GraphDB.GremlinPlugin*"/>
+      <link href="http://docs.oracle.com/javase/7/docs/api"/>
+      <link href="https://javadoc.io/doc/org.janusgraph/janusgraph-core/0.4.1"/>
+      <link href="http://tinkerpop.apache.org/javadocs/current/full"/>
+      <link href="https://atlas-event-index.cern.ch/doc/JavaDoc"/>
+      <link href="http://hadoop.apache.org/docs/current/api"/>
+      <link href="http://hbase.apache.org/apidocs"/>
+      <classpath>
+        <path refid="classpath.run"/>
+        </classpath>
+      </javadoc>
+    <replace file="../doc/index.html" token="@VERSION@" value="${version}"/>
+    <replace file="../doc/index.html" token="@BUILD@"   value="${TSTAMP} by ${user.name}"/>
+  </target>
+
+  <!-- j2h ==================================================================-->
+
+  <target name="j2h"
+          depends="init"
+          description="Construct source documentation">
+    <taskdef name="java2html" classname="com.java2html.Java2HTMLTask"/>
+	  <java2html title="GraphDB" 
+               simple="no"
+             	 tabsize="4"
+		           marginsize="2"
+		           header="true"
+		           footer="true"
+		           destination="../doc/Src">
+		  <fileset dir="../src"   includes="**/*.java"/>
+		  <fileset dir="../build" includes="**/*.java"/>
+		  <javadoc localRef="${javadoc}" httpRef="http://docs.oracle.com/javase/8/docs/api"/>
+	    </java2html>
+    </target>
+
+  <!-- Viz ==================================================================-->
+
+  <target name="viz"
+          depends="init"
+          description="Create flow of build file">
+    <taskdef name="vizant" classname="net.sourceforge.vizant.Vizant"/> 
+    <vizant antfile="../ant/build.xml" outfile="../doc/build.dot"/>
+    </target>
+    
+  <!-- UmlGraph =============================================================-->  
+
+  <target name="uml"
+          depends="init"
+          description="Create UML Graph">
+    <mkdir dir="../doc/UML"/>
+    <pathconvert targetos="unix" property="classpath.run" refid="classpath.run"/>
+	  <apply executable="javadoc" dest="../build" parallel="true">
+		  <arg value="-classpath"/>
+		  <arg value="${classpath.run}"/>
+		  <arg value="-source"/>
+		  <arg value="1.8"/>
+		  <arg value="-docletpath"/>
+		  <arg value="../extlib/UmlGraph.jar"/>
+		  <arg line="-doclet org.umlgraph.doclet.UmlGraph"/>
+		  <arg value="-all"/>
+		  <arg value="-noguillemot"/>
+		  <!--arg value="-horizontal"/-->
+		  <arg line="-output ../doc/index.dot"/>
+		  <fileset dir="../src"/>
+		  <fileset dir="../build"/>
+		  <mapper type="glob" from="*.java" to="*.dot"/>
+	    </apply>
+	  <apply executable="dot" dest="../doc" parallel="false">
+		  <arg value="-Tjpg"/>
+		  <arg value="-o"/>
+		  <targetfile/>
+		  <srcfile/>
+		  <fileset dir="../doc"/>
+		  <mapper type="glob" from="*.dot" to="*.jpg"/>
+      </apply>
+    </target>
+
+  <!-- Find Bugs ============================================================-->  
+
+  <target name="findbugs"
+          depends="jar"
+          description="FindBugs Check">
+    <property name="findbugs.home"
+              value="${findbugs}"/>
+    <taskdef name="findbugs"
+             classpath="${findbugs.home}/lib/findbugs-ant.jar"
+             classname="edu.umd.cs.findbugs.anttask.FindBugsTask"/>
+    <findbugs home="${findbugs.home}"
+              output="text"
+              outputFile="../run/FindBugs.out"
+              excludeFilter="../ant/FindBugs-ExcludeFilter.xml">
+      <auxClasspath>
+        <path refid="classpath.run"/>
+        </auxClasspath>
+      <sourcePath path="../src" />
+      <class location="../lib/GraphDB.jar" />
+      </findbugs>   
+    </target>
+
+  <!-- Clean Imports ========================================================-->  
+
+  <target name="cleanimports"
+          description="Clean Unused Imports">
+    <exec executable="../src/python/remove-unused-imports.py">
+      <arg line="../src/java/net/hep/atlas/Database/GraphDB"/>
+      </exec>
+    </target>
   
   <!-- ======================================================================-->
 
