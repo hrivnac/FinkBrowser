@@ -21,10 +21,10 @@ export hbase_table
 
 export home=`pwd`/..
 
-alias gremlin='CLASSPATH="" ${janusgraph_dir}/bin/gremlin.sh -i "${jhtools_src}/gremlin/start.gremlin" -i ../src/gremlin/start2.gremlin'
-alias gremlin_local='CLASSPATH="" ${janusgraph_dir}/bin/gremlin.sh -i ${jhtools_src}/gremlin/start_local.gremlin ${zookeeper} ${hbase_table} ${home} -i ../src/gremlin/start2_local.gremlin'
-alias phoenix_cli='${phoenix_cli}'
+alias gremlin_Local='CLASSPATH="" ${janusgraph_dir}/bin/gremlin.sh -i "../src/gremlin/start_Local.gremlin" -i ../src/gremlin/start2.gremlin'
+alias gremlin_IJCLab='CLASSPATH="" ${janusgraph_dir}/bin/gremlin.sh -i "../src/gremlin/start_IJCLab.gremlin" -i ../src/gremlin/start2.gremlin'
+alias gremlin_console='CLASSPATH="" ${janusgraph_dir}/bin/gremlin.sh -i "../src/gremlin/start_console.gremlin ${zookeeper} ${hbase_table} ${home}" -i ../src/gremlin/start2_console.gremlin'
 
-echo "commands: gremlin, gremlin_local"
+echo "commands: gremlin_console, gremlin_Local, gremlin_IJCLab"
 
 
