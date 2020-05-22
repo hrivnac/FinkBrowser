@@ -147,6 +147,7 @@
         <exclude name="Servers.jsp"/>
         <exclude name="Graphs.jsp"/>
         <exclude name="Result.jsp"/>
+        <exclude name="HBaseColumnsProcessor.jsp"/>
         </fileset>
       <fileset dir="../build">
         <include name="index.jsp"/>
