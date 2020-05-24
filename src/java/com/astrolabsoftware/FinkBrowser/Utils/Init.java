@@ -1,5 +1,7 @@
 package com.astrolabsoftware.FinkBrowser.Utils;
 
+import com.JHTools.Utils.NotifierURL;
+
 // Log4J
 import org.apache.log4j.Logger;
 import org.apache.log4j.LogManager;
@@ -28,7 +30,7 @@ public class Init {
   public static void init(boolean quiet) {
     try {
       PropertyConfigurator.configure(Init.class.getClassLoader().getResource("com/astrolabsoftware/FinkBrowser/Utils/log4j.properties"));
-      fixLog4J();
+      NotifierURL.notify("", "FinkBrowser", Info.release());
       if (!quiet) {
         log.info("Initialised, version: " + Info.release());
         log.info(Info.configuration());
@@ -38,29 +40,6 @@ public class Init {
       System.err.println(e);
       }
     }
-    
-  /** Customise Log4J {@link Logger}s. */
-  private static void fixLog4J() {
-    for (String s : WARN) {
-      Logger.getLogger(s).setLevel(Level.WARN);
-      }
-    for (String s : ERROR) {
-      Logger.getLogger(s).setLevel(Level.ERROR);
-      }
-    for (String s : DEBUG) {
-      Logger.getLogger(s).setLevel(Level.DEBUG);
-      }
-    //Enumeration<Logger> e = LogManager.getCurrentLoggers();
-    //while (e.hasMoreElements()) {
-    //  e.nextElement().setLevel(Level.WARN); 
-    //  }
-    }
-          
-  private static String[] DEBUG = {"org.janusgraph.graphdb.transaction.StandardJanusGraphTx"};
-          
-  private static String[] WARN = {};
-          
-  private static String[] ERROR = {"org.apache.hadoop.hbase.HBaseConfiguration"};
     
   /** Logging . */
   private static Logger log = Logger.getLogger(Init.class);

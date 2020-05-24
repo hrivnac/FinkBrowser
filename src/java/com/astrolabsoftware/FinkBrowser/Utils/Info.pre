@@ -16,12 +16,7 @@ public class Info extends com.JHTools.Utils.Info {
   static {
     setManager("@MANAGER@");
     setTmp("@TMP@");
-    }
-
-  /** Give builder release. 
-    * @return The version and build time of the package. */
-  public final static String release() {
-    return _version + " [" + _build + " by " + _builder + "]";
+    setTarget("@TARGET@");
     }
 
   /** Give application name.
@@ -30,10 +25,7 @@ public class Info extends com.JHTools.Utils.Info {
     return _name;
     }
        
-  private static String _name    = "FinkBrowser";
-  private static String _version = "@version@";
-  private static String _build   = "@TSTAMP@";
-  private static String _builder = "@user.name@";
+  private static String _name = "FinkBrowser";
                         
   /** Logging . */
   private static Logger log = Logger.getLogger(Info.class);

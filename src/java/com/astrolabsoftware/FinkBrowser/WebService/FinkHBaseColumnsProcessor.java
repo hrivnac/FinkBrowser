@@ -14,20 +14,20 @@ import java.text.SimpleDateFormat;
 // Log4J
 import org.apache.log4j.Logger;
 
-/** <code>FinkHBaseColumnsProcessor</code> TBD.
+/** <code>FinkHBaseColumnsProcessor</code>  extracts X-axes from rows for graphs
   * @opt attributes
   * @opt operations
   * @opt types
   * @opt visibility
   * @author <a href="mailto:Julius.Hrivnac@cern.ch">J.Hrivnac</a> */
-public class FinkHBaseColumnsProcessor extends HBaseColumnsProcessor {
+public class FinkHBaseColumnsProcessor implements HBaseColumnsProcessor {
   
-  /** TBD */
+  @Override
   public String getX(Map.Entry<String, Map<String, String>> entry0) {
     return entry0.getKey().split("_")[1];
     }
   
-  /** TBD */
+  @Override
   public String getXDate(Map.Entry<String, Map<String, String>> entry0) {
     String days = getX(entry0);
     return DateTimeManagement.julianDate2String(Double.valueOf(days));
