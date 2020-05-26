@@ -24,7 +24,8 @@ public class FinkHBaseColumnsProcessor implements HBaseColumnsProcessor {
   
   @Override
   public String getX(Map.Entry<String, Map<String, String>> entry0) {
-    return entry0.getKey().split("_")[1];
+    //return entry0.getKey().split("_")[1];
+    return entry0.getValue().get("i:jd");
     }
   
   @Override
