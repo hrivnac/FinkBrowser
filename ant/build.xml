@@ -204,13 +204,9 @@
         <include name="hbase-hbtop-2.2.4.jar"/>
         <include name="hbase-http-2.2.4.jar"/>
         <include name="hbase-it-2.2.4.jar"/>
-        <include name="hbase-mapreduce-2.2.4.jar"/>
-        <include name="hbase-metrics-2.2.4.jar"/>
-        <include name="hbase-metrics-api-2.2.4.jar"/>
         <include name="hbase-procedure-2.2.4.jar"/>
         <include name="hbase-protocol-2.2.4.jar"/>
         <include name="hbase-protocol-shaded-2.2.4.jar"/>
-        <include name="hbase-replication-2.2.4.jar"/>
         <include name="hbase-resource-bundle-2.2.4.jar"/>
         <include name="hbase-rest-2.2.4.jar"/>
         <include name="hbase-rsgroup-2.2.4.jar"/>
@@ -233,8 +229,6 @@
         <include name="jcip-annotations-1.0-1.jar"/>
         <include name="jcodings-1.0.18.jar"/>
         <include name="joni-2.1.11.jar"/>
-        <include name="jsch-0.1.54.jar"/>
-        <include name="junit-4.12.jar"/>
         <include name="leveldbjni-all-1.8.jar"/>
         <include name="libthrift-0.12.0.jar"/>
         <include name="metrics-core-3.2.6.jar"/>
