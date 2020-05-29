@@ -148,6 +148,8 @@
         <exclude name="Graphs.jsp"/>
         <exclude name="Result.jsp"/>
         <exclude name="HBaseColumnsProcessor.jsp"/>
+        <exclude name="CustomQuery.js"/>
+        <exclude name="CustomQuery.jsp"/>
         </fileset>
       <fileset dir="../build">
         <include name="index.jsp"/>

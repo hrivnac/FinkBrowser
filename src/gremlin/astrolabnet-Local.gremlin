@@ -8,7 +8,7 @@ ijclab = g.addV('site').property('title',         'IJCLab').
                         property('hadoop',        'http://vm-74078.lal.in2p3.fr:8188/cluster').
                         property('hbase',         'http://134.158.74.54:8080').
                         property('sparkHistory',  'http://vm-75222.lal.in2p3.fr:20008').
-                        property('hbaseTest',     'HBaseTable.jsp?hbase=http://134.158.74.54:2181&htable=test_portal&group=i:objectId&limit=1000').
+                        property('hbaseTest',     'HBaseTable.jsp?hbase=http://134.158.74.54:2181&htable=test_portal&group=i:objectId&limit=100').
                         property('hbaseTestTiny', 'HBaseTable.jsp?hbase=http://134.158.74.54:2181&htable=test_portal_tiny.1&group=i:objectId').
                         next();
 loc = g.addV('site').property('title',         'Local').
@@ -17,6 +17,10 @@ loc = g.addV('site').property('title',         'Local').
                      property('hbaseTestOld',  'HBaseTable.jsp?hbase=http://localhost:2181&htable=astrolabnet.catalog.1&group=i:objectId').
                      property('hbaseTestTiny', 'HBaseTable.jsp?hbase=http://localhost:2181&htable=test_portal_tiny.1&group=i:objectId').
                      next();
+latestAlerts = g.addV('AlertsCollection').property('title', 'Latest Alerts').
+                                          property('hbase', 'HBaseTable.jsp?hbase=http://134.158.74.54:2181&htable=test_portal_tiny.1&group=i:objectId&latest=10').
+                                          next();
 g.V(astrolabnet).addE('has').to(ijclab).iterate();
 g.V(astrolabnet).addE('has').to(loc).iterate();
+g.V(loc).addE('holds').to(latestAlerts).iterate();
 graph.traversal().tx().commit();
