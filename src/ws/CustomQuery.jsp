@@ -1,11 +1,37 @@
 <%
   String latestS = request.getParameter("latest");
-  latestS = (latestS == null || latestS.equals("null")) ? "" : latestS.trim();
+  latestS = (latestS  == null || latestS.equals( "null")) ? "" : latestS.trim();
   int latest = 0;
   if (!latestS.equals("")) {
-    out.println("showing <b>" + latestS + "</b> latests results<br/>");
+    out.println("showing latest <b>" + latestS + "</b> objectIds<br/>");
     latest = Integer.valueOf(latestS);
-    h.latests("i:objectId", null, 0, false);
+    log.info(latest);
+    Set<String> keys = h.latests("i:objectId", null, latest, false);
+    String[] keysA = keys.toArray(new String[0]);
+    String keysS = String.join(",", keysA);
+    out.println("<b><u>" + keys.size() + " objectIds registered in last " + latestS + " minutes:</u></b><br/>");
+    String name;
+    int n = 0;
+    out.println("<table>");
+    for (String k : keys) {
+      name = k.split("_")[0];
+      if (n == 0) {
+        out.println("<tr>");
+        }
+      out.println("<td><input type='checkbox' class='details' value='" + name + "'>");
+      out.println("<label for='" + name + "'>" + name + "</label></td>");
+      n++;
+      if (n == 5) {
+        out.println("</tr>");
+        n = 0;
+        }        
+      }
+    if (n != 0) {
+      out.println("</tr>");
+      }
+    out.println("</table>");
+    showTable = false;
+    String url = "HBaseTable.jsp?hbase=" + hbase + "&htable=" + htable + "&version=" + version + "&group=" + group + "&operator=OR";
+    out.println("<input type='button' onclick='searchDetails(\"" + url + "\")' value='Details'/>");
     }
   %>
-    
