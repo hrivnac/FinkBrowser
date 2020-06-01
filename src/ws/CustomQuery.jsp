@@ -5,7 +5,6 @@
   if (!latestS.equals("")) {
     out.println("showing latest <b>" + latestS + "</b> objectIds<br/>");
     latest = Integer.valueOf(latestS);
-    log.info(latest);
     Set<String> keys = h.latests("i:objectId", null, latest, false);
     String[] keysA = keys.toArray(new String[0]);
     String keysS = String.join(",", keysA);
@@ -31,7 +30,7 @@
       }
     out.println("</table>");
     showTable = false;
-    String url = "HBaseTable.jsp?hbase=" + hbase + "&htable=" + htable + "&version=" + version + "&group=" + group + "&operator=OR";
+    String url = "HBaseTable.jsp?hbase=" + hbase + "&htable=" + htable + "&version=" + version + "&schema=" + schema + "&group=" + group + "&operator=OR";
     out.println("<input type='button' onclick='searchDetails(\"" + url + "\")' value='Details'/>");
     }
   %>
