@@ -48,6 +48,13 @@ public class CLI extends com.JHTools.Apps.CLI {
     super();
     interpreter().print("Welcome to Fink Browser CLI " + Info.release() + "\n");
     interpreter().print("https://astrolabsoftware.github.io\n");
+    try {
+      interpreter().eval("import com.JHTools.HBaser.HBaseClient");
+      }
+    catch (EvalError e) {
+      log.error("Cannot load  com.JHTools.HBaser.HBaseClient");
+      log.debug("Cannot load  com.JHTools.HBaser.HBaseClient", e);
+      }
     }
     
   /** Parse the cli arguments.
