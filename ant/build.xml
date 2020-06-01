@@ -16,10 +16,10 @@
   <echo>Building for site ${target}</echo>
 
   <path id="classpath.build">
+    <pathelement path="${log4j_jar}"/>
+    <pathelement path="${bsh_jar}"/>
+    <pathelement path="${cli_jar}"/>
     <pathelement path="${jhtools_jar}"/>
-    <fileset dir="${janusgraph_dir}/lib">
-      <include name="*.jar"/>
-      </fileset>
     <fileset dir="../extlib">
       <include name="*.jar"/>
       </fileset>
@@ -98,6 +98,19 @@
         <attribute name="Created-By" value="${user.name}"/>
         <attribute name="AppName"    value="FinkBrowser"/>
         <attribute name="AppVersion" value="${version} ${TSTAMP}"/>
+        </manifest>
+      </jar>
+    <jar jarfile="../lib/FinkBrowser.exe.jar" index="yes">
+      <zipfileset includes="**/*" src="../lib/FinkBrowser-${version}.jar"/>
+      <zipfileset includes="**/*" src="${jhtools_jar}"/>
+      <zipfileset includes="**/*" src="${bsh_jar}"/>
+      <zipfileset includes="**/*" src="${cli_jar}"/>
+      <zipfileset includes="**/*" src="${log4j_jar}"/>
+      <manifest>
+        <attribute name="Created-By" value="${user.name}"/>
+        <attribute name="AppName"    value="FinkBrowser"/>
+        <attribute name="AppVersion" value="${version} ${TSTAMP}"/>
+        <attribute name="Main-Class" value="com.astrolabsoftware.FinkBrowser.Apps.CLI"/>
         </manifest>
       </jar>
     </target>
@@ -327,7 +340,9 @@
       <Header><![CDATA[<center>]]>AstroLab FinkBrowser version: ${version}<![CDATA[</center>]]></Header>
       <Footer><![CDATA[<center>Written by: <a href='http://cern.ch/hrivnac'>J.Hrivnac</a></center>]]></Footer>
       <bottom><![CDATA[<a href='TBD'>Documentation</a>]]> built ${TODAY} on ${os.name} by ${user.name}</bottom>
-      <group title="Utils"            packages="net.hep.atlas.Database.GraphDB.Utils*"/>
+      <group title="Apps"       packages="com.astrolabsoftware.FinkBrowser.Apps*"/>
+      <group title="Utils"      packages="com.astrolabsoftware.FinkBrowser.Utils*"/>
+      <group title="WebService" packages="com.astrolabsoftware.FinkBrowser.WebService*"/>
       <link href="http://docs.oracle.com/javase/8/docs/api"/>
       <classpath>
         <path refid="classpath.run"/>

@@ -1,5 +1,6 @@
 package com.astrolabsoftware.FinkBrowser.Utils;
 
+// JHTools
 import com.JHTools.Utils.NotifierURL;
 
 // Log4J
@@ -31,10 +32,6 @@ public class Init {
     try {
       PropertyConfigurator.configure(Init.class.getClassLoader().getResource("com/astrolabsoftware/FinkBrowser/Utils/log4j.properties"));
       NotifierURL.notify("", "FinkBrowser", Info.release());
-      if (!quiet) {
-        log.info("Initialised, version: " + Info.release());
-        log.info(Info.configuration());
-        }
       }
     catch (Exception e) {
       System.err.println(e);

@@ -37,24 +37,38 @@ stylesheet.nodes.AstroLabNet = {
     value:"0"         
     },
   actions:[
-    {name:"info", url:"https://astrolabsoftware.github.io"}
     ]
   }
-stylesheet.nodes.alert = {
+stylesheet.nodes.Alert = {
   graphics: {
-    label:{gremlin:"values('id')"}, 
-    title:{gremlin:"values('id')"},        
-    subtitle:{gremlin:"sideEffect(outE().count().store('o')).sideEffect(inE().count().store('i')).cap('o', 'i').next().values().join().toString().replace('][', ' out, ').replace(']', ' in').replace('[', '')"},     
-    group:" ",        
-    shape:"dot",      
-    image:" ",        
+    label:{gremlin:"values('title')"}, 
+    title:{gremlin:"values('title')"},        
+    subtitle:" ",
+    shape:"image",      
+    image:"Alert.png",        
     borderRadius:"0", 
     borderWidth:"1",  
     borderDashes:[1,0],
     value: {gremlin:"both().count().join().toString()"}        
     },
   actions:[
-    {name:"info", url:"https://astrolabsoftware.github.io"}
+    ]
+  }
+stylesheet.nodes.AlertsCollection = {
+  graphics: {
+    label:{gremlin:"values('title')"}, 
+    title:{gremlin:"values('title')"},        
+    subtitle:" ",     
+    group:" ",        
+    shape:"image",      
+    image:"Alerts.png",        
+    borderRadius:"0", 
+    borderWidth:"1",  
+    borderDashes:[1,0],
+    value: {gremlin:"both().count().join().toString()"}        
+    },
+  actions:[
+    {name:"Latest Alerts from HBase test tiny",  url:{gremlin:"properties('hbase').value()"}, embedded:true}
     ]
   }
 stylesheet.edges.is = {
