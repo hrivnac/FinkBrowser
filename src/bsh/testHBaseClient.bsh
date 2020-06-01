@@ -1,0 +1,12 @@
+HBaseClient client = new HBaseClient("134.158.74.54", "2181");
+client.connect("test_portal", "schema_v0", 0);
+client.setLimit(10);
+Map search = new TreeMap();
+search.put("key:key", "ZTF19");
+Map results = client.scan("ZTF19acmbwxy_2458789.0316204_128.0288063_34.6914932",
+                          null,
+                          null,
+                          null,
+                          false,
+                          false); 
+System.out.println(client.results2String(results));
