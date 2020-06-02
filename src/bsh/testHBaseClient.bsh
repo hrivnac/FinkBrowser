@@ -1,12 +1,14 @@
-HBaseClient client = new HBaseClient("134.158.74.54", "2181");
-client.connect("test_portal", "schema_v0", 0);
+HBaseClient client = new HBaseClient("134.158.74.54", 2181);
+client.connect("test_portal", "schema_v0");
 client.setLimit(10);
-Map search = new TreeMap();
-search.put("key:key", "ZTF19");
-Map results = client.scan("ZTF19acmbwxy_2458789.0316204_128.0288063_34.6914932",
-                          null,
-                          null,
-                          null,
-                          false,
-                          false); 
-System.out.println(client.results2String(results));
+
+print(client.scan("ZTF19aaaabaf_2458812.6222801_306.464268_16.7138981,ZTF19aaaabed_2458811.6088773_326.1484384_3.9625178",
+                  null,
+                  "i:candid",
+                  null)); 
+
+print(client.scan(null,
+                  "key:key:ZTF19",
+                  "i:candid",
+                  "10000")); 
+
