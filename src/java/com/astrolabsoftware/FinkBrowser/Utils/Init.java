@@ -1,7 +1,7 @@
 package com.astrolabsoftware.FinkBrowser.Utils;
 
-// JHTools
-import com.JHTools.Utils.NotifierURL;
+// Lomikel
+import com.Lomikel.Utils.NotifierURL;
 
 // Log4J
 import org.apache.log4j.Logger;

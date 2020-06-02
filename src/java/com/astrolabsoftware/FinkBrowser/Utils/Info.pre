@@ -11,7 +11,7 @@ import org.apache.log4j.Logger;
   * @opt types
   * @opt visibility
   * @author <a href="mailto:Julius.Hrivnac@cern.ch">J.Hrivnac</a> */
-public class Info extends com.JHTools.Utils.Info {
+public class Info extends com.Lomikel.Utils.Info {
 
   static {
     setManager("@MANAGER@");

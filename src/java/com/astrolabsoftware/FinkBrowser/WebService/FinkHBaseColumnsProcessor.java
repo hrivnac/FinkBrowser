@@ -1,8 +1,8 @@
 package com.astrolabsoftware.FinkBrowser.WebService;
 
-// JHTools
-import com.JHTools.Utils.DateTimeManagement;
-import com.JHTools.WebService.HBaseColumnsProcessor;
+// Lomikel
+import com.Lomikel.Utils.DateTimeManagement;
+import com.Lomikel.WebService.HBaseColumnsProcessor;
 
 // Java
 import java.util.Map;

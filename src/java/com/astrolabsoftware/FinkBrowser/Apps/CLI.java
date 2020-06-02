@@ -2,11 +2,11 @@ package com.astrolabsoftware.FinkBrowser.Apps;
 
 import com.astrolabsoftware.FinkBrowser.Utils.Init;
 
-// JHTools
-import com.JHTools.Utils.Info;
-import com.JHTools.Utils.StringFile;
-import com.JHTools.Utils.StringResource;
-import com.JHTools.Utils.CommonException;
+// Lomikel
+import com.Lomikel.Utils.Info;
+import com.Lomikel.Utils.StringFile;
+import com.Lomikel.Utils.StringResource;
+import com.Lomikel.Utils.CommonException;
 
 // Bean Shell
 import bsh.Interpreter;
@@ -34,7 +34,7 @@ import org.apache.log4j.Logger;
   * @opt types
   * @opt visibility
   * @author <a href="mailto:Julius.Hrivnac@cern.ch">J.Hrivnac</a> */
-public class CLI extends com.JHTools.Apps.CLI {
+public class CLI extends com.Lomikel.Apps.CLI {
 
   /** TBD */
   public static void main(String[] args) {
@@ -49,11 +49,11 @@ public class CLI extends com.JHTools.Apps.CLI {
     interpreter().print("Welcome to Fink Browser CLI " + Info.release() + "\n");
     interpreter().print("https://astrolabsoftware.github.io\n");
     try {
-      interpreter().eval("import com.JHTools.HBaser.HBaseClient");
+      interpreter().eval("import com.Lomikel.HBaser.HBaseClient");
       }
     catch (EvalError e) {
-      log.error("Cannot load  com.JHTools.HBaser.HBaseClient");
-      log.debug("Cannot load  com.JHTools.HBaser.HBaseClient", e);
+      log.error("Cannot load  com.Lomikel.HBaser.HBaseClient");
+      log.debug("Cannot load  com.Lomikel.HBaser.HBaseClient", e);
       }
     }
     

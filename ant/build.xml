@@ -3,7 +3,7 @@
          basedir="../run">
 
   <description>
-    JHTools
+    Fink Browser
     </description>
 
   <!-- Setup ================================================================-->
@@ -19,7 +19,7 @@
     <pathelement path="${log4j_jar}"/>
     <pathelement path="${bsh_jar}"/>
     <pathelement path="${cli_jar}"/>
-    <pathelement path="${jhtools_jar}"/>
+    <pathelement path="${lomikel_jar}"/>
     <fileset dir="../extlib">
       <include name="*.jar"/>
       </fileset>
@@ -102,7 +102,7 @@
       </jar>
     <jar jarfile="../lib/FinkBrowser.exe.jar" index="yes">
       <zipfileset includes="**/*" src="../lib/FinkBrowser-${version}.jar"/>
-      <zipfileset includes="**/*" src="${jhtools_jar}"/>
+      <zipfileset includes="**/*" src="${lomikel_jar}"/>
       <zipfileset includes="**/*" src="${bsh_jar}"/>
       <zipfileset includes="**/*" src="${cli_jar}"/>
       <zipfileset includes="**/*" src="${log4j_jar}"/>
@@ -120,9 +120,9 @@
   <target name="war"
           depends="jar"
           description="Create WAR">
- 		<copy file="${jhtools_ws}/index.jsp"   tofile="../build/index.jsp"   overwrite="true"/>
- 		<copy file="${jhtools_ws}/Top.jsp"     tofile="../build/Top.jsp"     overwrite="true"/>
- 		<copy file="${jhtools_ws}/TopMini.jsp" tofile="../build/TopMini.jsp" overwrite="true"/>
+ 		<copy file="${lomikel_ws}/index.jsp"   tofile="../build/index.jsp"   overwrite="true"/>
+ 		<copy file="${lomikel_ws}/Top.jsp"     tofile="../build/Top.jsp"     overwrite="true"/>
+ 		<copy file="${lomikel_ws}/TopMini.jsp" tofile="../build/TopMini.jsp" overwrite="true"/>
  		<copy file="../src/ws/Servers-${target}.jsp" tofile="../build/Servers.jsp" overwrite="true"/>
     <replace file="../build/index.jsp"   token="@NAME@"    value="${browsername}"/>
     <replace file="../build/Top.jsp"     token="@VERSION@" value="${version}"/>
@@ -150,7 +150,7 @@
 	    	<include name="images/*"/>
         <exclude name="Servers-*.jsp"/>
         </fileset>
-      <fileset dir="${jhtools_ws}">
+      <fileset dir="${lomikel_ws}">
         <include name="**/*"/>
         <exclude name="Stylesheet.js"/>
         <exclude name="Options.js"/>
@@ -174,7 +174,7 @@
         <include name="log4j.properties"/>
         </classes>
       <lib file="../lib/FinkBrowser-${version}.jar"/>
-      <lib file="${jhtools_jar}"/>
+      <lib file="${lomikel_jar}"/>
       <lib file="${orgjson_jar}"/>
       <lib file="${httpcore_jar}"/>
       <lib file="${httpclient_jar}"/>
