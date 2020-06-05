@@ -106,6 +106,9 @@
       <zipfileset includes="**/*" src="${bsh_jar}"/>
       <zipfileset includes="**/*" src="${cli_jar}"/>
       <zipfileset includes="**/*" src="${log4j_jar}"/>
+      <zipfileset includes="**/*" src="${slf4j_jar}"/>
+      <zipfileset includes="**/*" src="${slf4jlog4j_jar}"/>
+      <zipfileset includes="**/*" src="${logging_jar}"/>
       <manifest>
         <attribute name="Created-By" value="${user.name}"/>
         <attribute name="AppName"    value="FinkBrowser"/>

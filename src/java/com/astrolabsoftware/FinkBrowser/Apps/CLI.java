@@ -34,63 +34,35 @@ import org.apache.log4j.Logger;
   * @opt types
   * @opt visibility
   * @author <a href="mailto:Julius.Hrivnac@cern.ch">J.Hrivnac</a> */
+// TBD: put info to screen
+// TBD: add Exit button
 public class CLI extends com.Lomikel.Apps.CLI {
-
-  /** TBD */
-  public static void main(String[] args) {
-    Init.init();
-    parseArgs(args);
-    new CLI();
-    }
   
-  /** Start {@link Interpreter} and run forever. */
-  public CLI() {
-    super();
-    interpreter().print("Welcome to Fink Browser CLI " + Info.release() + "\n");
-    interpreter().print("https://astrolabsoftware.github.io\n");
+  /** Start {@link Interpreter} and run forever.
+    * @param msg The message so show. */
+  public CLI(String msg) {
+    super(msg);
+    }
+    
+  @Override
+  public void setupInterpreter() {
     try {
       interpreter().eval("import com.Lomikel.HBaser.HBaseClient");
       }
     catch (EvalError e) {
-      log.error("Cannot load  com.Lomikel.HBaser.HBaseClient");
-      log.debug("Cannot load  com.Lomikel.HBaser.HBaseClient", e);
+      log.error("Cannot load com.Lomikel.HBaser.HBaseClient");
+      log.debug("Cannot load com.Lomikel.HBaser.HBaseClient", e);
       }
+    super.setupInterpreter();
     }
-    
-  /** Parse the cli arguments.
-    * @param args The cli arguments. */
-  private static void parseArgs(String[] args) {
-    CommandLineParser parser = new BasicParser();
-    Options options = new Options();
-    options.addOption("h", "help",    false, "show help");
-    options.addOption("q", "quiet",   false, "minimal direct feedback");
-    options.addOption(OptionBuilder.withLongOpt("source")
-                                   .withDescription("source bsh file (init.bsh is also read)")
-                                   .hasArg()
-                                   .withArgName("file")
-                                   .create("s"));
-    try {
-      CommandLine line = parser.parse(options, args );
-      if (line.hasOption("help")) {
-        new HelpFormatter().printHelp("java -jar FinkBrowser.exe.jar", options);
-        System.exit(0);
-        }
-      if (line.hasOption("quiet")) {
-        _quiet = true;
-        }
-      if (line.hasOption("source")) {
-        _source = line.getOptionValue("source");
-        }
-      }
-    catch (ParseException e) {
-      new HelpFormatter().printHelp("java -jar AstroLabNet.exe.jar", options);
-      System.exit(-1);
-      }
+
+  /** Start and pass arguments on.
+    * @param args The arguments. */
+  public static void main(String[] args) {
+    Init.init();
+    parseArgs(args, "java -jar FinkBrowser.exe.jar");
+    new CLI("Welcome to Fink Browser CLI " + Info.release() + "\nhttps://astrolabsoftware.github.io\n");
     }
-  
-  private static boolean _quiet = false;
-  
-  private static String _source = null;
     
   /** Logging . */
   private static Logger log = Logger.getLogger(CLI.class);
