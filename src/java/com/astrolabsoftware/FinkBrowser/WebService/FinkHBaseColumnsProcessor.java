@@ -6,11 +6,6 @@ import com.Lomikel.WebService.HBaseColumnsProcessor;
 
 // Java
 import java.util.Map;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
-import java.util.Date;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 
 // Log4J
 import org.apache.log4j.Logger;
