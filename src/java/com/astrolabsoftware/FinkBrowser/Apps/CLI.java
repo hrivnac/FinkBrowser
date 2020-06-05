@@ -23,8 +23,6 @@ import org.apache.log4j.Logger;
   * @opt types
   * @opt visibility
   * @author <a href="mailto:Julius.Hrivnac@cern.ch">J.Hrivnac</a> */
-// TBD: put info to screen
-// TBD: add Exit button
 public class CLI extends com.Lomikel.Apps.CLI {
   
   /** Start {@link Interpreter} and run forever.
