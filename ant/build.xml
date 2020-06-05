@@ -94,6 +94,7 @@
     <jar jarfile="../lib/FinkBrowser-${version}.jar" index="yes">
       <fileset dir="../build"    includes="com/astrolabsoftware/FinkBrowser/**/*.class"/>
       <fileset dir="../src/java" includes="com/astrolabsoftware/FinkBrowser/**/*.properties"/>
+      <fileset dir="../src/java" includes="com/astrolabsoftware/FinkBrowser/**/*.png"/>
       <manifest>
         <attribute name="Created-By" value="${user.name}"/>
         <attribute name="AppName"    value="FinkBrowser"/>
