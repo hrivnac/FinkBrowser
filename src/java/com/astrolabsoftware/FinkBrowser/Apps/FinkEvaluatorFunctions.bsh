@@ -1,0 +1,29 @@
+import com.astrolabsoftware.FinkBrowser.Apps.FinkEvaluatorFunctions;
+
+/** <code>EvaluatorFuctions</code> provide static functions available to
+  * {@link Evaluator}. They interpreted within Evaluator process so that
+  * have access to all its variables and functions.
+  * In most cases, it just provides interface to {@link EvaluatorFunctions}
+  * class.
+  * @opt attributes
+  * @opt operations
+  * @opt types
+  * @opt visibility
+  * @author <a href="mailto:Julius.Hrivnac@cern.ch">J.Hrivnac</a> */
+   
+/** Evaluate, if <tt>ra,dec</tt> are within specified limits.
+  * @param raMin  The minimal value of <tt>ra</tt>.
+  * @param raMax  The maximal value of <tt>ra</tt>.
+  * @param decMin The minimal value of <tt>dec</tt>.
+  * @param decMax The maximal value of <tt>dec</tt>.
+  * @return Whether <tt>ra,dec</tt> from the database are within specified limits. */
+public static boolean isWithinGeoLimits(double raMin,
+                                        double raMax,
+                                        double decMin,
+                                        double decMax) {
+  return FinkEvaluatorFunctions.isWithinGeoLimits(ra, dec, raMin, raMax, decMin, decMax);
+  }
+
+
+
+  
