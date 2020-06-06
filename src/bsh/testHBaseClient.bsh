@@ -21,7 +21,7 @@ print(client.scan(null,
 // Get timeline dependece of i:candid
 print(client.timeline("i:candid"));
 
-// Get all recent (last 100000 min) objectIds
+// Get all recent (last 100000 minutes) objectIds
 print(client.latests("i:objectId",
                      null,
                      100000,
