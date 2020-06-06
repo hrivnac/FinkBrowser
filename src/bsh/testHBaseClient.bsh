@@ -1,7 +1,9 @@
 // Connect to HBase table
+//HBaseClient client = new HBaseClient("localhost", 2181);
+//client.connect("test_portal_tiny.1", "schema_v0");
 HBaseClient client = new HBaseClient("134.158.74.54", 2181);
 client.connect("test_portal", "schema_v0");
-client.setLimit(1000);
+client.setLimit(100);
 
 // Get two known alerts (just one column) 
 // get 'test_portal', 'ZTF19aaoxpad_2458789.034838_152.294655_48.3441663', {COLUMN => 'i:candid'}
@@ -12,9 +14,8 @@ print(client.scan("ZTF19aaoxpad_2458789.034838_152.294655_48.3441663,ZTF19aarsha
 
 // Get all alerts with row starting with 'ZTF19'
 // scan 'test_portal', {FILTER => "(PrefixFilter ('ZTF19'))", COLUMNS => 'i:candid', STARTROW => 'ZTF19', LIMIT => 10}
-// scan 'test_portal', {ROWPREFIXFILTER => 'ZTF19', COLUMNS => 'i:candid', LIMIT => 10}
-print(client.scan(null,
-                  "key:key:ZTF19",
+// scan 'test_portal', {ROWPREFIXFILTER => 'ZTF19', COLUMNS => 'i:candid', LIMIT => 10}/print(client.scan(null,
+//                  "key:key:ZTF19",
                   "i:candid",
                   "10000"));
 
@@ -26,5 +27,13 @@ print(client.latests("i:objectId",
                      null,
                      100000,
                      true));
+
+// Apply formula to filter results
+client.setEvaluation("isWithinGeoLimits(45, 100, 50.0, 70.0)", "ra,dec");
+//client.setEvaluation("dec < 10");
+client.scan(null,
+            null,
+            null,
+            null);
 
 client.close();
