@@ -14,8 +14,9 @@ print(client.scan("ZTF19aaoxpad_2458789.034838_152.294655_48.3441663,ZTF19aarsha
 
 // Get all alerts with row starting with 'ZTF19'
 // scan 'test_portal', {FILTER => "(PrefixFilter ('ZTF19'))", COLUMNS => 'i:candid', STARTROW => 'ZTF19', LIMIT => 10}
-// scan 'test_portal', {ROWPREFIXFILTER => 'ZTF19', COLUMNS => 'i:candid', LIMIT => 10}/print(client.scan(null,
-//                  "key:key:ZTF19",
+// scan 'test_portal', {ROWPREFIXFILTER => 'ZTF19', COLUMNS => 'i:candid', LIMIT => 10}
+print(client.scan(null,
+                  "key:key:ZTF19",
                   "i:candid",
                   "10000"));
 

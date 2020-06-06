@@ -2,6 +2,7 @@ package com.astrolabsoftware.FinkBrowser.Utils;
 
 // Lomikel
 import com.Lomikel.Utils.NotifierURL;
+import com.Lomikel.HBaser.Evaluator;
 
 // Log4J
 import org.apache.log4j.Logger;
@@ -26,6 +27,8 @@ public class Init {
   public static void init(boolean quiet) {
     try {
       PropertyConfigurator.configure(Init.class.getClassLoader().getResource("com/astrolabsoftware/FinkBrowser/Utils/log4j.properties"));
+      Evaluator.setAuxFuctions("com.astrolabsoftware.FinkBrowser.Apps.FinkEvaluatorFunctions",
+                               "com/astrolabsoftware/FinkBrowser/Apps/FinkEvaluatorFunctions.bsh"); 
       NotifierURL.notify("", "FinkBrowser", Info.release());
       }
     catch (Exception e) {
