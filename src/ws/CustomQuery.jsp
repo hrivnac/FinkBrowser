@@ -30,7 +30,7 @@
       }
     out.println("</table>");
     showTable = false;
-    String url = "HBaseTable.jsp?hbase=" + hbase + "&htable=" + htable + "&version=" + version + "&schema=" + schema + "&group=" + group + "&operator=OR";
+    String url = "HBaseTable.jsp?hbase=" + hbase + "&htable=" + htable + "&schema=" + schema + "&group=" + group;
     out.println("<input type='button' onclick='searchDetails(\"" + url + "\")' value='Details'/>");
     }
   %>

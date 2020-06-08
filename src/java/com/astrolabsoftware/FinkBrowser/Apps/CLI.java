@@ -1,9 +1,9 @@
 package com.astrolabsoftware.FinkBrowser.Apps;
 
 import com.astrolabsoftware.FinkBrowser.Utils.Init;
+import com.astrolabsoftware.FinkBrowser.Utils.Info;
 
 // Lomikel
-import com.Lomikel.Utils.Info;
 import com.Lomikel.GUI.Icons;
 
 // Bean Shell

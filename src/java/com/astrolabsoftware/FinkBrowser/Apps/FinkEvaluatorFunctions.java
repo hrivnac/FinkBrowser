@@ -18,7 +18,7 @@ public class FinkEvaluatorFunctions {
     * @param raMin  The minimal value of <tt>ra</tt>.
     * @param raMax  The maximal value of <tt>ra</tt>.
     * @param decMin The minimal value of <tt>dec</tt>.
-    * @param decMax The maximal value of <tt>dec</tt>.
+    * @param decMax The maximal value of <tt>dec</tt>. */
   public static boolean isWithinGeoLimits(double ra,
                                           double dec,
                                           double raMin,

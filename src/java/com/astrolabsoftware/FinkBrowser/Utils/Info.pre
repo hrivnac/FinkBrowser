@@ -13,10 +13,10 @@ import org.apache.log4j.Logger;
   * @author <a href="mailto:Julius.Hrivnac@cern.ch">J.Hrivnac</a> */
 public class Info extends com.Lomikel.Utils.Info {
 
-  static {
-    setManager("@MANAGER@");
-    setTmp("@TMP@");
-    setTarget("@TARGET@");
+  /** Give builder release. 
+    * @return The version and build time of the package. */
+  public static String release() {
+    return _version + " [" + _build + " by " + _builder + " for " + _target + "]";
     }
 
   /** Give application name.
@@ -24,8 +24,23 @@ public class Info extends com.Lomikel.Utils.Info {
   public final static String name() {
     return _name;
     }
-       
-  private static String _name = "FinkBrowser";
+ 
+  /** Give temporary directory (available to Tomcat).
+    * @return The temporary directory. */
+  public static String tmp() {
+    return _tmp;
+    }
+
+  /** Give email of the package manager.
+    * @return The email of the package manager. */
+  public static String manager() {
+    return _manager;
+    }
+      
+  protected static String _name    = "FinkBrowser";
+  protected static String _tmp     = "@TMP@";
+  protected static String _manager = "@MANAGER@";
+  protected static String _target  = "@TARGET@";
                         
   /** Logging . */
   private static Logger log = Logger.getLogger(Info.class);
