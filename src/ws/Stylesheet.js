@@ -12,15 +12,16 @@ stylesheet.nodes.site = {
     value:"0"         
     },
   actions:[
-    {name:"Livy",             url:{gremlin:"properties('livy'         ).value()"}},
-    {name:"Spark",            url:{gremlin:"properties('spark'        ).value()"}},
-    {name:"SparkHistory",     url:{gremlin:"properties('sparkHistory' ).value()"}},
-    {name:"Hadoop",           url:{gremlin:"properties('hadoop'       ).value()"}},
-    {name:"HBase",            url:{gremlin:"properties('hbase'        ).value()"}},
-    {name:"Ganglia",          url:{gremlin:"properties('ganglia'      ).value()"}},
-    {name:"HBase test",       url:{gremlin:"properties('hbaseTest'    ).value()"}, embedded:true},
-    {name:"HBase test old",   url:{gremlin:"properties('hbaseTestOld' ).value()"}, embedded:true},
-    {name:"HBase test tiny",  url:{gremlin:"properties('hbaseTestTiny').value()"}, embedded:true}
+    {name:"Livy",               url:{gremlin:"properties('livy'         ).value()"}},
+    {name:"Spark",              url:{gremlin:"properties('spark'        ).value()"}},
+    {name:"SparkHistory",       url:{gremlin:"properties('sparkHistory' ).value()"}},
+    {name:"Hadoop",             url:{gremlin:"properties('hadoop'       ).value()"}},
+    {name:"HBase",              url:{gremlin:"properties('hbase'        ).value()"}},
+    {name:"Ganglia",            url:{gremlin:"properties('ganglia'      ).value()"}},
+    {name:"HBase test",         url:{gremlin:"properties('hbaseTest'    ).value()"}, embedded:true},
+    {name:"HBase test old",     url:{gremlin:"properties('hbaseTestOld' ).value()"}, embedded:true},
+    {name:"HBase test tiny 1",  url:{gremlin:"properties('hbaseTestTiny1').value()"}, embedded:true},
+    {name:"HBase test tiny 2",  url:{gremlin:"properties('hbaseTestTiny2').value()"}, embedded:true}
     ]
   }
 stylesheet.nodes.AstroLabNet = {

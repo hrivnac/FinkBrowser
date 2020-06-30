@@ -409,6 +409,22 @@
       </delete>
    </target>
    
+  <!-- Patch JanusGraph =====================================================-->
+  
+  <target name="patch"
+          description="Patch JanusGraph">
+ 		<copy todir="${janusgraph_dir}/scripts">
+			<fileset dir="../src/gremlin" includes="functions.gremlin"/>
+			<fileset dir="../src/sys/janusgraph/scripts" includes="*"/>
+      </copy>
+ 		<copy todir="${janusgraph_dir}/conf">
+			<fileset dir="../src/sys/janusgraph/conf" includes="*"/>
+      </copy>
+ 		<copy todir="${janusgraph_dir}/conf/gremlin-server">
+			<fileset dir="../src/sys/janusgraph/conf/gremlin-server" includes="*"/>
+      </copy>                                                                
+    </target>
+   
   <!-- JavaDoc ==============================================================-->
 
   <target name="doc"

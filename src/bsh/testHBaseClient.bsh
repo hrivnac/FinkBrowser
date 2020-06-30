@@ -6,7 +6,7 @@ client.connect("test_portal", "schema_v0");
 client.setLimit(100);
 
 // Get two known alerts (just one column) 
-// get 'test_portal', 'ZTF19aaoxpad_2458789.034838_152.294655_48.3441663', {COLUMN => 'i:candid'}
+// get 'test_portal', 'ZTF19aaoxpad_2458789.034838_152.294655_48.3441663', {COLUMNS => 'i:candid'}
 print(client.scan("ZTF19aaoxpad_2458789.034838_152.294655_48.3441663,ZTF19aarshaa_2458789.0362037_141.7416897_55.2986329",
                   null,
                   "i:candid",
