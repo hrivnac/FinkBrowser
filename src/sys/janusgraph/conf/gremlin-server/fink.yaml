@@ -4,7 +4,13 @@ scriptEvaluationTimeout: 30000
 channelizer: org.apache.tinkerpop.gremlin.server.channel.WsAndHttpChannelizer
 #channelizer: org.apache.tinkerpop.gremlin.server.channel.WebSocketChannelizer
 graphs: {
-  graph: conf/gremlin-server/fink.properties
+  graph: conf/gremlin-server/fink.properties,
+  graph1: conf/gremlin-server/fink1.properties,
+  graphTestJanusGraph: conf/gremlin-server/fink-TestJanusGraph.properties,
+  graphTestJanusGraph2: conf/gremlin-server/fink-TestJanusGraph2.properties,
+  graphTestJGraph2: conf/gremlin-server/fink-TestJGraph2.properties,
+  graphTestJGraph3: conf/gremlin-server/fink-TestJGraph3.properties,
+  graphTestJGraph4: conf/gremlin-server/fink-TestJGraph4.properties
   }
 scriptEngines: {
   gremlin-groovy: {
