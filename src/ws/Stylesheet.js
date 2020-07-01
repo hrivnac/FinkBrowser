@@ -1,7 +1,7 @@
 stylesheet.nodes.site = {
   graphics: {
-    label:{gremlin:"properties('title').value()"}, 
-    title:{gremlin:"properties('title').value()"},        
+    label:"title", 
+    title:"title",        
     subtitle:" ",     
     group:" ",        
     shape:"image",      
@@ -40,11 +40,28 @@ stylesheet.nodes.AstroLabNet = {
   actions:[
     ]
   }
+stylesheet.nodes.vertex = {
+  graphics: {
+    label:"objectId", 
+    title:"objectId",        
+    subtitle:" ",
+    group:" ",        
+    shape:"image",      
+    image:"Alert.png",        
+    borderRadius:"0", 
+    borderWidth:"1",  
+    borderDashes:[1,0],
+    value: {gremlin:"both().count().join().toString()"}        
+    },
+  actions:[
+    ]
+  }
 stylesheet.nodes.Alert = {
   graphics: {
-    label:{gremlin:"values('title')"}, 
-    title:{gremlin:"values('title')"},        
+    label:"title", 
+    title:"title",        
     subtitle:" ",
+    group:" ",        
     shape:"image",      
     image:"Alert.png",        
     borderRadius:"0", 
@@ -57,8 +74,8 @@ stylesheet.nodes.Alert = {
   }
 stylesheet.nodes.AlertsCollection = {
   graphics: {
-    label:{gremlin:"values('title')"}, 
-    title:{gremlin:"values('title')"},        
+    label:"title", 
+    title:"title",        
     subtitle:" ",     
     group:" ",        
     shape:"image",      
@@ -93,6 +110,19 @@ stylesheet.edges.knows = {
     arrows:{middle:{enabled:true, type:"arrow"}},
     value:"0.1",
     group:"knows"
+    },
+  actions: [
+    {name:"info", url:"https://astrolabsoftware.github.io"}
+    ]
+  }
+stylesheet.edges.similarity = {
+  graphics: {
+    label:"similarity",
+    title:"value",
+    subtitle:" ",
+    arrows:{middle:{enabled:false, type:"arrow"}},
+    value:"value",
+    group:"similarity"
     },
   actions: [
     {name:"info", url:"https://astrolabsoftware.github.io"}
