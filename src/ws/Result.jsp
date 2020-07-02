@@ -1,3 +1,10 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+
+<!-- Fink Browser Result -->
+<!-- @author Julius.Hrivnac@cern.ch -->
+
+<%@ page errorPage="ExceptionHandler.jsp" %>
+
 <div id="result" title="results">
   <center><h2>Connect to the <u>graph server</u> and request the initial <u>graph</u></h2>
     <h2>Select an <u>element</u> to see possible <u>actions</u></h2>

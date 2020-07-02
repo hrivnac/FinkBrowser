@@ -265,6 +265,7 @@
         <exclude name="HBaseColumnsProcessor.jsp"/>
         <exclude name="CustomQuery.js"/>
         <exclude name="CustomQuery.jsp"/>
+        <exclude name="profiles/*"/>
         </fileset>
       <fileset dir="../build">
         <include name="index.jsp"/>
