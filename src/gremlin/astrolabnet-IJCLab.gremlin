@@ -2,15 +2,23 @@ g.V().hasLabel('AstroLabNet').drop()
 g.V().hasLabel('site').drop()
 g.V().hasLabel('AlertsCollection').drop()
 astrolabnet = g.addV('AstroLabNet').next();
-ijclab = g.addV('site').property('title',         'IJCLab').
-                        property('livy',          'http://vm-75222.lal.in2p3.fr:21111').
-                        property('spark',         'http://vm-75222.lal.in2p3.fr:20001').
-                        property('ganglia',       'http://vm-75222.lal.in2p3.fr/ganglia').
-                        property('hadoop',        'http://vm-74078.lal.in2p3.fr:8188/cluster').
-                        property('hbase',         'http://134.158.74.54:8080').
-                        property('sparkHistory',  'http://vm-75222.lal.in2p3.fr:20008').
-                        property('hbaseTest',     'HBaseTable.jsp?hbase=http://134.158.74.54:2181&htable=test_portal&group=i:objectId&schema=schema_v0&limit=100').
-                        property('hbaseTestTiny', 'HBaseTable.jsp?hbase=http://134.158.74.54:2181&htable=test_portal_tiny.1&group=i:objectId&schema=schema_v0&limit=10').
+ijclab = g.addV('site').property('title',           'IJCLab').
+                        property('Livy',            'http://vm-75222.lal.in2p3.fr:21111').
+                        //property('Spark',         'http://vm-75222.lal.in2p3.fr:20001').
+                        property('Spark',           'https://wuip.lal.in2p3.fr:8444').
+                        //property('SparkHistory',  'http://vm-75222.lal.in2p3.fr:20008').
+                        property('SparkHistory',    'https://wuip.lal.in2p3.fr:8443').
+                        property('Ganglia',         'http://vm-75222.lal.in2p3.fr/ganglia').
+                        property('Hadoop',          'http://vm-74078.lal.in2p3.fr:8188/cluster').
+                        property('HBase',           'http://134.158.74.54:16010').
+                        property('Prometheus',      'http://134.158.75.113:24490/graph').
+                        property('Mesos',           'https://wuip.lal.in2p3.fr:20505').
+                        property('Grafana',         'https://supervision.lal.in2p3.fr').
+                        property('Zeppelin',        'https://wuip.lal.in2p3.fr:24443').
+                        property('Tomcat',          'http://134.158.74.221:8080').
+                        property('HBaseTest',       'HBaseTable.jsp?hbase=http://134.158.74.54:2181&htable=test_portal&group=i:objectId&schema=schema_v0&limit=100').
+                        property('HBaseTestTiny1',  'HBaseTable.jsp?hbase=http://134.158.74.54:2181&htable=test_portal_tiny.1&group=i:objectId&schema=schema_v0&limit=10').
+                        property('HBaseTestTiny2',  'HBaseTable.jsp?hbase=http://134.158.74.54:2181&htable=test_portal_tiny.2&group=i:objectId&schema=schema_v0&limit=10').
                         next();
 latestAlertsLoc = g.addV('AlertsCollection').property('title', 'Latest Local Alerts').
                                              property('hbase', 'HBaseTable.jsp?hbase=http://localhost:2181&htable=test_portal_tiny.1&group=i:objectId&schema=schema_v0&latest=1000000').
