@@ -18,7 +18,7 @@ export hbase_table
 
 export home=`pwd`/..
 
-alias gremlin_Local='CLASSPATH=""   ${janusgraph_dir}/bin/gremlin.sh -i "${lomikel_src}/gremlin/start_Local.gremlin" -i ../src/gremlin/start2.gremlin'
+alias gremlin_Local='CLASSPATH=""   ${janusgraph_dir}/bin/gremlin.sh -i "${lomikel_src}/gremlin/start_Local.gremlin" -i ../src/gremlin/start2.gremlin -i ${lomikel_src}/gremlin/describe.gremlin'
 alias gremlin_IJCLab='CLASSPATH=""  ${janusgraph_dir}/bin/gremlin.sh -i "${lomikel_src}/gremlin/start_IJCLab.gremlin" -i ../src/gremlin/start2.gremlin'
 alias gremlin_console='CLASSPATH="" ${janusgraph_dir}/bin/gremlin.sh -i "${lomikel_src}/gremlin/start_console.gremlin ${zookeeper} ${hbase_table} ${home}" -i ../src/gremlin/start2_console.gremlin'
 

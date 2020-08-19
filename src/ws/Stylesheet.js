@@ -23,11 +23,11 @@ stylesheet.nodes.site = {
     {name:"Grafana",            url:{gremlin:"properties('Grafana'       ).value()"}},
     {name:"Zeppelin",           url:{gremlin:"properties('Zeppelin'      ).value()"}},
     {name:"Tomcat",             url:{gremlin:"properties('Tomcat'        ).value()"}},
-    {name:"HBase test",         url:{gremlin:"properties('hbaseTest'     ).value()"}, embedded:true},
-    {name:"HBase test old",     url:{gremlin:"properties('hbaseTestOld'  ).value()"}, embedded:true},
-    {name:"HBase test tiny",    url:{gremlin:"properties('hbaseTestTiny' ).value()"}, embedded:true},
-    {name:"HBase test tiny 1",  url:{gremlin:"properties('hbaseTestTiny1').value()"}, embedded:true},
-    {name:"HBase test tiny 2",  url:{gremlin:"properties('hbaseTestTiny2').value()"}, embedded:true}
+    {name:"HBase test",         url:{gremlin:"properties('HBaseTest'     ).value()"}, embedded:true},
+    {name:"HBase test old",     url:{gremlin:"properties('HBaseTestOld'  ).value()"}, embedded:true},
+    {name:"HBase test tiny",    url:{gremlin:"properties('HBaseTestTiny' ).value()"}, embedded:true},
+    {name:"HBase test tiny 1",  url:{gremlin:"properties('HBaseTestTiny1').value()"}, embedded:true},
+    {name:"HBase test tiny 2",  url:{gremlin:"properties('HBaseTestTiny2').value()"}, embedded:true}
     ]
   }
 stylesheet.nodes.AstroLabNet = {
@@ -48,9 +48,9 @@ stylesheet.nodes.AstroLabNet = {
   }
 stylesheet.nodes.vertex = {
   graphics: {
-    label:"objectId", 
-    title:"objectId",        
-    subtitle:" ",
+    label:"objectId",        
+    title:{gremlin:"sideEffect(values('classtar').store('1')).sideEffect(values('rfscore').store('2')).sideEffect(values('snnscore').store('3')).sideEffect(values('cdxmatch').store('4')).sideEffect(values('mulens_class_1').store('5')).sideEffect(values('mulens_class_2').store('6')).sideEffect(values('roid').store('7')).cap('1', '2', '3', '4', '5', '6', '7').next().values().join().replaceFirst('\\\\[', '<br>classtar=').replaceFirst('\\\\[', 'rfscore=').replaceFirst('\\\\[', 'snscore=').replaceFirst('\\\\[', 'dxmatch=').replaceFirst('\\\\[', 'mulens_class_1=').replaceFirst('\\\\[', 'mulens_class_2=').replaceFirst('\\\\[', 'roid=').replace(']', '<br>')"},
+    subtitle:{gremlin:"outE('similarity').count().join().toString().concat(' similar vertexes')"},
     group:" ",        
     shape:"image",      
     image:"Alert.png",        
@@ -123,11 +123,11 @@ stylesheet.edges.knows = {
   }
 stylesheet.edges.similarity = {
   graphics: {
-    label:"value",
+    label:"similarity",
     title:"similarity",
     subtitle:" ",
     arrows:{middle:{enabled:false, type:"arrow"}},
-    value:"value",
+    value:"similarity",
     group:"similarity"
     },
   actions: [
