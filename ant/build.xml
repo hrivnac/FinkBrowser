@@ -32,6 +32,22 @@
       </fileset>
     <path refid="classpath.build"/>
     </path>
+    
+  <path id="classpath.janusgraph">
+    <fileset dir="${janusgraph_dir}/lib">
+      <include name="*.jar"/>
+      <exclude name="logback-classic-1.1.3.jar"/>
+      </fileset>
+    <fileset dir="../lib">
+      <include name="*.jar"/>
+      <exclude name="*.exe.jar"/>
+      </fileset>
+    <fileset dir="../extlib">
+      <include name="*.jar"/>
+      </fileset>
+    <pathelement path="${lomikel_jar}"/>
+    <pathelement path="${bsh_jar}"/>
+    </path>
 
   <property name="classpath.build.content" refid="classpath.build"/>
   <property name="classpath.run.content"   refid="classpath.run"/>
@@ -390,6 +406,22 @@
           description="Deploy Production WS">
     <copy file="../lib/FinkBrowser.war"
           tofile="${server_dir}/FinkBrowser.war"/>
+    </target>
+ 
+  <!-- Extract Schema =======================================================-->
+  <!-- copied from Lomikel                                                   -->
+
+  <target name="extract-schema"
+          description="Extract Gremlin Schema">
+    <echo>Extract Gremlin Schema</echo>
+    <java classname="com.Lomikel.Januser.JanusClient"
+          fork="true">
+      <arg value="${zookeeper}"/>
+      <arg value="${hbase_table}"/>
+      <classpath>
+        <path refid="classpath.janusgraph"/>
+        </classpath>
+      </java>
     </target>
       
   <!-- Clean ================================================================-->

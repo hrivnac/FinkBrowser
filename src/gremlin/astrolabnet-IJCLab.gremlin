@@ -1,6 +1,12 @@
 g.V().hasLabel('AstroLabNet').drop()
 g.V().hasLabel('site').drop()
 g.V().hasLabel('AlertsCollection').drop()
+g.V().hasLabel('ijclab').drop()
+g.V().hasLabel('latestAlertsLoc').drop()
+g.V().hasLabel('latestAlertsIJCLab100').drop()
+g.V().hasLabel('latestAlertsIJCLab1000').drop()
+g.V().hasLabel('latestAlertsIJCLab10000').drop()
+g.V().hasLabel('latestAlertsIJCLab100000').drop()
 astrolabnet = g.addV('AstroLabNet').next();
 ijclab = g.addV('site').property('title',           'IJCLab').
                         property('Livy',            'http://vm-75222.lal.in2p3.fr:21111').
@@ -19,21 +25,22 @@ ijclab = g.addV('site').property('title',           'IJCLab').
                         property('HBaseTest',       'HBaseTable.jsp?hbase=http://134.158.74.54:2181&htable=test_portal&group=i:objectId&schema=schema_v0&limit=100').
                         property('HBaseTestTiny1',  'HBaseTable.jsp?hbase=http://134.158.74.54:2181&htable=test_portal_tiny.1&group=i:objectId&schema=schema_v0&limit=10').
                         property('HBaseTestTiny2',  'HBaseTable.jsp?hbase=http://134.158.74.54:2181&htable=test_portal_tiny.2&group=i:objectId&schema=schema_v0&limit=10').
+                        property('HBaseTestTiny3',  'HBaseTable.jsp?hbase=http://134.158.74.54:2181&htable=test_portal_tiny.3&group=i:objectId&schema=schema_0.7.0_0.3.6&limit=10').
                         next();
 latestAlertsLoc = g.addV('AlertsCollection').property('title', 'Latest Local Alerts').
-                                             property('hbase', 'HBaseTable.jsp?hbase=http://localhost:2181&htable=test_portal_tiny.1&group=i:objectId&schema=schema_v0&latest=1000000').
+                                             property('hbase', 'HBaseTable.jsp?hbase=http://localhost:2181&htable=test_portal_tiny.1&group=i:objectId&schema=&latest=1000000').
                                              next();
 latestAlertsIJCLab100    = g.addV('AlertsCollection').property('title', 'Latest IJCLab Alerts(100min)').
-                                                      property('hbase', 'HBaseTable.jsp?hbase=http://134.158.74.54:2181&htable=test_portal&group=i:objectId&schema=schema_v0&latest=100').
+                                                      property('hbase', 'HBaseTable.jsp?hbase=http://134.158.74.54:2181&htable=test_portal&group=i:objectId&schema=&latest=100').
                                                       next();
 latestAlertsIJCLab1000   = g.addV('AlertsCollection').property('title', 'Latest IJCLab Alerts(1000min)').
-                                                      property('hbase', 'HBaseTable.jsp?hbase=http://134.158.74.54:2181&htable=test_portal&group=i:objectId&schema=schema_v0&latest=1000').
+                                                      property('hbase', 'HBaseTable.jsp?hbase=http://134.158.74.54:2181&htable=test_portal&group=i:objectId&schema=&latest=1000').
                                                       next();
 latestAlertsIJCLab10000  = g.addV('AlertsCollection').property('title', 'Latest IJCLab Alerts(10000min)').
-                                                      property('hbase', 'HBaseTable.jsp?hbase=http://134.158.74.54:2181&htable=test_portal&group=i:objectId&schema=schema_v0&latest=10000').
+                                                      property('hbase', 'HBaseTable.jsp?hbase=http://134.158.74.54:2181&htable=test_portal&group=i:objectId&schema=&latest=10000').
                                                       next();
 latestAlertsIJCLab100000 = g.addV('AlertsCollection').property('title', 'Latest IJCLab Alerts(100000min)').
-                                                      property('hbase', 'HBaseTable.jsp?hbase=http://134.158.74.54:2181&htable=test_portal&group=i:objectId&schema=schema_v0&latest=100000').
+                                                      property('hbase', 'HBaseTable.jsp?hbase=http://134.158.74.54:2181&htable=test_portal&group=i:objectId&schema=&latest=100000').
                                                       next();
 g.V(astrolabnet).addE('has').to(ijclab).iterate();
 g.V(ijclab).addE('holds').to(latestAlertsIJCLab100).iterate();

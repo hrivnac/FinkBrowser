@@ -27,7 +27,8 @@ stylesheet.nodes.site = {
     {name:"HBase test old",     url:{gremlin:"properties('HBaseTestOld'  ).value()"}, embedded:true},
     {name:"HBase test tiny",    url:{gremlin:"properties('HBaseTestTiny' ).value()"}, embedded:true},
     {name:"HBase test tiny 1",  url:{gremlin:"properties('HBaseTestTiny1').value()"}, embedded:true},
-    {name:"HBase test tiny 2",  url:{gremlin:"properties('HBaseTestTiny2').value()"}, embedded:true}
+    {name:"HBase test tiny 2",  url:{gremlin:"properties('HBaseTestTiny2').value()"}, embedded:true},
+    {name:"HBase test tiny 3",  url:{gremlin:"properties('HBaseTestTiny3').value()"}, embedded:true}
     ]
   }
 stylesheet.nodes.AstroLabNet = {
