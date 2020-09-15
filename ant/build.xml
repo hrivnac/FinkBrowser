@@ -283,6 +283,7 @@
         <exclude name="CustomQuery.js"/>
         <exclude name="CustomQuery.jsp"/>
         <exclude name="profiles/*"/>
+        <exclude name="styles/*"/>
         </fileset>
       <fileset dir="../build">
         <include name="index.jsp"/>
