@@ -1,8 +1,8 @@
 // Connect to HBase table
-//HBaseClient client = new HBaseClient("localhost", 2181);
+HBaseClient client = new HBaseClient("localhost", 2181);
 //client.connect("test_portal_tiny.1", "schema_v0");
-HBaseClient client = new HBaseClient("134.158.74.54", 2181);
-client.connect("test_portal", "schema_v0");
+//HBaseClient client = new HBaseClient("134.158.74.54", 2181);
+client.connect("test_portal_tiny.1", "schema_v0");
 client.setLimit(100);
 
 // Get two known alerts (just one column) 

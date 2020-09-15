@@ -76,6 +76,7 @@
     <mkdir dir="../lib"/>
     <mkdir dir="../extlib"/>
     <mkdir dir="../run"/>
+    <mkdir dir="../dist"/>
     <mkdir dir="../doc/JavaDoc"/>
     </target>
 
@@ -459,6 +460,16 @@
 			<fileset dir="../src/sys/janusgraph/conf/gremlin-server" includes="*"/>
       </copy>                                                                
     </target>
+    
+  <!-- Dist =================================================================-->
+
+  <target name="dist"
+          depends="jar"
+          description="Construct distribution">
+    <copy todir="../dist">
+			<fileset dir="../lib" includes="*"/>
+      </copy>
+  </target>
    
   <!-- JavaDoc ==============================================================-->
 
