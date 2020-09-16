@@ -280,6 +280,7 @@
         <exclude name="Graphs.jsp"/>
         <exclude name="Result.jsp"/>
         <exclude name="Plot.jsp"/>
+        <exclude name="Image.jsp"/>
         <exclude name="HBaseColumnsProcessor.jsp"/>
         <exclude name="CustomQuery.js"/>
         <exclude name="CustomQuery.jsp"/>
@@ -441,6 +442,9 @@
       <fileset dir="../doc" includes="**/*"/>
       </delete>
     <delete includeEmptyDirs="true">
+      <fileset dir="../dist" includes="**/*"/>
+      </delete>
+    <delete includeEmptyDirs="true">
       <fileset dir="." includes="**/*"/>
       </delete>
    </target>
@@ -467,7 +471,7 @@
           depends="jar"
           description="Construct distribution">
     <copy todir="../dist">
-			<fileset dir="../lib" includes="*"/>
+			<fileset dir="../lib" includes="*.jar"/>
       </copy>
   </target>
    
