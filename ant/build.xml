@@ -280,6 +280,7 @@
         <exclude name="Graphs.jsp"/>
         <exclude name="Result.jsp"/>
         <exclude name="Plot.jsp"/>
+        <exclude name="Params.jsp"/>
         <exclude name="Image.jsp"/>
         <exclude name="HBaseColumnsProcessor.jsp"/>
         <exclude name="CustomQuery.js"/>
