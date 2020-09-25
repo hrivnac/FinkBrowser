@@ -9,11 +9,11 @@
 <table><tr>
 <td><img src="Fink.png" width="100"/></td>
 <td><h1>Fink Browser</h1>
-<h2>@VERSION@ [@BUILD@]</h2>
+<h4>@VERSION@ [@BUILD@]</h3>
 </tr></table>
 <hr/>
 
-<h4>Documentation</h4>
+<h2>Documentation</h2>
 
 <ul>
 <li><a href="JavaDoc">JavaDoc</a></li>
@@ -25,7 +25,7 @@
     <a href="https://www.java.com">Java</a>,
     <a href="https://cern.ch/hrivnac/Activities/Packages/Lomikel">Lomikel</a> (and others used by it),
     <a href="http://www.jpype.org">JPype</a> (for Python client),
-    <a href="http://www.jpype.org">Sage</a> (to perform math analyses)</li>
+    <a href="http://sagemath.org">Sage</a> (to perform math analyses)</li>
 <li>Tools:
     <a href="https://ant.apache.org">Ant</a>,
     <a href="http://www.java2html.com">J2H</a>,
@@ -37,7 +37,7 @@
     <a href="https://github.com/clarkware/jdepend">JDepend</a></li>
 </ul>
 
-<h4><a name="Graph">Graph</a></h4>
+<h2><a name="Graph">Graph Schema</a></h2>
 Initial Graph contains:
 <pre>
 AstroLabNet -has&gt; site -holds&gt; AlertsCollection -contains&gt; alert
@@ -45,7 +45,10 @@ similarity -satr&gt; alert
 alert -exactmatch&gt; alert
 </pre>
 
-<h4><a name="WebService">Web Service</a></h4>
+<h2><a name="WebService">Web Service</a></h2>
+<a href="FinkBrowser.jpg" ><img src="FinkBrowser.jpg"  width="800"></a><br/>
+<a href="FinkBrowser1.jpg"><img src="FinkBrowser1.jpg" width="800"></a><br/>
+<a href="FinkBrowser2.jpg"><img src="FinkBrowser2.jpg" width="800"></a>
 <b><u>Customisation</u></b>
 <ul>
 <li><tt>Servers-&lt;target&gt;.jsp</tt> contains the list of <em>Gremlin</em> servets</li>
@@ -58,9 +61,11 @@ alert -exactmatch&gt; alert
 <li><tt>style</tt> for pane setup (<tt>null, test, simple</tt>)</li>
 </ul>
 
-<h4><a name="CLI">Command Line</a></h4>
+<h2><a name="CLI">Command Line</a></h2>
+Command line (executable Java) can be downloaded from the repository:
+<a href="http://cern.ch/hrivnac/Activities/Packages/FinkBrowser.exe.jar">FinkBrowser.exe.jar</a>.
 <pre>
-$ java -jar ../lib/FinkBrowser.exe.jar -h
+$ java -jar FinkBrowser.exe.jar -h
 usage: java -jar Lomikel.exe.jar
  -b,--batch           run in a batch
  -g,--gui             run in a graphical window
@@ -68,8 +73,52 @@ usage: java -jar Lomikel.exe.jar
  -q,--quiet           minimal direct feedback
  -s,--source <file>   source bsh file (init.bsh is also read)
 </pre>
+It allows <a href="https://beanshell.github.io">BeanShell</a>/Java scripting.
+<a href="https://github.com/hrivnac/FinkBrowser/blob/master/src/bsh/testHBaseClient.bsh">BeanShell/Java example</a>,
+<a href="https://github.com/hrivnac/FinkBrowser/blob/master/src/python/testHBaseClient.py">Python example</a> (needs <a href="http://www.jpype.org">JPype</a>),
+<a href="https://github.com/hrivnac/FinkBrowser/blob/master/src/python/testHBaseClient.sage">Sage example</a> (needs also <a href="http://sagemath.org">Sage</a>).
+<pre>
+// Connect to HBase table
+//HBaseClient client = new HBaseClient("localhost", 2181);
+HBaseClient client = new HBaseClient("134.158.74.54", 2181);
+client.connect("test_portal_tiny.3", "schema_0.7.0_0.3.6");
+client.setLimit(100);
 
-<h4><a name="Bugs-ToDos">Bugs, Inconsistencies and ToDos</a></h4>
+// Get two known alerts (just one column) 
+// get 'test_portal', 'ZTF19aaoxpad_2458789.034838_152.294655_48.3441663', {COLUMNS => 'i:candid'}
+print(client.scan("ZTF17aaaaxyd_2458789.0426273,ZTF17aaaajdq_2458789.0297801",
+                  null,
+                  "i:candid",
+                  null)); 
+
+// Get all alerts with row starting with 'ZTF19'
+// scan 'test_portal', {FILTER => "(PrefixFilter ('ZTF19'))", COLUMNS => 'i:candid', STARTROW => 'ZTF19', LIMIT => 10}
+// scan 'test_portal', {ROWPREFIXFILTER => 'ZTF19', COLUMNS => 'i:candid', LIMIT => 10}
+print(client.scan(null,
+                  "key:key:ZTF19",
+                  "i:candid",
+                  "10000"));
+
+// Get timeline dependece of i:candid
+print(client.timeline("i:candid"));
+
+// Get all recent (last 100000 minutes) objectIds
+print(client.latests("i:objectId",
+                     null,
+                     100000,
+                     true));
+
+// Apply formula to filter results
+client.setEvaluation("isWithinGeoLimits(80, 85, -4.0, 0.0)", "ra,dec");
+print(client.scan(null,
+                  null,
+                  null,
+                  null));
+
+client.close();
+</pre>
+
+<h2><a name="Bugs-ToDos">Bugs, Inconsistencies and ToDos</a></h2>
 <b><u>Bugs</u></b>
 <ul>
 <li>...</li>
@@ -85,7 +134,7 @@ usage: java -jar Lomikel.exe.jar
 
 <hr/>
 
-<h4><a name="Releases">Release History</a></h4>
+<h2><a name="Releases">Release History</a></h2>
 <ul>
 <li><u>00.01.00:</u>
     <ul>
@@ -121,7 +170,7 @@ usage: java -jar Lomikel.exe.jar
     </ul></li>
 </ul>
 
-<h4>Related Documentation</h4>
+<h2>Related Documentation</h2>
 <ul>
 <li>***</li>
 </ul>

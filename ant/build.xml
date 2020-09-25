@@ -487,6 +487,7 @@
  		<copy todir="../doc">
 			<fileset dir="../src" includes="*.html"/>
 			<fileset dir="../src" includes="*.png"/>
+			<fileset dir="../src" includes="*.jpg"/>
       </copy>
  		<copy todir="../doc/JavaDoc">
 			<fileset dir="../src/java" includes="**/doc-files/*"/>
@@ -534,6 +535,9 @@
       </delete>
  		<copy todir="${doc}" force="true">
 			<fileset dir="../doc" includes="**/*"/>
+      </copy>
+ 		<copy todir="${doc}/.." force="true">
+			<fileset dir="../dist" includes="FinkBrowser.exe.jar"/>
       </copy>
     </target>
 

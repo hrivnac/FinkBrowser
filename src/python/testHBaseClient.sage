@@ -1,10 +1,10 @@
-from datetime import date
+import sys
 
 import jpype
 import jpype.imports
 from jpype import JImplements, JOverride, JImplementationFor
 
-jpype.startJVM(jpype.getDefaultJVMPath(), "-ea", "-Djava.class.path=/home/hrivnac/work/LSST/FinkBrowser/lib/FinkBrowser.exe.jar", convertStrings=True)
+jpype.startJVM(jpype.getDefaultJVMPath(), "-ea", "-Djava.class.path=../dist/FinkBrowser.exe.jar", convertStrings=True)
 
 import java.lang
 import java.util
@@ -31,6 +31,6 @@ p = list_plot(a);
 #s = spline(a)
 #p += plot(s, 0, maxx,  scale = 'linear', color = 'red', legend_label = 'xxx')
 show(p);
-client.close();
+#client.close();
 
-jpype.shutdownJVM()
+#jpype.shutdownJVM()
