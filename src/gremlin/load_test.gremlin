@@ -1,3 +1,6 @@
+// Import testing alerts
+// =====================
+
 new File(home + '/data/test/alerts.csv').eachLine {
   (a1, a2, a3) = it.split(',')
   alert1 = g.V().has('alert','id', a1).
