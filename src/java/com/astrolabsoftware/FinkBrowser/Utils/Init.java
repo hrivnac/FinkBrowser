@@ -25,6 +25,10 @@ public class Init {
   /** Setup Logging system.
     * @param quiet If no outupt is required. */
   public static void init(boolean quiet) {
+    if (_initialised) {
+      log.debug("Already initialised");
+      return;
+      }
     try {
       PropertyConfigurator.configure(Init.class.getClassLoader().getResource("com/astrolabsoftware/FinkBrowser/Utils/log4j.properties"));
       Evaluator.setAuxFuctions("com.astrolabsoftware.FinkBrowser.Apps.FinkEvaluatorFunctions",
@@ -34,7 +38,10 @@ public class Init {
     catch (Exception e) {
       System.err.println(e);
       }
+    _initialised = true;
     }
+    
+  public static boolean _initialised = false;  
     
   /** Logging . */
   private static Logger log = Logger.getLogger(Init.class);

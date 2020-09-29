@@ -14,6 +14,11 @@ function searchDetails(url) {
     if (dd[i].checked) {
       keys += dd[i].value + ",";
       }
-    }   
+    }
+  if (keys === "") {
+    for (var i = 0; i < dd.length; i++) {
+      keys += dd[i].value + ",";
+      }
+    }
   loadPane("result", url + "&krefix=" + keys);  
   }

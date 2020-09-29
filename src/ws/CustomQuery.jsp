@@ -3,7 +3,6 @@
   latestS = (latestS  == null || latestS.equals( "null")) ? "" : latestS.trim();
   int latest = 0;
   if (!latestS.equals("")) {
-    out.println("showing max latest <b>" + latestS + "</b> objectIds<br/>");
     latest = Integer.valueOf(latestS);
     Set<String> keys = h.latests("i:objectId", null, latest, false);
     String[] keysA = keys.toArray(new String[0]);
