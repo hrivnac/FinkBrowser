@@ -8,8 +8,12 @@ client.setLimit(100);
 // get 'test_portal', 'ZTF19aaoxpad_2458789.034838_152.294655_48.3441663', {COLUMNS => 'i:candid'}
 print(client.scan("ZTF17aaaaxyd_2458789.0426273,ZTF17aaaajdq_2458789.0297801",
                   null,
-                  "i:candid",
+                  "i:candid,b:cutoutScience_stampData",
                   null)); 
+
+// Get binary cell
+print(client.repository().get("binary:ZTF17aaaaxyd_2458789.0426273:cutoutScience_stampData"));
+
 
 // Get all alerts with row starting with 'ZTF19'
 // scan 'test_portal', {FILTER => "(PrefixFilter ('ZTF19'))", COLUMNS => 'i:candid', STARTROW => 'ZTF19', LIMIT => 10}

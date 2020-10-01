@@ -244,7 +244,7 @@
  		<copy file="${lomikel_ws}/Top.jsp"     tofile="../build/Top.jsp"     overwrite="true"/>
  		<copy file="${lomikel_ws}/TopMini.jsp" tofile="../build/TopMini.jsp" overwrite="true"/>
  		<copy file="../src/ws/Servers-${target}.jsp" tofile="../build/Servers.jsp" overwrite="true"/>
- 		<copy file="../src/ws/Graphs-${target}.jsp" tofile="../build/Graphs.jsp" overwrite="true"/>
+ 		<copy file="../src/ws/Graphs-${target}.jsp"   tofile="../build/Graphs.jsp" overwrite="true"/>
     <replace file="../build/index.jsp"   token="@NAME@"    value="${browsername}"/>
     <replace file="../build/Top.jsp"     token="@VERSION@" value="${version}"/>
     <replace file="../build/Top.jsp"     token="@BUILD@"   value="${TSTAMP} by ${user.name} for ${target}"/>
@@ -512,11 +512,12 @@
       <doctitle><![CDATA[<u>]]>AstroLab FinkBrowser<![CDATA[</u>]]></doctitle>
       <Header><![CDATA[<center>]]>AstroLab FinkBrowser version: ${version}<![CDATA[</center>]]></Header>
       <Footer><![CDATA[<center>Written by: <a href='http://cern.ch/hrivnac'>J.Hrivnac</a></center>]]></Footer>
-      <bottom><![CDATA[<a href='TBD'>Documentation</a>]]> built ${TODAY} on ${os.name} by ${user.name}</bottom>
+      <bottom><![CDATA[<a href='http://cern.ch/hrivnac/Activities/Packages/FinkBrowser'>Documentation</a>]]> built ${TODAY} on ${os.name} by ${user.name}</bottom>
       <group title="Apps"       packages="com.astrolabsoftware.FinkBrowser.Apps*"/>
       <group title="Utils"      packages="com.astrolabsoftware.FinkBrowser.Utils*"/>
       <group title="WebService" packages="com.astrolabsoftware.FinkBrowser.WebService*"/>
-      <link href="http://docs.oracle.com/javase/8/docs/api"/>
+      <link href="http://docs.oracle.com/javase/8/docs/api" packagelistLoc="${javadoc}" offline="true"/>
+      <link href="https://cern.ch/hrivnac/Activities/Packages/Lomikel/JavaDoc"/>
       <classpath>
         <path refid="classpath.run"/>
         </classpath>
