@@ -6,38 +6,49 @@ client.setLimit(100);
 
 // Get two known alerts (just one column) 
 // get 'test_portal', 'ZTF19aaoxpad_2458789.034838_152.294655_48.3441663', {COLUMNS => 'i:candid'}
-print(client.scan("ZTF17aaaaxyd_2458789.0426273,ZTF17aaaajdq_2458789.0297801",
-                  null,
-                  "i:candid,b:cutoutScience_stampData",
-                  null)); 
+results = client.scan("ZTF17aaaaxyd_2458789.0426273,ZTF17aaaajdq_2458789.0297801",
+                      null,
+                      "i:candid,b:cutoutScience_stampData",
+                      0,
+                      false,
+                      false);
+print(client.results2String(results)); 
 
 // Get binary cell
 print(client.repository().get("binary:ZTF17aaaaxyd_2458789.0426273:cutoutScience_stampData"));
 
 
 // Get all alerts with row starting with 'ZTF19'
-// scan 'test_portal', {FILTER => "(PrefixFilter ('ZTF19'))", COLUMNS => 'i:candid', STARTROW => 'ZTF19', LIMIT => 10}
+// scan 'test_portal', {FILTER => "(PrefixFilter ('ZTF17'))", COLUMNS => 'i:candid', STARTROW => 'ZTF19', LIMIT => 10}
 // scan 'test_portal', {ROWPREFIXFILTER => 'ZTF19', COLUMNS => 'i:candid', LIMIT => 10}
-print(client.scan(null,
-                  "key:key:ZTF19",
-                  "i:candid",
-                  "10000"));
+results = client.scan(null,
+                      "key:key:ZTF17",
+                      "i:candid",
+                      0,
+                      true,
+                      true);
+print(client.results2String(results)); 
 
-// Get timeline dependece of i:candid
-print(client.timeline("i:candid"));
+// Get timeline dependece of i:dec
+results = client.timeline("i:dec");
+print(client.results2String(results)); 
 
 // Get all recent (last 100000 minutes) objectIds
-print(client.latests("i:objectId",
-                     null,
-                     100000,
-                     true));
+results = client.latests("i:objectId",
+                         null,
+                         100000,
+                         true);
+print(results); 
 
 // Apply formula to filter results
 client.setEvaluation("isWithinGeoLimits(80, 85, -4.0, 0.0)", "ra,dec");
 //client.setEvaluation("dec < 10");
-print(client.scan(null,
-                  null,
-                  null,
-                  null));
+results = client.scan(null,
+                      null,
+                      null,
+                      0,
+                      false,
+                      false);
+print(client.results2String(results)); 
 
 client.close();

@@ -51,10 +51,10 @@ public class CLI extends com.Lomikel.Apps.CLI {
     * @param args The arguments. */
   public static void main(String[] args) {
     Init.init();
+    parseArgs(args, "java -jar FinkBrowser.exe.jar");
     new CLI(Icons.icon("com/astrolabsoftware/FinkBrowser/Apps/images/Fink.png"),
             "<html><h3>https://astrolabsoftware.github.io</h3></html>",
             "Welcome to Fink Browser CLI " + Info.release() + "\nhttps://astrolabsoftware.github.io\n");
-    parseArgs(args, "java -jar FinkBrowser.exe.jar");
     }
     
   /** Logging . */

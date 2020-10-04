@@ -13,6 +13,8 @@ import org.apache.log4j.Logger;
 public class FinkEvaluatorFunctions {
     
   /** Evaluate, if <tt>ra,dec</tt> are within specified limits.
+    * Usage:
+    * <tt>isWithinGeoLimits(raMin, raMax, decMin decMax)</tt>
     * @param ra     The< tt>ra</tt> from the database.
     * @param dec    The< tt>dec</tt> from the database.
     * @param raMin  The minimal value of <tt>ra</tt>.
