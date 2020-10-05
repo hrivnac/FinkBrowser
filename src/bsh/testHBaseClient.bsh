@@ -1,6 +1,6 @@
 // Connect to HBase table
-//HBaseClient client = new HBaseClient("localhost", 2181);
-HBaseClient client = new HBaseClient("134.158.74.54", 2181);
+HBaseClient client = new HBaseClient("localhost", 2181);
+//HBaseClient client = new HBaseClient("134.158.74.54", 2181);
 client.connect("test_portal_tiny.3", "schema_0.7.0_0.3.6");
 client.setLimit(100);
 
