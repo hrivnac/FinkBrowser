@@ -44,6 +44,13 @@ public class CLI extends com.Lomikel.Apps.CLI {
       log.error("Cannot load com.Lomikel.HBaser.HBaseClient");
       log.debug("Cannot load com.Lomikel.HBaser.HBaseClient", e);
       }
+    try {
+      interpreter().eval("import com.Lomikel.Januser.JanusClient");
+      }
+    catch (EvalError e) {
+      log.error("Cannot load com.Lomikel.Januser.JanusClient");
+      log.debug("Cannot load com.Lomikel.Januser.JanusClient", e);
+      }
     super.setupInterpreter();
     }
 

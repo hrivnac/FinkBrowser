@@ -10,27 +10,22 @@ import java.lang
 import java.util
 
 import com.Lomikel.HBaser
-import com.Lomikel.Utils.DateTimeManagement
 
-client = com.Lomikel.HBaser.HBaseClient("134.158.74.54", 2181);
-client.connect("test_portal", "schema_v0");
-client.setLimit(1000);
-dec = client.scan(None, None, "i:ra,i:dec", None);
-a = [];
-for d in dec.split("\n"):
-  dd = d.split(" = ");
-  print(dd);
-  try:
-    ddd = dd[1].split(",");
-    ra = ddd[0].split("=")[1];
-    dec = ddd[1].split("=")[1][:-1];
-    a += [(float(ra), float(dec))];
-  except:
-    print("");
-p = list_plot(a);
-#s = spline(a)
-#p += plot(s, 0, maxx,  scale = 'linear', color = 'red', legend_label = 'xxx')
-show(p);
+true  = jpype.java.lang.Boolean(True)
+false = jpype.java.lang.Boolean(False)
+
+client = com.Lomikel.HBaser.HBaseClient("localhost", 2181)
+client.connect("test_portal_tiny.3", "schema_0.7.0_0.3.6")
+#client.setLimit(1000);
+a17 = [];
+a19 = [];
+for r in client.scan("", "key:key:ZTF17", "i:ra,i:dec", 100000, false, false).values():
+  a17 += [(float(r['i:ra']), float(r['i:dec']))];
+for r in client.scan("", "key:key:ZTF19", "i:ra,i:dec", 100000, false, false).values():
+  a19 += [(float(r['i:ra']), float(r['i:dec']))];
+p = list_plot(a17, color='red') + list_plot(a19, color='lightblue');
+show(p, axes_labels = ('ra', 'dec'), title='ZTF17(red) + ZTF19(lightblue)');
+
 #client.close();
 
 #jpype.shutdownJVM()
