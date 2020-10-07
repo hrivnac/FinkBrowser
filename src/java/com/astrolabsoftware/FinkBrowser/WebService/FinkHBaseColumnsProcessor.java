@@ -27,7 +27,7 @@ public class FinkHBaseColumnsProcessor implements HBaseColumnsProcessor {
   @Override
   public String getXDate(Map.Entry<String, Map<String, String>> entry0) {
     String days = getX(entry0);
-    return DateTimeManagement.julianDate2String(Double.valueOf(days));
+    return DateTimeManagement.julianDate2String(Double.valueOf(days), "yyyy MM dd HH:mm:ss");
     }
 
   /** Logging . */
