@@ -38,6 +38,9 @@ public class Info extends com.Lomikel.Utils.Info {
     }
       
   protected static String _name    = "FinkBrowser";
+  protected static String _version = "@version@";
+  protected static String _build   = "@TSTAMP@";
+  protected static String _builder = "@user.name@";
   protected static String _tmp     = "@TMP@";
   protected static String _manager = "@MANAGER@";
   protected static String _target  = "@TARGET@";

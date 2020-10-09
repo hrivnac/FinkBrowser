@@ -60,6 +60,9 @@
     <mkdir dir="../build/net/hep/atlas/Database/GraphDB/Utils"/>
     <copy file="../src/java/com/astrolabsoftware/FinkBrowser/Utils/Info.pre"
           tofile="../build/com/astrolabsoftware/FinkBrowser/Utils/Info.java"/>
+    <replace file="../build/com/astrolabsoftware/FinkBrowser/Utils/Info.java" token="@version@"     value="${version}"/>
+    <replace file="../build/com/astrolabsoftware/FinkBrowser/Utils/Info.java" token="@TSTAMP@"      value="${TSTAMP}"/>
+    <replace file="../build/com/astrolabsoftware/FinkBrowser/Utils/Info.java" token="@user.name@"   value="${user.name}"/>
     <replace file="../build/com/astrolabsoftware/FinkBrowser/Utils/Info.java" token="@TMP@"     value="${tmp_dir}"/>
     <replace file="../build/com/astrolabsoftware/FinkBrowser/Utils/Info.java" token="@MANAGER@" value="${manager}"/>
     <replace file="../build/com/astrolabsoftware/FinkBrowser/Utils/Info.java" token="@TARGET@"  value="${target}"/>

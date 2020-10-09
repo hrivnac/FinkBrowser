@@ -3,6 +3,9 @@
 <!-- Fink Browser Result -->
 <!-- @author Julius.Hrivnac@cern.ch -->
 
+<%@ page import="com.astrolabsoftware.FinkBrowser.Utils.Info" %>
+<%@ page import="com.Lomikel.Utils.NotifierURL" %>
+
 <%@ page errorPage="ExceptionHandler.jsp" %>
 
 <div id="result" title="results">
@@ -23,3 +26,7 @@
       </table>
     </center>
   </div>
+  
+<%
+  NotifierURL.notify("", "FinkBrowserWS", Info.release());
+  %>
