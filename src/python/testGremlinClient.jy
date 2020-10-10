@@ -1,0 +1,13 @@
+import sys
+
+# ../dist/FinkBrowser.exe.jar
+sys.path.append(sys.argv[1])
+
+from com.Lomikel.Januser import GremlinClient
+
+client = GremlinClient("134.158.74.85", 24444);
+
+g = client.open();
+print(g.V().hasLabel('alert').limit(1).valueMap().next());
+
+client.close()
