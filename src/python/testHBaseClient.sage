@@ -24,8 +24,8 @@ for r in client.scan("", "key:key:ZTF17", "i:ra,i:dec", 100000, false, false).va
   a17 += [(float(r['i:ra']), float(r['i:dec']))];
 for r in client.scan("", "key:key:ZTF19", "i:ra,i:dec", 100000, false, false).values():
   a19 += [(float(r['i:ra']), float(r['i:dec']))];
-p = list_plot(a17, color='red') + list_plot(a19, color='lightblue');
-show(p, axes_labels = ('ra', 'dec'), title='ZTF17(red) + ZTF19(lightblue)');
+p = list_plot(a17, color='red') + list_plot(a19, color='blue');
+show(p, axes_labels = ('ra', 'dec'), title='ZTF17(red) + ZTF19(blue)');
 
 client.close();
 

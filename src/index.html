@@ -15,6 +15,7 @@
 
 <h2><a href="http://134.158.74.221:8080/FinkBrowser/?profile=ijclab&style=simple">Prototype running @IJCLab</a> (under development)</h2>
 <h2><a href="https://docs.google.com/presentation/d/1UYgqtNFuKWPObPGT4O81EOTkQ7F5_BaOiBp34Dw3yWk/edit?usp=sharing">What is it ?</a> (presentation)</h2>
+<hr/>
 
 <h2>Documentation</h2>
 
@@ -30,7 +31,7 @@
     <a href="http://www.jython.org">Jython</a> (for Jython client, optional),
     <a href="http://www.jpype.org">JPype</a> (for CPython client, optional),
     <a href="http://sagemath.org">Sage</a> (to perform math analyses, optional),
-    <a href="http://mathplotlib.org">Mathplotlib</a> (to perform math analyses, optional)</li>
+    <a href="http://matplotlib.org">MatPlotLib</a> (to perform math analyses, optional)</li>
 <li>Tools:
     <a href="https://ant.apache.org">Ant</a>,
     <a href="http://www.java2html.com">J2H</a>,
@@ -41,6 +42,7 @@
     <a href="https://code.google.com/archive/p/apiviz">ApiViz</a>,
     <a href="https://github.com/clarkware/jdepend">JDepend</a></li>
 </ul>
+<hr/>
 
 <h2><a name="Graph">Graph Schema</a></h2>
 Initial Graph contains:
@@ -49,6 +51,7 @@ AstroLabNet -has&gt; site -holds&gt; AlertsCollection -contains&gt; alert
 similarity -satr&gt; alert
 alert -exactmatch&gt; alert
 </pre>
+<hr/>
 
 <h2><a name="WebService">Web Service</a></h2>
 <table>
@@ -67,10 +70,12 @@ alert -exactmatch&gt; alert
 <li><tt>profile</tt> for initial calls (<tt>null, test, local, ijclab</tt>)</li>
 <li><tt>style</tt> for pane setup (<tt>null, test, simple</tt>)</li>
 </ul>
+<hr/>
 
 <h2><a name="CLI">Command Line</a></h2>
 Command line (executable Java) can be downloaded from the repository:
 <a href="http://cern.ch/hrivnac/Activities/Packages/FinkBrowser.exe.jar">FinkBrowser.exe.jar</a>.
+It serves as a foundation for all clients.
 <pre style="color:blue; font-size:60%; background-color:#eeeeee">
 $ java -jar FinkBrowser.exe.jar -h
 usage: java -jar Lomikel.exe.jar
@@ -82,7 +87,83 @@ usage: java -jar Lomikel.exe.jar
 </pre>
 It allows <a href="https://beanshell.github.io">BeanShell</a>/Java scripting, with Python and <a href="http://sagemath.org">SageMath</a> interface. 
 <br/>
+<h3>Access to HBase</h3>
 <u><b><a href="https://github.com/hrivnac/FinkBrowser/blob/master/src/bsh/testHBaseClient.bsh">BeanShell/Java example</a>:</b></u>
+<pre style="color:blue; font-size:60%; background-color:#dddddd">
+// Connect to HBase table
+//HBaseClient client = new HBaseClient("localhost", 2181);
+HBaseClient client = new HBaseClient("134.158.74.54", 2181);
+client.connect("test_portal_tiny.3", "schema_0.7.0_0.3.6");
+client.setLimit(100);
+
+// Get two known alerts (just one column) 
+// get 'test_portal', 'ZTF19aaoxpad_2458789.034838_152.294655_48.3441663', {COLUMNS => 'i:candid'}
+results = client.scan("ZTF17aaaaxyd_2458789.0426273,ZTF17aaaajdq_2458789.0297801",
+                      null,
+                      "i:candid,b:cutoutScience_stampData",
+                      0,
+                      false,
+                      false);
+print(client.results2String(results)); 
+
+// Get binary cell
+print(client.repository().get("binary:ZTF17aaaaxyd_2458789.0426273:cutoutScience_stampData"));
+
+
+// Get all alerts with row starting with 'ZTF19'
+// scan 'test_portal', {FILTER => "(PrefixFilter ('ZTF17'))", COLUMNS => 'i:candid', STARTROW => 'ZTF19', LIMIT => 10}
+// scan 'test_portal', {ROWPREFIXFILTER => 'ZTF19', COLUMNS => 'i:candid', LIMIT => 10}
+results = client.scan(null,
+                      "key:key:ZTF17",
+                      "i:candid",
+                      0,
+                      true,
+                      true);
+print(client.results2String(results)); 
+
+// Get timeline dependece of i:dec
+results = client.timeline("i:dec");
+print(client.results2String(results)); 
+
+// Get all recent (last 100000 minutes) objectIds
+results = client.latests("i:objectId",
+                         null,
+                         100000,
+                         true);
+print(results); 
+
+// Apply formula to filter results
+client.setEvaluation("isWithinGeoLimits(80, 85, -4.0, 0.0)", "ra,dec");
+//client.setEvaluation("dec < 10");
+results = client.scan(null,
+                      null,
+                      null,
+                      0,
+                      false,
+                      false);
+print(client.results2String(results)); 
+
+client.close();
+</pre>
+<u><b><a href="https://github.com/hrivnac/FinkBrowser/blob/master/src/python/testHBaseClient.jy">Jython example</a> (needs <a href="http://www.jython.org">Jython</a>):</b></u>
+<pre style="color:blue; font-size:60%; background-color:#dddddd">
+import sys
+
+# ../dist/FinkBrowser.exe.jar
+sys.path.append(sys.argv[1])
+
+from com.Lomikel.HBaser import HBaseClient
+
+#client = HBaseClient("localhost", 2181)
+client = HBaseClient("134.158.74.54", 2181);
+client.connect("test_portal_tiny.3", "schema_0.7.0_0.3.6")
+client.setLimit(10)
+
+print(client.scan(None, "key:key:ZTF17", None, 100000, True, True))
+
+client.close()
+</pre>
+<u><b><a href="https://github.com/hrivnac/FinkBrowser/blob/master/src/python/testHBaseClient.py">CPython example</a> (needs <a href="http://www.jpype.org">JPype</a>):</b></u>
 <pre style="color:blue; font-size:60%; background-color:#dddddd">
 import sys
 
@@ -108,27 +189,6 @@ print(client.scan(None, "key:key:ZTF17", None, 100000, true, true))
 client.close()
 
 jpype.shutdownJVM()
-</pre>
-<u><b><a href="https://github.com/hrivnac/FinkBrowser/blob/master/src/python/testHBaseClient.jy">Jython example</a> (needs <a href="http://www.jython.org">Jython</a>):</b></u>
-<pre style="color:blue; font-size:60%; background-color:#dddddd">
-import sys
-
-# ../dist/FinkBrowser.exe.jar
-sys.path.append(sys.argv[1])
-
-from com.Lomikel.HBaser import HBaseClient
-
-#client = HBaseClient("localhost", 2181)
-client = HBaseClient("134.158.74.54", 2181);
-client.connect("test_portal_tiny.3", "schema_0.7.0_0.3.6")
-client.setLimit(10)
-
-print(client.scan(None, "key:key:ZTF17", None, 100000, True, True))
-
-client.close()
-</pre>
-<u><b><a href="https://github.com/hrivnac/FinkBrowser/blob/master/src/python/testHBaseClient.py">CPython example</a> (needs <a href="http://www.jpype.org">JPype</a>):</b></u>
-<pre style="color:blue; font-size:60%; background-color:#dddddd">
 </pre>
 <u><b><a href="https://github.com/hrivnac/FinkBrowser/blob/master/src/python/testHBaseClient.sage">Sage example</a> (needs also <a href="http://sagemath.org">SageMath</a>):</b></u>
 <pre style="color:blue; font-size:60%; background-color:#dddddd">
@@ -158,15 +218,15 @@ for r in client.scan("", "key:key:ZTF17", "i:ra,i:dec", 100000, false, false).va
   a17 += [(float(r['i:ra']), float(r['i:dec']))];
 for r in client.scan("", "key:key:ZTF19", "i:ra,i:dec", 100000, false, false).values():
   a19 += [(float(r['i:ra']), float(r['i:dec']))];
-p = list_plot(a17, color='red') + list_plot(a19, color='lightblue');
-show(p, axes_labels = ('ra', 'dec'), title='ZTF17(red) + ZTF19(lightblue)');
+p = list_plot(a17, color='red') + list_plot(a19, color='blue');
+show(p, axes_labels = ('ra', 'dec'), title='ZTF17(red) + ZTF19(blue)');
 
 client.close();
 
 jpype.shutdownJVM()
 </pre>
-<a href="SageExample.jpg" ><img src="SageExample.jpg"  width="600"></a>
-<u><b><a href="https://github.com/hrivnac/FinkBrowser/blob/master/src/python/testHBaseClient_mathplotlib.py">CPython example with graphics</a> (needs also <a href="http://mathplotlib.org">MathPlotLib</a>):</b></u>
+<a href="SageExample.jpg" ><img src="SageExample.jpg"  width="400"></a><br/>
+<u><b><a href="https://github.com/hrivnac/FinkBrowser/blob/master/src/python/testHBaseClient_matplotlib.py">CPython example with graphics</a> (needs also <a href="http://matplotlib.org">MatPlotLib</a>):</b></u>
 <pre style="color:blue; font-size:60%; background-color:#dddddd">
 import sys
 
@@ -200,9 +260,9 @@ for r in client.scan("", "key:key:ZTF19", "i:ra,i:dec", 0, false, false).values(
   a19_x += [float(r['i:ra'])]
   a19_y += [float(r['i:dec'])]
 
-plt.plot(a17_x, a17_y, 'b.')
-plt.plot(a19_x, a19_y, 'r.')
-plt.title('ZTF17(red) + ZTF19(lightblue)')
+plt.plot(a17_x, a17_y, 'r.')
+plt.plot(a19_x, a19_y, 'b.')
+plt.title('ZTF17(red) + ZTF19(blue)')
 plt.xlabel('ra')
 plt.ylabel('dec')
 plt.show()
@@ -211,7 +271,36 @@ client.close()
 
 jpype.shutdownJVM()
 </pre>
-<a href="MathplotlibExample.jpg" ><img src="mathplotlibExample.jpg"  width="600"></a>
+<a href="MatplotlibExample.jpg" ><img src="MatplotlibExample.jpg"  width="400"></a>
+<h3>Access to JanusGraph</h3>
+<u><b><a href="https://github.com/hrivnac/FinkBrowser/blob/master/src/bsh/testGremlinClient.bsh">BeanShell/Java example</a>:</b></u>
+<pre style="color:blue; font-size:60%; background-color:#dddddd">
+// Connect to JanusGraph
+GremlinClient client = new GremlinClient("134.158.74.85", 24444);
+g = client.open();
+
+// Get properties of the first alert
+print(g.V().hasLabel('alert').limit(1).valueMap().next());
+
+client.close();
+</pre>
+<u><b><a href="https://github.com/hrivnac/FinkBrowser/blob/master/src/python/testGremlinClient.jy">Jython example</a> (needs <a href="http://www.jython.org">Jython</a>):</b></u>
+<pre style="color:blue; font-size:60%; background-color:#dddddd">
+import sys
+
+# ../dist/FinkBrowser.exe.jar
+sys.path.append(sys.argv[1])
+
+from com.Lomikel.Januser import GremlinClient
+
+client = GremlinClient("134.158.74.85", 24444);
+
+g = client.open();
+print(g.V().hasLabel('alert').limit(1).valueMap().next());
+
+client.close()
+</pre>
+<hr/>
 
 <h2><a name="Bugs-ToDos">Bugs, Inconsistencies and ToDos</a></h2>
 <b><u>Bugs</u></b>
@@ -226,7 +315,6 @@ jpype.shutdownJVM()
 <ul>
 <li>...</li>
 </ul>
-
 <hr/>
 
 <h2><a name="Releases">Release History</a></h2>
@@ -266,16 +354,17 @@ jpype.shutdownJVM()
     </ul></li>
 <li><u>*.*.*:</u>
     <ul>
-    <li>...</li>
+    <li>Included Gremlin client.</li>
     </ul></li>
 </ul>
+<hr/>
 
 <h2>Related Documentation</h2>
 <ul>
 <li><a href="http://cern.ch/hrivnac/Activities/Packages/Lomikel">Lomikel</a></li>
 </ul>
-
 <hr/>
+
 <img width="0" height="0" src="http://cern.ch/hrivnac/cgi-bin/record.pl?page=FinkBrowser"> 
 <address>
 <a href="http://cern.ch/hrivnac">J.Hrivnac</a> @BUILD@

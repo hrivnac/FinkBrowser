@@ -229,6 +229,44 @@
       <zipfileset includes="**/*" src="${hbase_dir}/lib/xz-1.0.jar"/>
       <zipfileset includes="**/*" src="${hbase_dir}/lib/zookeeper-3.4.10.jar"/>
       <zipfileset includes="**/*" src="${hbase_dir}/lib/client-facing-thirdparty/htrace-core4-4.2.0-incubating.jar"/>
+      <zipfileset includes="**/*" src="${gremlin_dir}/lib/caffeine-2.3.1.jar"/>
+      <zipfileset includes="**/*" src="${gremlin_dir}/lib/commons-codec-1.14.jar"/>
+      <zipfileset includes="**/*" src="${gremlin_dir}/lib/commons-collections-3.2.2.jar"/>
+      <zipfileset includes="**/*" src="${gremlin_dir}/lib/commons-configuration-1.10.jar"/>
+      <zipfileset includes="**/*" src="${gremlin_dir}/lib/commons-lang-2.6.jar"/>
+      <zipfileset includes="**/*" src="${gremlin_dir}/lib/commons-lang3-3.8.1.jar"/>
+      <zipfileset includes="**/*" src="${gremlin_dir}/lib/commons-logging-1.2.jar"/>
+      <zipfileset includes="**/*" src="${gremlin_dir}/lib/exp4j-0.4.8.jar"/>
+      <zipfileset includes="**/*" src="${gremlin_dir}/lib/gremlin-console-3.4.8.jar"/>
+      <zipfileset includes="**/*" src="${gremlin_dir}/lib/gremlin-core-3.4.8.jar"/>
+      <zipfileset includes="**/*" src="${gremlin_dir}/lib/gremlin-driver-3.4.8.jar"/>
+      <zipfileset includes="**/*" src="${gremlin_dir}/lib/gremlin-shaded-3.4.8.jar"/>
+      <zipfileset includes="**/*" src="${gremlin_dir}/lib/groovy-2.5.11-indy.jar"/>
+      <zipfileset includes="**/*" src="${gremlin_dir}/lib/groovy-cli-picocli-2.5.11.jar"/>
+      <zipfileset includes="**/*" src="${gremlin_dir}/lib/groovy-console-2.5.11.jar"/>
+      <zipfileset includes="**/*" src="${gremlin_dir}/lib/groovy-groovysh-2.5.11-indy.jar"/>
+      <zipfileset includes="**/*" src="${gremlin_dir}/lib/groovy-json-2.5.11-indy.jar"/>
+      <zipfileset includes="**/*" src="${gremlin_dir}/lib/groovy-jsr223-2.5.11-indy.jar"/>
+      <zipfileset includes="**/*" src="${gremlin_dir}/lib/groovy-swing-2.5.11.jar"/>
+      <zipfileset includes="**/*" src="${gremlin_dir}/lib/groovy-templates-2.5.11.jar"/>
+      <zipfileset includes="**/*" src="${gremlin_dir}/lib/groovy-xml-2.5.11.jar"/>
+      <zipfileset includes="**/*" src="${gremlin_dir}/lib/hppc-0.7.1.jar"/>
+      <zipfileset includes="**/*" src="${gremlin_dir}/lib/httpclient-4.5.8.jar"/>
+      <zipfileset includes="**/*" src="${gremlin_dir}/lib/httpcore-4.4.11.jar"/>
+      <zipfileset includes="**/*" src="${gremlin_dir}/lib/ivy-2.3.0.jar"/>
+      <zipfileset includes="**/*" src="${gremlin_dir}/lib/javapoet-1.8.0.jar"/>
+      <zipfileset includes="**/*" src="${gremlin_dir}/lib/javatuples-1.2.jar"/>
+      <zipfileset includes="**/*" src="${gremlin_dir}/lib/jbcrypt-0.4.jar"/>
+      <zipfileset includes="**/*" src="${gremlin_dir}/lib/jcabi-log-0.14.jar"/>
+      <zipfileset includes="**/*" src="${gremlin_dir}/lib/jcabi-manifests-1.1.jar"/>
+      <zipfileset includes="**/*" src="${gremlin_dir}/lib/jcl-over-slf4j-1.7.25.jar"/>
+      <zipfileset includes="**/*" src="${gremlin_dir}/lib/jline-2.14.6.jar"/>
+      <zipfileset includes="**/*" src="${gremlin_dir}/lib/log4j-1.2.17.jar"/>
+      <zipfileset includes="**/*" src="${gremlin_dir}/lib/netty-all-4.1.49.Final.jar"/>
+      <zipfileset includes="**/*" src="${gremlin_dir}/lib/picocli-4.0.1.jar"/>
+      <zipfileset includes="**/*" src="${gremlin_dir}/lib/slf4j-api-1.7.25.jar"/>
+      <zipfileset includes="**/*" src="${gremlin_dir}/lib/slf4j-log4j12-1.7.25.jar"/>
+      <zipfileset includes="**/*" src="${gremlin_dir}/lib/snakeyaml-1.15.jar"/>      
       <manifest>
         <attribute name="Created-By" value="${user.name}"/>
         <attribute name="AppName"    value="FinkBrowser"/>
