@@ -27,9 +27,10 @@
 <li>Externals:
     <a href="https://www.java.com">Java</a>,
     <a href="https://cern.ch/hrivnac/Activities/Packages/Lomikel">Lomikel</a> (and others used by it),
-    <a href="http://www.jython.org">Jython</a> (for Jython client),
-    <a href="http://www.jpype.org">JPype</a> (for CPython client),
-    <a href="http://sagemath.org">Sage</a> (to perform math analyses)</li>
+    <a href="http://www.jython.org">Jython</a> (for Jython client, optional),
+    <a href="http://www.jpype.org">JPype</a> (for CPython client, optional),
+    <a href="http://sagemath.org">Sage</a> (to perform math analyses, optional),
+    <a href="http://mathplotlib.org">Mathplotlib</a> (to perform math analyses, optional)</li>
 <li>Tools:
     <a href="https://ant.apache.org">Ant</a>,
     <a href="http://www.java2html.com">J2H</a>,
@@ -83,63 +84,6 @@ It allows <a href="https://beanshell.github.io">BeanShell</a>/Java scripting, wi
 <br/>
 <u><b><a href="https://github.com/hrivnac/FinkBrowser/blob/master/src/bsh/testHBaseClient.bsh">BeanShell/Java example</a>:</b></u>
 <pre style="color:blue; font-size:60%; background-color:#dddddd">
-// Connect to HBase table
-HBaseClient client = new HBaseClient("134.158.74.54", 2181);
-client.connect("test_portal_tiny.3", "schema_0.7.0_0.3.6");
-client.setLimit(100);
-
-// Get two known alerts (just one column) 
-// get 'test_portal', 'ZTF19aaoxpad_2458789.034838_152.294655_48.3441663', {COLUMNS => 'i:candid'}
-print(client.scan("ZTF17aaaaxyd_2458789.0426273,ZTF17aaaajdq_2458789.0297801",
-                  null,
-                  "i:candid",
-                  null)); 
-
-// Get all alerts with row starting with 'ZTF19'
-// scan 'test_portal', {FILTER => "(PrefixFilter ('ZTF19'))", COLUMNS => 'i:candid', STARTROW => 'ZTF19', LIMIT => 10}
-// scan 'test_portal', {ROWPREFIXFILTER => 'ZTF19', COLUMNS => 'i:candid', LIMIT => 10}
-print(client.scan(null,
-                  "key:key:ZTF19",
-                  "i:candid",
-                  "10000"));
-
-// Get timeline dependece of i:candid
-print(client.timeline("i:candid"));
-
-// Get all recent (last 100000 minutes) objectIds
-print(client.latests("i:objectId",
-                     null,
-                     100000,
-                     true));
-
-// Apply formula to filter results
-client.setEvaluation("isWithinGeoLimits(80, 85, -4.0, 0.0)", "ra,dec");
-print(client.scan(null,
-                  null,
-                  null,
-                  null));
-
-client.close();
-</pre>
-<u><b><a href="https://github.com/hrivnac/FinkBrowser/blob/master/src/python/testHBaseClient.jy">Jython example</a> (needs <a href="http://www.jython.org">Jython</a>):</b></u>
-<pre style="color:blue; font-size:60%; background-color:#dddddd">
-import sys
-
-# ../dist/FinkBrowser.exe.jar
-sys.path.append(sys.argv[1])
-
-from com.Lomikel.HBaser import HBaseClient
-
-client = com.Lomikel.HBaser.HBaseClient("localhost", 2181)
-client.connect("test_portal_tiny.3", "schema_0.7.0_0.3.6")
-client.setLimit(10)
-
-print(client.scan(None, "key:key:ZTF17", None, 100000, True, True))
-
-client.close()
-</pre>
-<u><b><a href="https://github.com/hrivnac/FinkBrowser/blob/master/src/python/testHBaseClient.py">CPython example</a> (needs <a href="http://www.jpype.org">JPype</a>):</b></u>
-<pre style="color:blue; font-size:60%; background-color:#dddddd">
 import sys
 
 import jpype
@@ -154,7 +98,8 @@ from com.Lomikel.HBaser import HBaseClient
 true  = jpype.java.lang.Boolean(True)
 false = jpype.java.lang.Boolean(False)
 
-client = com.Lomikel.HBaser.HBaseClient("localhost", 2181)
+#client = HBaseClient("localhost", 2181)
+client = HBaseClient("134.158.74.54", 2181);
 client.connect("test_portal_tiny.3", "schema_0.7.0_0.3.6")
 client.setLimit(10)
 
@@ -163,6 +108,27 @@ print(client.scan(None, "key:key:ZTF17", None, 100000, true, true))
 client.close()
 
 jpype.shutdownJVM()
+</pre>
+<u><b><a href="https://github.com/hrivnac/FinkBrowser/blob/master/src/python/testHBaseClient.jy">Jython example</a> (needs <a href="http://www.jython.org">Jython</a>):</b></u>
+<pre style="color:blue; font-size:60%; background-color:#dddddd">
+import sys
+
+# ../dist/FinkBrowser.exe.jar
+sys.path.append(sys.argv[1])
+
+from com.Lomikel.HBaser import HBaseClient
+
+#client = HBaseClient("localhost", 2181)
+client = HBaseClient("134.158.74.54", 2181);
+client.connect("test_portal_tiny.3", "schema_0.7.0_0.3.6")
+client.setLimit(10)
+
+print(client.scan(None, "key:key:ZTF17", None, 100000, True, True))
+
+client.close()
+</pre>
+<u><b><a href="https://github.com/hrivnac/FinkBrowser/blob/master/src/python/testHBaseClient.py">CPython example</a> (needs <a href="http://www.jpype.org">JPype</a>):</b></u>
+<pre style="color:blue; font-size:60%; background-color:#dddddd">
 </pre>
 <u><b><a href="https://github.com/hrivnac/FinkBrowser/blob/master/src/python/testHBaseClient.sage">Sage example</a> (needs also <a href="http://sagemath.org">SageMath</a>):</b></u>
 <pre style="color:blue; font-size:60%; background-color:#dddddd">
@@ -184,7 +150,8 @@ false = jpype.java.lang.Boolean(False)
 
 client = com.Lomikel.HBaser.HBaseClient("localhost", 2181)
 client.connect("test_portal_tiny.3", "schema_0.7.0_0.3.6")
-#client.setLimit(1000);
+#client.setLimit(10);
+
 a17 = [];
 a19 = [];
 for r in client.scan("", "key:key:ZTF17", "i:ra,i:dec", 100000, false, false).values():
@@ -194,11 +161,57 @@ for r in client.scan("", "key:key:ZTF19", "i:ra,i:dec", 100000, false, false).va
 p = list_plot(a17, color='red') + list_plot(a19, color='lightblue');
 show(p, axes_labels = ('ra', 'dec'), title='ZTF17(red) + ZTF19(lightblue)');
 
-#client.close();
+client.close();
 
-#jpype.shutdownJVM()
+jpype.shutdownJVM()
 </pre>
 <a href="SageExample.jpg" ><img src="SageExample.jpg"  width="600"></a>
+<u><b><a href="https://github.com/hrivnac/FinkBrowser/blob/master/src/python/testHBaseClient_mathplotlib.py">CPython example with graphics</a> (needs also <a href="http://mathplotlib.org">MathPlotLib</a>):</b></u>
+<pre style="color:blue; font-size:60%; background-color:#dddddd">
+import sys
+
+import jpype
+import jpype.imports
+from jpype import JImplements, JOverride, JImplementationFor
+
+import matplotlib.pyplot as plt
+
+# ../dist/FinkBrowser.exe.jar
+jpype.startJVM(jpype.getDefaultJVMPath(), "-ea", "-Djava.class.path=" + sys.argv[1], convertStrings=True)
+
+from com.Lomikel.HBaser import HBaseClient
+
+true  = jpype.java.lang.Boolean(True)
+false = jpype.java.lang.Boolean(False)
+
+#client = HBaseClient("localhost", 2181)
+client = HBaseClient("134.158.74.54", 2181);
+client.connect("test_portal_tiny.3", "schema_0.7.0_0.3.6")
+#client.setLimit(10)
+
+a17_x = [];
+a17_y = [];
+a19_x = [];
+a19_y = [];
+for r in client.scan("", "key:key:ZTF17", "i:ra,i:dec", 0, false, false).values():
+  a17_x += [float(r['i:ra'])]
+  a17_y += [float(r['i:dec'])]
+for r in client.scan("", "key:key:ZTF19", "i:ra,i:dec", 0, false, false).values():
+  a19_x += [float(r['i:ra'])]
+  a19_y += [float(r['i:dec'])]
+
+plt.plot(a17_x, a17_y, 'b.')
+plt.plot(a19_x, a19_y, 'r.')
+plt.title('ZTF17(red) + ZTF19(lightblue)')
+plt.xlabel('ra')
+plt.ylabel('dec')
+plt.show()
+
+client.close()
+
+jpype.shutdownJVM()
+</pre>
+<a href="MathplotlibExample.jpg" ><img src="mathplotlibExample.jpg"  width="600"></a>
 
 <h2><a name="Bugs-ToDos">Bugs, Inconsistencies and ToDos</a></h2>
 <b><u>Bugs</u></b>

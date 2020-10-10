@@ -16,7 +16,8 @@ false = jpype.java.lang.Boolean(False)
 
 client = com.Lomikel.HBaser.HBaseClient("localhost", 2181)
 client.connect("test_portal_tiny.3", "schema_0.7.0_0.3.6")
-#client.setLimit(1000);
+#client.setLimit(10);
+
 a17 = [];
 a19 = [];
 for r in client.scan("", "key:key:ZTF17", "i:ra,i:dec", 100000, false, false).values():
@@ -26,6 +27,6 @@ for r in client.scan("", "key:key:ZTF19", "i:ra,i:dec", 100000, false, false).va
 p = list_plot(a17, color='red') + list_plot(a19, color='lightblue');
 show(p, axes_labels = ('ra', 'dec'), title='ZTF17(red) + ZTF19(lightblue)');
 
-#client.close();
+client.close();
 
-#jpype.shutdownJVM()
+jpype.shutdownJVM()

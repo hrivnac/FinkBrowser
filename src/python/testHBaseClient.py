@@ -12,7 +12,8 @@ from com.Lomikel.HBaser import HBaseClient
 true  = jpype.java.lang.Boolean(True)
 false = jpype.java.lang.Boolean(False)
 
-client = HBaseClient("localhost", 2181)
+#client = HBaseClient("localhost", 2181)
+client = HBaseClient("134.158.74.54", 2181);
 client.connect("test_portal_tiny.3", "schema_0.7.0_0.3.6")
 client.setLimit(10)
 
