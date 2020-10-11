@@ -1,0 +1,31 @@
+// Connect to JanusGraph
+GremlinClient gc = new GremlinClient("134.158.74.85", 24444);
+g = gc.g();
+
+// Connect to HBase
+HBaseClient hc = new HBaseClient("134.158.74.54", 2181);
+hc.connect("test_portal_tiny.3", "schema_0.7.0_0.3.6");
+
+// Get new interesting alerts from JanusGraph
+// 1) get AlertCollection with name = NewInterestingAlerts
+// 2) navigate all outgoing edges to get all alerts in this collection
+// 3) convert their rowkeys into a List
+rowkeys = g.V().has("AlertCollection", "name", "NewInterestingAlerts").out().values("rowkey").toList();
+
+// Get dec*ra for those alerts from HBase
+// 1) convert the List of rowkeys into a String with a comma-separated list of them
+// 2) ask HBase for dec and ra properties of those alerts 
+keysearch = String.join(",", rowkeys);
+results = hc.scan(keysearch,
+                  null,
+                  "i:dec,i:ra",
+                  0,
+                  false,
+                  false);
+
+// Analyse them
+// ...
+
+// Close connections
+gc.close();
+hc.close();
