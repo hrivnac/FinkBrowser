@@ -4,7 +4,6 @@
 <!-- @author Julius.Hrivnac@cern.ch -->
 
 <%@ page import="com.astrolabsoftware.FinkBrowser.Utils.Info" %>
-<%@ page import="com.Lomikel.Utils.NotifierURL" %>
 
 <%@ page errorPage="ExceptionHandler.jsp" %>
 
@@ -26,7 +25,3 @@
       </table>
     </center>
   </div>
-  
-<%
-  NotifierURL.notify("", "FinkBrowserWS", Info.release());
-  %>

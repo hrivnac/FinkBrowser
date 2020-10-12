@@ -1,1 +1,2 @@
-hideHBaseForm = true
+hideHBaseForm = true;
+hideHBaseSelector = true;

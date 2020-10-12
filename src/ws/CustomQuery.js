@@ -1,3 +1,5 @@
+// Additions to the default menu
+
 function modifyMenu(hform) {
   hform.fields.push({field:'latest', type: 'text', html: {caption: '* Latest', text : ' (show latest objects, time in minutes before now)' , attr: 'style="width: 100px"'}});
   hform.record.latest = '';
@@ -6,6 +8,8 @@ function modifyMenu(hform) {
 function modifyRequest(hform) {
   return "&latest=" + hform.record.latest;
   }
+  
+// New search from the 'latests' alerts page
   
 function searchDetails(url) {
   var dd = document.getElementsByClassName('details');
@@ -21,4 +25,21 @@ function searchDetails(url) {
       }
     }
   loadPane("result", url + "&krefix=" + keys);  
+  }
+  
+// New ranges search
+  
+function searchRanges(url) {
+  var ra  = document.getElementById('range-slider-ra').value;
+  var dec = document.getElementById('range-slider-dec').value;
+  var ff  = document.getElementById('ffselector').value;
+  if (ff != "") {
+    formula     = ff;
+    formulaArgs = "";
+    }
+  else {
+    formula     = "isWithinGeoLimits(" + ra + "," + dec + ")";
+    formulaArgs = "ra,dec";
+    }
+  loadPane("result", url + "&formula=" + formula + "&formulaArgs=" + formulaArgs);  
   }

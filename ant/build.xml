@@ -319,6 +319,7 @@
         <exclude name="index.jsp"/>
         <exclude name="Top.jsp"/>
         <exclude name="TopMini.jsp"/>
+        <exclude name="Init.jsp"/>
         <exclude name="Servers-*.jsp"/>
         <exclude name="Graphs.jsp"/>
         <exclude name="Result.jsp"/>
@@ -328,6 +329,8 @@
         <exclude name="HBaseColumnsProcessor.jsp"/>
         <exclude name="CustomQuery.js"/>
         <exclude name="CustomQuery.jsp"/>
+        <exclude name="CustomRange.js"/>
+        <exclude name="CustomRange.jsp"/>
         <exclude name="profiles/*"/>
         <exclude name="styles/*"/>
         </fileset>
@@ -343,6 +346,7 @@
         </classes>
       <lib file="../lib/FinkBrowser-${version}.jar"/>
       <lib file="${lomikel_jar}"/>
+      <lib file="${bsh_jar}"/>
       <lib file="${log4j_jar}"/>
       <lib file="${slf4j_jar}"/>
       <lib file="${slf4jlog4j_jar}"/>

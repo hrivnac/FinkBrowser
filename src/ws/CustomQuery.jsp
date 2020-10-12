@@ -1,3 +1,6 @@
+<!-- Show a list of alerts on 'latest' parameter -->
+<!-- Use the selection to send a new search      -->
+
 <%
   String latestS = request.getParameter("latest");
   latestS = (latestS  == null || latestS.equals( "null")) ? "" : latestS.trim();
@@ -29,7 +32,6 @@
       }
     out.println("</table>");
     showTable = false;
-    String url = "HBaseTable.jsp?hbase=" + hbase + "&htable=" + htable + "&schema=" + schema + "&group=" + group;
     out.println("<input type='button' onclick='searchDetails(\"" + url + "\")' value='Details'/>");
     }
   %>
