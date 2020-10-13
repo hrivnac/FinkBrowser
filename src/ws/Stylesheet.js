@@ -61,6 +61,7 @@ stylesheet.nodes.alert = {
     value: {gremlin:"both().count().join().toString()"}        
     },
   actions:[
+    {name:"Analyse", url:{gremlin:"properties('rowkey').value().next().split('_')[0].replaceAll('^', 'http://134.158.75.151:24000/')"}},
     ]
   }
 stylesheet.nodes.similarity = {

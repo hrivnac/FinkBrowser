@@ -96,8 +96,7 @@ HBaseClient client = new HBaseClient("134.158.74.54", 2181);
 client.connect("test_portal_tiny.3", "schema_0.7.0_0.3.6");
 client.setLimit(100);
 
-// Get two known alerts (just one column) 
-// get 'test_portal', 'ZTF19aaoxpad_2458789.034838_152.294655_48.3441663', {COLUMNS => 'i:candid'}
+// Get two known alerts (two columns) 
 results = client.scan("ZTF17aaaaxyd_2458789.0426273,ZTF17aaaajdq_2458789.0297801",
                       null,
                       "i:candid,b:cutoutScience_stampData",
@@ -110,12 +109,22 @@ print(client.results2String(results));
 print(client.repository().get("binary:ZTF17aaaaxyd_2458789.0426273:cutoutScience_stampData"));
 
 
-// Get all alerts with row starting with 'ZTF19'
-// scan 'test_portal', {FILTER => "(PrefixFilter ('ZTF17'))", COLUMNS => 'i:candid', STARTROW => 'ZTF19', LIMIT => 10}
-// scan 'test_portal', {ROWPREFIXFILTER => 'ZTF19', COLUMNS => 'i:candid', LIMIT => 10}
+// Get all alerts with row containing 'xyd' or starting with 'ZTF19aaaiw'
+// Available comparators: exact, prefix (default), substring, regex
 results = client.scan(null,
-                      "key:key:ZTF17",
+                      "key:key:xyd:substring,key:key:ZTF19aaaiw:prefix",
                       "i:candid",
+                      0,
+                      true,
+                      true);
+print(client.results2String(results)); 
+
+// Get all alerts with column match
+// It only works for string columns, use Evaluator for numerical columns
+// Available comparators: exact, prefix, substring (default), regex
+results = client.scan(null,
+                      "d:cdsxmatch:YSO:exact",
+                      "i:candid,d:cdsxmatch",
                       0,
                       true,
                       true);
@@ -132,9 +141,18 @@ results = client.latests("i:objectId",
                          true);
 print(results); 
 
-// Apply formula to filter results
+// Apply predefined function to filter results
 client.setEvaluation("isWithinGeoLimits(80, 85, -4.0, 0.0)", "ra,dec");
-//client.setEvaluation("dec < 10");
+results = client.scan(null,
+                      null,
+                      null,
+                      0,
+                      false,
+                      false);
+print(client.results2String(results)); 
+
+// Apply formula to filter results
+client.setEvaluation("dec < 10");
 results = client.scan(null,
                       null,
                       null,
