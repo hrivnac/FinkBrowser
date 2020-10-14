@@ -1,27 +1,29 @@
 if (typeof hideHBaseSelector === 'undefined' || !hideHBaseSelector) {
-  $(document).ready(function(){
-    $('.range-slider-ra').jRange({
-      from: 0,
-      to: 180,
-      step: 1,
-      scale: [0,45,90,135,180],
-      format: '%s',
-      width: 600,
-      showLabels: true,
-      isRange: true,
-      theme: 'theme-blue'
+  $(function() {
+    $("#slider-ra").slider({
+      orientation: "horizontal",
+      range: true,
+      min: 0,
+      max: 180,
+      values: [0, 180],
+      slide: function(event, ui) {
+        $("#amount-ra").val(ui.values[0] + " - " + ui.values[1]);
+        }
       });
-    $('.range-slider-dec').jRange({
-      from: -90,
-      to: 90,
-      step: 1,
-      scale: [-90,-45,0,45,90],
-      format: '%s',
-      width: 600,
-      showLabels: true,
-      isRange: true,
-      theme: 'theme-blue'
+    $("#amount-ra").val($("#slider-ra").slider("values", 0) + " - " +
+                        $("#slider-ra").slider("values", 1)); 
+    $("#slider-dec").slider({
+      orientation: "horizontal",
+      range: true,
+      min: -90,
+      max: 90,
+      values: [-90, 90],
+      slide: function(event, ui) {
+        $("#amount-dec").val(ui.values[0] + " - " + ui.values[1]);
+        }
       });
+    $("#amount-dec").val($("#slider-dec").slider("values", 0) + " - " +
+                         $("#slider-dec").slider("values", 1));
     });
   }
 else {

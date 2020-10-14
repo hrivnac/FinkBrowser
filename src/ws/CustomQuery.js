@@ -30,16 +30,18 @@ function searchDetails(url) {
 // New ranges search
   
 function searchRanges(url) {
-  var ra  = document.getElementById('range-slider-ra').value;
-  var dec = document.getElementById('range-slider-dec').value;
+  var ramin  = $("#slider-ra" ).slider("values", 0);
+  var ramax  = $("#slider-ra" ).slider("values", 1);
+  var decmin = $("#slider-dec").slider("values", 0);
+  var decmax = $("#slider-dec").slider("values", 1);
   var ff  = document.getElementById('ffselector').value;
   if (ff != "") {
     formula     = ff;
     formulaArgs = "";
     }
   else {
-    formula     = "isWithinGeoLimits(" + ra + "," + dec + ")";
+    formula     = "isWithinGeoLimits(" + ramin + "," + ramax + "," + decmin + "," + decmax + ")";
     formulaArgs = "ra,dec";
     }
-  loadPane("result", url + "&formula=" + formula + "&formulaArgs=" + formulaArgs);  
+  loadPane("result", url + "&formula=" + formula + "&formulaArgs=" + formulaArgs); 
   }
