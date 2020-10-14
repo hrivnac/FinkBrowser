@@ -16,15 +16,15 @@ function searchDetails(url) {
   var keys = "";
   for (var i = 0; i < dd.length; i++) {
     if (dd[i].checked) {
-      keys += dd[i].value + ",";
+      keys += "key:key:" + dd[i].value + ",";
       }
     }
   if (keys === "") {
     for (var i = 0; i < dd.length; i++) {
-      keys += dd[i].value + ",";
+      keys +=  "key:key:" + dd[i].value + ",";
       }
     }
-  loadPane("result", url + "&krefix=" + keys);  
+  loadPane("result", url + "&filters=" + keys);  
   }
   
 // New ranges search
