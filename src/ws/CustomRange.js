@@ -4,8 +4,8 @@ if (typeof hideHBaseSelector === 'undefined' || !hideHBaseSelector) {
       orientation: "horizontal",
       range: true,
       min: 0,
-      max: 180,
-      values: [0, 180],
+      max: 360,
+      values: [0, 360],
       slide: function(event, ui) {
         $("#amount-ra").val(ui.values[0] + " - " + ui.values[1]);
         }

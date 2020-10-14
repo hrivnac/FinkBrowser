@@ -20,6 +20,7 @@
     <pathelement path="${log4j_jar}"/>
     <pathelement path="${bsh_jar}"/>
     <pathelement path="${cli_jar}"/>
+    <pathelement path="${math3_jar}"/>
     <pathelement path="${lomikel_jar}"/>
     <fileset dir="../extlib">
       <include name="*.jar"/>
