@@ -37,6 +37,14 @@ public class CLI extends com.Lomikel.Apps.CLI {
     
   @Override
   public void setupInterpreter() {
+    try {
+      interpreter().eval("import com.astrolabsoftware.FinkBrowser.HBaser.FinkHBaseClient");
+      log.info("FinkHBaseClient imported");
+      }
+    catch (EvalError e) {
+      log.error("Cannot import com.astrolabsoftware.FinkBrowser.HBaser.FinkHBaseClient");
+      log.debug("Cannot import com.astrolabsoftware.FinkBrowser.HBaser.FinkHBaseClient", e);
+      }
     super.setupInterpreter();
     }
 

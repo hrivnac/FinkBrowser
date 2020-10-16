@@ -561,6 +561,7 @@
       <bottom><![CDATA[<a href='http://cern.ch/hrivnac/Activities/Packages/FinkBrowser'>Documentation</a>]]> built ${TODAY} on ${os.name} by ${user.name}</bottom>
       <group title="Apps"       packages="com.astrolabsoftware.FinkBrowser.Apps*"/>
       <group title="Utils"      packages="com.astrolabsoftware.FinkBrowser.Utils*"/>
+      <group title="HBaser"     packages="com.astrolabsoftware.FinkBrowser.HBaser*"/>
       <group title="WebService" packages="com.astrolabsoftware.FinkBrowser.WebService*"/>
       <link href="http://docs.oracle.com/javase/8/docs/api" packagelistLoc="${javadoc}" offline="true"/>
       <link href="https://cern.ch/hrivnac/Activities/Packages/Lomikel/JavaDoc"/>

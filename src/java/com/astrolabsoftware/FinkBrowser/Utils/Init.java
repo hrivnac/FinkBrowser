@@ -31,8 +31,8 @@ public class Init {
       }
     try {
       PropertyConfigurator.configure(Init.class.getClassLoader().getResource("com/astrolabsoftware/FinkBrowser/Utils/log4j.properties"));
-      Evaluator.setAuxFuctions("com.astrolabsoftware.FinkBrowser.Apps.FinkEvaluatorFunctions",
-                               "com/astrolabsoftware/FinkBrowser/Apps/FinkEvaluatorFunctions.bsh"); 
+      Evaluator.setAuxFuctions("com.astrolabsoftware.FinkBrowser.HBaser.FinkEvaluatorFunctions",
+                               "com/astrolabsoftware/FinkBrowser/HBaser/FinkEvaluatorFunctions.bsh"); 
       NotifierURL.notify("", "FinkBrowser", Info.release());
       }
     catch (Exception e) {
