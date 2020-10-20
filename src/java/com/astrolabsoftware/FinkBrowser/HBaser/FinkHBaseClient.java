@@ -3,6 +3,7 @@ package com.astrolabsoftware.FinkBrowser.HBaser;
 // Lomikel
 import com.Lomikel.HBaser.HBaseClient;
 import com.Lomikel.Utils.DateTimeManagement;
+import com.Lomikel.Utils.Pair;
 
 // HBase
 import org.apache.hadoop.hbase.client.Table;
@@ -153,15 +154,18 @@ public class FinkHBaseClient extends HBaseClient {
     *                   the default for columns is <tt>substring</tt>.
     *                   It can be <tt>null</tt>.
     *                   All searches are executed as prefix searches.    
-    * @return           The {@link Map} value-JulianDate. */
+    * @return         The {@link Set} of {@link Pair}s of JulianDate-value. */
   @Override
-  public Map<String, Number> timeline(String columnName,
-                                      String search) {
-    Map<String, Number> tl = new TreeMap<>();
+  public Set<Pair<String, String>> timeline(String columnName,
+                                            String search) {
+    Set<Pair<String, String>> tl = new TreeSet<>();
     Map<String, Map<String, String>> results = scan(null, search, columnName + ",i:jd", 0, false, false);
+    Pair<String, String> p;
     for (Map.Entry<String, Map<String, String>> entry : results.entrySet()) {
-      if (!entry.getKey().startsWith("schema")) { 
-        tl.put(entry.getValue().get(columnName), Double.parseDouble(entry.getValue().get("i:jd")));
+      if (!entry.getKey().startsWith("schema")) {
+        p = Pair.of(entry.getValue().get("i:jd"    ),
+                    entry.getValue().get(columnName));
+        tl.add(p);
         }
       }
     return tl;
