@@ -2,6 +2,7 @@ package com.astrolabsoftware.FinkBrowser.HBaser;
 
 // Lomikel
 import com.Lomikel.HBaser.HBaseClient;
+import com.Lomikel.Utils.DateTimeManagement;
 
 // HBase
 import org.apache.hadoop.hbase.client.Table;
@@ -72,8 +73,11 @@ public class FinkHBaseClient extends HBaseClient {
                                                  String  jdStop,
                                                  String  filter,
                                                  boolean ifkey,
-                                                 boolean iftime) throws IOException {
+                                                 boolean iftime)  {
     Map<String, String> searchMap = jd2keys(jdStart, jdStop);
+    if (searchMap.isEmpty()) {
+      return new TreeMap<String, Map<String, String>>();
+      }
     return scan(null,
                 searchMap,
                 filter,
@@ -86,22 +90,26 @@ public class FinkHBaseClient extends HBaseClient {
   /** Give all objectIds corresponding to specified Julian Date.
     * @param jd The Julian Data (with day fraction).
     * @return   The {@link Map} of corresponding keys of the main table,
-    *           in the format expected for the scan methods.
-    * @throws IOException If anything fails. */
+    *           in the format expected for the scan methods. */
   // TBD: refactor
-  public Map<String, String> jd2keys(String jd) throws IOException {
-    HBaseClient client = new HBaseClient(zookeepers(), clientPort());
-    client.connect(tableName() + ".jd", null);
-    Map<String, Map<String, String>> results = client.scan(null,
-                                                           "key:key:t_" + jd,
-                                                           null,
-                                                           0,
-                                                           0,
-                                                           false,
-                                                           false);
-    String keys = results.values().stream().map(m -> m.get("i:objectId")).collect(Collectors.joining(","));
+  public Map<String, String> jd2keys(String jd) {
     Map<String, String> searchMap = new TreeMap<>();
-    searchMap.put("key:key", keys);
+    try {
+      HBaseClient client = new HBaseClient(zookeepers(), clientPort());
+      client.connect(tableName() + ".jd", null);
+      Map<String, Map<String, String>> results = client.scan(null,
+                                                             "key:key:t_" + jd,
+                                                             null,
+                                                             0,
+                                                             0,
+                                                             false,
+                                                             false);
+      String keys = results.values().stream().map(m -> m.get("i:objectId")).collect(Collectors.joining(","));
+      searchMap.put("key:key", keys);
+      }
+    catch (IOException e) {
+      log.error("Cannot search", e);
+      }
     return searchMap;
     }
    
@@ -109,36 +117,42 @@ public class FinkHBaseClient extends HBaseClient {
     * @param jdStart The start Julian Data (with day fraction), evaluated as literal prefix scan.
     * @param jdStart The stop Julian Data (with day fraction), evaluated as literal prefix scan.
     * @return   The {@link Map} of corresponding keys of the main table,
-    *           in the format expected for the scan methods.
-    * @throws IOException If anything fails. */
+    *           in the format expected for the scan methods. */
   public Map<String, String> jd2keys(String jdStart,
-                                     String jdStop) throws IOException {
-    HBaseClient client = new HBaseClient(zookeepers(), clientPort());
-    client.connect(tableName() + ".jd", null);
-    client.setRangeScan(true);
-    Map<String, Map<String, String>> results = client.scan(null,
-                                                           "key:key:t_" + jdStart + "," + "key:key:t_" + jdStop,
-                                                           null,
-                                                           0,
-                                                           false,
-                                                           false);
-    String keys = results.values().stream().map(m -> m.get("i:objectId")).collect(Collectors.joining(","));
+                                     String jdStop)  {
     Map<String, String> searchMap = new TreeMap<>();
-    searchMap.put("key:key", keys);
+    try {
+      HBaseClient client = new HBaseClient(zookeepers(), clientPort());
+      client.connect(tableName() + ".jd", null);
+      client.setRangeScan(true);
+      Map<String, Map<String, String>> results = client.scan(null,
+                                                             "key:key:t_" + jdStart + "," + "key:key:t_" + jdStop,
+                                                             null,
+                                                             0,
+                                                             false,
+                                                             false);
+      String keys = results.values().stream().map(m -> m.get("i:objectId")).collect(Collectors.joining(","));
+      if (keys != null && !keys.trim().equals("")) { 
+        searchMap.put("key:key", keys);
+        }
+      }
+    catch (IOException e) {
+      log.error("Cannot search", e);
+      }
     return searchMap;
     }
     
   /** Give the timeline for the column. It makes use of the Julian Date alert time
     * instead of HBase timestamp. 
     * @param columnName The name of the column.
-    * @param search   The search terms as <tt>family:column:value,...</tt>.
-    *                 Key can be searched with <tt>family:column = key:key<tt> "pseudo-name".
-    *                 {@link Comparator} can be chosen as <tt>family:column:value:comparator</tt>
-    *                 among <tt>exact,prefix,substring,regex</tt>.
-    *                 The default for key is <tt>prefix</tt>,
-    *                 the default for columns is <tt>substring</tt>.
-    *                 It can be <tt>null</tt>.
-    *                 All searches are executed as prefix searches.    
+    * @param search     The search terms as <tt>family:column:value,...</tt>.
+    *                   Key can be searched with <tt>family:column = key:key<tt> "pseudo-name".
+    *                   {@link Comparator} can be chosen as <tt>family:column:value:comparator</tt>
+    *                   among <tt>exact,prefix,substring,regex</tt>.
+    *                   The default for key is <tt>prefix</tt>,
+    *                   the default for columns is <tt>substring</tt>.
+    *                   It can be <tt>null</tt>.
+    *                   All searches are executed as prefix searches.    
     * @return           The {@link Map} value-JulianDate. */
   @Override
   public Map<String, Number> timeline(String columnName,
@@ -156,25 +170,24 @@ public class FinkHBaseClient extends HBaseClient {
   /** Give all recent values of the column. It makes use of the Julian Date alert time
     * instead of HBase timestamp. 
     * @param columnName     The name of the column.
-    * @param substringValue The column value substring to search for.
+    * @param prefixValue    The column value prefix to search for.
     * @param minutes        How far into the past it should search. 
     * @param getValues      Whether to get column values or row keys.
     * @return               The {@link Set} of different values of that column. */
-  @Override
-  public Set<String> latests(String columnName,
-                             String substringValue,
-                             long minutes,
+  public Set<String> latests(String  columnName,
+                             String  prefixValue,
+                             long    minutes,
                              boolean getValues) {
     Set<String> l = new TreeSet<>();
-    String search = "";
-    if (substringValue != null) {
-      search += columnName + ":" + substringValue;
-      }
-    Map<String, Map<String, String>> results = scan(null, search, null, minutes, false, false);
+    double nowJD = DateTimeManagement.julianDate();
+    double minJD = nowJD - minutes / 69.0 / 24.0; // BUG: not correct
+    Map<String, Map<String, String>> results = search(String.valueOf(minJD),
+                                                      String.valueOf(nowJD),
+                                                      columnName,
+                                                      false,
+                                                      false);
     for (Map.Entry<String, Map<String, String>> entry : results.entrySet()) {
-      if (!entry.getKey().startsWith("schema")) {
-        l.add(getValues ? entry.getValue().get(columnName) : entry.getKey());
-        }
+      l.add(getValues ? entry.getValue().get(columnName) : entry.getKey());
       }
     return l;
     }
