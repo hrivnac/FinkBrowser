@@ -352,6 +352,17 @@ results = hc.scan(keysearch,
 gc.close();
 hc.close();
 </pre>
+<u><b>Another usefull methods:</b></u>
+<pre style="color:blue; font-size:60%; background-color:#dddddd">
+// Return not only exact results, but all rows in between
+client.setRangeScan(true);
+// Get time dependence of column value
+// (using HBase timestamp for HBaseClient, i:jd for FinkHBaseClient)
+results = client.timeline("i:dec", null);
+// Get latest values for a column
+// (using HBase timestamp for HBaseClient, i:jd for FinkHBaseClient)
+results = client.latests("i:dec", null, 5000, false);
+</pre>
 <hr/>
 
 <h2><a name="Bugs-ToDos">Bugs, Inconsistencies and ToDos</a></h2>

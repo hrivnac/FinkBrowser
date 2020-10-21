@@ -6,7 +6,6 @@ import com.Lomikel.Utils.DateTimeManagement;
 import com.Lomikel.Utils.Pair;
 
 // HBase
-import org.apache.hadoop.hbase.client.Table;
 
 // Java
 import java.util.Map;
@@ -92,21 +91,22 @@ public class FinkHBaseClient extends HBaseClient {
     * @param jd The Julian Data (with day fraction).
     * @return   The {@link Map} of corresponding keys of the main table,
     *           in the format expected for the scan methods. */
-  // TBD: refactor
   public Map<String, String> jd2keys(String jd) {
     Map<String, String> searchMap = new TreeMap<>();
     try {
       HBaseClient client = new HBaseClient(zookeepers(), clientPort());
       client.connect(tableName() + ".jd", null);
       Map<String, Map<String, String>> results = client.scan(null,
-                                                             "key:key:t_" + jd,
+                                                             "key:key:" + jd,
                                                              null,
                                                              0,
                                                              0,
                                                              false,
                                                              false);
       String keys = results.values().stream().map(m -> m.get("i:objectId")).collect(Collectors.joining(","));
-      searchMap.put("key:key", keys);
+      if (keys != null && !keys.trim().equals("")) { 
+        searchMap.put("key:key", keys);
+        }
       }
     catch (IOException e) {
       log.error("Cannot search", e);
@@ -127,8 +127,9 @@ public class FinkHBaseClient extends HBaseClient {
       client.connect(tableName() + ".jd", null);
       client.setRangeScan(true);
       Map<String, Map<String, String>> results = client.scan(null,
-                                                             "key:key:t_" + jdStart + "," + "key:key:t_" + jdStop,
+                                                             "key:key:" + jdStart + "," + "key:key:" + jdStop,
                                                              null,
+                                                             0,
                                                              0,
                                                              false,
                                                              false);
@@ -184,7 +185,7 @@ public class FinkHBaseClient extends HBaseClient {
                              boolean getValues) {
     Set<String> l = new TreeSet<>();
     double nowJD = DateTimeManagement.julianDate();
-    double minJD = nowJD - minutes / 69.0 / 24.0; // BUG: not correct
+    double minJD = nowJD - minutes / 60.0 / 24.0;
     Map<String, Map<String, String>> results = search(String.valueOf(minJD),
                                                       String.valueOf(nowJD),
                                                       columnName,
