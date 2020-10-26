@@ -157,7 +157,7 @@
       <zipfileset includes="**/*" src="${httpclient_jar}"/>
       <zipfileset includes="**/*" src="${javaxmail_jar}"/>
       <zipfileset includes="**/*" src="${hbase_dir}/lib/commons-beanutils-core-1.8.0.jar"/>
-      <zipfileset includes="**/*" src="${hbase_dir}/lib/commons-cli-1.2.jar"/>
+      <zipfileset includes="**/*" src="/opt/lib/commons-cli-1.4.jar"/><!-- to allow in Jupyter -->
       <zipfileset includes="**/*" src="${hbase_dir}/lib/commons-codec-1.10.jar"/>
       <zipfileset includes="**/*" src="${hbase_dir}/lib/commons-collections-3.2.2.jar"/>
       <zipfileset includes="**/*" src="${hbase_dir}/lib/commons-compress-1.4.1.jar"/>

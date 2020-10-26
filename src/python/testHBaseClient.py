@@ -7,13 +7,16 @@ from jpype import JImplements, JOverride, JImplementationFor
 # ../dist/FinkBrowser.exe.jar
 jpype.startJVM(jpype.getDefaultJVMPath(), "-ea", "-Djava.class.path=" + sys.argv[1], convertStrings=False)
 
-from com.Lomikel.HBaser import HBaseClient
+from com.astrolabsoftware.FinkBrowser.HBaser import FinkHBaseClient
+from com.astrolabsoftware.FinkBrowser.Utils  import Init
+
+Init.init()
 
 true  = jpype.java.lang.Boolean(True)
 false = jpype.java.lang.Boolean(False)
 
-#client = HBaseClient("localhost", 2181)
-client = HBaseClient("134.158.74.54", 2181);
+#client = FinkHBaseClient("localhost", 2181)
+client = FinkHBaseClient("134.158.74.54", 2181);
 client.connect("test_portal_tiny.3", "schema_0.7.0_0.3.6")
 client.setLimit(10)
 

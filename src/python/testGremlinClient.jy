@@ -3,7 +3,10 @@ import sys
 # ../dist/FinkBrowser.exe.jar
 sys.path.append(sys.argv[1])
 
-from com.Lomikel.Januser import GremlinClient
+from com.Lomikel.Januser                    import GremlinClient
+from com.astrolabsoftware.FinkBrowser.Utils import Init
+
+Init.init()
 
 client = GremlinClient("134.158.74.85", 24444);
 

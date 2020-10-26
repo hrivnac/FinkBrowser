@@ -16,7 +16,6 @@ print(client.results2String(results));
 // Get binary cell
 print(client.repository().get("binary:ZTF17aaaaxyd_2458789.0426273:cutoutScience_stampData"));
 
-
 // Get all alerts with row containing 'xyd' or starting with 'ZTF19aaaiw'
 // Available comparators: exact, prefix (default), substring, regex
 results = client.scan(null,
