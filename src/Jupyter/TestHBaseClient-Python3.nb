@@ -4,8 +4,10 @@ import jpype
 import jpype.imports
 from jpype import JImplements, JOverride, JImplementationFor
 
+import matplotlib.pyplot as plt
+
 try:
-  jpype.startJVM(jpype.getDefaultJVMPath(), "-ea", "-Djava.class.path=FinkBrowser.exe.jar", convertStrings=False)
+  jpype.startJVM(jpype.getDefaultJVMPath(), "-ea", "-Djava.class.path=FinkBrowser.exe.jar", convertStrings=True)
 except:
   print("JVM already loaded")
 
@@ -19,7 +21,21 @@ false = jpype.java.lang.Boolean(False)
 
 client = FinkHBaseClient("134.158.74.54", 2181);
 client.connect("test_portal_tiny.3", "schema_0.7.0_0.3.6")
-client.setLimit(10)
 
-print(client.scan(None, "key:key:ZTF17", None, 100000, true, true)) 
+a17_x = [];
+a17_y = [];
+a19_x = [];
+a19_y = [];
+for r in client.scan("", "key:key:ZTF17", "i:ra,i:dec", 0, false, false).values():
+  a17_x += [float(r['i:ra'])]
+  a17_y += [float(r['i:dec'])]
+for r in client.scan("", "key:key:ZTF19", "i:ra,i:dec", 0, false, false).values():
+  a19_x += [float(r['i:ra'])]
+  a19_y += [float(r['i:dec'])]
 
+plt.plot(a17_x, a17_y, 'r.')
+plt.plot(a19_x, a19_y, 'b.')
+plt.title('ZTF17(red) + ZTF19(blue)')
+plt.xlabel('ra')
+plt.ylabel('dec')
+plt.show()
