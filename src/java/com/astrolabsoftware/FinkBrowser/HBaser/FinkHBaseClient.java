@@ -5,9 +5,16 @@ import com.Lomikel.HBaser.HBaseClient;
 import com.Lomikel.Utils.DateTimeManagement;
 import com.Lomikel.Utils.Pair;
 
-// HBase
+// HealPix
+import cds.healpix.Healpix;
+import cds.healpix.HealpixNested;
+import cds.healpix.HealpixNestedFixedRadiusConeComputer;
+import cds.healpix.HealpixNestedBMOC;
+import cds.healpix.FlatHashIterator;
 
 // Java
+import java.lang.Math;
+import static java.lang.Math.PI;
 import java.util.Map;
 import java.util.TreeMap;
 import java.util.Set;
@@ -74,6 +81,7 @@ public class FinkHBaseClient extends HBaseClient {
                                                  String  filter,
                                                  boolean ifkey,
                                                  boolean iftime)  {
+    log.info("Searching for alerts in jd interval: " + jdStart + " - " + jdStop);
     Map<String, String> searchMap = jd2keys(jdStart, jdStop);
     if (searchMap.isEmpty()) {
       return new TreeMap<String, Map<String, String>>();
@@ -86,8 +94,38 @@ public class FinkHBaseClient extends HBaseClient {
                 ifkey,
                 iftime);
     }
-   
+    
+   /** Get alerts within a spacial cone (inclusive).
+    * @param ra     The central value of ra (in deg).
+    * @param dec    The central value of dec (in deg).
+    * @param delta  The maximal angular distance from the central direction (in deg).
+    * @param filter The names of required values as <tt>family:column,...</tt>.
+    *               It can be <tt>null</tt>.
+    * @param ifkey  Whether give also entries keys.
+    * @param iftime Whether give also entries timestamps.
+    * @return       The {@link Map} of {@link Map}s of results as <tt>key-&t;{family:column-&gt;value}</tt>. */
+  public Map<String, Map<String, String>> search(double  ra,
+                                                 double  dec,
+                                                 double  delta,
+                                                 String  filter,
+                                                 boolean ifkey,
+                                                 boolean iftime)  {
+    log.info("Searching for alerts within " + delta + " deg of (ra, dec) = (" + ra + ", " + dec + ")");
+    Map<String, String> searchMap = radec2keys(ra, dec, delta);
+    if (searchMap.isEmpty()) {
+      return new TreeMap<String, Map<String, String>>();
+      }
+    return scan(null,
+                searchMap,
+                filter,
+                0,
+                0,
+                ifkey,
+                iftime);
+    }
+  
   /** Give all objectIds corresponding to specified Julian Date.
+    * It uses *.jd table.
     * @param jd The Julian Data (with day fraction).
     * @return   The {@link Map} of corresponding keys of the main table,
     *           in the format expected for the scan methods. */
@@ -107,6 +145,7 @@ public class FinkHBaseClient extends HBaseClient {
       if (keys != null && !keys.trim().equals("")) { 
         searchMap.put("key:key", keys);
         }
+      client.close();
       }
     catch (IOException e) {
       log.error("Cannot search", e);
@@ -115,6 +154,7 @@ public class FinkHBaseClient extends HBaseClient {
     }
    
   /** Give all objectIds between two specified Julian Dates (inclusive).
+    * It uses *.jd table.
     * @param jdStart The start Julian Data (with day fraction), evaluated as literal prefix scan.
     * @param jdStart The stop Julian Data (with day fraction), evaluated as literal prefix scan.
     * @return   The {@link Map} of corresponding keys of the main table,
@@ -127,7 +167,7 @@ public class FinkHBaseClient extends HBaseClient {
       client.connect(tableName() + ".jd", null);
       client.setRangeScan(true);
       Map<String, Map<String, String>> results = client.scan(null,
-                                                             "key:key:" + jdStart + "," + "key:key:" + jdStop,
+                                                             "key:key:" + jdStart + ":prefix," + "key:key:" + jdStop + ":prefix",
                                                              null,
                                                              0,
                                                              0,
@@ -137,6 +177,56 @@ public class FinkHBaseClient extends HBaseClient {
       if (keys != null && !keys.trim().equals("")) { 
         searchMap.put("key:key", keys);
         }
+      client.close();
+      }
+    catch (IOException e) {
+      log.error("Cannot search", e);
+      }
+    return searchMap;
+    }
+    
+  /** Give all objectIds within a spacial cone.
+    * It uses *.pixel table.
+    * @param ra    The central value of ra/lon  (in deg).
+    * @param dec   The central value of dec/lat (in deg).
+    * @param delta The maximal angular distance from the central direction (in deg).
+    * @return      The {@link Map} of corresponding keys of the main table,
+    *              in the format expected for the scan methods. */
+  public Map<String, String> radec2keys(double ra,
+                                        double dec,
+                                        double delta)  {
+    int nside = 131072;
+    int depth = Healpix.depth(nside);
+    double coneCenterLon = Math.toRadians(ra);
+    double coneCenterLat = PI / 2.0 - Math.toRadians(dec);
+    double coneRadiusDel = Math.toRadians(delta);
+    HealpixNested hn = Healpix.getNested(depth);
+    //HealpixNestedFixedRadiusConeComputer cc = hn.newConeComputer(coneRadiusDel);     // beta code!!
+    HealpixNestedFixedRadiusConeComputer cc = hn.newConeComputerApprox(coneRadiusDel); // robust code
+    HealpixNestedBMOC bmoc = cc.overlappingCells(coneCenterLon, coneCenterLat);
+    FlatHashIterator hIt = bmoc.flatHashIterator();
+    String pixs = "";
+    while (hIt.hasNext()) {
+      pixs += hIt.next() + ",";
+      }
+    Map<String, String> pixMap = new TreeMap<>();
+    pixMap.put("key:key", pixs);
+    Map<String, String> searchMap = new TreeMap<>();
+    try {
+      HBaseClient client = new HBaseClient(zookeepers(), clientPort());
+      client.connect(tableName() + ".pixel", null);
+      Map<String, Map<String, String>> results = client.scan(null,
+                                                             pixMap,
+                                                             null,
+                                                             0,
+                                                             0,
+                                                             false,
+                                                             false);
+      String keys = results.values().stream().map(m -> m.get("i:objectId")).collect(Collectors.joining(","));
+      if (keys != null && !keys.trim().equals("")) { 
+        searchMap.put("key:key:prefix", keys);
+        }
+      client.close();
       }
     catch (IOException e) {
       log.error("Cannot search", e);

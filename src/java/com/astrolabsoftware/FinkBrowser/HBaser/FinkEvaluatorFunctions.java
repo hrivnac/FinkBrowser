@@ -4,6 +4,7 @@ package com.astrolabsoftware.FinkBrowser.HBaser;
 import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
 
 // Java
+import java.lang.Math;
 import static java.lang.Math.PI;
 
 // Log4J
@@ -23,10 +24,10 @@ public class FinkEvaluatorFunctions {
     * <tt>isWithinGeoLimits(raMin, raMax, decMin decMax)</tt>
     * @param ra     The <tt>ra</tt> from the database.
     * @param dec    The <tt>dec</tt> from the database.
-    * @param raMin  The minimal value of <tt>ra</tt>.
-    * @param raMax  The maximal value of <tt>ra</tt>.
-    * @param decMin The minimal value of <tt>dec</tt>.
-    * @param decMax The maximal value of <tt>dec</tt>.
+    * @param raMin  The minimal value of <tt>ra</tt> (in deg).
+    * @param raMax  The maximal value of <tt>ra</tt> (in deg).
+    * @param decMin The minimal value of <tt>dec</tt> (in deg).
+    * @param decMax The maximal value of <tt>dec</tt> (in deg).
     * @return       Whether <tt>ra,dec</tt> from the database are within specified limits. */
   public static boolean isWithinGeoLimits(double ra,
                                           double dec,
@@ -57,8 +58,8 @@ public class FinkEvaluatorFunctions {
     if (!isWithinGeoLimits(ra, dec, ra0 - delta, ra0 + delta, dec0 - delta, dec0 + delta)) {
       return false;
       }
-    Vector3D v0 = new Vector3D(ra0 * PI / 180.0, dec0 * PI / 180.0);
-    Vector3D v  = new Vector3D(ra  * PI / 180.0, dec  * PI / 180.0);
+    Vector3D v0 = new Vector3D(Math.toRadians(ra0), Math.toRadians(dec0));
+    Vector3D v  = new Vector3D(Math.toRadians(ra ), Math.toRadians(dec ));
     double d = Vector3D.angle(v0, v);
     return d < delta * PI / 180.0;
     }
