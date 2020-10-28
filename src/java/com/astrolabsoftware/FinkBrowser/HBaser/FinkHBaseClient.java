@@ -202,16 +202,13 @@ public class FinkHBaseClient extends HBaseClient {
   public Map<String, String> radec2keys(double ra,
                                         double dec,
                                         double delta)  {
-    int nside = 131072; // BUG: magic number
-    int depth = Healpix.depth(nside);
     double coneCenterLon = Math.toRadians(ra);
     double coneCenterLat = Math.toRadians(dec);
     double coneRadiusDel = Math.toRadians(delta);
-    HealpixNested hn = Healpix.getNested(depth);
-    //HealpixNestedFixedRadiusConeComputer cc = hn.newConeComputer(coneRadiusDel);     // beta code!!
-    HealpixNestedFixedRadiusConeComputer cc = hn.newConeComputerApprox(coneRadiusDel); // robust code
+    //HealpixNestedFixedRadiusConeComputer cc = _hn.newConeComputer(coneRadiusDel);     // beta code!!
+    HealpixNestedFixedRadiusConeComputer cc = _hn.newConeComputerApprox(coneRadiusDel); // robust code
     HealpixNestedBMOC bmoc = cc.overlappingCenters(coneCenterLon, coneCenterLat);
-    String pixs = "" + hn.hash(coneCenterLon, coneCenterLat);
+    String pixs = "" + _hn.hash(coneCenterLon, coneCenterLat);
     log.info("Central pixel: " + pixs);
     int n = 0;
     FlatHashIterator hIt = bmoc.flatHashIterator();
@@ -224,7 +221,7 @@ public class FinkHBaseClient extends HBaseClient {
       pixs += "," + cell.getHash();
       n++;
       } 
-    log.info("" + n + " cells found (using nside = " + nside + ", depth = " + depth + ")");
+    log.info("" + n + " cells found (using nside = " + _NSIDE + ", depth = " + Healpix.depth(_NSIDE) + ")");
     Map<String, String> pixMap = new TreeMap<>();
     pixMap.put("key:key:prefix", pixs);
     Map<String, String> searchMap = new TreeMap<>();
@@ -317,9 +314,6 @@ public class FinkHBaseClient extends HBaseClient {
     HBaseClient pixelClient  = new HBaseClient(zookeepers(), clientPort());
     pixelClient.connect(pixelTableName,  null);
     Map<String, Map<String, String>> results = scan(null, "key:key:" + keyPrefixSearch + ":prefix", "i:objectId,i:ra,i:dec", 0, false, false);    
-    int nside = 131072; // BUG: magic number
-    int depth = Healpix.depth(nside);
-    HealpixNested hn = Healpix.getNested(depth);
     String objectId;
     String ra;
     String dec;
@@ -330,8 +324,8 @@ public class FinkHBaseClient extends HBaseClient {
       objectId = entry.getValue().get("i:objectId");
       ra       = entry.getValue().get("i:ra");
       dec      = entry.getValue().get("i:dec");
-      pixelClient.put(Long.toString(hn.hash(Math.toRadians(Double.valueOf(ra)),
-                                            Math.toRadians(Double.valueOf(dec)))) + "_" + objectId,
+      pixelClient.put(Long.toString(_hn.hash(Math.toRadians(Double.valueOf(ra)),
+                                             Math.toRadians(Double.valueOf(dec)))) + "_" + objectId,
                       new String[]{"i:ra:"       + ra,
                                    "i:dec:"      + dec,
                                    "i:objectId:" + objectId});
@@ -344,6 +338,10 @@ public class FinkHBaseClient extends HBaseClient {
     log.info("" + n + " rows written");
     pixelClient.close();
     }
+    
+  private static int _NSIDE = 131072; // BUG: magic number 
+    
+  private static HealpixNested _hn = Healpix.getNested(Healpix.depth(_NSIDE));  
     
   /** Logging . */
   private static Logger log = Logger.getLogger(FinkHBaseClient.class);
