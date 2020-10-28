@@ -205,14 +205,14 @@ public class FinkHBaseClient extends HBaseClient {
     int nside = 131072; // BUG: magic number
     int depth = Healpix.depth(nside);
     double coneCenterLon = Math.toRadians(ra);
-    double coneCenterLat = PI / 2.0 - Math.toRadians(dec);
+    double coneCenterLat = Math.toRadians(dec);
     double coneRadiusDel = Math.toRadians(delta);
     HealpixNested hn = Healpix.getNested(depth);
-    log.info("Central pixel: " + hn.hash(coneCenterLon, coneCenterLat));
     //HealpixNestedFixedRadiusConeComputer cc = hn.newConeComputer(coneRadiusDel);     // beta code!!
     HealpixNestedFixedRadiusConeComputer cc = hn.newConeComputerApprox(coneRadiusDel); // robust code
     HealpixNestedBMOC bmoc = cc.overlappingCenters(coneCenterLon, coneCenterLat);
-    String pixs = "";
+    String pixs = "" + hn.hash(coneCenterLon, coneCenterLat);
+    log.info("Central pixel: " + pixs);
     int n = 0;
     FlatHashIterator hIt = bmoc.flatHashIterator();
     //while (hIt.hasNext()) {
@@ -221,8 +221,7 @@ public class FinkHBaseClient extends HBaseClient {
     //  }
     for (HealpixNestedBMOC.CurrentValueAccessor cell : bmoc) {
       // cell.getDepth(), cell.isFull(), cell.getRawValue()
-      pixs += cell.getHash() + ",";
-      log.info("" + cell.getHash() + " " + hn.toNested(cell.getHash()));
+      pixs += "," + cell.getHash();
       n++;
       } 
     log.info("" + n + " cells found (using nside = " + nside + ", depth = " + depth + ")");
@@ -308,7 +307,7 @@ public class FinkHBaseClient extends HBaseClient {
     * @param keyPrefixSearch The prefix search of row key.
     * @throws IOException If anything goes wrong. */
   public void createPixelTable(String keyPrefixSearch) throws IOException {
-    String pixelTableName = tableName() + ".pash";
+    String pixelTableName = tableName() + ".pixel";
     try {
       create(pixelTableName, new String[]{"i", "b", "d", "a"});
       }
@@ -325,6 +324,8 @@ public class FinkHBaseClient extends HBaseClient {
     String ra;
     String dec;
     String key;
+    log.info("Writing " + pixelTableName + "...");
+    int n = 0;
     for (Map.Entry<String, Map<String, String>> entry : results.entrySet()) {
       objectId = entry.getValue().get("i:objectId");
       ra       = entry.getValue().get("i:ra");
@@ -334,7 +335,13 @@ public class FinkHBaseClient extends HBaseClient {
                       new String[]{"i:ra:"       + ra,
                                    "i:dec:"      + dec,
                                    "i:objectId:" + objectId});
+      System.out.print(".");
+      if (n++ % 100 == 0) {
+        System.out.print(n-1);
+        }
       }
+    System.out.println();
+    log.info("" + n + " rows written");
     pixelClient.close();
     }
     
