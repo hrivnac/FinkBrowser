@@ -12,10 +12,10 @@ import com.astrolabsoftware.FinkBrowser.HBaser.FinkEvaluatorFunctions;
   * @author <a href="mailto:Julius.Hrivnac@cern.ch">J.Hrivnac</a> */
    
 /** Evaluate, if <tt>ra,dec</tt> are within specified limits.
-  * @param raMin  The minimal value of <tt>ra</tt>.
-  * @param raMax  The maximal value of <tt>ra</tt>.
-  * @param decMin The minimal value of <tt>dec</tt>.
-  * @param decMax The maximal value of <tt>dec</tt>.
+  * @param raMin  The minimal value of <tt>ra</tt> (in deg).
+  * @param raMax  The maximal value of <tt>ra</tt> (in deg).
+  * @param decMin The minimal value of <tt>dec</tt> (in deg).
+  * @param decMax The maximal value of <tt>dec</tt> (in deg).
   * @return       Whether <tt>ra,dec</tt> from the database are within specified limits. */
 public static boolean isWithinGeoLimits(double raMin,
                                         double raMax,

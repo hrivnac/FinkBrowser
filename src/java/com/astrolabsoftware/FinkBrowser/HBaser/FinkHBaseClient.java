@@ -12,6 +12,9 @@ import cds.healpix.HealpixNestedFixedRadiusConeComputer;
 import cds.healpix.HealpixNestedBMOC;
 import cds.healpix.FlatHashIterator;
 
+// HBase
+import org.apache.hadoop.hbase.TableExistsException;
+
 // Java
 import java.lang.Math;
 import static java.lang.Math.PI;
@@ -27,9 +30,13 @@ import org.apache.log4j.Logger;
 
 /** <code>FinkHBaseClient</code> handles connectionto HBase table
   * with specific Fink functionality. 
-  * It expects the main table with schema and <code>key = alert.jd</code>
-  * and the schemaless index table with <code>key = jd.alert</code> and one
-  * <code>column = i:objectId</code>.
+  * It expects the main table with schema and two schemaless aux tables:
+  * <ul>
+  * <li><b>*.jd</b> table with <code>key = jd.alert</code> and one
+  * column <code>i:objectId</code>.</li>
+  * <li><b>*.pixel</b> table with <code>key = pixel_jd</code> and
+  * columns <code>i:object,i:dec,i:ra</code><li>
+  * </ul>
   * @opt attributes
   * @opt operations
   * @opt types
@@ -195,22 +202,32 @@ public class FinkHBaseClient extends HBaseClient {
   public Map<String, String> radec2keys(double ra,
                                         double dec,
                                         double delta)  {
-    int nside = 131072;
+    int nside = 131072; // BUG: magic number
     int depth = Healpix.depth(nside);
     double coneCenterLon = Math.toRadians(ra);
     double coneCenterLat = PI / 2.0 - Math.toRadians(dec);
     double coneRadiusDel = Math.toRadians(delta);
     HealpixNested hn = Healpix.getNested(depth);
+    log.info("Central pixel: " + hn.hash(coneCenterLon, coneCenterLat));
     //HealpixNestedFixedRadiusConeComputer cc = hn.newConeComputer(coneRadiusDel);     // beta code!!
     HealpixNestedFixedRadiusConeComputer cc = hn.newConeComputerApprox(coneRadiusDel); // robust code
-    HealpixNestedBMOC bmoc = cc.overlappingCells(coneCenterLon, coneCenterLat);
-    FlatHashIterator hIt = bmoc.flatHashIterator();
+    HealpixNestedBMOC bmoc = cc.overlappingCenters(coneCenterLon, coneCenterLat);
     String pixs = "";
-    while (hIt.hasNext()) {
-      pixs += hIt.next() + ",";
-      }
+    int n = 0;
+    FlatHashIterator hIt = bmoc.flatHashIterator();
+    //while (hIt.hasNext()) {
+    //  pixs += hIt.next() + ",";
+    //  n++;
+    //  }
+    for (HealpixNestedBMOC.CurrentValueAccessor cell : bmoc) {
+      // cell.getDepth(), cell.isFull(), cell.getRawValue()
+      pixs += cell.getHash() + ",";
+      log.info("" + cell.getHash() + " " + hn.toNested(cell.getHash()));
+      n++;
+      } 
+    log.info("" + n + " cells found (using nside = " + nside + ", depth = " + depth + ")");
     Map<String, String> pixMap = new TreeMap<>();
-    pixMap.put("key:key", pixs);
+    pixMap.put("key:key:prefix", pixs);
     Map<String, String> searchMap = new TreeMap<>();
     try {
       HBaseClient client = new HBaseClient(zookeepers(), clientPort());
@@ -287,6 +304,40 @@ public class FinkHBaseClient extends HBaseClient {
     return l;
     }
   
+  /** Create aux pixel map hash table.
+    * @param keyPrefixSearch The prefix search of row key.
+    * @throws IOException If anything goes wrong. */
+  public void createPixelTable(String keyPrefixSearch) throws IOException {
+    String pixelTableName = tableName() + ".pash";
+    try {
+      create(pixelTableName, new String[]{"i", "b", "d", "a"});
+      }
+    catch (TableExistsException e) {
+      log.warn("Table " + pixelTableName + " already exists, not modified");
+      }
+    HBaseClient pixelClient  = new HBaseClient(zookeepers(), clientPort());
+    pixelClient.connect(pixelTableName,  null);
+    Map<String, Map<String, String>> results = scan(null, "key:key:" + keyPrefixSearch + ":prefix", "i:objectId,i:ra,i:dec", 0, false, false);    
+    int nside = 131072; // BUG: magic number
+    int depth = Healpix.depth(nside);
+    HealpixNested hn = Healpix.getNested(depth);
+    String objectId;
+    String ra;
+    String dec;
+    String key;
+    for (Map.Entry<String, Map<String, String>> entry : results.entrySet()) {
+      objectId = entry.getValue().get("i:objectId");
+      ra       = entry.getValue().get("i:ra");
+      dec      = entry.getValue().get("i:dec");
+      pixelClient.put(Long.toString(hn.hash(Math.toRadians(Double.valueOf(ra)),
+                                            Math.toRadians(Double.valueOf(dec)))) + "_" + objectId,
+                      new String[]{"i:ra:"       + ra,
+                                   "i:dec:"      + dec,
+                                   "i:objectId:" + objectId});
+      }
+    pixelClient.close();
+    }
+    
   /** Logging . */
   private static Logger log = Logger.getLogger(FinkHBaseClient.class);
 

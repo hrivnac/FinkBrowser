@@ -571,6 +571,7 @@
       <group title="WebService" packages="com.astrolabsoftware.FinkBrowser.WebService*"/>
       <link href="http://docs.oracle.com/javase/8/docs/api" packagelistLoc="${javadoc}" offline="true"/>
       <link href="https://cern.ch/hrivnac/Activities/Packages/Lomikel/JavaDoc"/>
+      <link href="https://cds-astro.github.io/cds-healpix-java/apidocs"/>
       <classpath>
         <path refid="classpath.run"/>
         </classpath>
