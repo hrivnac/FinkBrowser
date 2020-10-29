@@ -30,14 +30,21 @@ function searchDetails(url) {
 // New ranges search
   
 function searchRanges(url) {
-  var ramin  = $("#slider-ra" ).slider("values", 0);
-  var ramax  = $("#slider-ra" ).slider("values", 1);
-  var decmin = $("#slider-dec").slider("values", 0);
-  var decmax = $("#slider-dec").slider("values", 1);
+  var ramin  = $("#slider-ra"  ).slider("values", 0);
+  var ramax  = $("#slider-ra"  ).slider("values", 1);
+  var decmin = $("#slider-dec" ).slider("values", 0);
+  var decmax = $("#slider-dec" ).slider("values", 1);
+  var ra0    = $("#slider-ra0" ).slider("value");
+  var dec0   = $("#slider-dec0").slider("value");
+  var del    = $("#slider-del" ).slider("value");
   var ff  = document.getElementById('ffselector').value;
   if (ff != "") {
     formula     = ff;
     formulaArgs = "";
+    }
+  else if (del > 0) {
+    formula     = "isNear(" + ra0 + "," + del0 + "," + del + ")";
+    formulaArgs = "ra,dec";
     }
   else {
     formula     = "isWithinGeoLimits(" + ramin + "," + ramax + "," + decmin + "," + decmax + ")";
