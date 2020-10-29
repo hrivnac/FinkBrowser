@@ -11,6 +11,8 @@ import cds.healpix.HealpixNested;
 import cds.healpix.HealpixNestedFixedRadiusConeComputer;
 import cds.healpix.HealpixNestedBMOC;
 import cds.healpix.FlatHashIterator;
+import static cds.healpix.VerticesAndPathComputer.LON_INDEX;
+import static cds.healpix.VerticesAndPathComputer.LAT_INDEX;
 
 // HBase
 import org.apache.hadoop.hbase.TableExistsException;
@@ -35,7 +37,7 @@ import org.apache.log4j.Logger;
   * <li><b>*.jd</b> table with <code>key = jd.alert</code> and one
   * column <code>i:objectId</code>.</li>
   * <li><b>*.pixel</b> table with <code>key = pixel_jd</code> and
-  * columns <code>i:object,i:dec,i:ra</code><li>
+  * columns <code>i:objectId,i:dec,i:ra</code><li>
   * </ul>
   * @opt attributes
   * @opt operations
@@ -208,17 +210,17 @@ public class FinkHBaseClient extends HBaseClient {
     //HealpixNestedFixedRadiusConeComputer cc = _hn.newConeComputer(coneRadiusDel);     // beta code!!
     HealpixNestedFixedRadiusConeComputer cc = _hn.newConeComputerApprox(coneRadiusDel); // robust code
     HealpixNestedBMOC bmoc = cc.overlappingCenters(coneCenterLon, coneCenterLat);
-    String pixs = "" + _hn.hash(coneCenterLon, coneCenterLat);
+    String pixs = "" + _hn.toRing(_hn.hash(coneCenterLon, coneCenterLat));
     log.info("Central pixel: " + pixs);
     int n = 0;
     FlatHashIterator hIt = bmoc.flatHashIterator();
     //while (hIt.hasNext()) {
-    //  pixs += hIt.next() + ",";
+    //  pixs +=  _hn.toRing(hIt.next()) + ",";
     //  n++;
     //  }
     for (HealpixNestedBMOC.CurrentValueAccessor cell : bmoc) {
       // cell.getDepth(), cell.isFull(), cell.getRawValue()
-      pixs += "," + cell.getHash();
+      pixs += "," + _hn.toRing(cell.getHash());
       n++;
       } 
     log.info("" + n + " cells found (using nside = " + _NSIDE + ", depth = " + Healpix.depth(_NSIDE) + ")");

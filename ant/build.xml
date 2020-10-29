@@ -466,22 +466,6 @@
     <copy file="../lib/FinkBrowser.war"
           tofile="${server_dir}/FinkBrowser.war"/>
     </target>
- 
-  <!-- Extract Schema =======================================================-->
-  <!-- copied from Lomikel                                                   -->
-
-  <target name="extract-schema"
-          description="Extract Gremlin Schema">
-    <echo>Extract Gremlin Schema</echo>
-    <java classname="com.Lomikel.Januser.JanusClient"
-          fork="true">
-      <arg value="${zookeeper}"/>
-      <arg value="${hbase_table}"/>
-      <classpath>
-        <path refid="classpath.janusgraph"/>
-        </classpath>
-      </java>
-    </target>
       
   <!-- Clean ================================================================-->
 
