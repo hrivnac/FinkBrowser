@@ -51,7 +51,7 @@ if (typeof hideHBaseSelector === 'undefined' || !hideHBaseSelector) {
       range: false,
       min: 0,
       max: 10,
-      value: 1,
+      value: 0,
       slide: function(event, ui) {
         $("#amount-del").val(ui.value);
         }

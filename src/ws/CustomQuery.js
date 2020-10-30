@@ -43,7 +43,7 @@ function searchRanges(url) {
     formulaArgs = "";
     }
   else if (del > 0) {
-    formula     = "isNear(" + ra0 + "," + del0 + "," + del + ")";
+    formula     = "isNear(" + ra0 + "," + dec0 + "," + del + ")";
     formulaArgs = "ra,dec";
     }
   else {

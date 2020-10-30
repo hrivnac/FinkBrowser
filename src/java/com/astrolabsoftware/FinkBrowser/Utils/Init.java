@@ -17,23 +17,36 @@ import org.apache.log4j.PropertyConfigurator;
   * @author <a href="mailto:Julius.Hrivnac@cern.ch">J.Hrivnac</a> */
 public class Init {
 
-  /** Setup Logging system. */
+  /** Setup system. */
   public static void init() {
-    init(false);
+    init(false, false);
+    }
+
+  /** Setup system for Web Service. */
+  public static void initWS() {
+    init(true, false);
     }
 
   /** Setup Logging system.
     * @param quiet If no outupt is required. */
-  public static void init(boolean quiet) {
+  public static void init(boolean ws,
+                          boolean quiet) {
     if (_initialised) {
       log.debug("Already initialised");
       return;
       }
     try {
-      PropertyConfigurator.configure(Init.class.getClassLoader().getResource("com/astrolabsoftware/FinkBrowser/Utils/log4j.properties"));
-      Evaluator.setAuxFuctions("com.astrolabsoftware.FinkBrowser.HBaser.FinkEvaluatorFunctions",
-                               "com/astrolabsoftware/FinkBrowser/HBaser/FinkEvaluatorFunctions.bsh"); 
-      NotifierURL.notify("", "FinkBrowser", Info.release());
+      if (ws) {
+        Evaluator.setAuxFuctions("com.astrolabsoftware.FinkBrowser.HBaser.FinkEvaluatorFunctions",
+                                 "com/astrolabsoftware/FinkBrowser/HBaser/FinkEvaluatorFunctions.bsh"); 
+        NotifierURL.notify("", "FinkBrowserWS", Info.release());
+        }
+      else {
+        PropertyConfigurator.configure(Init.class.getClassLoader().getResource("com/astrolabsoftware/FinkBrowser/Utils/log4j.properties"));
+        Evaluator.setAuxFuctions("com.astrolabsoftware.FinkBrowser.HBaser.FinkEvaluatorFunctions",
+                                 "com/astrolabsoftware/FinkBrowser/HBaser/FinkEvaluatorFunctions.bsh"); 
+        NotifierURL.notify("", "FinkBrowser", Info.release());
+        }
       }
     catch (Exception e) {
       System.err.println(e);
