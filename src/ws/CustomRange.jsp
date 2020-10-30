@@ -1,5 +1,9 @@
 <div id="hbaseTableSelector" style="width:100%; background-color:#eeeeee;">
 
+  <button onClick="w2popup.load({url:'Help-HBaseFink.html', showMax: true})" style="position:absolute; right:0">
+    <img src="images/Help.png" width="10"/>
+    </button>
+
   <style>
     #slider-ra, #slider-dec, #slider-ra0, #slider-dec0, #slider-del {
       float: left;
@@ -34,6 +38,8 @@
         <td><input type="text" id="amount-del" readonly style="border:0; color:#4444ee; font-weight:bold;"><div id="slider-del"></div></td></tr>
     <tr><td colspan="2"><b>Free-form<br/>Selector</b></td>
         <td><input type="text" id="ffselector" name="ffselector" size="60">&nbsp;(disables Range Selectors)</td></tr>
+    <tr><td colspan="2"><b>other<br/>columns</b></td>
+        <td><input type="text" id="othercol" name="othercol" size="60"></td></tr>
     </table>
     
   <input type='button' onclick='searchRanges("<%=url%>")' value='Search Ranges' style="background-color:#dddddd">

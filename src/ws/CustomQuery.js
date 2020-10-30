@@ -38,6 +38,7 @@ function searchRanges(url) {
   var dec0   = $("#slider-dec0").slider("value");
   var del    = $("#slider-del" ).slider("value");
   var ff  = document.getElementById('ffselector').value;
+  var oc  = document.getElementById('othercol').value;
   if (ff != "") {
     formula     = ff;
     formulaArgs = "";
@@ -49,6 +50,9 @@ function searchRanges(url) {
   else {
     formula     = "isWithinGeoLimits(" + ramin + "," + ramax + "," + decmin + "," + decmax + ")";
     formulaArgs = "ra,dec";
+    }
+  if (oc != "") {
+    formulaArgs += "," + oc;
     }
   loadPane("result", url + "&formula=" + formula + "&formulaArgs=" + formulaArgs); 
   }
