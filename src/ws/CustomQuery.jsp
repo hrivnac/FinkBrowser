@@ -2,6 +2,7 @@
 <!-- Use the selection to send a new search      -->
 
 <%
+  h.setAlwaysColumns("i:jd");
   String latestS = request.getParameter("latest");
   latestS = (latestS  == null || latestS.equals( "null")) ? "" : latestS.trim();
   int latest = 0;

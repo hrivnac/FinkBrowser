@@ -35,7 +35,7 @@
     <tr><td colspan="2"><b>Free-form<br/>Selector</b></td>
         <td><input type="text" id="ffselector" name="ffselector" size="60">&nbsp;(disables Range Selectors)</td></tr>
     </table>
-
+    
   <input type='button' onclick='searchRanges("<%=url%>")' value='Search Ranges' style="background-color:#dddddd">
 
   <hr/>
