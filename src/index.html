@@ -4,6 +4,14 @@
 <title>Fink Browser</title>
 </head>
 
+<style>
+  iframe {
+    border: 1px solid black;
+    width: 100%;
+    background: #dddddd;
+    }
+  </style>
+
 <body>
 
 <table><tr>
@@ -93,268 +101,24 @@ It allows <a href="https://beanshell.github.io">BeanShell</a>/Java scripting, wi
 <br/>
 <h3>Access to HBase</h3>
 <u><b><a href="https://github.com/hrivnac/FinkBrowser/blob/master/src/bsh/testHBaseClient.bsh">BeanShell/Java example</a>:</b></u>
-<pre style="color:blue; font-size:60%; background-color:#dddddd">
-// Connect to HBase table
-//HBaseClient client = new HBaseClient("localhost", 2181);
-HBaseClient client = new HBaseClient("134.158.74.54", 2181);
-client.connect("test_portal_tiny.3", "schema_0.7.0_0.3.6");
-client.setLimit(100);
-
-// Get two known alerts (two columns) 
-results = client.scan("ZTF17aaaaxyd_2458789.0426273,ZTF17aaaajdq_2458789.0297801",
-                      null,
-                      "i:candid,b:cutoutScience_stampData",
-                      0,
-                      false,
-                      false);
-print(client.results2String(results)); 
-
-// Get binary cell
-print(client.repository().get("binary:ZTF17aaaaxyd_2458789.0426273:cutoutScience_stampData"));
-
-
-// Get all alerts with row containing 'xyd' or starting with 'ZTF19aaaiw'
-// Available comparators: exact, prefix (default), substring, regex
-results = client.scan(null,
-                      "key:key:xyd:substring,key:key:ZTF19aaaiw:prefix",
-                      "i:candid",
-                      0,
-                      true,
-                      true);
-print(client.results2String(results)); 
-
-// Get all alerts with column match
-// It only works for string columns, use Evaluator for numerical columns
-// Available comparators: exact, prefix, substring (default), regex
-results = client.scan(null,
-                      "d:cdsxmatch:YSO:exact",
-                      "i:candid,d:cdsxmatch",
-                      0,
-                      true,
-                      true);
-print(client.results2String(results)); 
-
-// Get timeline dependece of i:dec
-results = client.timeline("i:dec");
-print(client.results2String(results)); 
-
-// Get all recent (last 100000 minutes) objectIds
-results = client.latests("i:objectId",
-                         null,
-                         100000,
-                         true);
-print(results); 
-
-// Apply predefined function to filter results
-client.setEvaluation("isWithinGeoLimits(80, 85, -4.0, 0.0)", "ra,dec");
-results = client.scan(null,
-                      null,
-                      null,
-                      0,
-                      false,
-                      false);
-print(client.results2String(results)); 
-
-// Apply formula to filter results
-client.setEvaluation("dec < 10");
-results = client.scan(null,
-                      null,
-                      null,
-                      0,
-                      false,
-                      false);
-print(client.results2String(results)); 
-
-client.close();
-</pre>
+<iframe src="https://raw.githubusercontent.com/hrivnac/FinkBrowser/master/src/bsh/testHBaseClient.bsh" seamless></iframe>
 <u><b><a href="https://github.com/hrivnac/FinkBrowser/blob/master/src/python/testHBaseClient.jy">Jython example</a> (needs <a href="http://www.jython.org">Jython</a>):</b></u>
-<pre style="color:blue; font-size:60%; background-color:#dddddd">
-import sys
-
-# ../dist/FinkBrowser.exe.jar
-sys.path.append(sys.argv[1])
-
-from com.Lomikel.HBaser import HBaseClient
-
-#client = HBaseClient("localhost", 2181)
-client = HBaseClient("134.158.74.54", 2181);
-client.connect("test_portal_tiny.3", "schema_0.7.0_0.3.6")
-client.setLimit(10)
-
-print(client.scan(None, "key:key:ZTF17", None, 100000, True, True))
-
-client.close()
-</pre>
+<iframe src="https://raw.githubusercontent.com/hrivnac/FinkBrowser/master/src/python/testHBaseClient.jy" seamless></iframe>
 <u><b><a href="https://github.com/hrivnac/FinkBrowser/blob/master/src/python/testHBaseClient.py">CPython example</a> (needs <a href="http://www.jpype.org">JPype</a>):</b></u>
-<pre style="color:blue; font-size:60%; background-color:#dddddd">
-import sys
-
-import jpype
-import jpype.imports
-from jpype import JImplements, JOverride, JImplementationFor
-
-# ../dist/FinkBrowser.exe.jar
-jpype.startJVM(jpype.getDefaultJVMPath(), "-ea", "-Djava.class.path=" + sys.argv[1], convertStrings=False)
-
-from com.Lomikel.HBaser import HBaseClient
-
-true  = jpype.java.lang.Boolean(True)
-false = jpype.java.lang.Boolean(False)
-
-#client = HBaseClient("localhost", 2181)
-client = HBaseClient("134.158.74.54", 2181);
-client.connect("test_portal_tiny.3", "schema_0.7.0_0.3.6")
-client.setLimit(10)
-
-print(client.scan(None, "key:key:ZTF17", None, 100000, true, true)) 
-
-client.close()
-
-jpype.shutdownJVM()
-</pre>
+<iframe src="https://raw.githubusercontent.com/hrivnac/FinkBrowser/master/src/python/testHBaseClient.py" seamless></iframe>
 <u><b><a href="https://github.com/hrivnac/FinkBrowser/blob/master/src/python/testHBaseClient.sage">Sage example</a> (needs also <a href="http://sagemath.org">SageMath</a>):</b></u>
-<pre style="color:blue; font-size:60%; background-color:#dddddd">
-import sys
-
-import jpype
-import jpype.imports
-from jpype import JImplements, JOverride, JImplementationFor
-
-jpype.startJVM(jpype.getDefaultJVMPath(), "-ea", "-Djava.class.path=../dist/FinkBrowser.exe.jar", convertStrings=True)
-
-import java.lang
-import java.util
-
-import com.Lomikel.HBaser
-
-true  = jpype.java.lang.Boolean(True)
-false = jpype.java.lang.Boolean(False)
-
-client = com.Lomikel.HBaser.HBaseClient("localhost", 2181)
-client.connect("test_portal_tiny.3", "schema_0.7.0_0.3.6")
-#client.setLimit(10);
-
-a17 = [];
-a19 = [];
-for r in client.scan("", "key:key:ZTF17", "i:ra,i:dec", 100000, false, false).values():
-  a17 += [(float(r['i:ra']), float(r['i:dec']))];
-for r in client.scan("", "key:key:ZTF19", "i:ra,i:dec", 100000, false, false).values():
-  a19 += [(float(r['i:ra']), float(r['i:dec']))];
-p = list_plot(a17, color='red') + list_plot(a19, color='blue');
-show(p, axes_labels = ('ra', 'dec'), title='ZTF17(red) + ZTF19(blue)');
-
-client.close();
-
-jpype.shutdownJVM()
-</pre>
+<iframe src="https://raw.githubusercontent.com/hrivnac/FinkBrowser/master/src/python/testHBaseClient.sage" seamless></iframe>
 <a href="SageExample.jpg" ><img src="SageExample.jpg"  width="400"></a><br/>
 <u><b><a href="https://github.com/hrivnac/FinkBrowser/blob/master/src/python/testHBaseClient_matplotlib.py">CPython example with graphics</a> (needs also <a href="http://matplotlib.org">MatPlotLib</a>):</b></u>
-<pre style="color:blue; font-size:60%; background-color:#dddddd">
-import sys
-
-import jpype
-import jpype.imports
-from jpype import JImplements, JOverride, JImplementationFor
-
-import matplotlib.pyplot as plt
-
-# ../dist/FinkBrowser.exe.jar
-jpype.startJVM(jpype.getDefaultJVMPath(), "-ea", "-Djava.class.path=" + sys.argv[1], convertStrings=True)
-
-from com.Lomikel.HBaser import HBaseClient
-
-true  = jpype.java.lang.Boolean(True)
-false = jpype.java.lang.Boolean(False)
-
-#client = HBaseClient("localhost", 2181)
-client = HBaseClient("134.158.74.54", 2181);
-client.connect("test_portal_tiny.3", "schema_0.7.0_0.3.6")
-#client.setLimit(10)
-
-a17_x = [];
-a17_y = [];
-a19_x = [];
-a19_y = [];
-for r in client.scan("", "key:key:ZTF17", "i:ra,i:dec", 0, false, false).values():
-  a17_x += [float(r['i:ra'])]
-  a17_y += [float(r['i:dec'])]
-for r in client.scan("", "key:key:ZTF19", "i:ra,i:dec", 0, false, false).values():
-  a19_x += [float(r['i:ra'])]
-  a19_y += [float(r['i:dec'])]
-
-plt.plot(a17_x, a17_y, 'r.')
-plt.plot(a19_x, a19_y, 'b.')
-plt.title('ZTF17(red) + ZTF19(blue)')
-plt.xlabel('ra')
-plt.ylabel('dec')
-plt.show()
-
-client.close()
-
-jpype.shutdownJVM()
-</pre>
+<iframe src="https://raw.githubusercontent.com/hrivnac/FinkBrowser/master/src/python/testHBaseClient_matplotlib.py" seamless></iframe>
 <a href="MatplotlibExample.jpg" ><img src="MatplotlibExample.jpg"  width="400"></a>
 <h3>Access to JanusGraph</h3>
 <u><b><a href="https://github.com/hrivnac/FinkBrowser/blob/master/src/bsh/testGremlinClient.bsh">BeanShell/Java example</a>:</b></u>
-<pre style="color:blue; font-size:60%; background-color:#dddddd">
-// Connect to JanusGraph
-GremlinClient client = new GremlinClient("134.158.74.85", 24444);
-g = client.g();
-
-// Get properties of the first alert
-print(g.V().hasLabel('alert').limit(1).valueMap().next());
-
-client.close();
-</pre>
+<iframe src="https://raw.githubusercontent.com/hrivnac/FinkBrowser/master/src/bsh/testGremlinClient.bsh" seamless></iframe>
 <u><b><a href="https://github.com/hrivnac/FinkBrowser/blob/master/src/python/testGremlinClient.jy">Jython example</a> (needs <a href="http://www.jython.org">Jython</a>):</b></u>
-<pre style="color:blue; font-size:60%; background-color:#dddddd">
-import sys
-
-# ../dist/FinkBrowser.exe.jar
-sys.path.append(sys.argv[1])
-
-from com.Lomikel.Januser import GremlinClient
-
-client = GremlinClient("134.158.74.85", 24444);
-
-g = client.g();
-print(g.V().hasLabel('alert').limit(1).valueMap().next());
-
-client.close()
-</pre>
+<iframe src="https://raw.githubusercontent.com/hrivnac/FinkBrowser/master/src/python/testGremlinClient.jy" seamless></iframe>
 <u><b><a href="https://github.com/hrivnac/FinkBrowser/blob/master/src/bsh/testClients.bsh">Full example, connecting to both databases</a> (Java version):</b></u>
-<pre style="color:blue; font-size:60%; background-color:#dddddd">
-// Connect to JanusGraph
-GremlinClient gc = new GremlinClient("134.158.74.85", 24444);
-g = gc.g();
-
-// Connect to HBase
-HBaseClient hc = new HBaseClient("134.158.74.54", 2181);
-hc.connect("test_portal_tiny.3", "schema_0.7.0_0.3.6");
-
-// Get new interesting alerts from JanusGraph
-// 1) get AlertCollection with name = NewInterestingAlerts
-// 2) navigate all outgoing edges to get all alerts in this collection
-// 3) convert their rowkeys into a List
-rowkeys = g.V().has("AlertCollection", "name", "NewInterestingAlerts").out().values("rowkey").toList();
-
-// Get dec*ra for those alerts from HBase
-// 1) convert the List of rowkeys into a String with a comma-separated list of them
-// 2) ask HBase for dec and ra properties of those alerts 
-keysearch = String.join(",", rowkeys);
-results = hc.scan(keysearch,
-                  null,
-                  "i:dec,i:ra",
-                  0,
-                  false,
-                  false);
-
-// Analyse them
-// ...
-
-// Close connections
-gc.close();
-hc.close();
+<iframe src="https://raw.githubusercontent.com/hrivnac/FinkBrowser/master/src/bsh/testClients.bsh" seamless></iframe>
 </pre>
 <u><b>Another usefull methods:</b></u>
 <pre style="color:blue; font-size:60%; background-color:#dddddd">
@@ -366,12 +130,33 @@ results = client.timeline("i:dec", null);
 // Get latest values for a column
 // (using HBase timestamp for HBaseClient, i:jd for FinkHBaseClient)
 results = client.latests("i:dec", null, 5000, false);
+// Get the alerts from time interval
+// (using Julian Date, for FinkHBaseClient)
+results = client.search("2458860", "2458861", "i:ra,i:dec", true, true);
+// Get alerts in a cone around ra*dec direction
+// (using degrees, for FinkHBaseClient)
+results = client.search(59.8990234, 50.2781216, 5.0/3600.0, "i:ra,i:dec", false, false);
+// Convert results (as a Map) into readable String
+client.results2String(results)
+// Convert results (as a Map) into a List
+client.results2List(results)
+// Set columns, which should be always received
+// (* gives all)
+client.setAlwaysColumns("i:ra,i:dec")
+// Add columns, which should be always received
+// (* gives all)
+client.addAlwaysColumns("i:ra,i:dec")
+// Request all results in between searched results
+client.setRangeScan(true)
 </pre>
 <u><b><a href="https://github.com/hrivnac/FinkBrowser/blob/master/src/Jupyter/TestHBaseClient-SciJava.nb">Running in Jupyter/SciJava</a>:</b></u><br/>
+<iframe src="https://raw.githubusercontent.com/hrivnac/FinkBrowser/master/src/Jupyter/TestHBaseClient-SciJava.nb" seamless></iframe>
 <a href="Jupyter-SciJava.jpg"><img src="Jupyter-SciJava.jpg" width="400"></a><br/>
 <u><b><a href="https://github.com/hrivnac/FinkBrowser/blob/master/src/Jupyter/TestHBaseClient-Python3.nb">Running in Jupyter/Python3</a>:</b></u><br/>
+<iframe src="https://raw.githubusercontent.com/hrivnac/FinkBrowser/master/src/Jupyter/TestHBaseClient-Python3.nb" seamless></iframe>
 <a href="Jupyter-Python3.jpg"><img src="Jupyter-Python3.jpg" width="400"></a><br/>
 <u><b><a href="https://github.com/hrivnac/FinkBrowser/blob/master/src/Jupyter/TestHBaseClient-SageMath.nb">Running in Jupyter/SageMath</a>:</b></u><br/>
+<iframe src="https://raw.githubusercontent.com/hrivnac/FinkBrowser/master/src/Jupyter/TestHBaseClient-SageMath.nb" seamless></iframe>
 <a href="Jupyter-SageMath.jpg"><img src="Jupyter-SageMath.jpg" width="400"></a>
 <hr/>
 
