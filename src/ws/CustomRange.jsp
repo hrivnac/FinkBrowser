@@ -29,7 +29,7 @@
         <td><input type="text" id="amount-ra"  readonly style="border:0; color:#ef2929; font-weight:bold;"><div id="slider-ra" ></div></td></tr>
     <tr><td><label for="amount-dec">dec</label></td>
         <td><input type="text" id="amount-dec" readonly style="border:0; color:#8ae234; font-weight:bold;"><div id="slider-dec"></div></td></tr>
-    <tr><td rowspan="3"><b>Cone<br/>Selectors</b><br/>disables<br/>Area<br/>Selectors</td>
+    <tr><td rowspan="3"><b>Cone<br/>Selectors</b></td>
         <td><label for="amount-ra0">ra</label></td>
         <td><input type="text" id="amount-ra0"  readonly style="border:0; color:#ef2929; font-weight:bold;"><div id="slider-ra0" ></div></td></tr>
     <tr><td><label for="amount-dec0">dec</label></td>
@@ -37,9 +37,9 @@
     <tr><td><label for="amount-del">del</label></td>
         <td><input type="text" id="amount-del" readonly style="border:0; color:#4444ee; font-weight:bold;"><div id="slider-del"></div></td></tr>
     <tr><td colspan="2"><b>Free-form<br/>Selector</b></td>
-        <td><input type="text" id="ffselector" name="ffselector" size="60">&nbsp;(disables Range Selectors)</td></tr>
+        <td><input type="text" id="ffselector" name="ffselector" size="60"></td></tr>
     <tr><td colspan="2"><b>other<br/>columns</b></td>
-        <td><input type="text" id="othercol" name="othercol" size="60"></td></tr>
+        <td><input type="text" id="othercol" name="othercol" size="60">&nbsp;(all gives all columns)</td></tr>
     </table>
     
   <input type='button' onclick='searchRanges("<%=url%>")' value='Search Ranges' style="background-color:#dddddd">
