@@ -25,16 +25,16 @@
   
   <table style="background-color:#eeeeee">
     <tr><td rowspan="2"><b>Area<br/>Selectors</b></td>
-        <td><label for="amount-ra">ra</label></td>
+        <td><label for="amount-ra">ra <small>[deg]</small></label></td>
         <td><input type="text" id="amount-ra"  readonly style="border:0; color:#ef2929; font-weight:bold;"><div id="slider-ra" ></div></td></tr>
-    <tr><td><label for="amount-dec">dec</label></td>
+    <tr><td><label for="amount-dec">dec <small>[deg]</small></label></td>
         <td><input type="text" id="amount-dec" readonly style="border:0; color:#8ae234; font-weight:bold;"><div id="slider-dec"></div></td></tr>
     <tr><td rowspan="3"><b>Cone<br/>Selectors</b></td>
-        <td><label for="amount-ra0">ra</label></td>
+        <td><label for="amount-ra0">ra <small>[deg]</small></label></td>
         <td><input type="text" id="amount-ra0"  readonly style="border:0; color:#ef2929; font-weight:bold;"><div id="slider-ra0" ></div></td></tr>
-    <tr><td><label for="amount-dec0">dec</label></td>
+    <tr><td><label for="amount-dec0">dec <small>[deg]</small></label></td>
         <td><input type="text" id="amount-dec0" readonly style="border:0; color:#8ae234; font-weight:bold;"><div id="slider-dec0"></div></td></tr>
-    <tr><td><label for="amount-del">del</label></td>
+    <tr><td><label for="amount-del">del <small>[sec]</small></label></td>
         <td><input type="text" id="amount-del" readonly style="border:0; color:#4444ee; font-weight:bold;"><div id="slider-del"></div></td></tr>
     <tr><td colspan="2"><b>Free-form<br/>Selector</b></td>
         <td><input type="text" id="ffselector" name="ffselector" size="60"></td></tr>

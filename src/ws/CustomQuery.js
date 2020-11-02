@@ -39,6 +39,7 @@ function searchRanges(url) {
   var del    = $("#slider-del" ).slider("value");
   var ff  = document.getElementById('ffselector').value;
   var oc  = document.getElementById('othercol').value;
+  del = del / 3600.0;
   if (ff != "") {
     formula     = ff;
     formulaArgs = "";

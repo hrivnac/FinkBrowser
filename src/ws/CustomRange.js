@@ -50,7 +50,7 @@ if (typeof hideHBaseSelector === 'undefined' || !hideHBaseSelector) {
       orientation: "horizontal",
       range: false,
       min: 0,
-      max: 10,
+      max: 180,
       value: 0,
       slide: function(event, ui) {
         $("#amount-del").val(ui.value);

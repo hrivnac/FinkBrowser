@@ -47,7 +47,7 @@ import org.apache.log4j.Logger;
 public class FinkHBaseClient extends HBaseClient {
    
   /** Create.
-    * @param zookeepers The coma-separated list of zookeper ids.
+    * @param zookeepers The comma-separated list of zookeper ids.
     * @param clientPort The client port. 
     * @throws IOException If anything goes wrong. */
   public FinkHBaseClient(String zookeepers,
@@ -56,7 +56,7 @@ public class FinkHBaseClient extends HBaseClient {
     }
        
   /** Create.
-    * @param zookeepers The coma-separated list of zookeper ids.
+    * @param zookeepers The comma-separated list of zookeper ids.
     * @param clientPort The client port. 
     * @throws IOException If anything goes wrong. */
   public FinkHBaseClient(String zookeepers,
