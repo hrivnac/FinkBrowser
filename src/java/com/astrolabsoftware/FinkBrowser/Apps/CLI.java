@@ -54,8 +54,8 @@ public class CLI extends com.Lomikel.Apps.CLI {
     Init.init();
     parseArgs(args, "java -jar FinkBrowser.exe.jar");
     new CLI(Icons.icon("com/astrolabsoftware/FinkBrowser/Apps/images/Fink.png"),
-            "<html><h3>https://astrolabsoftware.github.io</h3></html>",
-            "Welcome to Fink Browser CLI " + Info.release() + "\nhttps://astrolabsoftware.github.io\n");
+            "<html><h3>http://134.158.74.221:8080/FinkBrowser</h3></html>",
+            "Welcome to Fink Data Explorer " + Info.release() + "\nhttps://astrolabsoftware.github.io\n");
     }
     
   /** Logging . */
