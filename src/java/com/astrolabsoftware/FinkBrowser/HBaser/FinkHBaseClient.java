@@ -177,7 +177,7 @@ public class FinkHBaseClient extends HBaseClient {
       client.setRangeScan(true);
       Map<String, Map<String, String>> results = client.scan(null,
                                                              "key:key:" + jdStart + ":prefix," + "key:key:" + jdStop + ":prefix",
-                                                             null,
+                                                             "i:objectId",
                                                              0,
                                                              0,
                                                              false,
@@ -232,11 +232,12 @@ public class FinkHBaseClient extends HBaseClient {
       client.connect(tableName() + ".pixel", null);
       Map<String, Map<String, String>> results = client.scan(null,
                                                              pixMap,
-                                                             null,
+                                                             "i:objectId",
                                                              0,
                                                              0,
                                                              false,
                                                              false);
+      log.info(results);
       String keys = results.values().stream().map(m -> m.get("i:objectId")).collect(Collectors.joining(","));
       if (keys != null && !keys.trim().equals("")) { 
         searchMap.put("key:key:prefix", keys);
