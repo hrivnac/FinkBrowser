@@ -4,7 +4,7 @@ g = gc.g();
 
 // Connect to HBase
 HBaseClient hc = new HBaseClient("134.158.74.54", 2181);
-hc.connect("test_portal_tiny.3", "schema_0.7.0_0.3.6");
+hc.connect("ztf_season1", "schema_0.7.0_0.3.8");
 
 // Get new interesting alerts from JanusGraph
 // 1) get AlertCollection with name = NewInterestingAlerts

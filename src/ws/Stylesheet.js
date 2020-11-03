@@ -28,23 +28,18 @@ stylesheet.nodes.site = {
     value:"0"         
     },
   actions:[
-    {name:"Livy",               url:{gremlin:"properties('Livy'          ).value()"}},
-    {name:"Spark",              url:{gremlin:"properties('Spark'         ).value()"}},
-    {name:"Spark History",      url:{gremlin:"properties('Spark History' ).value()"}},
-    {name:"Ganglia",            url:{gremlin:"properties('Ganglia'       ).value()"}},
-    {name:"Hadoop",             url:{gremlin:"properties('Hadoop'        ).value()"}},
-    {name:"HBase",              url:{gremlin:"properties('HBase'         ).value()"}},
-    {name:"Prometheus",         url:{gremlin:"properties('Prometheus'    ).value()"}},
-    {name:"Mesos",              url:{gremlin:"properties('Mesos'         ).value()"}},
-    {name:"Grafana",            url:{gremlin:"properties('Grafana'       ).value()"}},
-    {name:"Zeppelin",           url:{gremlin:"properties('Zeppelin'      ).value()"}},
-    {name:"Tomcat",             url:{gremlin:"properties('Tomcat'        ).value()"}},
-    {name:"HBase test",         url:{gremlin:"properties('HBaseTest'     ).value()"}, embedded:true},
-    {name:"HBase test old",     url:{gremlin:"properties('HBaseTestOld'  ).value()"}, embedded:true},
-    {name:"HBase test tiny",    url:{gremlin:"properties('HBaseTestTiny' ).value()"}, embedded:true},
-    {name:"HBase test tiny 1",  url:{gremlin:"properties('HBaseTestTiny1').value()"}, embedded:true},
-    {name:"HBase test tiny 2",  url:{gremlin:"properties('HBaseTestTiny2').value()"}, embedded:true},
-    {name:"HBase test tiny 3",  url:{gremlin:"properties('HBaseTestTiny3').value()"}, embedded:true}
+    {name:"Livy",               url:{gremlin:"properties('Livy'             ).value()"}},
+    {name:"Spark",              url:{gremlin:"properties('Spark'            ).value()"}},
+    {name:"Spark History",      url:{gremlin:"properties('Spark History'    ).value()"}},
+    {name:"Ganglia",            url:{gremlin:"properties('Ganglia'          ).value()"}},
+    {name:"Hadoop",             url:{gremlin:"properties('Hadoop'           ).value()"}},
+    {name:"HBase",              url:{gremlin:"properties('HBase'            ).value()"}},
+    {name:"Prometheus",         url:{gremlin:"properties('Prometheus'       ).value()"}},
+    {name:"Mesos",              url:{gremlin:"properties('Mesos'            ).value()"}},
+    {name:"Grafana",            url:{gremlin:"properties('Grafana'          ).value()"}},
+    {name:"Zeppelin",           url:{gremlin:"properties('Zeppelin'         ).value()"}},
+    {name:"Tomcat",             url:{gremlin:"properties('Tomcat'           ).value()"}},
+    {name:"HBase ZTF-Season1",  url:{gremlin:"properties('HBase-ZTF-Season1').value()"}, embedded:true}
     ]
   }
 stylesheet.nodes.alert = {

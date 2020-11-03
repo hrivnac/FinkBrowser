@@ -332,6 +332,7 @@
         <exclude name="Plot.jsp"/>
         <exclude name="Params.jsp"/>
         <exclude name="Image.jsp"/>
+        <exclude name="HBaseClient.jsp"/>
         <exclude name="HBaseColumnsProcessor.jsp"/>
         <exclude name="CustomQuery.js"/>
         <exclude name="CustomQuery.jsp"/>

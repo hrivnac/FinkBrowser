@@ -1,11 +1,11 @@
 // Connect to HBase table
 //HBaseClient client = new HBaseClient("localhost", 2181);
 HBaseClient client = new HBaseClient("134.158.74.54", 2181);
-client.connect("test_portal_tiny.3", "schema_0.7.0_0.3.6");
-client.setLimit(100);
+client.connect("ztf_season1", "schema_0.7.0_0.3.8");
+client.setLimit(5);
 
 // Get two known alerts (two columns) 
-results = client.scan("ZTF17aaaaxyd_2458789.0426273,ZTF17aaaajdq_2458789.0297801",
+results = client.scan("ZTF17aaaaaal_2458860.665162,ZTF17aaaaaal_2458899.6333102",
                       null,
                       "i:candid,b:cutoutScience_stampData",
                       0,
@@ -14,7 +14,7 @@ results = client.scan("ZTF17aaaaxyd_2458789.0426273,ZTF17aaaajdq_2458789.0297801
 print(client.results2String(results)); 
 
 // Get binary cell
-print(client.repository().get("binary:ZTF17aaaaxyd_2458789.0426273:cutoutScience_stampData"));
+print(client.repository().get("binary:ZTF17aaaaaal_2458860.665162:cutoutScience_stampData"));
 
 // Get all alerts with row containing 'xyd' or starting with 'ZTF19aaaiw'
 // Available comparators: exact, prefix (default), substring, regex

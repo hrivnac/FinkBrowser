@@ -6,9 +6,9 @@
          id="Web App_ID"
          version="2.5">
 
-  <display-name>FinkBrowser</display-name>
+  <display-name>FinkDataExplorer</display-name>
   
-  <description>Fink Browser</description>
+  <description>Fink Data Explorer</description>
 
   <session-config>
     <session-timeout>60</session-timeout>

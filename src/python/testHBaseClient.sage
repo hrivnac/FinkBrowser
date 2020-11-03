@@ -18,7 +18,7 @@ true  = jpype.java.lang.Boolean(True)
 false = jpype.java.lang.Boolean(False)
 
 client = FinkHBaseClient("localhost", 2181)
-client.connect("test_portal_tiny.3", "schema_0.7.0_0.3.6")
+client.connect("ztf_season1", "schema_0.7.0_0.3.8")
 #client.setLimit(10);
 
 a17 = [];
