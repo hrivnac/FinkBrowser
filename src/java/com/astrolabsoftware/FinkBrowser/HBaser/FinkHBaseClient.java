@@ -312,7 +312,7 @@ public class FinkHBaseClient extends HBaseClient {
       create(pixelTableName, new String[]{"i", "b", "d", "a"});
       }
     catch (TableExistsException e) {
-      log.warn("Table " + pixelTableName + " already exists, not modified");
+      log.warn("Table " + pixelTableName + " already exists, will be reused");
       }
     HBaseClient pixelClient  = new HBaseClient(zookeepers(), clientPort());
     pixelClient.connect(pixelTableName,  null);
@@ -340,6 +340,41 @@ public class FinkHBaseClient extends HBaseClient {
     System.out.println();
     log.info("" + n + " rows written");
     pixelClient.close();
+    }
+  
+  /** Create aux jd map hash table.
+    * @param keyPrefixSearch The prefix search of row key.
+    * @throws IOException If anything goes wrong. */
+  public void createJDTable(String keyPrefixSearch) throws IOException {
+    String jdTableName = tableName() + ".jd";
+    try {
+      create(jdTableName, new String[]{"i", "b", "d", "a"});
+      }
+    catch (TableExistsException e) {
+      log.warn("Table " + jdTableName + " already exists, will be reused");
+      }
+    HBaseClient jdClient  = new HBaseClient(zookeepers(), clientPort());
+    jdClient.connect(jdTableName,  null);
+    Map<String, Map<String, String>> results = scan(null, "key:key:" + keyPrefixSearch + ":prefix", "i:objectId,i:jd", 0, false, false);    
+    String objectId;
+    String jd;
+    String key;
+    log.info("Writing " + jdTableName + "...");
+    int n = 0;
+    for (Map.Entry<String, Map<String, String>> entry : results.entrySet()) {
+      objectId = entry.getValue().get("i:objectId");
+      jd       = entry.getValue().get("i:jd");
+      jdClient.put(jd + "_" + objectId,
+                      new String[]{"i:jd:"       + jd,
+                                   "i:objectId:" + objectId});
+      System.out.print(".");
+      if (n++ % 100 == 0) {
+        System.out.print(n-1);
+        }
+      }
+    System.out.println();
+    log.info("" + n + " rows written");
+    jdClient.close();
     }
     
   private static int _NSIDE = 131072; // BUG: magic number 
