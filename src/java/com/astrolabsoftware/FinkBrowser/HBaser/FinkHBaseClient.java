@@ -80,6 +80,8 @@ public class FinkHBaseClient extends HBaseClient {
   /** Get alerts between two Julian dates (inclusive).
     * @param jdStart   The starting Julian date (including day franction).
     * @param jdStop    The stopping Julian date (including day franction).
+    * @param reversed  Wheter results should be reversly ordered.
+    *                  <tt>true</tt> implies that results limits will be counted backwards.
     * @param filter    The names of required values as <tt>family:column,...</tt>.
     *                  It can be <tt>null</tt>.
     * @param ifkey     Whether give also entries keys.
@@ -87,11 +89,12 @@ public class FinkHBaseClient extends HBaseClient {
     * @return          The {@link Map} of {@link Map}s of results as <tt>key-&t;{family:column-&gt;value}</tt>. */
   public Map<String, Map<String, String>> search(String  jdStart,
                                                  String  jdStop,
+                                                 boolean reversed,
                                                  String  filter,
                                                  boolean ifkey,
                                                  boolean iftime)  {
     log.info("Searching for alerts in jd interval: " + jdStart + " - " + jdStop);
-    Map<String, String> searchMap = jd2keys(jdStart, jdStop);
+    Map<String, String> searchMap = jd2keys(jdStart, jdStop, reversed);
     if (searchMap.isEmpty()) {
       return new TreeMap<String, Map<String, String>>();
       }
@@ -135,14 +138,20 @@ public class FinkHBaseClient extends HBaseClient {
   
   /** Give all objectIds corresponding to specified Julian Date.
     * It uses *.jd table.
-    * @param jd The Julian Data (with day fraction).
-    * @return   The {@link Map} of corresponding keys of the main table,
-    *           in the format expected for the scan methods. */
-  public Map<String, String> jd2keys(String jd) {
+    * @param jd        The Julian Data (with day fraction).
+    * @param reversed  Wheter results should be reversly ordered.
+    *                  <tt>true</tt> implies that results limits will be counted backwards.
+    * @return          The {@link Map} of corresponding keys of the main table,
+    *                  in the format expected for the scan methods. */
+  public Map<String, String> jd2keys(String jd,
+                                     boolean reversed) {
     Map<String, String> searchMap = new TreeMap<>();
     try {
       HBaseClient client = new HBaseClient(zookeepers(), clientPort());
       client.connect(tableName() + ".jd", null);
+      client.setReversed(reversed);
+      client.setLimit(limit());
+      client.setSearchLimit(searchLimit());
       Map<String, Map<String, String>> results = client.scan(null,
                                                              "key:key:" + jd,
                                                              null,
@@ -164,17 +173,23 @@ public class FinkHBaseClient extends HBaseClient {
    
   /** Give all objectIds between two specified Julian Dates (inclusive).
     * It uses *.jd table.
-    * @param jdStart The start Julian Data (with day fraction), evaluated as literal prefix scan.
-    * @param jdStart The stop Julian Data (with day fraction), evaluated as literal prefix scan.
-    * @return   The {@link Map} of corresponding keys of the main table,
-    *           in the format expected for the scan methods. */
+    * @param jdStart   The start Julian Data (with day fraction), evaluated as literal prefix scan.
+    * @param jdStart   The stop Julian Data (with day fraction), evaluated as literal prefix scan.
+    * @param reversed  Wheter results should be reversly ordered.
+    *                  <tt>true</tt> implies that results limits will be counted backwards.
+    * @return          The {@link Map} of corresponding keys of the main table,
+    *                  in the format expected for the scan methods. */
   public Map<String, String> jd2keys(String jdStart,
-                                     String jdStop)  {
+                                     String jdStop,
+                                     boolean reversed)  {
     Map<String, String> searchMap = new TreeMap<>();
     try {
       HBaseClient client = new HBaseClient(zookeepers(), clientPort());
       client.connect(tableName() + ".jd", null);
       client.setRangeScan(true);
+      client.setReversed(reversed);
+      client.setLimit(limit());
+      client.setSearchLimit(searchLimit());
       Map<String, Map<String, String>> results = client.scan(null,
                                                              "key:key:" + jdStart + ":prefix," + "key:key:" + jdStop + ":prefix",
                                                              "i:objectId",
@@ -230,6 +245,8 @@ public class FinkHBaseClient extends HBaseClient {
     try {
       HBaseClient client = new HBaseClient(zookeepers(), clientPort());
       client.connect(tableName() + ".pixel", null);
+      client.setLimit(limit());
+      client.setSearchLimit(searchLimit());
       Map<String, Map<String, String>> results = client.scan(null,
                                                              pixMap,
                                                              "i:objectId",
@@ -265,6 +282,7 @@ public class FinkHBaseClient extends HBaseClient {
   @Override
   public Set<Pair<String, String>> timeline(String columnName,
                                             String search) {
+    log.info("Getting alerts timeline of " + columnName + " with " + search);
     Set<Pair<String, String>> tl = new TreeSet<>();
     Map<String, Map<String, String>> results = scan(null, search, columnName + ",i:jd", 0, false, false);
     Pair<String, String> p;
@@ -280,6 +298,8 @@ public class FinkHBaseClient extends HBaseClient {
     
   /** Give all recent values of the column. It makes use of the Julian Date alert time
     * instead of HBase timestamp. 
+    * Results are ordered by the Julian Date alert time, so evetual limits on results
+    * number will be apllied backwards in Julian date time.
     * @param columnName     The name of the column.
     * @param prefixValue    The column value prefix to search for.
     * @param minutes        How far into the past it should search. 
@@ -289,11 +309,13 @@ public class FinkHBaseClient extends HBaseClient {
                              String  prefixValue,
                              long    minutes,
                              boolean getValues) {
+    log.info("Getting " + columnName + " of alerts prefixed by " + prefixValue + " from last " + minutes + " minutes");
     Set<String> l = new TreeSet<>();
     double nowJD = DateTimeManagement.julianDate();
     double minJD = nowJD - minutes / 60.0 / 24.0;
     Map<String, Map<String, String>> results = search(String.valueOf(minJD),
                                                       String.valueOf(nowJD),
+                                                      true,
                                                       columnName,
                                                       false,
                                                       false);

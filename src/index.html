@@ -132,7 +132,7 @@ results = client.timeline("i:dec", null);
 results = client.latests("i:dec", null, 5000, false);
 // Get the alerts from time interval
 // (using Julian Date, for FinkHBaseClient)
-results = client.search("2458860", "2458861", "i:ra,i:dec", true, true);
+results = client.search("2458860", "2458861", true, "i:ra,i:dec", true, true);
 // Get alerts in a cone around ra*dec direction
 // (using degrees, for FinkHBaseClient)
 results = client.search(59.8990234, 50.2781216, 5.0/3600.0, "i:ra,i:dec", false, false);
@@ -171,7 +171,8 @@ client.setRangeScan(true)
 </ul>
 <b><u>ToDos</u></b>
 <ul>
-<li>...</li>
+<li>Fink-specific selections.</li>
+<li>Sphere mapping.</li>
 </ul>
 <hr/>
 
@@ -220,6 +221,7 @@ client.setRangeScan(true)
     <ul>
     <li>Adding cone search with Healpix.</li>
     <li>Creating aux healpix table.</li>
+    <li>FinkHBaseClient.latests(...) gives results in reverse order.</li>
     </ul></li>
 </ul>
 <hr/>
