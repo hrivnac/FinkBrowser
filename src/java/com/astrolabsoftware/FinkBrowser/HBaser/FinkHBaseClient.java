@@ -98,13 +98,21 @@ public class FinkHBaseClient extends HBaseClient {
     if (searchMap.isEmpty()) {
       return new TreeMap<String, Map<String, String>>();
       }
-    return scan(null,
-                searchMap,
+   // searching each entry separately to profit from HBase start/stop row optimisation
+    Map<String, Map<String, String>> allResults = new TreeMap<>();
+    Map<String, Map<String, String>> aResult;
+    Map<String, String> sMap;
+    for (String key : searchMap.get("key:key:exact").split(",")) {
+      aResult = scan(null,
+                "key:key:" + key + ":exact",
                 filter,
                 0,
                 0,
                 ifkey,
                 iftime);
+      allResults.putAll(aResult);
+      }
+    return allResults;
     }
     
    /** Get alerts within a spacial cone (inclusive).
@@ -127,13 +135,21 @@ public class FinkHBaseClient extends HBaseClient {
     if (searchMap.isEmpty()) {
       return new TreeMap<String, Map<String, String>>();
       }
-    return scan(null,
-                searchMap,
+    // searching each entry separately to profit from HBase start/stop row optimisation
+    Map<String, Map<String, String>> allResults = new TreeMap<>();
+    Map<String, Map<String, String>> aResult;
+    Map<String, String> sMap;
+    for (String key : searchMap.get("key:key:exact").split(",")) {
+      aResult = scan(null,
+                "key:key:" + key + ":exact",
                 filter,
                 0,
                 0,
                 ifkey,
                 iftime);
+      allResults.putAll(aResult);
+      }
+    return allResults;
     }
   
   /** Give all objectIds corresponding to specified Julian Date.
@@ -159,9 +175,9 @@ public class FinkHBaseClient extends HBaseClient {
                                                              0,
                                                              false,
                                                              false);
-      String keys = results.values().stream().map(m -> m.get("i:objectId")).collect(Collectors.joining(","));
+      String keys = results.keySet().stream().map(m -> {String[] key = m.split("_"); return key[1] + "_" + key[0];}).collect(Collectors.joining(","));
       if (keys != null && !keys.trim().equals("")) { 
-        searchMap.put("key:key", keys);
+        searchMap.put("key:key:exact", keys);
         }
       client.close();
       }
@@ -192,14 +208,14 @@ public class FinkHBaseClient extends HBaseClient {
       client.setSearchLimit(searchLimit());
       Map<String, Map<String, String>> results = client.scan(null,
                                                              "key:key:" + jdStart + ":prefix," + "key:key:" + jdStop + ":prefix",
-                                                             "i:objectId",
+                                                             null,
                                                              0,
                                                              0,
                                                              false,
                                                              false);
-      String keys = results.values().stream().map(m -> m.get("i:objectId")).collect(Collectors.joining(","));
+      String keys = results.keySet().stream().map(m -> {String[] key = m.split("_"); return key[1] + "_" + key[0];}).collect(Collectors.joining(","));
       if (keys != null && !keys.trim().equals("")) { 
-        searchMap.put("key:key", keys);
+        searchMap.put("key:key:exact", keys);
         }
       client.close();
       }
@@ -328,6 +344,7 @@ public class FinkHBaseClient extends HBaseClient {
   /** Create aux pixel map hash table.
     * @param keyPrefixSearch The prefix search of row key.
     * @throws IOException If anything goes wrong. */
+  // BUG: should write numberts with schema
   public void createPixelTable(String keyPrefixSearch) throws IOException {
     String pixelTableName = tableName() + ".pixel";
     try {
@@ -367,6 +384,7 @@ public class FinkHBaseClient extends HBaseClient {
   /** Create aux jd map hash table.
     * @param keyPrefixSearch The prefix search of row key.
     * @throws IOException If anything goes wrong. */
+  // BUG: should write numbers with schema
   public void createJDTable(String keyPrefixSearch) throws IOException {
     String jdTableName = tableName() + ".jd";
     try {
