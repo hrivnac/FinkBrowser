@@ -164,7 +164,7 @@ public class FinkHBaseClient extends HBaseClient {
     Map<String, String> searchMap = new TreeMap<>();
     try {
       HBaseClient client = new HBaseClient(zookeepers(), clientPort());
-      client.connect(tableName() + ".jd", null);
+      client.connect(tableName() + ".jd", schema().name());
       client.setReversed(reversed);
       client.setLimit(limit());
       client.setSearchLimit(searchLimit());
@@ -201,7 +201,7 @@ public class FinkHBaseClient extends HBaseClient {
     Map<String, String> searchMap = new TreeMap<>();
     try {
       HBaseClient client = new HBaseClient(zookeepers(), clientPort());
-      client.connect(tableName() + ".jd", null);
+      client.connect(tableName() + ".jd", schema().name());
       client.setRangeScan(true);
       client.setReversed(reversed);
       client.setLimit(limit());
