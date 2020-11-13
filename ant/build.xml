@@ -316,6 +316,7 @@
 	    	<include name="**/*.gif"/>
 	    	<include name="**/*.png"/>
 	    	<include name="images/*"/>
+	    	<include name="d3/**/*"/>
         <exclude name="Servers-*.jsp"/>
         </fileset>
       <fileset dir="${lomikel_ws}">
