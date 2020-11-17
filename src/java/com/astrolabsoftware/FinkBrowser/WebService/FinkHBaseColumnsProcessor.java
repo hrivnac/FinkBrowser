@@ -34,8 +34,8 @@ public class FinkHBaseColumnsProcessor extends HBaseColumnsProcessor {
   @Override
   public String getDate(Map<String, String> entry) {
     String days = entry.get("i:jd");
-    log.info(days + " ->" + DateTimeManagement.julianDate2String(Double.valueOf(days), "yyyy MM dd HH:mm:ss.nnnnnnnnn"));
-    return DateTimeManagement.julianDate2String(Double.valueOf(days), "yyyy MM dd HH:mm:ss.nnnnnnnnn");
+    log.info(days + " ->" + DateTimeManagement.julianDate2String(Double.valueOf(days), "yyyy MM dd HH:mm:ss.SSS"));
+    return DateTimeManagement.julianDate2String(Double.valueOf(days), "yyyy MM dd HH:mm:ss.SSS");
     }
 
   /** Logging . */
