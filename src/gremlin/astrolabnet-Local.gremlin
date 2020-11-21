@@ -8,6 +8,7 @@ g.V().hasLabel('latestAlertsIJCLab100').drop()
 g.V().hasLabel('latestAlertsIJCLab1000').drop()
 g.V().hasLabel('latestAlertsIJCLab10000').drop()
 g.V().hasLabel('latestAlertsIJCLab100000').drop()
+g.V().hasLabel('bestAlertsIJCLab').drop()
 astrolabnet = g.addV('AstroLabNet').next();
 ijclab = g.addV('site').property('title',            'IJCLab').
                         property('Livy',             'http://vm-75222.lal.in2p3.fr:21111').
@@ -46,6 +47,9 @@ latestAlertsIJCLab10000  = g.addV('AlertsCollection').property('title', 'Latest 
 latestAlertsIJCLab100000 = g.addV('AlertsCollection').property('title', 'Latest IJCLab Alerts(100000min)').
                                                       property('hbase', 'HBaseTable.jsp?hbase=http://134.158.74.54:2181&htable=ztf_season1&group=i:objectId&schema=schema_0.7.0_0.3.8&latest=100000').
                                                       next();
+bestAlertsIJCLab = g.addV('AlertsCollection').property('title', 'Best IJCLab Alerts').
+                                              property('hbase', 'HBaseTable.jsp?hbase=http://134.158.74.54:2181&htable=ztf_season1&group=i:objectId&schema=schema_0.7.0_0.3.8&filters=key:key:ZTF19acmdpyr&selects=*').
+                                              next();
 g.V(astrolabnet).addE('has').to(ijclab).iterate();
 g.V(astrolabnet).addE('has').to(loc).iterate();
 g.V(loc).addE('holds').to(latestAlertsLoc).iterate();
@@ -53,4 +57,5 @@ g.V(ijclab).addE('holds').to(latestAlertsIJCLab100).iterate();
 g.V(ijclab).addE('holds').to(latestAlertsIJCLab1000).iterate();
 g.V(ijclab).addE('holds').to(latestAlertsIJCLab10000).iterate();
 g.V(ijclab).addE('holds').to(latestAlertsIJCLab100000).iterate();
+g.V(ijclab).addE('holds').to(bestAlertsIJCLab).iterate();
 graph.traversal().tx().commit();

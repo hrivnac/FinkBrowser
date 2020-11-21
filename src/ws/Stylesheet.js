@@ -89,7 +89,7 @@ stylesheet.nodes.AlertsCollection = {
     value: {gremlin:"both().count().join().toString()"}        
     },
   actions:[
-    {name:"Latest Alerts",  url:{gremlin:"properties('hbase').value()"}, embedded:true}
+    {name:"Alerts",  url:{gremlin:"properties('hbase').value()"}, embedded:true}
     ]
   }
 stylesheet.edges.has = {
