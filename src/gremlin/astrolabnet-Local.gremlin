@@ -29,11 +29,10 @@ ijclab = g.addV('site').property('title',            'IJCLab').
 loc = g.addV('site').property('title',         'Local').
                      property('Hadoop',        'http://localhost:9870').
                      property('HBase',         'http://localhost:16010').
-                     property('HBaseTestTiny1', 'HBaseTable.jsp?hbase=http://localhost:2181&htable=test_portal_tiny.1&group=i:objectId&schema=schema_v0&limit=10').
-                     property('HBaseTestTiny3', 'HBaseTable.jsp?hbase=http://localhost:2181&htable=test_portal_tiny.3&group=i:objectId&schema=schema_0.7.0_0.3.6&limit=10').
+                     property('HBaseTestTiny3', 'HBaseTable.jsp?hbase=http://localhost:2181&htable=test_portal_tiny.3&group=i:objectId&schema=schema_0.7.0_0.3.8&limit=10').
                      next();
 latestAlertsLoc = g.addV('AlertsCollection').property('title', 'Latest Local Alerts').
-                                             property('hbase', 'HBaseTable.jsp?hbase=http://localhost:2181&htable=test_portal_tiny.1&group=i:objectId&schema=schema_v0&latest=1000000').
+                                             property('hbase', 'HBaseTable.jsp?hbase=http://localhost:2181&htable=test_portal_tiny.3&group=i:objectId&schema=schema_0.7.0_0.3.8&latest=1000000').
                                              next();
 latestAlertsIJCLab100    = g.addV('AlertsCollection').property('title', 'Latest IJCLab Alerts(100min)').
                                                       property('hbase', 'HBaseTable.jsp?hbase=http://134.158.74.54:2181&htable=ztf_season1&group=i:objectId&schema=schema_0.7.0_0.3.8&latest=100').
