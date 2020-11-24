@@ -36,6 +36,16 @@ public class FinkHBaseColumnsProcessor extends HBaseColumnsProcessor {
     return DateTimeManagement.julianDate2String(Double.valueOf(days), "yyyy MM dd HH:mm:ss.SSS");
     }
 
+  @Override
+  public String ra() {
+    return "i:ra";
+    }
+    
+  @Override
+  public String dec() {
+    return "i:dec";
+    }
+
   /** Logging . */
   private static Logger log = Logger.getLogger(FinkHBaseColumnsProcessor.class);
 
