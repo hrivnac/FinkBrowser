@@ -335,10 +335,6 @@
         <exclude name="Params.jsp"/>
         <exclude name="Image.jsp"/>
         <exclude name="HBaseClient.jsp"/>
-        <exclude name="CustomQuery.js"/>
-        <exclude name="CustomQuery.jsp"/>
-        <exclude name="CustomRange.js"/>
-        <exclude name="CustomRange.jsp"/>
         <exclude name="profiles/*"/>
         <exclude name="styles/*"/>
         </fileset>

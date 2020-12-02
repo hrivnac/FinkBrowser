@@ -28,6 +28,7 @@ public class Init {
     }
 
   /** Setup Logging system.
+    * @param ws    If initialise to run in a Web Service.
     * @param quiet If no outupt is required. */
   public static void init(boolean ws,
                           boolean quiet) {
@@ -36,15 +37,15 @@ public class Init {
       return;
       }
     try {
+      Evaluator.setAuxFuctions("com.astrolabsoftware.FinkBrowser.HBaser.FinkEvaluatorFunctions",
+                               "com/astrolabsoftware/FinkBrowser/HBaser/FinkEvaluatorFunctions.bsh"); 
+      Evaluator.setAuxFuctions(null,
+                               "com/astrolabsoftware/FinkBrowser/WebService/FinkHBaseColumnsProcessor.bsh"); 
       if (ws) {
-        Evaluator.setAuxFuctions("com.astrolabsoftware.FinkBrowser.HBaser.FinkEvaluatorFunctions",
-                                 "com/astrolabsoftware/FinkBrowser/HBaser/FinkEvaluatorFunctions.bsh"); 
         NotifierURL.notify("", "FinkBrowserWS", Info.release());
         }
       else {
         PropertyConfigurator.configure(Init.class.getClassLoader().getResource("com/astrolabsoftware/FinkBrowser/Utils/log4j.properties"));
-        Evaluator.setAuxFuctions("com.astrolabsoftware.FinkBrowser.HBaser.FinkEvaluatorFunctions",
-                                 "com/astrolabsoftware/FinkBrowser/HBaser/FinkEvaluatorFunctions.bsh"); 
         NotifierURL.notify("", "FinkBrowser", Info.release());
         }
       }
@@ -52,6 +53,9 @@ public class Init {
       System.err.println(e);
       }
     _initialised = true;
+    if (!quiet) {
+      log.info("Initialised, version: " + Info.release());
+      }
     }
     
   public static boolean _initialised = false;  
