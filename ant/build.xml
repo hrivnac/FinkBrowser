@@ -337,6 +337,7 @@
         <exclude name="HBaseClient.jsp"/>
         <exclude name="profiles/*"/>
         <exclude name="styles/*"/>
+        <exclude name="d3/actions.js"/>
         </fileset>
       <fileset dir="../build">
         <include name="index.jsp"/>
