@@ -56,7 +56,9 @@ stylesheet.nodes.alert = {
     value: {gremlin:"both().count().join().toString()"}        
     },
   actions:[
-    {name:"Analyse", url:{gremlin:"properties('rowkey').value().next().split('_')[0].replaceAll('^', 'http://134.158.75.151:24000/')"}},
+    {name:"alert",   url:{gremlin:"properties('rowkey').value().next().replaceAll('^',               'HBaseTable.jsp?')"             }, embedded:true},
+    {name:"alerts",  url:{gremlin:"properties('rowkey').value().next().split('_')[0].replaceAll('^', 'HBaseTable.jsp?')"             }, embedded:true},
+    {name:"Analyse", url:{gremlin:"properties('rowkey').value().next().split('_')[0].replaceAll('^', 'http://134.158.75.151:24000/')"}, external:true}
     ]
   }
 stylesheet.nodes.similarity = {

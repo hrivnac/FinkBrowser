@@ -4,6 +4,7 @@ package com.astrolabsoftware.FinkBrowser.HBaser;
 import com.Lomikel.HBaser.HBaseClient;
 import com.Lomikel.Utils.DateTimeManagement;
 import com.Lomikel.Utils.Pair;
+import com.Lomikel.Januser.JanusClient;
 
 // HealPix
 import cds.healpix.Healpix;
@@ -16,6 +17,9 @@ import static cds.healpix.VerticesAndPathComputer.LAT_INDEX;
 
 // HBase
 import org.apache.hadoop.hbase.TableExistsException;
+
+// TinkerPop
+import org.apache.tinkerpop.gremlin.structure.Vertex;
 
 // Java
 import java.lang.Math;
@@ -415,7 +419,7 @@ public class FinkHBaseClient extends HBaseClient {
     System.out.println();
     log.info("" + n + " rows written");
     jdClient.close();
-    }
+    }    
     
   private static int _NSIDE = 131072; // BUG: magic number 
     

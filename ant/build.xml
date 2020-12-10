@@ -26,6 +26,10 @@
     <pathelement path="${hbaseclient_jar}"/>
     <pathelement path="${hadoopcommon_jar}"/>
     <pathelement path="${lomikel_jar}"/>
+    <fileset dir="${janusgraph_dir}/lib">
+      <include name="*.jar"/>
+      <exclude name="logback-classic-1.1.3.jar"/>
+      </fileset>
     <fileset dir="../extlib">
       <include name="*.jar"/>
       </fileset>
@@ -480,7 +484,32 @@
         <path refid="classpath.janusgraph"/>
         </classpath>
       </java>
-    </target>      
+    </target>  
+    
+  <!-- Populate Graph from HBase ============================================-->
+  <!-- copied from Lomikel -->
+
+  <target name="populate-graph"
+          description="Populate Graph from HBase">
+    <echo>Extract Gremlin Schema</echo>
+    <java classname="com.Lomikel.Januser.JanusClient"
+          fork="true">
+      <arg value="populate"/>
+      <arg value="${zookeeper}"/>
+      <arg value="${hbase_table}"/>
+      <arg value="localhost"/>
+      <arg value="2181"/>
+      <arg value="test_portal_tiny.3"/>
+      <arg value="schema_0.7.0_0.3.6"/>
+      <arg value="alert"/>
+      <arg value="rowkey"/>
+      <arg value="ZTF"/>
+      <classpath>
+        <path refid="classpath.janusgraph"/>
+        </classpath>
+      </java>
+    </target>
+         
   <!-- Clean ================================================================-->
 
   <target name="clean"
