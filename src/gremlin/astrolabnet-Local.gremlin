@@ -57,4 +57,5 @@ g.V(ijclab).addE('holds').to(latestAlertsIJCLab1000).iterate();
 g.V(ijclab).addE('holds').to(latestAlertsIJCLab10000).iterate();
 g.V(ijclab).addE('holds').to(latestAlertsIJCLab100000).iterate();
 g.V(ijclab).addE('holds').to(bestAlertsIJCLab).iterate();
+g.V().hasLabel('alert').limit(10).addE('contains').from(g.V().hasLabel('AlertsCollection').has('title', 'Latest Local Alerts'))
 graph.traversal().tx().commit();
