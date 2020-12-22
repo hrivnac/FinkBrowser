@@ -28,18 +28,18 @@ stylesheet.nodes.site = {
     value:"0"         
     },
   actions:[
-    {name:"Livy",               url:{gremlin:"properties('Livy'             ).value()"}},
-    {name:"Spark",              url:{gremlin:"properties('Spark'            ).value()"}},
-    {name:"Spark History",      url:{gremlin:"properties('Spark History'    ).value()"}},
-    {name:"Ganglia",            url:{gremlin:"properties('Ganglia'          ).value()"}},
-    {name:"Hadoop",             url:{gremlin:"properties('Hadoop'           ).value()"}},
-    {name:"HBase",              url:{gremlin:"properties('HBase'            ).value()"}},
-    {name:"Prometheus",         url:{gremlin:"properties('Prometheus'       ).value()"}},
-    {name:"Mesos",              url:{gremlin:"properties('Mesos'            ).value()"}},
-    {name:"Grafana",            url:{gremlin:"properties('Grafana'          ).value()"}},
-    {name:"Zeppelin",           url:{gremlin:"properties('Zeppelin'         ).value()"}},
-    {name:"Tomcat",             url:{gremlin:"properties('Tomcat'           ).value()"}},
-    {name:"HBase ZTF-Season1",  url:{gremlin:"properties('HBase-ZTF-Season1').value()"}, embedded:true}
+    {name:"Livy",               url:{gremlin:"properties('Livy'             )"}},
+    {name:"Spark",              url:{gremlin:"properties('Spark'            )"}},
+    {name:"Spark History",      url:{gremlin:"properties('Spark History'    )"}},
+    {name:"Ganglia",            url:{gremlin:"properties('Ganglia'          )"}},
+    {name:"Hadoop",             url:{gremlin:"properties('Hadoop'           )"}},
+    {name:"HBase",              url:{gremlin:"properties('HBase'            )"}},
+    {name:"Prometheus",         url:{gremlin:"properties('Prometheus'       )"}},
+    {name:"Mesos",              url:{gremlin:"properties('Mesos'            )"}},
+    {name:"Grafana",            url:{gremlin:"properties('Grafana'          )"}},
+    {name:"Zeppelin",           url:{gremlin:"properties('Zeppelin'         )"}},
+    {name:"Tomcat",             url:{gremlin:"properties('Tomcat'           )"}},
+    {name:"HBase ZTF-Season1",  url:{gremlin:"properties('HBase-ZTF-Season1')"}, embedded:true}
     ]
   }
 stylesheet.nodes.alert = {
@@ -56,9 +56,9 @@ stylesheet.nodes.alert = {
     value: {gremlin:"both().count().join().toString()"}        
     },
   actions:[
-    {name:"alert",   url:{gremlin:"properties('rowkey').value().next().replaceAll('^',               'HBaseTable.jsp?key=')"                                        }, embedded:true},
-    {name:"alerts",  url:{gremlin:"properties('rowkey').value().next().split('_')[0].replaceAll('^', 'HBaseTable.jsp?filters=key:key:').reaplaceAll('$', ':prefix')"}, embedded:true},
-    {name:"Analyse", url:{gremlin:"properties('rowkey').value().next().split('_')[0].replaceAll('^', 'http://134.158.75.151:24000/')"                               }, external:true}
+    {name:"alert",   url:{gremlin:"properties('rowkey').value().next().replaceAll('^',               '/HBaseTable.jsp?selects='*'&key=')"                                        }, embedded:true},
+    {name:"alerts",  url:{gremlin:"properties('rowkey').value().next().split('_')[0].replaceAll('^', '/HBaseTable.jsp?selects='*'&filters=key:key:').reaplaceAll('$', ':prefix')"}, embedded:true},
+    {name:"Analyse", url:{gremlin:"properties('rowkey').value().next().split('_')[0].replaceAll('^', 'http://134.158.75.151:24000/')"                                           }, external:true}
     ]
   }
 stylesheet.nodes.similarity = {
@@ -91,7 +91,7 @@ stylesheet.nodes.AlertsCollection = {
     value: {gremlin:"both().count().join().toString()"}        
     },
   actions:[
-    {name:"Alerts",  url:{gremlin:"properties('hbase').value()"}, embedded:true}
+    {name:"Alerts",  url:{gremlin:"properties('hbase')"}, embedded:true}
     ]
   }
 stylesheet.edges.has = {
@@ -132,20 +132,20 @@ stylesheet.edges.contains = {
   }
 stylesheet.edges.satr = {
   graphics: {
-    label:{gremlin:"properties('weight').next().value().toString()"},
-    title:{gremlin:"properties('weight').next().value().toString()"},
+    label:{gremlin:"properties('weight')"},
+    title:{gremlin:"properties('weight')"},
     subtitle:" ",
     arrows:{to:{enabled:true, type:"vee"}},
     value:"0.1",
-    group:{gremlin:"properties('weight').next().value().toString()"}
+    group:{gremlin:"properties('weight')"}
     },
   actions: [
     ]
   }
 stylesheet.edges.exactmatch = {
   graphics: {
-    label:{gremlin:"properties('propertyname').next().value().toString()"},
-    title:{gremlin:"properties('propertyname').next().value().toString()"},
+    label:{gremlin:"properties('propertyname')"},
+    title:{gremlin:"properties('propertyname')"},
     subtitle:" ",
     arrows:{to:{enabled:false, type:"vee"}},
     value: "0.1",

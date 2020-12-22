@@ -150,133 +150,137 @@
       </jar>
     <jar jarfile="../lib/FinkBrowser.exe.jar" index="yes">
       <zipfileset includes="**/*" src="../lib/FinkBrowser-${version}.jar"/>
-      <zipfileset includes="**/*" src="${lomikel_jar}"/>
-      <zipfileset includes="**/*" src="${bsh_jar}"/>
-      <zipfileset includes="**/*" src="${cli_jar}"/>
-      <zipfileset includes="**/*" src="${log4j_jar}"/>
-      <zipfileset includes="**/*" src="${slf4j_jar}"/>
-      <zipfileset includes="**/*" src="${slf4jlog4j_jar}"/>
-      <zipfileset includes="**/*" src="${logging_jar}"/>
-      <zipfileset includes="**/*" src="${orgjson_jar}"/>
-      <zipfileset includes="**/*" src="${httpcore_jar}"/>
-      <zipfileset includes="**/*" src="${httpclient_jar}"/>
-      <zipfileset includes="**/*" src="${healpix_jar}"/>
-      <zipfileset includes="**/*" src="${javaxmail_jar}"/>
-      <zipfileset includes="**/*" src="${hbase_dir}/lib/commons-beanutils-core-1.8.0.jar"/>
-      <zipfileset includes="**/*" src="/opt/lib/commons-cli-1.4.jar"/><!-- to allow in Jupyter -->
-      <zipfileset includes="**/*" src="${hbase_dir}/lib/commons-codec-1.10.jar"/>
-      <zipfileset includes="**/*" src="${hbase_dir}/lib/commons-collections-3.2.2.jar"/>
-      <zipfileset includes="**/*" src="${hbase_dir}/lib/commons-compress-1.4.1.jar"/>
-      <zipfileset includes="**/*" src="${hbase_dir}/lib/commons-configuration-1.6.jar"/>
-      <zipfileset includes="**/*" src="${hbase_dir}/lib/commons-crypto-1.0.0.jar"/>
-      <zipfileset includes="**/*" src="${hbase_dir}/lib/commons-daemon-1.0.13.jar"/>
-      <zipfileset includes="**/*" src="${hbase_dir}/lib/commons-digester-1.8.jar"/>
-      <zipfileset includes="**/*" src="${hbase_dir}/lib/commons-io-2.5.jar"/>
-      <zipfileset includes="**/*" src="${hbase_dir}/lib/commons-lang-2.6.jar"/>
-      <zipfileset includes="**/*" src="${hbase_dir}/lib/commons-lang3-3.6.jar"/>
-      <zipfileset includes="**/*" src="${hbase_dir}/lib/commons-math-2.2.jar"/>
-      <zipfileset includes="**/*" src="${hbase_dir}/lib/commons-math3-3.6.1.jar"/>
-      <zipfileset includes="**/*" src="${hbase_dir}/lib/commons-net-3.1.jar"/>
-      <zipfileset includes="**/*" src="${hbase_dir}/lib/gson-2.2.4.jar"/>
-      <zipfileset includes="**/*" src="${hbase_dir}/lib/guava-11.0.2.jar"/>
-      <zipfileset includes="**/*" src="${hbase_dir}/lib/guice-3.0.jar"/>
-      <zipfileset includes="**/*" src="${hbase_dir}/lib/guice-servlet-3.0.jar"/>
-      <zipfileset includes="**/*" src="${hbase_dir}/lib/hadoop-annotations-2.8.5.jar"/>
-      <zipfileset includes="**/*" src="${hbase_dir}/lib/hadoop-auth-2.8.5.jar"/>
-      <zipfileset includes="**/*" src="${hbase_dir}/lib/hadoop-client-2.8.5.jar"/>
-      <zipfileset includes="**/*" src="${hbase_dir}/lib/hadoop-common-2.8.5.jar"/>
-      <zipfileset includes="**/*" src="${hbase_dir}/lib/hadoop-distcp-2.8.5.jar"/>
-      <zipfileset includes="**/*" src="${hbase_dir}/lib/hamcrest-core-1.3.jar"/>
-      <zipfileset includes="**/*" src="${hbase_dir}/lib/hbase-annotations-2.2.4.jar"/>
-      <zipfileset includes="**/*" src="${hbase_dir}/lib/hbase-client-2.2.4.jar"/>
-      <zipfileset includes="**/*" src="${hbase_dir}/lib/hbase-common-2.2.4.jar"/>
-      <zipfileset includes="**/*" src="${hbase_dir}/lib/hbase-endpoint-2.2.4.jar"/>
-      <zipfileset includes="**/*" src="${hbase_dir}/lib/hbase-external-blockcache-2.2.4.jar"/>
-      <zipfileset includes="**/*" src="${hbase_dir}/lib/hbase-hadoop2-compat-2.2.4.jar"/>
-      <zipfileset includes="**/*" src="${hbase_dir}/lib/hbase-hadoop-compat-2.2.4.jar"/>
-      <zipfileset includes="**/*" src="${hbase_dir}/lib/hbase-hbtop-2.2.4.jar"/>
-      <zipfileset includes="**/*" src="${hbase_dir}/lib/hbase-http-2.2.4.jar"/>
-      <zipfileset includes="**/*" src="${hbase_dir}/lib/hbase-it-2.2.4.jar"/>
-      <zipfileset includes="**/*" src="${hbase_dir}/lib/hbase-procedure-2.2.4.jar"/>
-      <zipfileset includes="**/*" src="${hbase_dir}/lib/hbase-protocol-2.2.4.jar"/>
-      <zipfileset includes="**/*" src="${hbase_dir}/lib/hbase-protocol-shaded-2.2.4.jar"/>
-      <zipfileset includes="**/*" src="${hbase_dir}/lib/hbase-resource-bundle-2.2.4.jar"/>
-      <zipfileset includes="**/*" src="${hbase_dir}/lib/hbase-rest-2.2.4.jar"/>
-      <zipfileset includes="**/*" src="${hbase_dir}/lib/hbase-rsgroup-2.2.4.jar"/>
-      <zipfileset includes="**/*" src="${hbase_dir}/lib/hbase-shaded-miscellaneous-2.2.1.jar"/>
-      <zipfileset includes="**/*" src="${hbase_dir}/lib/hbase-shaded-netty-2.2.1.jar"/>
-      <zipfileset includes="**/*" src="${hbase_dir}/lib/hbase-shaded-protobuf-2.2.1.jar"/>
-      <zipfileset includes="**/*" src="${hbase_dir}/lib/hbase-zookeeper-2.2.4.jar"/>
-      <zipfileset includes="**/*" src="${hbase_dir}/lib/hk2-api-2.5.0-b32.jar"/>
-      <zipfileset includes="**/*" src="${hbase_dir}/lib/hk2-locator-2.5.0-b32.jar"/>
-      <zipfileset includes="**/*" src="${hbase_dir}/lib/hk2-utils-2.5.0-b32.jar"/>
-      <zipfileset includes="**/*" src="${hbase_dir}/lib/jamon-runtime-2.4.1.jar"/>
-      <zipfileset includes="**/*" src="${hbase_dir}/lib/javassist-3.20.0-GA.jar"/>
-      <zipfileset includes="**/*" src="${hbase_dir}/lib/javax.activation-1.2.0.jar"/>
-      <zipfileset includes="**/*" src="${hbase_dir}/lib/javax.annotation-api-1.2.jar"/>
-      <zipfileset includes="**/*" src="${hbase_dir}/lib/javax.el-3.0.1-b08.jar"/>
-      <zipfileset includes="**/*" src="${hbase_dir}/lib/javax.inject-2.5.0-b32.jar"/>
-      <zipfileset includes="**/*" src="${hbase_dir}/lib/java-xmlbuilder-0.4.jar"/>
-      <zipfileset includes="**/*" src="${hbase_dir}/lib/jaxb-api-2.2.12.jar"/>
-      <zipfileset includes="**/*" src="${hbase_dir}/lib/jaxb-impl-2.2.3-1.jar"/>
-      <zipfileset includes="**/*" src="${hbase_dir}/lib/jcip-annotations-1.0-1.jar"/>
-      <zipfileset includes="**/*" src="${hbase_dir}/lib/jcodings-1.0.18.jar"/>
-      <zipfileset includes="**/*" src="${hbase_dir}/lib/joni-2.1.11.jar"/>
-      <zipfileset includes="**/*" src="${hbase_dir}/lib/leveldbjni-all-1.8.jar"/>
-      <zipfileset includes="**/*" src="${hbase_dir}/lib/libthrift-0.12.0.jar"/>
-      <zipfileset includes="**/*" src="${hbase_dir}/lib/metrics-core-3.2.6.jar"/>
-      <zipfileset includes="**/*" src="${hbase_dir}/lib/netty-all-4.0.23.Final.jar"/>
-      <zipfileset includes="**/*" src="${hbase_dir}/lib/nimbus-jose-jwt-4.41.1.jar"/>
-      <zipfileset includes="**/*" src="${hbase_dir}/lib/okhttp-2.4.0.jar"/>
-      <zipfileset includes="**/*" src="${hbase_dir}/lib/okio-1.4.0.jar"/>
-      <zipfileset includes="**/*" src="${hbase_dir}/lib/osgi-resource-locator-1.0.1.jar"/>
-      <zipfileset includes="**/*" src="${hbase_dir}/lib/paranamer-2.3.jar"/>
-      <zipfileset includes="**/*" src="${hbase_dir}/lib/protobuf-java-2.5.0.jar"/>
-      <zipfileset includes="**/*" src="${hbase_dir}/lib/snappy-java-1.0.5.jar"/>
-      <zipfileset includes="**/*" src="${hbase_dir}/lib/spymemcached-2.12.2.jar"/>
-      <zipfileset includes="**/*" src="${hbase_dir}/lib/validation-api-1.1.0.Final.jar"/>
-      <zipfileset includes="**/*" src="${hbase_dir}/lib/xmlenc-0.52.jar"/>
-      <zipfileset includes="**/*" src="${hbase_dir}/lib/xz-1.0.jar"/>
-      <zipfileset includes="**/*" src="${hbase_dir}/lib/zookeeper-3.4.10.jar"/>
-      <zipfileset includes="**/*" src="${hbase_dir}/lib/client-facing-thirdparty/htrace-core4-4.2.0-incubating.jar"/>
-      <zipfileset includes="**/*" src="${gremlin_dir}/lib/caffeine-2.3.1.jar"/>
-      <zipfileset includes="**/*" src="${gremlin_dir}/lib/commons-codec-1.14.jar"/>
-      <zipfileset includes="**/*" src="${gremlin_dir}/lib/commons-collections-3.2.2.jar"/>
-      <zipfileset includes="**/*" src="${gremlin_dir}/lib/commons-configuration-1.10.jar"/>
-      <zipfileset includes="**/*" src="${gremlin_dir}/lib/commons-lang-2.6.jar"/>
-      <zipfileset includes="**/*" src="${gremlin_dir}/lib/commons-lang3-3.8.1.jar"/>
-      <zipfileset includes="**/*" src="${gremlin_dir}/lib/commons-logging-1.2.jar"/>
-      <zipfileset includes="**/*" src="${gremlin_dir}/lib/exp4j-0.4.8.jar"/>
-      <zipfileset includes="**/*" src="${gremlin_dir}/lib/gremlin-console-3.4.8.jar"/>
-      <zipfileset includes="**/*" src="${gremlin_dir}/lib/gremlin-core-3.4.8.jar"/>
-      <zipfileset includes="**/*" src="${gremlin_dir}/lib/gremlin-driver-3.4.8.jar"/>
-      <zipfileset includes="**/*" src="${gremlin_dir}/lib/gremlin-shaded-3.4.8.jar"/>
-      <zipfileset includes="**/*" src="${gremlin_dir}/lib/groovy-2.5.11-indy.jar"/>
-      <zipfileset includes="**/*" src="${gremlin_dir}/lib/groovy-cli-picocli-2.5.11.jar"/>
-      <zipfileset includes="**/*" src="${gremlin_dir}/lib/groovy-console-2.5.11.jar"/>
-      <zipfileset includes="**/*" src="${gremlin_dir}/lib/groovy-groovysh-2.5.11-indy.jar"/>
-      <zipfileset includes="**/*" src="${gremlin_dir}/lib/groovy-json-2.5.11-indy.jar"/>
-      <zipfileset includes="**/*" src="${gremlin_dir}/lib/groovy-jsr223-2.5.11-indy.jar"/>
-      <zipfileset includes="**/*" src="${gremlin_dir}/lib/groovy-swing-2.5.11.jar"/>
-      <zipfileset includes="**/*" src="${gremlin_dir}/lib/groovy-templates-2.5.11.jar"/>
-      <zipfileset includes="**/*" src="${gremlin_dir}/lib/groovy-xml-2.5.11.jar"/>
-      <zipfileset includes="**/*" src="${gremlin_dir}/lib/hppc-0.7.1.jar"/>
-      <zipfileset includes="**/*" src="${gremlin_dir}/lib/httpclient-4.5.8.jar"/>
-      <zipfileset includes="**/*" src="${gremlin_dir}/lib/httpcore-4.4.11.jar"/>
-      <zipfileset includes="**/*" src="${gremlin_dir}/lib/ivy-2.3.0.jar"/>
-      <zipfileset includes="**/*" src="${gremlin_dir}/lib/javapoet-1.8.0.jar"/>
-      <zipfileset includes="**/*" src="${gremlin_dir}/lib/javatuples-1.2.jar"/>
-      <zipfileset includes="**/*" src="${gremlin_dir}/lib/jbcrypt-0.4.jar"/>
-      <zipfileset includes="**/*" src="${gremlin_dir}/lib/jcabi-log-0.14.jar"/>
-      <zipfileset includes="**/*" src="${gremlin_dir}/lib/jcabi-manifests-1.1.jar"/>
-      <zipfileset includes="**/*" src="${gremlin_dir}/lib/jcl-over-slf4j-1.7.25.jar"/>
-      <zipfileset includes="**/*" src="${gremlin_dir}/lib/jline-2.14.6.jar"/>
-      <zipfileset includes="**/*" src="${gremlin_dir}/lib/log4j-1.2.17.jar"/>
-      <zipfileset includes="**/*" src="${gremlin_dir}/lib/netty-all-4.1.49.Final.jar"/>
-      <zipfileset includes="**/*" src="${gremlin_dir}/lib/picocli-4.0.1.jar"/>
-      <zipfileset includes="**/*" src="${gremlin_dir}/lib/slf4j-api-1.7.25.jar"/>
-      <zipfileset includes="**/*" src="${gremlin_dir}/lib/slf4j-log4j12-1.7.25.jar"/>
-      <zipfileset includes="**/*" src="${gremlin_dir}/lib/snakeyaml-1.15.jar"/>      
+      <zipfileset includes="**/*" src="${lomikel_jar}" excludes="META-INF/*"/>
+      <zipfileset includes="**/*" src="${bsh_jar}" excludes="META-INF/*"/>
+      <zipfileset includes="**/*" src="${cli_jar}" excludes="META-INF/*"/>
+      <zipfileset includes="**/*" src="${log4j_jar}" excludes="META-INF/*"/>
+      <zipfileset includes="**/*" src="${slf4j_jar}" excludes="META-INF/*"/>
+      <zipfileset includes="**/*" src="${slf4jlog4j_jar}" excludes="META-INF/*"/>
+      <zipfileset includes="**/*" src="${logging_jar}" excludes="META-INF/*"/>
+      <zipfileset includes="**/*" src="${orgjson_jar}" excludes="META-INF/*"/>
+      <zipfileset includes="**/*" src="${healpix_jar}" excludes="META-INF/*"/>
+      <zipfileset includes="**/*" src="${javaxmail_jar}" excludes="META-INF/*"/>
+      <zipfileset includes="**/*" src="${hbase_dir}/lib/commons-beanutils-core-1.8.0.jar" excludes="META-INF/*"/>
+      <zipfileset includes="**/*" src="/opt/lib/commons-cli-1.4.jar" excludes="META-INF/*"/><!-- to allow in Jupyter -->
+      <zipfileset includes="**/*" src="${hbase_dir}/lib/commons-codec-1.10.jar" excludes="META-INF/*"/>
+      <zipfileset includes="**/*" src="${hbase_dir}/lib/commons-collections-3.2.2.jar" excludes="META-INF/*"/>
+      <zipfileset includes="**/*" src="${hbase_dir}/lib/commons-compress-1.4.1.jar" excludes="META-INF/*"/>
+      <zipfileset includes="**/*" src="${hbase_dir}/lib/commons-configuration-1.6.jar" excludes="META-INF/*"/>
+      <zipfileset includes="**/*" src="${hbase_dir}/lib/commons-crypto-1.0.0.jar" excludes="META-INF/*"/>
+      <zipfileset includes="**/*" src="${hbase_dir}/lib/commons-daemon-1.0.13.jar" excludes="META-INF/*"/>
+      <zipfileset includes="**/*" src="${hbase_dir}/lib/commons-digester-1.8.jar" excludes="META-INF/*"/>
+      <zipfileset includes="**/*" src="${hbase_dir}/lib/commons-io-2.5.jar" excludes="META-INF/*"/>
+      <zipfileset includes="**/*" src="${hbase_dir}/lib/commons-lang-2.6.jar" excludes="META-INF/*"/>
+      <zipfileset includes="**/*" src="${hbase_dir}/lib/commons-lang3-3.6.jar" excludes="META-INF/*"/>
+      <zipfileset includes="**/*" src="${hbase_dir}/lib/commons-math-2.2.jar" excludes="META-INF/*"/>
+      <zipfileset includes="**/*" src="${hbase_dir}/lib/commons-math3-3.6.1.jar" excludes="META-INF/*"/>
+      <zipfileset includes="**/*" src="${hbase_dir}/lib/commons-net-3.1.jar" excludes="META-INF/*"/>
+      <zipfileset includes="**/*" src="${hbase_dir}/lib/gson-2.2.4.jar" excludes="META-INF/*"/>
+      <zipfileset includes="**/*" src="${hbase_dir}/lib/guava-11.0.2.jar" excludes="META-INF/*"/>
+      <zipfileset includes="**/*" src="${hbase_dir}/lib/guice-3.0.jar" excludes="META-INF/*"/>
+      <zipfileset includes="**/*" src="${hbase_dir}/lib/guice-servlet-3.0.jar" excludes="META-INF/*"/>
+      <zipfileset includes="**/*" src="${hbase_dir}/lib/hadoop-annotations-2.8.5.jar" excludes="META-INF/*"/>
+      <zipfileset includes="**/*" src="${hbase_dir}/lib/hadoop-auth-2.8.5.jar" excludes="META-INF/*"/>
+      <zipfileset includes="**/*" src="${hbase_dir}/lib/hadoop-client-2.8.5.jar" excludes="META-INF/*"/>
+      <zipfileset includes="**/*" src="${hbase_dir}/lib/hadoop-common-2.8.5.jar" excludes="META-INF/*"/>
+      <zipfileset includes="**/*" src="${hbase_dir}/lib/hadoop-distcp-2.8.5.jar" excludes="META-INF/*"/>
+      <zipfileset includes="**/*" src="${hbase_dir}/lib/hamcrest-core-1.3.jar" excludes="META-INF/*"/>
+      <zipfileset includes="**/*" src="${hbase_dir}/lib/hbase-annotations-2.2.4.jar" excludes="META-INF/*"/>
+      <zipfileset includes="**/*" src="${hbase_dir}/lib/hbase-client-2.2.4.jar" excludes="META-INF/*"/>
+      <zipfileset includes="**/*" src="${hbase_dir}/lib/hbase-common-2.2.4.jar" excludes="META-INF/*"/>
+      <zipfileset includes="**/*" src="${hbase_dir}/lib/hbase-endpoint-2.2.4.jar" excludes="META-INF/*"/>
+      <zipfileset includes="**/*" src="${hbase_dir}/lib/hbase-external-blockcache-2.2.4.jar" excludes="META-INF/*"/>
+      <zipfileset includes="**/*" src="${hbase_dir}/lib/hbase-hadoop2-compat-2.2.4.jar" excludes="META-INF/*"/>
+      <zipfileset includes="**/*" src="${hbase_dir}/lib/hbase-hadoop-compat-2.2.4.jar" excludes="META-INF/*"/>
+      <zipfileset includes="**/*" src="${hbase_dir}/lib/hbase-hbtop-2.2.4.jar" excludes="META-INF/*"/>
+      <zipfileset includes="**/*" src="${hbase_dir}/lib/hbase-http-2.2.4.jar" excludes="META-INF/*"/>
+      <zipfileset includes="**/*" src="${hbase_dir}/lib/hbase-it-2.2.4.jar" excludes="META-INF/*"/>
+      <zipfileset includes="**/*" src="${hbase_dir}/lib/hbase-procedure-2.2.4.jar" excludes="META-INF/*"/>
+      <zipfileset includes="**/*" src="${hbase_dir}/lib/hbase-protocol-2.2.4.jar" excludes="META-INF/*"/>
+      <zipfileset includes="**/*" src="${hbase_dir}/lib/hbase-protocol-shaded-2.2.4.jar" excludes="META-INF/*"/>
+      <zipfileset includes="**/*" src="${hbase_dir}/lib/hbase-resource-bundle-2.2.4.jar" excludes="META-INF/*"/>
+      <zipfileset includes="**/*" src="${hbase_dir}/lib/hbase-rest-2.2.4.jar" excludes="META-INF/*"/>
+      <zipfileset includes="**/*" src="${hbase_dir}/lib/hbase-rsgroup-2.2.4.jar" excludes="META-INF/*"/>
+      <zipfileset includes="**/*" src="${hbase_dir}/lib/hbase-shaded-miscellaneous-2.2.1.jar" excludes="META-INF/*"/>
+      <zipfileset includes="**/*" src="${hbase_dir}/lib/hbase-shaded-netty-2.2.1.jar" excludes="META-INF/*"/>
+      <zipfileset includes="**/*" src="${hbase_dir}/lib/hbase-shaded-protobuf-2.2.1.jar" excludes="META-INF/*"/>
+      <zipfileset includes="**/*" src="${hbase_dir}/lib/hbase-zookeeper-2.2.4.jar" excludes="META-INF/*"/>
+      <zipfileset includes="**/*" src="${hbase_dir}/lib/hk2-api-2.5.0-b32.jar" excludes="META-INF/*"/>
+      <zipfileset includes="**/*" src="${hbase_dir}/lib/hk2-locator-2.5.0-b32.jar" excludes="META-INF/*"/>
+      <zipfileset includes="**/*" src="${hbase_dir}/lib/hk2-utils-2.5.0-b32.jar" excludes="META-INF/*"/>
+      <zipfileset includes="**/*" src="${hbase_dir}/lib/jamon-runtime-2.4.1.jar" excludes="META-INF/*"/>
+      <zipfileset includes="**/*" src="${hbase_dir}/lib/javassist-3.20.0-GA.jar" excludes="META-INF/*"/>
+      <zipfileset includes="**/*" src="${hbase_dir}/lib/javax.activation-1.2.0.jar" excludes="META-INF/*"/>
+      <zipfileset includes="**/*" src="${hbase_dir}/lib/javax.annotation-api-1.2.jar" excludes="META-INF/*"/>
+      <zipfileset includes="**/*" src="${hbase_dir}/lib/javax.el-3.0.1-b08.jar" excludes="META-INF/*"/>
+      <zipfileset includes="**/*" src="${hbase_dir}/lib/javax.inject-2.5.0-b32.jar" excludes="META-INF/*"/>
+      <zipfileset includes="**/*" src="${hbase_dir}/lib/java-xmlbuilder-0.4.jar" excludes="META-INF/*"/>
+      <zipfileset includes="**/*" src="${hbase_dir}/lib/jaxb-api-2.2.12.jar" excludes="META-INF/*"/>
+      <zipfileset includes="**/*" src="${hbase_dir}/lib/jaxb-impl-2.2.3-1.jar" excludes="META-INF/*"/>
+      <zipfileset includes="**/*" src="${hbase_dir}/lib/jcip-annotations-1.0-1.jar" excludes="META-INF/*"/>
+      <zipfileset includes="**/*" src="${hbase_dir}/lib/jcodings-1.0.18.jar" excludes="META-INF/*"/>
+      <zipfileset includes="**/*" src="${hbase_dir}/lib/joni-2.1.11.jar" excludes="META-INF/*"/>
+      <zipfileset includes="**/*" src="${hbase_dir}/lib/leveldbjni-all-1.8.jar" excludes="META-INF/*"/>
+      <zipfileset includes="**/*" src="${hbase_dir}/lib/libthrift-0.12.0.jar" excludes="META-INF/*"/>
+      <zipfileset includes="**/*" src="${hbase_dir}/lib/metrics-core-3.2.6.jar" excludes="META-INF/*"/>
+      <zipfileset includes="**/*" src="${hbase_dir}/lib/netty-all-4.0.23.Final.jar" excludes="META-INF/*"/>
+      <zipfileset includes="**/*" src="${hbase_dir}/lib/nimbus-jose-jwt-4.41.1.jar" excludes="META-INF/*"/>
+      <zipfileset includes="**/*" src="${hbase_dir}/lib/okhttp-2.4.0.jar" excludes="META-INF/*"/>
+      <zipfileset includes="**/*" src="${hbase_dir}/lib/okio-1.4.0.jar" excludes="META-INF/*"/>
+      <zipfileset includes="**/*" src="${hbase_dir}/lib/osgi-resource-locator-1.0.1.jar" excludes="META-INF/*"/>
+      <zipfileset includes="**/*" src="${hbase_dir}/lib/paranamer-2.3.jar" excludes="META-INF/*"/>
+      <zipfileset includes="**/*" src="${hbase_dir}/lib/protobuf-java-2.5.0.jar" excludes="META-INF/*"/>
+      <zipfileset includes="**/*" src="${hbase_dir}/lib/snappy-java-1.0.5.jar" excludes="META-INF/*"/>
+      <zipfileset includes="**/*" src="${hbase_dir}/lib/spymemcached-2.12.2.jar" excludes="META-INF/*"/>
+      <zipfileset includes="**/*" src="${hbase_dir}/lib/validation-api-1.1.0.Final.jar" excludes="META-INF/*"/>
+      <zipfileset includes="**/*" src="${hbase_dir}/lib/xmlenc-0.52.jar" excludes="META-INF/*"/>
+      <zipfileset includes="**/*" src="${hbase_dir}/lib/xz-1.0.jar" excludes="META-INF/*"/>
+      <zipfileset includes="**/*" src="${hbase_dir}/lib/zookeeper-3.4.10.jar" excludes="META-INF/*"/>
+      <zipfileset includes="**/*" src="${hbase_dir}/lib/client-facing-thirdparty/htrace-core4-4.2.0-incubating.jar" excludes="META-INF/*"/>
+      <zipfileset includes="**/*" src="${janusgraph_dir}/lib/caffeine-2.3.1.jar" excludes="META-INF/*"/>
+      <zipfileset includes="**/*" src="${janusgraph_dir}/lib/commons-codec-1.14.jar" excludes="META-INF/*"/>
+      <zipfileset includes="**/*" src="${janusgraph_dir}/lib/commons-collections-3.2.2.jar" excludes="META-INF/*"/>
+      <zipfileset includes="**/*" src="${janusgraph_dir}/lib/commons-configuration-1.10.jar" excludes="META-INF/*"/>
+      <zipfileset includes="**/*" src="${janusgraph_dir}/lib/commons-lang-2.5.jar" excludes="META-INF/*"/>
+      <zipfileset includes="**/*" src="${janusgraph_dir}/lib/commons-lang3-3.3.1.jar" excludes="META-INF/*"/>
+      <zipfileset includes="**/*" src="${janusgraph_dir}/lib/commons-logging-1.1.1.jar" excludes="META-INF/*"/>
+      <zipfileset includes="**/*" src="${janusgraph_dir}/lib/exp4j-0.4.8.jar" excludes="META-INF/*"/>
+      <zipfileset includes="**/*" src="${janusgraph_dir}/lib/guava-18.0.jar" excludes="META-INF/*"/>
+      <zipfileset includes="**/*" src="${janusgraph_dir}/lib/gremlin-console-3.4.6.jar" excludes="META-INF/*"/>
+      <zipfileset includes="**/*" src="${janusgraph_dir}/lib/gremlin-core-3.4.6.jar" excludes="META-INF/*"/>
+      <zipfileset includes="**/*" src="${janusgraph_dir}/lib/gremlin-driver-3.4.6.jar" excludes="META-INF/*"/>
+      <zipfileset includes="**/*" src="${janusgraph_dir}/lib/gremlin-groovy-3.4.6.jar" excludes="META-INF/*"/>
+      <zipfileset includes="**/*" src="${janusgraph_dir}/lib/gremlin-shaded-3.4.6.jar" excludes="META-INF/*"/>
+      <zipfileset includes="**/*" src="${janusgraph_dir}/lib/groovy-2.5.7-indy.jar" excludes="META-INF/*"/>
+      <zipfileset includes="**/*" src="${janusgraph_dir}/lib/groovy-cli-picocli-2.5.7.jar" excludes="META-INF/*"/>
+      <zipfileset includes="**/*" src="${janusgraph_dir}/lib/groovy-console-2.5.7.jar" excludes="META-INF/*"/>
+      <zipfileset includes="**/*" src="${janusgraph_dir}/lib/groovy-groovysh-2.5.7-indy.jar" excludes="META-INF/*"/>
+      <zipfileset includes="**/*" src="${janusgraph_dir}/lib/groovy-json-2.5.7-indy.jar" excludes="META-INF/*"/>
+      <zipfileset includes="**/*" src="${janusgraph_dir}/lib/groovy-jsr223-2.5.7-indy.jar" excludes="META-INF/*"/>
+      <zipfileset includes="**/*" src="${janusgraph_dir}/lib/groovy-swing-2.5.7.jar" excludes="META-INF/*"/>
+      <zipfileset includes="**/*" src="${janusgraph_dir}/lib/groovy-templates-2.5.7.jar" excludes="META-INF/*"/>
+      <zipfileset includes="**/*" src="${janusgraph_dir}/lib/groovy-xml-2.5.7.jar" excludes="META-INF/*"/>
+      <zipfileset includes="**/*" src="${janusgraph_dir}/lib/hppc-0.7.1.jar" excludes="META-INF/*"/>
+      <zipfileset includes="**/*" src="${janusgraph_dir}/lib/httpclient-4.5.10.jar" excludes="META-INF/*"/>
+      <zipfileset includes="**/*" src="${janusgraph_dir}/lib/httpcore-4.4.12.jar" excludes="META-INF/*"/>
+      <zipfileset includes="**/*" src="${janusgraph_dir}/lib/ivy-2.3.0.jar" excludes="META-INF/*"/>
+      <zipfileset includes="**/*" src="${janusgraph_dir}/lib/janusgraph-driver-0.5.2.jar" excludes="META-INF/*"/>
+      <zipfileset includes="**/*" src="${janusgraph_dir}/lib/javapoet-1.8.0.jar" excludes="META-INF/*"/>
+      <zipfileset includes="**/*" src="${janusgraph_dir}/lib/javatuples-1.2.jar" excludes="META-INF/*"/>
+      <zipfileset includes="**/*" src="${janusgraph_dir}/lib/jbcrypt-0.4.jar" excludes="META-INF/*"/>
+      <zipfileset includes="**/*" src="${janusgraph_dir}/lib/jcabi-log-0.14.jar" excludes="META-INF/*"/>
+      <zipfileset includes="**/*" src="${janusgraph_dir}/lib/jcabi-manifests-1.1.jar" excludes="META-INF/*"/>
+      <zipfileset includes="**/*" src="${janusgraph_dir}/lib/jcl-over-slf4j-1.7.25.jar" excludes="META-INF/*"/>
+      <zipfileset includes="**/*" src="${janusgraph_dir}/lib/jline-2.14.6.jar" excludes="META-INF/*"/>
+      <zipfileset includes="**/*" src="${janusgraph_dir}/lib/jts-core-1.16.1.jar" excludes="META-INF/*"/>
+      <zipfileset includes="**/*" src="${janusgraph_dir}/lib/log4j-1.2.16.jar" excludes="META-INF/*"/>
+      <zipfileset includes="**/*" src="${janusgraph_dir}/lib/netty-all-4.1.45.Final.jar" excludes="META-INF/*"/>
+      <zipfileset includes="**/*" src="${janusgraph_dir}/lib/picocli-3.9.5.jar" excludes="META-INF/*"/>
+      <zipfileset includes="**/*" src="${janusgraph_dir}/lib/slf4j-api-1.7.12.jar" excludes="META-INF/*"/>
+      <zipfileset includes="**/*" src="${janusgraph_dir}/lib/slf4j-log4j12-1.7.12.jar" excludes="META-INF/*"/>
+      <zipfileset includes="**/*" src="${janusgraph_dir}/lib/snakeyaml-1.11.jar" excludes="META-INF/*"/>
+      <zipfileset includes="**/*" src="${janusgraph_dir}/lib/spatial4j-0.7.jar" excludes="META-INF/*"/>
+      <zipfileset includes="**/*" src="${janusgraph_dir}/lib/tinkergraph-gremlin-3.4.6.jar" excludes="META-INF/*"/>
       <manifest>
         <attribute name="Created-By" value="${user.name}"/>
         <attribute name="AppName"    value="FinkBrowser"/>
@@ -361,91 +365,128 @@
       <lib file="${slf4jlog4j_jar}"/>
       <lib file="${logging_jar}"/>
       <lib file="${orgjson_jar}"/>
-      <lib file="${httpcore_jar}"/>
-      <lib file="${httpclient_jar}"/>
       <lib file="${healpix_jar}"/>
       <lib file="${javaxmail_jar}"/>
-      <lib dir="${hbase_dir}/lib" casesensitive="yes">
-        <include name="commons-beanutils-core-1.8.0.jar"/>
-        <include name="commons-cli-1.2.jar"/>
-        <include name="commons-codec-1.10.jar"/>
-        <include name="commons-collections-3.2.2.jar"/>
-        <include name="commons-compress-1.4.1.jar"/>
-        <include name="commons-configuration-1.6.jar"/>
-        <include name="commons-crypto-1.0.0.jar"/>
-        <include name="commons-daemon-1.0.13.jar"/>
-        <include name="commons-digester-1.8.jar"/>
-        <include name="commons-io-2.5.jar"/>
-        <include name="commons-lang-2.6.jar"/>
-        <include name="commons-lang3-3.6.jar"/>
-        <include name="commons-math-2.2.jar"/>
-        <include name="commons-math3-3.6.1.jar"/>
-        <include name="commons-net-3.1.jar"/>
-        <include name="gson-2.2.4.jar"/>
-        <include name="guava-11.0.2.jar"/>
-        <include name="guice-3.0.jar"/>
-        <include name="guice-servlet-3.0.jar"/>
-        <include name="hadoop-annotations-2.8.5.jar"/>
-        <include name="hadoop-auth-2.8.5.jar"/>
-        <include name="hadoop-client-2.8.5.jar"/>
-        <include name="hadoop-common-2.8.5.jar"/>
-        <include name="hadoop-distcp-2.8.5.jar"/>
-        <include name="hamcrest-core-1.3.jar"/>
-        <include name="hbase-annotations-2.2.4.jar"/>
-        <include name="hbase-client-2.2.4.jar"/>
-        <include name="hbase-common-2.2.4.jar"/>
-        <include name="hbase-endpoint-2.2.4.jar"/>
-        <include name="hbase-external-blockcache-2.2.4.jar"/>
-        <include name="hbase-hadoop2-compat-2.2.4.jar"/>
-        <include name="hbase-hadoop-compat-2.2.4.jar"/>
-        <include name="hbase-hbtop-2.2.4.jar"/>
-        <include name="hbase-http-2.2.4.jar"/>
-        <include name="hbase-it-2.2.4.jar"/>
-        <include name="hbase-procedure-2.2.4.jar"/>
-        <include name="hbase-protocol-2.2.4.jar"/>
-        <include name="hbase-protocol-shaded-2.2.4.jar"/>
-        <include name="hbase-resource-bundle-2.2.4.jar"/>
-        <include name="hbase-rest-2.2.4.jar"/>
-        <include name="hbase-rsgroup-2.2.4.jar"/>
-        <include name="hbase-shaded-miscellaneous-2.2.1.jar"/>
-        <include name="hbase-shaded-netty-2.2.1.jar"/>
-        <include name="hbase-shaded-protobuf-2.2.1.jar"/>
-        <include name="hbase-zookeeper-2.2.4.jar"/>
-        <include name="hk2-api-2.5.0-b32.jar"/>
-        <include name="hk2-locator-2.5.0-b32.jar"/>
-        <include name="hk2-utils-2.5.0-b32.jar"/>
-        <include name="jamon-runtime-2.4.1.jar"/>
-        <include name="javassist-3.20.0-GA.jar"/>
-        <include name="javax.activation-1.2.0.jar"/>
-        <include name="javax.annotation-api-1.2.jar"/>
-        <include name="javax.el-3.0.1-b08.jar"/>
-        <include name="javax.inject-2.5.0-b32.jar"/>
-        <include name="java-xmlbuilder-0.4.jar"/>
-        <include name="jaxb-api-2.2.12.jar"/>
-        <include name="jaxb-impl-2.2.3-1.jar"/>
-        <include name="jcip-annotations-1.0-1.jar"/>
-        <include name="jcodings-1.0.18.jar"/>
-        <include name="joni-2.1.11.jar"/>
-        <include name="leveldbjni-all-1.8.jar"/>
-        <include name="libthrift-0.12.0.jar"/>
-        <include name="metrics-core-3.2.6.jar"/>
-        <include name="netty-all-4.0.23.Final.jar"/>
-        <include name="nimbus-jose-jwt-4.41.1.jar"/>
-        <include name="okhttp-2.4.0.jar"/>
-        <include name="okio-1.4.0.jar"/>
-        <include name="osgi-resource-locator-1.0.1.jar"/>
-        <include name="paranamer-2.3.jar"/>
-        <include name="protobuf-java-2.5.0.jar"/>
-        <include name="snappy-java-1.0.5.jar"/>
-        <include name="spymemcached-2.12.2.jar"/>
-        <include name="validation-api-1.1.0.Final.jar"/>
-        <include name="xmlenc-0.52.jar"/>
-        <include name="xz-1.0.jar"/>
-        <include name="zookeeper-3.4.10.jar"/>
-        </lib>            
-      <lib dir="${hbase_dir}/lib/client-facing-thirdparty" casesensitive="yes">
-        <include name="htrace-core4-4.2.0-incubating.jar"/>
-        </lib>
+      <lib file="${hbase_dir}/lib/commons-beanutils-core-1.8.0.jar"/>
+      <lib file="${hbase_dir}/lib/commons-cli-1.2.jar"/>
+      <lib file="${hbase_dir}/lib/commons-codec-1.10.jar"/>
+      <lib file="${hbase_dir}/lib/commons-collections-3.2.2.jar"/>
+      <lib file="${hbase_dir}/lib/commons-compress-1.4.1.jar"/>
+      <lib file="${hbase_dir}/lib/commons-configuration-1.6.jar"/>
+      <lib file="${hbase_dir}/lib/commons-crypto-1.0.0.jar"/>
+      <lib file="${hbase_dir}/lib/commons-daemon-1.0.13.jar"/>
+      <lib file="${hbase_dir}/lib/commons-digester-1.8.jar"/>
+      <lib file="${hbase_dir}/lib/commons-io-2.5.jar"/>
+      <lib file="${hbase_dir}/lib/commons-lang-2.6.jar"/>
+      <lib file="${hbase_dir}/lib/commons-lang3-3.6.jar"/>
+      <lib file="${hbase_dir}/lib/commons-math-2.2.jar"/>
+      <lib file="${hbase_dir}/lib/commons-math3-3.6.1.jar"/>
+      <lib file="${hbase_dir}/lib/commons-net-3.1.jar"/>
+      <lib file="${hbase_dir}/lib/gson-2.2.4.jar"/>
+      <lib file="${hbase_dir}/lib/guava-11.0.2.jar"/>
+      <lib file="${hbase_dir}/lib/guice-3.0.jar"/>
+      <lib file="${hbase_dir}/lib/guice-servlet-3.0.jar"/>
+      <lib file="${hbase_dir}/lib/hadoop-annotations-2.8.5.jar"/>
+      <lib file="${hbase_dir}/lib/hadoop-auth-2.8.5.jar"/>
+      <lib file="${hbase_dir}/lib/hadoop-client-2.8.5.jar"/>
+      <lib file="${hbase_dir}/lib/hadoop-common-2.8.5.jar"/>
+      <lib file="${hbase_dir}/lib/hadoop-distcp-2.8.5.jar"/>
+      <lib file="${hbase_dir}/lib/hamcrest-core-1.3.jar"/>
+      <lib file="${hbase_dir}/lib/hbase-annotations-2.2.4.jar"/>
+      <lib file="${hbase_dir}/lib/hbase-client-2.2.4.jar"/>
+      <lib file="${hbase_dir}/lib/hbase-common-2.2.4.jar"/>
+      <lib file="${hbase_dir}/lib/hbase-endpoint-2.2.4.jar"/>
+      <lib file="${hbase_dir}/lib/hbase-external-blockcache-2.2.4.jar"/>
+      <lib file="${hbase_dir}/lib/hbase-hadoop2-compat-2.2.4.jar"/>
+      <lib file="${hbase_dir}/lib/hbase-hadoop-compat-2.2.4.jar"/>
+      <lib file="${hbase_dir}/lib/hbase-hbtop-2.2.4.jar"/>
+      <lib file="${hbase_dir}/lib/hbase-http-2.2.4.jar"/>
+      <lib file="${hbase_dir}/lib/hbase-it-2.2.4.jar"/>
+      <lib file="${hbase_dir}/lib/hbase-procedure-2.2.4.jar"/>
+      <lib file="${hbase_dir}/lib/hbase-protocol-2.2.4.jar"/>
+      <lib file="${hbase_dir}/lib/hbase-protocol-shaded-2.2.4.jar"/>
+      <lib file="${hbase_dir}/lib/hbase-resource-bundle-2.2.4.jar"/>
+      <lib file="${hbase_dir}/lib/hbase-rest-2.2.4.jar"/>
+      <lib file="${hbase_dir}/lib/hbase-rsgroup-2.2.4.jar"/>
+      <lib file="${hbase_dir}/lib/hbase-shaded-miscellaneous-2.2.1.jar"/>
+      <lib file="${hbase_dir}/lib/hbase-shaded-netty-2.2.1.jar"/>
+      <lib file="${hbase_dir}/lib/hbase-shaded-protobuf-2.2.1.jar"/>
+      <lib file="${hbase_dir}/lib/hbase-zookeeper-2.2.4.jar"/>
+      <lib file="${hbase_dir}/lib/hk2-api-2.5.0-b32.jar"/>
+      <lib file="${hbase_dir}/lib/hk2-locator-2.5.0-b32.jar"/>
+      <lib file="${hbase_dir}/lib/hk2-utils-2.5.0-b32.jar"/>
+      <lib file="${hbase_dir}/lib/jamon-runtime-2.4.1.jar"/>
+      <lib file="${hbase_dir}/lib/javassist-3.20.0-GA.jar"/>
+      <lib file="${hbase_dir}/lib/javax.activation-1.2.0.jar"/>
+      <lib file="${hbase_dir}/lib/javax.annotation-api-1.2.jar"/>
+      <lib file="${hbase_dir}/lib/javax.el-3.0.1-b08.jar"/>
+      <lib file="${hbase_dir}/lib/javax.inject-2.5.0-b32.jar"/>
+      <lib file="${hbase_dir}/lib/java-xmlbuilder-0.4.jar"/>
+      <lib file="${hbase_dir}/lib/jaxb-api-2.2.12.jar"/>
+      <lib file="${hbase_dir}/lib/jaxb-impl-2.2.3-1.jar"/>
+      <lib file="${hbase_dir}/lib/jcip-annotations-1.0-1.jar"/>
+      <lib file="${hbase_dir}/lib/jcodings-1.0.18.jar"/>
+      <lib file="${hbase_dir}/lib/joni-2.1.11.jar"/>
+      <lib file="${hbase_dir}/lib/leveldbjni-all-1.8.jar"/>
+      <lib file="${hbase_dir}/lib/libthrift-0.12.0.jar"/>
+      <lib file="${hbase_dir}/lib/metrics-core-3.2.6.jar"/>
+      <lib file="${hbase_dir}/lib/netty-all-4.0.23.Final.jar"/>
+      <lib file="${hbase_dir}/lib/nimbus-jose-jwt-4.41.1.jar"/>
+      <lib file="${hbase_dir}/lib/okhttp-2.4.0.jar"/>
+      <lib file="${hbase_dir}/lib/okio-1.4.0.jar"/>
+      <lib file="${hbase_dir}/lib/osgi-resource-locator-1.0.1.jar"/>
+      <lib file="${hbase_dir}/lib/paranamer-2.3.jar"/>
+      <lib file="${hbase_dir}/lib/protobuf-java-2.5.0.jar"/>
+      <lib file="${hbase_dir}/lib/snappy-java-1.0.5.jar"/>
+      <lib file="${hbase_dir}/lib/spymemcached-2.12.2.jar"/>
+      <lib file="${hbase_dir}/lib/validation-api-1.1.0.Final.jar"/>
+      <lib file="${hbase_dir}/lib/xmlenc-0.52.jar"/>
+      <lib file="${hbase_dir}/lib/xz-1.0.jar"/>
+      <lib file="${hbase_dir}/lib/zookeeper-3.4.10.jar"/>        
+      <lib file="${hbase_dir}/lib/client-facing-thirdparty/htrace-core4-4.2.0-incubating.jar"/>
+      <lib file="${janusgraph_dir}/lib/caffeine-2.3.1.jar"/>
+      <lib file="${janusgraph_dir}/lib/commons-codec-1.14.jar"/>
+      <lib file="${janusgraph_dir}/lib/commons-collections-3.2.2.jar"/>
+      <lib file="${janusgraph_dir}/lib/commons-configuration-1.10.jar"/>
+      <lib file="${janusgraph_dir}/lib/commons-lang-2.5.jar"/>
+      <lib file="${janusgraph_dir}/lib/commons-lang3-3.3.1.jar"/>
+      <lib file="${janusgraph_dir}/lib/commons-logging-1.1.1.jar"/>
+      <lib file="${janusgraph_dir}/lib/exp4j-0.4.8.jar"/>
+      <lib file="${janusgraph_dir}/lib/guava-18.0.jar"/>
+      <lib file="${janusgraph_dir}/lib/gremlin-console-3.4.6.jar"/>
+      <lib file="${janusgraph_dir}/lib/gremlin-core-3.4.6.jar"/>
+      <lib file="${janusgraph_dir}/lib/gremlin-driver-3.4.6.jar"/>
+      <lib file="${janusgraph_dir}/lib/gremlin-groovy-3.4.6.jar"/>
+      <lib file="${janusgraph_dir}/lib/gremlin-shaded-3.4.6.jar"/>
+      <lib file="${janusgraph_dir}/lib/groovy-2.5.7-indy.jar"/>
+      <lib file="${janusgraph_dir}/lib/groovy-cli-picocli-2.5.7.jar"/>
+      <lib file="${janusgraph_dir}/lib/groovy-console-2.5.7.jar"/>
+      <lib file="${janusgraph_dir}/lib/groovy-groovysh-2.5.7-indy.jar"/>
+      <lib file="${janusgraph_dir}/lib/groovy-json-2.5.7-indy.jar"/>
+      <lib file="${janusgraph_dir}/lib/groovy-jsr223-2.5.7-indy.jar"/>
+      <lib file="${janusgraph_dir}/lib/groovy-swing-2.5.7.jar"/>
+      <lib file="${janusgraph_dir}/lib/groovy-templates-2.5.7.jar"/>
+      <lib file="${janusgraph_dir}/lib/groovy-xml-2.5.7.jar"/>
+      <lib file="${janusgraph_dir}/lib/hppc-0.7.1.jar"/>
+      <lib file="${janusgraph_dir}/lib/httpclient-4.5.10.jar"/>
+      <lib file="${janusgraph_dir}/lib/httpcore-4.4.12.jar"/>
+      <lib file="${janusgraph_dir}/lib/ivy-2.3.0.jar"/>
+      <lib file="${janusgraph_dir}/lib/janusgraph-driver-0.5.2.jar"/>
+      <lib file="${janusgraph_dir}/lib/javapoet-1.8.0.jar"/>
+      <lib file="${janusgraph_dir}/lib/javatuples-1.2.jar"/>
+      <lib file="${janusgraph_dir}/lib/jbcrypt-0.4.jar"/>
+      <lib file="${janusgraph_dir}/lib/jcabi-log-0.14.jar"/>
+      <lib file="${janusgraph_dir}/lib/jcabi-manifests-1.1.jar"/>
+      <lib file="${janusgraph_dir}/lib/jcl-over-slf4j-1.7.25.jar"/>
+      <lib file="${janusgraph_dir}/lib/jline-2.14.6.jar"/>
+      <lib file="${janusgraph_dir}/lib/log4j-1.2.16.jar"/>
+      <lib file="${janusgraph_dir}/lib/netty-all-4.1.45.Final.jar"/>
+      <lib file="${janusgraph_dir}/lib/picocli-3.9.5.jar"/>
+      <lib file="${janusgraph_dir}/lib/slf4j-api-1.7.12.jar"/>
+      <lib file="${janusgraph_dir}/lib/slf4j-log4j12-1.7.12.jar"/>
+      <lib file="${janusgraph_dir}/lib/snakeyaml-1.11.jar"/>
+      <lib file="${janusgraph_dir}/lib/spatial4j-0.7.jar"/>
+      <lib file="${janusgraph_dir}/lib/tinkergraph-gremlin-3.4.6.jar"/>
       <manifest>
         <attribute name="Created-By" value="${user.name}"/>
         <attribute name="AppName"    value="FinkBrowser"/>
@@ -534,7 +575,7 @@
    
   <!-- Patch JanusGraph =====================================================-->
   
-  <target name="patch"
+  <target name="janus-patch"
           description="Patch JanusGraph">
  		<copy todir="${janusgraph_dir}/scripts">
 			<fileset dir="../src/gremlin" includes="functions.gremlin"/>
