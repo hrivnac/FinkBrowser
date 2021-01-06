@@ -26,13 +26,13 @@ ijclab = g.addV('site').property('title',            'IJCLab').
                         property('Tomcat',           'http://134.158.74.221:8080').
                         property('HBase-ZTF-Season1','HBaseTable.jsp?hbase=http://134.158.74.54:2181&htable=ztf_season1&group=i:objectId&schema=schema_0.7.0_0.3.8&limit=100').
                         next();
-loc = g.addV('site').property('title',         'Local').
-                     property('Hadoop',        'http://localhost:9870').
-                     property('HBase',         'http://localhost:16010').
-                     property('HBaseTestTiny3', 'HBaseTable.jsp?hbase=http://localhost:2181&htable=test_portal_tiny.3&group=i:objectId&schema=schema_0.7.0_0.3.8&limit=10').
+loc = g.addV('site').property('title',             'Local').
+                     property('Hadoop',            'http://localhost:9870').
+                     property('HBase',             'http://localhost:16010').
+                     property('HBase-Test-Tiny-3', 'HBaseTable.jsp?hbase=http://localhost:2181&htable=test_portal_tiny.3&group=i:objectId&schema=schema_0.7.0_0.3.6&limit=10').
                      next();
 latestAlertsLoc = g.addV('AlertsCollection').property('title', 'Latest Local Alerts').
-                                             property('hbase', 'HBaseTable.jsp?hbase=http://localhost:2181&htable=test_portal_tiny.3&group=i:objectId&schema=schema_0.7.0_0.3.8&latest=1000000').
+                                             property('hbase', 'HBaseTable.jsp?hbase=http://localhost:2181&htable=test_portal_tiny.3&group=i:objectId&schema=schema_0.7.0_0.3.6&latest=1000000').
                                              next();
 latestAlertsIJCLab100    = g.addV('AlertsCollection').property('title', 'Latest IJCLab Alerts(100min)').
                                                       property('hbase', 'HBaseTable.jsp?hbase=http://134.158.74.54:2181&htable=ztf_season1&group=i:objectId&schema=schema_0.7.0_0.3.8&latest=100').
@@ -49,9 +49,13 @@ latestAlertsIJCLab100000 = g.addV('AlertsCollection').property('title', 'Latest 
 bestAlertsIJCLab = g.addV('AlertsCollection').property('title', 'Best IJCLab Alerts').
                                               property('hbase', 'HBaseTable.jsp?hbase=http://134.158.74.54:2181&htable=ztf_season1&group=i:objectId&schema=schema_0.7.0_0.3.8&filters=key:key:ZTF19acmdpyr&selects=*').
                                               next();
+bestAlertsLoc = g.addV('AlertsCollection').property('title', 'Best Local Alerts').
+                                           property('hbase', 'HBaseTable.jsp?hbase=http://localhost:2181&htable=test_portal_tiny.3&group=i:objectId&schema=schema_0.7.0_0.3.6&filters=key:key:ZTF17&selects=*').
+                                           next();
 g.V(astrolabnet).addE('has').to(ijclab).iterate();
 g.V(astrolabnet).addE('has').to(loc).iterate();
 g.V(loc).addE('holds').to(latestAlertsLoc).iterate();
+g.V(loc).addE('holds').to(bestAlertsLoc).iterate();
 g.V(ijclab).addE('holds').to(latestAlertsIJCLab100).iterate();
 g.V(ijclab).addE('holds').to(latestAlertsIJCLab1000).iterate();
 g.V(ijclab).addE('holds').to(latestAlertsIJCLab10000).iterate();
