@@ -8,6 +8,7 @@ g.V().hasLabel('latestAlertsIJCLab100').drop()
 g.V().hasLabel('latestAlertsIJCLab1000').drop()
 g.V().hasLabel('latestAlertsIJCLab10000').drop()
 g.V().hasLabel('latestAlertsIJCLab100000').drop()
+g.V().hasLabel('bestAlertsLoc').drop()
 g.V().hasLabel('bestAlertsIJCLab').drop()
 astrolabnet = g.addV('AstroLabNet').next();
 ijclab = g.addV('site').property('title',            'IJCLab').
@@ -61,5 +62,5 @@ g.V(ijclab).addE('holds').to(latestAlertsIJCLab1000).iterate();
 g.V(ijclab).addE('holds').to(latestAlertsIJCLab10000).iterate();
 g.V(ijclab).addE('holds').to(latestAlertsIJCLab100000).iterate();
 g.V(ijclab).addE('holds').to(bestAlertsIJCLab).iterate();
-g.V().hasLabel('alert').limit(10).addE('contains').from(g.V().hasLabel('AlertsCollection').has('title', 'Latest Local Alerts'))
+//g.V().hasLabel('alert').limit(10).addE('contains').from(g.V().hasLabel('AlertsCollection').has('title', 'Latest Local Alerts'))
 graph.traversal().tx().commit();
