@@ -1,8 +1,8 @@
 // Connect to JanusGraph
 GremlinClient client = new GremlinClient("134.158.74.85", 24444);
-g = client.g();
 
-// Get properties of the first alert
-print(g.V().hasLabel('alert').limit(1).valueMap().next());
+// Execute Gremlin command
+print(client.interpret("g.V().hasLabel('site').limit(2).next(2)"));
+print(client.interpret2JSON("g.V().limit(20)"));
 
 client.close();
