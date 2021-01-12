@@ -516,6 +516,9 @@
     <exec executable="/usr/bin/sudo">
       <arg line="cp ../lib/FinkBrowser.war ${server_dir}/${user.name}-FinkBrowser.war"/>
       </exec>
+    <exec executable="/usr/bin/sudo">
+      <arg line="chmod 777 ${server_dir}/${user.name}-FinkBrowser.war"/>
+      </exec>
     </target>
     
   <target name="deploy-pure"
@@ -541,6 +544,9 @@
       </exec>
     <exec executable="/usr/bin/sudo">
       <arg line="cp ../lib/FinkBrowser.war ${server_dir}/FinkBrowser.war"/>
+      </exec>
+    <exec executable="/usr/bin/sudo">
+      <arg line="chmod 777 ${server_dir}/FinkBrowser.war"/>
       </exec>
     </target>
     
