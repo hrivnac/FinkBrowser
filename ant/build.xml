@@ -496,18 +496,56 @@
       </war>
     </target>
 
-  <!-- Tomcat ===============================================================-->
+  <!-- Deploy WSA ===========================================================-->
     
   <target name="deploy"
           depends="war"
           description="Deploy Development WS">
+    <antcall target="deploy-pure"/>
+    <antcall target="deploy-sudo"/>
+    </target>
+    
+  <target name="deploy-sudo"
+          if="sudo">
+    <exec executable="/usr/bin/sudo">
+      <arg line="chmod 777 ${server_dir}"/>
+      </exec>
+    <exec executable="/usr/bin/sudo">
+      <arg line="/bin/rm -f ${server_dir}/${user.name}-FinkBrowser.war"/>
+      </exec>
+    <exec executable="/usr/bin/sudo">
+      <arg line="cp ../lib/FinkBrowser.war ${server_dir}/${user.name}-FinkBrowser.war"/>
+      </exec>
+    </target>
+    
+  <target name="deploy-pure"
+           unless="sudo">
     <copy file="../lib/FinkBrowser.war"
           tofile="${server_dir}/${user.name}-FinkBrowser.war"/>
     </target>
-    
+  
   <target name="deploy-prod"
           depends="war"
           description="Deploy Production WS">
+    <antcall target="deploy-prod-pure"/>
+    <antcall target="deploy-prod-sudo"/>
+    </target>
+    
+  <target name="deploy-prod-sudo"
+          if="sudo">
+    <exec executable="/usr/bin/sudo">
+      <arg line="chmod 777 ${server_dir}"/>
+      </exec>
+    <exec executable="/usr/bin/sudo">
+      <arg line="/bin/rm -f ${server_dir}/FinkBrowser.war"/>
+      </exec>
+    <exec executable="/usr/bin/sudo">
+      <arg line="cp ../lib/FinkBrowser.war ${server_dir}/FinkBrowser.war"/>
+      </exec>
+    </target>
+    
+  <target name="deploy-prod-pure"
+          unless="sudo">
     <copy file="../lib/FinkBrowser.war"
           tofile="${server_dir}/FinkBrowser.war"/>
     </target>
