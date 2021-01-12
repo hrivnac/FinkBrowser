@@ -133,14 +133,14 @@
         </manifest>
       </jar>
     <jar jarfile="../lib/FinkBrowser.min.exe.jar" index="yes">
-      <zipfileset includes="**/*" src="../lib/FinkBrowser-${version}.jar"/>
-      <zipfileset includes="**/*" src="${lomikel_jar}"/>
-      <zipfileset includes="**/*" src="${bsh_jar}"/>
-      <zipfileset includes="**/*" src="${cli_jar}"/>
-      <zipfileset includes="**/*" src="${log4j_jar}"/>
-      <zipfileset includes="**/*" src="${slf4j_jar}"/>
-      <zipfileset includes="**/*" src="${slf4jlog4j_jar}"/>
-      <zipfileset includes="**/*" src="${logging_jar}"/>
+      <zipfileset includes="**/*" src="../lib/FinkBrowser-${version}.jar" excludes="META-INF/*"/>
+      <zipfileset includes="**/*" src="${lomikel_jar}" excludes="META-INF/*"/>
+      <zipfileset includes="**/*" src="${bsh_jar}" excludes="META-INF/*"/>
+      <zipfileset includes="**/*" src="${cli_jar}" excludes="META-INF/*"/>
+      <zipfileset includes="**/*" src="${log4j_jar}" excludes="META-INF/*"/>
+      <zipfileset includes="**/*" src="${slf4j_jar}" excludes="META-INF/*"/>
+      <zipfileset includes="**/*" src="${slf4jlog4j_jar}" excludes="META-INF/*"/>
+      <zipfileset includes="**/*" src="${logging_jar}" excludes="META-INF/*"/>
       <manifest>
         <attribute name="Created-By" value="${user.name}"/>
         <attribute name="AppName"    value="FinkBrowser"/>
@@ -149,7 +149,7 @@
         </manifest>
       </jar>
     <jar jarfile="../lib/FinkBrowser.exe.jar" index="yes">
-      <zipfileset includes="**/*" src="../lib/FinkBrowser-${version}.jar"/>
+      <zipfileset includes="**/*" src="../lib/FinkBrowser-${version}.jar" excludes="META-INF/*"/>
       <zipfileset includes="**/*" src="${lomikel_jar}" excludes="META-INF/*"/>
       <zipfileset includes="**/*" src="${bsh_jar}" excludes="META-INF/*"/>
       <zipfileset includes="**/*" src="${cli_jar}" excludes="META-INF/*"/>
@@ -511,22 +511,6 @@
     <copy file="../lib/FinkBrowser.war"
           tofile="${server_dir}/FinkBrowser.war"/>
     </target>
-  
-  <!-- Extract Schema =======================================================-->
-  <!-- copied from Lomikel -->
-
-  <target name="extract-schema"
-          description="Extract Gremlin Schema">
-    <echo>Extract Gremlin Schema</echo>
-    <java classname="com.Lomikel.Januser.JanusClient"
-          fork="true">
-      <arg value="${zookeeper}"/>
-      <arg value="${hbase_table}"/>
-      <classpath>
-        <path refid="classpath.janusgraph"/>
-        </classpath>
-      </java>
-    </target>  
     
   <!-- Populate Graph from HBase ============================================-->
   <!-- copied from Lomikel -->
