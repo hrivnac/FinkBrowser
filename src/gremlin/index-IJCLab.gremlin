@@ -1,0 +1,31 @@
+// Specification of Index
+// ======================
+
+graph.tx().rollback()
+
+mgmt = graph.openManagement()
+
+// Properties
+title  = mgmt.getPropertyKey('title')
+lbl    = mgmt.getPropertyKey('lbl')
+rowkey = mgmt.getPropertyKey('rowkey')
+
+//  Indexes
+mgmt.buildIndex('byTitle',  Vertex.class).addKey(title )         .buildCompositeIndex()
+mgmt.buildIndex('byLbl',    Vertex.class).addKey(lbl   )         .buildCompositeIndex()
+mgmt.buildIndex('byRowkey', Vertex.class).addKey(rowkey).unique().buildCompositeIndex()
+//mgmt.buildIndex('byNameAndAgeComposite', Vertex.class).addKey(name).addKey(age).buildCompositeIndex()
+
+mgmt.commit()
+
+// Wait for index
+ManagementSystem.awaitGraphIndexStatus(graph, 'byTitle' ).call()
+ManagementSystem.awaitGraphIndexStatus(graph, 'byLbl'   ).call()
+ManagementSystem.awaitGraphIndexStatus(graph, 'byRowkey').call()
+
+// Reindex existing data
+mgmt = graph.openManagement()
+mgmt.updateIndex(mgmt.getGraphIndex("byTitle" ), SchemaAction.REINDEX).get()
+mgmt.updateIndex(mgmt.getGraphIndex("byLbl"   ), SchemaAction.REINDEX).get()
+mgmt.updateIndex(mgmt.getGraphIndex("byRowkey"), SchemaAction.REINDEX).get()
+mgmt.commit()
