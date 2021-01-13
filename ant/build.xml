@@ -568,7 +568,8 @@
       <arg value="${alerts_object}"/>
       <arg value="${alerts_rowkey}"/>
       <arg value="${alerts_prefix}"/>
-      <arg value="100"/>
+      <arg value="3000"/>
+      <arg value="500"/>
       <arg value="true"/>
       <classpath>
         <path refid="classpath.janusgraph"/>
