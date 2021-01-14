@@ -1,7 +1,7 @@
 source build-global.properties
 source build-local.properties
 
-if [[ "x" = "x${ant_home}" ]]; then
+if [[ ! "x" = "x${ant_home}" ]]; then
   export ANT_HOME="${ant_home}"
   export PATH="${ANT_HOME}/bin:${PATH}"
   fi
