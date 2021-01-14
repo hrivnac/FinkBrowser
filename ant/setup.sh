@@ -1,8 +1,8 @@
 source build-global.properties
 source build-local.properties
 
-if [[ "x" = "x${ANT_HOME}" ]]; then
-  export ANT_HOME="${ant}"
+if [[ "x" = "x${ant_home}" ]]; then
+  export ANT_HOME="${ant_home}"
   export PATH="${ANT_HOME}/bin:${PATH}"
   fi
 if [[ ! "x" = "x${graphviz}" ]]; then
