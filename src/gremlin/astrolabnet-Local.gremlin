@@ -49,11 +49,11 @@ latestAlertsIJCLab100000 = g.addV('AlertsCollection').property('lbl', 'AlertsCol
                                                       next();
 bestAlertsIJCLab = g.addV('AlertsCollection').property('lbl', 'AlertsCollection').
                                               property('title', 'Best IJCLab Alerts').
-                                              property('hbase', 'HBaseTable.jsp?hbase=http://134.158.74.54:2181&htable=ztf_season1&group=i:objectId&schema=schema_0.7.0_0.3.8&filters=key:key:ZTF19acmdpyr&selects=*').
+                                              property('hbase', 'HBaseTable.jsp?hbase=http://134.158.74.54:2181&htable=ztf_season1&group=i:objectId&schema=schema_0.7.0_0.3.8&limit=100&filters=key:key:ZTF19acmdpyr&selects=*').
                                               next();
 bestAlertsLoc = g.addV('AlertsCollection').property('lbl', 'AlertsCollection').
                                            property('title', 'Best Local Alerts').
-                                           property('hbase', 'HBaseTable.jsp?hbase=http://localhost:2181&htable=test_portal_tiny.3&group=i:objectId&schema=schema_0.7.0_0.3.6&filters=key:key:ZTF17&selects=*').
+                                           property('hbase', 'HBaseTable.jsp?hbase=http://localhost:2181&htable=test_portal_tiny.3&group=i:objectId&schema=schema_0.7.0_0.3.6&limit=100&filters=key:key:ZTF17&selects=*').
                                            next();
 
 g.V(astrolabnet).addE('has').to(ijclab).iterate();
