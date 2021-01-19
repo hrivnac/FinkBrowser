@@ -1,0 +1,23 @@
+// Specification of Index
+// (Lomikel schema should be already loaded)
+// =========================================
+
+graph.tx().rollback()
+
+mgmt = graph.openManagement()
+
+// Properties
+rowkey = mgmt.getPropertyKey('rowkey')
+
+//  Indexes
+mgmt.buildIndex('byRowkey', Vertex.class).addKey(rowkey).unique().buildCompositeIndex()
+
+mgmt.commit()
+
+// Wait for index
+ManagementSystem.awaitGraphIndexStatus(graph, 'byRowkey').call()
+
+// Reindex existing data
+mgmt = graph.openManagement()
+mgmt.updateIndex(mgmt.getGraphIndex("byRowkey"), SchemaAction.REINDEX).get()
+mgmt.commit()

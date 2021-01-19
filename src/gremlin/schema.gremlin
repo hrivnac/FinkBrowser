@@ -1,0 +1,55 @@
+// Specification of schema (constrains)
+// (Lomikel schema should be already loaded)
+// =========================================
+
+mgmt = graph.openManagement()
+
+// Vertexes
+AstroLabNet      = mgmt.makeVertexLabel('AstroLabNet'     ).make()
+site             = mgmt.makeVertexLabel('site'            ).make()
+AlertsCollection = mgmt.makeVertexLabel('AlertsCollection').make()
+alert            = mgmt.makeVertexLabel('alert'           ).make()
+
+// Edges
+has      = mgmt.getEdgeLabel( 'has'     )
+contains = mgmt.getEdgeLabel( 'contains')
+holds    = mgmt.makeEdgeLabel('holds'   ).multiplicity(ONE2MANY ).make()
+
+// Properties
+title  = mgmt.getPropertyKey( 'title' )
+lbl    = mgmt.getPropertyKey( 'lbl'   )
+name   = mgmt.getPropertyKey( 'name'  )
+rowkey = mgmt.makePropertyKey('rowkey').dataType(String.class).cardinality(Cardinality.SINGLE).make()
+
+// Vertex properties
+mgmt.addProperties(AstroLabNet,
+                   lbl,
+                   title)
+mgmt.addProperties(site,
+                   lbl,
+                   title)   
+mgmt.addProperties(AlertsCollection,
+                   lbl,
+                   title)   
+mgmt.addProperties(alert,
+                   lbl,
+                   rowkey)   
+                                      
+// Edge properties
+mgmt.addProperties(has,
+                   lbl)
+mgmt.addProperties(contains,
+                   lbl)
+mgmt.addProperties(holds,
+                   lbl)
+
+// Connections                   
+mgmt.addConnection(has,      AstroLabNet,      site)
+mgmt.addConnection(contains, AlertsCollection, alert)
+mgmt.addConnection(holds,    site,             AlertsCollection)
+
+// Info
+mgmt.printSchema()
+
+mgmt.commit()
+
