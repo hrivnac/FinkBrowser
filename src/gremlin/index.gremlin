@@ -7,17 +7,18 @@ graph.tx().rollback()
 mgmt = graph.openManagement()
 
 // Properties
+lbl    = mgmt.getPropertyKey('lbl')
 rowkey = mgmt.getPropertyKey('rowkey')
 
 //  Indexes
-mgmt.buildIndex('byRowkey', Vertex.class).addKey(rowkey).unique().buildCompositeIndex()
+mgmt.buildIndex('byLblRowkey', Vertex.class).addKey(lbl).addKey(rowkey).unique().buildCompositeIndex()
 
 mgmt.commit()
 
 // Wait for index
-ManagementSystem.awaitGraphIndexStatus(graph, 'byRowkey').call()
+ManagementSystem.awaitGraphIndexStatus(graph, 'byLblRowkey').call()
 
 // Reindex existing data
 mgmt = graph.openManagement()
-mgmt.updateIndex(mgmt.getGraphIndex("byRowkey"), SchemaAction.REINDEX).get()
+mgmt.updateIndex(mgmt.getGraphIndex("byLblRowkey"), SchemaAction.REINDEX).get()
 mgmt.commit()
