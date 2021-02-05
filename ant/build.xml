@@ -135,12 +135,6 @@
     <jar jarfile="../lib/FinkBrowser.min.exe.jar" index="yes">
       <zipfileset includes="**/*" src="../lib/FinkBrowser-${version}.jar" excludes="META-INF/*"/>
       <zipfileset includes="**/*" src="${lomikel_jar}" excludes="META-INF/*"/>
-      <zipfileset includes="**/*" src="${bsh_jar}" excludes="META-INF/*"/>
-      <zipfileset includes="**/*" src="${cli_jar}" excludes="META-INF/*"/>
-      <zipfileset includes="**/*" src="${log4j_jar}" excludes="META-INF/*"/>
-      <zipfileset includes="**/*" src="${slf4j_jar}" excludes="META-INF/*"/>
-      <zipfileset includes="**/*" src="${slf4jlog4j_jar}" excludes="META-INF/*"/>
-      <zipfileset includes="**/*" src="${logging_jar}" excludes="META-INF/*"/>
       <manifest>
         <attribute name="Created-By" value="${user.name}"/>
         <attribute name="AppName"    value="FinkBrowser"/>
@@ -151,12 +145,6 @@
     <jar jarfile="../lib/FinkBrowser.exe.jar" index="yes">
       <zipfileset includes="**/*" src="../lib/FinkBrowser-${version}.jar" excludes="META-INF/*"/>
       <zipfileset includes="**/*" src="${lomikel_jar}" excludes="META-INF/*"/>
-      <zipfileset includes="**/*" src="${bsh_jar}" excludes="META-INF/*"/>
-      <zipfileset includes="**/*" src="${cli_jar}" excludes="META-INF/*"/>
-      <zipfileset includes="**/*" src="${log4j_jar}" excludes="META-INF/*"/>
-      <zipfileset includes="**/*" src="${slf4j_jar}" excludes="META-INF/*"/>
-      <zipfileset includes="**/*" src="${slf4jlog4j_jar}" excludes="META-INF/*"/>
-      <zipfileset includes="**/*" src="${logging_jar}" excludes="META-INF/*"/>
       <zipfileset includes="**/*" src="${orgjson_jar}" excludes="META-INF/*"/>
       <zipfileset includes="**/*" src="${healpix_jar}" excludes="META-INF/*"/>
       <zipfileset includes="**/*" src="${javaxmail_jar}" excludes="META-INF/*"/>
@@ -360,11 +348,6 @@
         </classes>
       <lib file="../lib/FinkBrowser-${version}.jar"/>
       <lib file="${lomikel_jar}"/>
-      <lib file="${bsh_jar}"/>
-      <lib file="${log4j_jar}"/>
-      <lib file="${slf4j_jar}"/>
-      <lib file="${slf4jlog4j_jar}"/>
-      <lib file="${logging_jar}"/>
       <lib file="${orgjson_jar}"/>
       <lib file="${healpix_jar}"/>
       <lib file="${javaxmail_jar}"/>
@@ -572,6 +555,7 @@
       <arg value="300"/>
       <arg value="600"/>
       <arg value="true"/>
+      <arg value="false"/>
       <classpath>
         <path refid="classpath.janusgraph"/>
         </classpath>
