@@ -10,10 +10,9 @@ v = g.V().has('lbl', 'alert').limit(1).next()
 // which _is_a_ Vertex so it has all Vertex properties
 // but has also access to corresponding fields in HBase
 h = new com.Lomikel.Januser.Hertex(v)
+// Get all properties
+h.properties()
 // Get properties from Graph
-//h.properties()
-// Get properties from HBase
-//h.fields()
-// Get properties from both
 h.property('simag2')
-h.field('i:simag2')
+// Get properties from HBase
+h.property('i:simag2')

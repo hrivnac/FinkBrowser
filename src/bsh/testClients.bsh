@@ -1,3 +1,4 @@
+// TBD: remove, not needed
 // Connect to JanusGraph
 GremlinClient gc = new GremlinClient("134.158.74.85", 24444);
 g = gc.g();
