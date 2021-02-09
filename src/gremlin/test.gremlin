@@ -1,16 +1,19 @@
-// Initialise
-client = new HBaseClient("134.158.74.54", 2181)
-client.connect("ztf_season1", "schema_0.7.0_0.3.8")
-Hertex.setHBaseClient(client)
-Hertex.setRowkeyName("rowkey")
+// Initialise - done on the server or in the init script
+//client = new HBaseClient("134.158.74.54", 2181)
+//client.connect("ztf_season1", "schema_0.7.0_0.3.8")
+//Hertex.setHBaseClient(client)
+//Hertex.setRowkeyName("rowkey")
 
 // Get any alert vertex from Graph
 v = g.V().has('lbl', 'alert').limit(1).next()
 // dress it as Hertex (= HBase backed Vertex)
 // which _is_a_ Vertex so it has all Vertex properties
 // but has also access to corresponding fields in HBase
-h = new Hertex(v)
-// get properties from Graph
-h.properties()
-// get properties from HBase
-h.fields()
+h = new com.Lomikel.Januser.Hertex(v)
+// Get properties from Graph
+//h.properties()
+// Get properties from HBase
+//h.fields()
+// Get properties from both
+h.property('simag2')
+h.field('i:simag2')
