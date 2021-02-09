@@ -623,9 +623,24 @@
  		<copy todir="../doc/JavaDoc">
 			<fileset dir="../src/java" includes="**/doc-files/*"/>
       </copy>
-   <mkdir dir="../doc/Gremlin"/>
+    <mkdir dir="../doc/Gremlin"/>
  		<copy todir="../doc/Gremlin">
 			<fileset dir="../src/gremlin" includes="*.gremlin"/>
+      </copy>
+    <mkdir dir="../doc/BeanShell"/>
+ 		<copy todir="../doc/BeanShell">
+			<fileset dir="../src/bsh" includes="*.bsh"/>
+      </copy>
+    <mkdir dir="../doc/Python"/>
+ 		<copy todir="../doc/Python">
+			<fileset dir="../src/python" includes="*.py"/>
+			<fileset dir="../src/python" includes="*.jy"/>
+			<fileset dir="../src/python" includes="*.sage"/>
+      </copy>
+    <mkdir dir="../doc/Jupyter"/>
+ 		<copy todir="../doc/Jupyter">
+			<fileset dir="../src/Jupyter" includes="*.nb"/>
+			<globmapper from="*.nb" to="*.nb-txt"/>
       </copy>
    <javadoc packagenames="*"
              doclet="org.jboss.apiviz.APIviz"
