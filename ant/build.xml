@@ -554,8 +554,9 @@
       <arg value="${alerts_limit}"/>
       <arg value="${alerts_commitLimit}"/>
       <arg value="${alerts_sessionLimit}"/>
-      <arg value="true"/>
-      <arg value="false"/>
+      <arg value="${alerts_reset}"/>
+      <arg value="${alerts_checkOrCreate}"/>
+      <arg value="${alerts_fullFill}"/>
       <classpath>
         <path refid="classpath.janusgraph"/>
         </classpath>
