@@ -543,7 +543,7 @@
           fork="true">
       <arg value="populate"/>
       <arg value="${zookeeper}"/>
-      <arg value="${hbase_table}"/>
+      <arg value="${janus_table}"/>
       <arg value="${zookeeper}"/>
       <arg value="${hbase_port}"/>
       <arg value="${alerts_table}"/>
@@ -551,9 +551,9 @@
       <arg value="${alerts_object}"/>
       <arg value="${alerts_rowkey}"/>
       <arg value="${alerts_prefix}"/>
-      <arg value="3000"/>
-      <arg value="300"/>
-      <arg value="600"/>
+      <arg value="${alerts_limit}"/>
+      <arg value="${alerts_commitLimit}"/>
+      <arg value="${alerts_sessionLimit}"/>
       <arg value="true"/>
       <arg value="false"/>
       <classpath>
