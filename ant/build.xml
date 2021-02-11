@@ -551,6 +551,8 @@
       <arg value="${alerts_object}"/>
       <arg value="${alerts_rowkey}"/>
       <arg value="${alerts_prefix}"/>
+      <arg value="${alerts_start}"/>
+      <arg value="${alerts_stop}"/>
       <arg value="${alerts_limit}"/>
       <arg value="${alerts_skip}"/>
       <arg value="${alerts_commitLimit}"/>
