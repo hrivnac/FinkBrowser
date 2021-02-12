@@ -10,15 +10,22 @@ mgmt = graph.openManagement()
 rowkey = mgmt.getPropertyKey('rowkey')
 
 //  Indexes
-mgmt.buildIndex('byRowkey', Vertex.class).addKey(rowkey).unique().buildCompositeIndex()
+mgmt.buildIndex('byRowkey',   Vertex.class).addKey(rowkey).unique().buildCompositeIndex()
+mgmt.buildIndex('byRowkeyES', Vertex.class).addKey(rowkey, Mapping.TEXTSTRING.asParameter()).buildMixedIndex('search')
 
 mgmt.commit()
 
 // Wait for index
-ManagementSystem.awaitGraphIndexStatus(graph, 'byRowkey').call()
+ManagementSystem.awaitGraphIndexStatus(graph, 'byRowkey'  ).status(SchemaStatus.REGISTERED).call()
+ManagementSystem.awaitGraphIndexStatus(graph, 'byRowkeyES').status(SchemaStatus.REGISTERED).call()
 
 // Reindex existing data
 mgmt = graph.openManagement()
-mgmt.updateIndex(mgmt.getGraphIndex("byRowkey"), SchemaAction.REINDEX).get()
+mgmt.updateIndex(mgmt.getGraphIndex("byRowkey"  ), SchemaAction.REINDEX).get()
+mgmt.updateIndex(mgmt.getGraphIndex("byRowkeyES"), SchemaAction.REINDEX).get()
 mgmt.getGraphIndexes(Vertex.class)
 mgmt.commit()
+
+// Enable index
+ManagementSystem.awaitGraphIndexStatus(graph, 'byRowkey'  ).status(SchemaStatus.ENABLED).call()
+ManagementSystem.awaitGraphIndexStatus(graph, 'byRowkeyES').status(SchemaStatus.ENABLED).call()

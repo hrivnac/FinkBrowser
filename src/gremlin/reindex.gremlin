@@ -5,6 +5,7 @@ graph.tx().rollback()
 
 // Reindex existing data
 mgmt = graph.openManagement()
-mgmt.updateIndex(mgmt.getGraphIndex("byRowkey"), SchemaAction.REINDEX).get()
+mgmt.updateIndex(mgmt.getGraphIndex('byRowkey'  ), SchemaAction.REINDEX).get()
+mgmt.updateIndex(mgmt.getGraphIndex('byRowkeyES'), SchemaAction.REINDEX).get()
 mgmt.getGraphIndexes(Vertex.class)
 mgmt.commit()

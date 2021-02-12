@@ -542,8 +542,7 @@
     <java classname="com.Lomikel.Januser.JanusClient"
           fork="true">
       <arg value="populate"/>
-      <arg value="${zookeeper}"/>
-      <arg value="${janus_table}"/>
+      <arg value="${janusgraph_dir}/conf/gremlin-server/Local-batch.properties"/>
       <arg value="${zookeeper}"/>
       <arg value="${hbase_port}"/>
       <arg value="${alerts_table}"/>
