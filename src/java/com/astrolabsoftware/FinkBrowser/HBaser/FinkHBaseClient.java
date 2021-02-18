@@ -4,6 +4,7 @@ package com.astrolabsoftware.FinkBrowser.HBaser;
 import com.Lomikel.HBaser.HBaseClient;
 import com.Lomikel.Utils.DateTimeManagement;
 import com.Lomikel.Utils.Pair;
+import com.Lomikel.Utils.LomikelException;
 import com.Lomikel.Januser.JanusClient;
 
 // HealPix
@@ -53,32 +54,33 @@ public class FinkHBaseClient extends HBaseClient {
   /** Create.
     * @param zookeepers The comma-separated list of zookeper ids.
     * @param clientPort The client port. 
-    * @throws IOException If anything goes wrong. */
+    * @throws LomikelException If anything goes wrong. */
   public FinkHBaseClient(String zookeepers,
-                         String clientPort) throws IOException {
+                         String clientPort) throws LomikelException {
     super(zookeepers, clientPort);
     }
        
   /** Create.
     * @param zookeepers The comma-separated list of zookeper ids.
     * @param clientPort The client port. 
-    * @throws IOException If anything goes wrong. */
+    * @throws LomikelException If anything goes wrong. */
   public FinkHBaseClient(String zookeepers,
-                         int    clientPort) throws IOException {
+                         int    clientPort) throws LomikelException {
     super(zookeepers, clientPort);
     }
    
   /** Create.
     * @param url The HBase url.
-    * @throws IOException If anything goes wrong. */
-  public FinkHBaseClient(String url) throws IOException {
+    * @throws LomikelException If anything goes wrong. */
+  public FinkHBaseClient(String url) throws LomikelException {
     super(url);
     }
    
   /** Create on <em>localhost</em>.
-    * @throws IOException If anything goes wrong. */
-  public FinkHBaseClient() throws IOException {
-    super();
+    * @throws LomikelException If anything goes wrong. */
+  // TBD: is it needed, does it work ok ?
+  public FinkHBaseClient() throws LomikelException {
+    super(null, null);
     }
 
   /** Get alerts between two Julian dates (inclusive).
@@ -185,7 +187,7 @@ public class FinkHBaseClient extends HBaseClient {
         }
       client.close();
       }
-    catch (IOException e) {
+    catch (LomikelException e) {
       log.error("Cannot search", e);
       }
     return searchMap;
@@ -223,7 +225,7 @@ public class FinkHBaseClient extends HBaseClient {
         }
       client.close();
       }
-    catch (IOException e) {
+    catch (LomikelException e) {
       log.error("Cannot search", e);
       }
     return searchMap;
@@ -281,7 +283,7 @@ public class FinkHBaseClient extends HBaseClient {
         }
       client.close();
       }
-    catch (IOException e) {
+    catch (LomikelException e) {
       log.error("Cannot search", e);
       }
     return searchMap;
@@ -347,9 +349,10 @@ public class FinkHBaseClient extends HBaseClient {
   
   /** Create aux pixel map hash table.
     * @param keyPrefixSearch The prefix search of row key.
-    * @throws IOException If anything goes wrong. */
+    * @throws LomikelException If anything goes wrong.
+    * @throws LomikelException If anything goes wrong. */
   // BUG: should write numberts with schema
-  public void createPixelTable(String keyPrefixSearch) throws IOException {
+  public void createPixelTable(String keyPrefixSearch) throws LomikelException, IOException {
     String pixelTableName = tableName() + ".pixel";
     try {
       create(pixelTableName, new String[]{"i", "b", "d", "a"});
@@ -387,9 +390,10 @@ public class FinkHBaseClient extends HBaseClient {
   
   /** Create aux jd map hash table.
     * @param keyPrefixSearch The prefix search of row key.
-    * @throws IOException If anything goes wrong. */
+    * @throws IOException      If anything goes wrong.
+    * @throws LomikelException If anything goes wrong. */
   // BUG: should write numbers with schema
-  public void createJDTable(String keyPrefixSearch) throws IOException {
+  public void createJDTable(String keyPrefixSearch) throws LomikelException, IOException {
     String jdTableName = tableName() + ".jd";
     try {
       create(jdTableName, new String[]{"i", "b", "d", "a"});
