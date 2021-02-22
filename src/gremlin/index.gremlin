@@ -7,11 +7,12 @@ graph.tx().rollback()
 mgmt = graph.openManagement()
 
 // Properties
+lbl     = mgmt.getPropertyKey('lbl')
 rowkey = mgmt.getPropertyKey('rowkey')
 
 //  Indexes
-mgmt.buildIndex('byRowkey',   Vertex.class).addKey(rowkey).unique().buildCompositeIndex()
-mgmt.buildIndex('byRowkeyES', Vertex.class).addKey(rowkey, Mapping.TEXTSTRING.asParameter()).buildMixedIndex('search')
+mgmt.buildIndex('byRowkey',   Vertex.class).addKey(lbl).addKey(rowkey).unique().buildCompositeIndex()
+mgmt.buildIndex('byRowkeyES', Vertex.class).addKey(lbl).addKey(rowkey, Mapping.TEXTSTRING.asParameter()).buildMixedIndex('search')
 
 mgmt.commit()
 
