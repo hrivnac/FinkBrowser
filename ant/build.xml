@@ -604,6 +604,7 @@
     <exec executable="../src/sh/updateJanusExt.sh">
       <arg line="${janusgraph_dir}/ext/plugins.txt"/>
       </exec>
+    <echo>Restart JanusGraph !</echo>
     </target>
     
   <!-- Dist =================================================================-->
