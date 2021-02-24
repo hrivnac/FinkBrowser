@@ -126,6 +126,9 @@
       <fileset dir="../src/java" includes="com/astrolabsoftware/FinkBrowser/**/*.properties"/>
       <fileset dir="../src/java" includes="com/astrolabsoftware/FinkBrowser/**/*.png"/>
       <fileset dir="../src/java" includes="com/astrolabsoftware/FinkBrowser/**/*.bsh"/>
+      <service type="org.apache.tinkerpop.gremlin.jsr223.GremlinPlugin">
+        <provider classname="com.astrolabsoftware.FinkBrowser.GremlinPlugin.FinkBrowserConnector"/>
+        </service>
       <manifest>
         <attribute name="Created-By" value="${user.name}"/>
         <attribute name="AppName"    value="FinkBrowser"/>
@@ -590,16 +593,17 @@
   
   <target name="janus-patch"
           description="Patch JanusGraph">
- 		<copy todir="${janusgraph_dir}/scripts">
-			<fileset dir="../src/gremlin" includes="functions.gremlin"/>
-			<fileset dir="../src/sys/janusgraph/scripts" includes="*"/>
+    <echo>Patching JanusGraph Server</echo>
+    <mkdir dir="${janusgraph_dir}/ext/finkbrowser.connector"/>
+    <delete includeEmptyDirs="true">
+      <fileset dir="${janusgraph_dir}/ext/finkbrowser.connector" includes="FinkBrowser-*.jar"/>
+      </delete>
+ 		<copy todir="${janusgraph_dir}/ext/finkbrowser.connector">
+			<fileset dir="../lib" includes="FinkBrowser-${version}.jar"/>
       </copy>
- 		<copy todir="${janusgraph_dir}/conf">
-			<fileset dir="../src/sys/janusgraph/conf" includes="*"/>
-      </copy>
- 		<copy todir="${janusgraph_dir}/conf/gremlin-server">
-			<fileset dir="../src/sys/janusgraph/conf/gremlin-server" includes="*"/>
-      </copy>                                                                
+    <exec executable="../src/sh/updateJanusExt.sh">
+      <arg line="${janusgraph_dir}/ext/plugins.txt"/>
+      </exec>
     </target>
     
   <!-- Dist =================================================================-->
@@ -661,10 +665,12 @@
       <Header><![CDATA[<center>]]>AstroLab FinkBrowser version: ${version}<![CDATA[</center>]]></Header>
       <Footer><![CDATA[<center>Written by: <a href='http://cern.ch/hrivnac'>J.Hrivnac</a></center>]]></Footer>
       <bottom><![CDATA[<a href='http://cern.ch/hrivnac/Activities/Packages/FinkBrowser'>Documentation</a>]]> built ${TODAY} on ${os.name} by ${user.name}</bottom>
-      <group title="Apps"       packages="com.astrolabsoftware.FinkBrowser.Apps*"/>
-      <group title="Utils"      packages="com.astrolabsoftware.FinkBrowser.Utils*"/>
-      <group title="HBaser"     packages="com.astrolabsoftware.FinkBrowser.HBaser*"/>
-      <group title="WebService" packages="com.astrolabsoftware.FinkBrowser.WebService*"/>
+      <group title="Apps"          packages="com.astrolabsoftware.FinkBrowser.Apps*"/>
+      <group title="Utils"         packages="com.astrolabsoftware.FinkBrowser.Utils*"/>
+      <group title="GremlinPlugin" packages="com.astrolabsoftware.FinkBrowser.Utils*"/>
+      <group title="HBaser"        packages="com.astrolabsoftware.FinkBrowser.HBaser*"/>
+      <group title="Januser"       packages="com.astrolabsoftware.FinkBrowser.Januser*"/>
+      <group title="WebService"    packages="com.astrolabsoftware.FinkBrowser.WebService*"/>
       <link href="http://docs.oracle.com/javase/8/docs/api" packagelistLoc="${javadoc}" offline="true"/>
       <link href="https://cern.ch/hrivnac/Activities/Packages/Lomikel/JavaDoc"/>
       <link href="https://cds-astro.github.io/cds-healpix-java/apidocs"/>

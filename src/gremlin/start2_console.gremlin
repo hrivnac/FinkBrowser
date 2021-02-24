@@ -1,0 +1,1 @@
+clientH.registerVertexType("alert", Alert.class)
