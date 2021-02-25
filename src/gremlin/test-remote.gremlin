@@ -1,0 +1,11 @@
+// Get any alert vertex from Graph
+v = g.V().has('lbl', 'alert').limit(1).next()
+// dress it as (a subtype of) Hertex (= HBase backed Vertex)
+// which _is_a_ Vertex so it has all Vertex properties
+h = com.Lomikel.Januser.Hertex.enhance(v)
+// Get all properties
+h.properties()
+// Get properties from Graph
+h.property('simag2')
+// Get properties from HBase
+h.property('i:simag2')
