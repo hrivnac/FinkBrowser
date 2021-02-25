@@ -1,5 +1,0 @@
-GremlinClient client = new GremlinClient("localhost", 8182);
-print(client.interpret2JSON("v=g.V().has('lbl', 'alert').limit(1).next();com.Lomikel.Januser.Hertex.enhance(v).properties()"));
-client.close();
-
-

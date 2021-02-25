@@ -4,7 +4,7 @@ GremlinClient client = new GremlinClient("134.158.74.85", 24444);
 // Execute Gremlin command
 print(client.interpret("g.V().hasLabel('site').limit(2).next(2)"));
 print(client.interpret2JSON("g.V().limit(20)"));
-print(client.interpret2JSON("v=g.V().has('lbl', 'alert').limit(1).next();h = new com.Lomikel.Januser.Hertex(v);h.fields()"));
+print(client.interpret2JSON("v=g.V().has('lbl', 'alert').limit(1).next();com.Lomikel.Januser.Wertex.enhance(v).properties()"));
 
 client.close();
 
