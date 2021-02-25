@@ -594,6 +594,11 @@
   <target name="janus-patch"
           description="Patch JanusGraph">
     <echo>Patching JanusGraph Server</echo>
+    <echo>... system</echo>
+ 		<copy todir="${janusgraph_dir}/scripts">
+			<fileset dir="../src/sys/janusgraph/scripts" includes="*"/>
+      </copy>
+    <echo>... plugin</echo>
     <mkdir dir="${janusgraph_dir}/ext/finkbrowser.connector"/>
     <delete includeEmptyDirs="true">
       <fileset dir="${janusgraph_dir}/ext/finkbrowser.connector" includes="FinkBrowser-*.jar"/>
