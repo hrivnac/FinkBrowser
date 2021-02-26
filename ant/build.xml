@@ -561,6 +561,8 @@
       <arg value="${alerts_reset}"/>
       <arg value="${alerts_checkOrCreate}"/>
       <arg value="${alerts_fullFill}"/>
+      <arg value="${alerts_partialFill}"/>
+      <arg value="${alerts_geopoint}"/>
       <classpath>
         <path refid="classpath.janusgraph"/>
         </classpath>

@@ -3,8 +3,10 @@ package com.astrolabsoftware.FinkBrowser.Januser;
 // Lomikel
 import com.Lomikel.Utils.Init;
 import com.Lomikel.DB.Schema;
+import com.Lomikel.Utils.ByteArray;
 import com.Lomikel.Utils.LomikelException;
 import com.Lomikel.HBaser.HBaseClient;
+import com.Lomikel.HBaser.HBaseSchema;
 import com.Lomikel.Januser.JanusClient;
 
 // Tinker Pop
@@ -13,6 +15,7 @@ import org.apache.tinkerpop.gremlin.structure.Vertex;
 
 // Janus Graph
 import org.janusgraph.core.JanusGraph;
+import org.janusgraph.core.attribute.Geoshape;
 
 // HBase
 import org.apache.hadoop.hbase.client.Connection;
@@ -62,6 +65,9 @@ public class StructureCreator extends JanusClient {
     * @param args[15] Whether check the existence of the vertex before creating it.
     *                 (Index-based verification is disabled for speed.)
     * @param args[16] Whether fill all variables or just rowkey and lbl.
+    *                 Overrides partialFill.
+    * @param args[17] List of (coma separated) HBase columns to fill besides the default column.
+    * @param args[18] List of (coma separated) geopoint property name and HBase columns representing lat and long in deg.
     * @throws LomikelException If anything goes wrong. */
   public static void main(String[] args) throws Exception {
     Init.init();
@@ -82,7 +88,9 @@ public class StructureCreator extends JanusClient {
                                                                          new Integer(args[13]),
                                                                                      args[14].equals("true"),
                                                                                      args[15].equals("true"),
-                                                                                     args[16].equals("true"));
+                                                                                     args[16].equals("true"),
+                                                                                     args[17],
+                                                                                     args[18]);
         }
       while (!failedKey.equals(""));
       }                             
@@ -140,6 +148,9 @@ public class StructureCreator extends JanusClient {
     * @param getOrCreate     Whether check the existence of the vertex before creating it.
     *                        (Index-based verification is disabled for speed.)
     * @param fullFill        Whether fill all variables or just rowkey and lbl.
+    *                        Overrides partialFill.
+    * @param partialFill     List of (coma separated) HBase columns to fill besides the default column.
+    * @param geopoint        List of (coma separated) geopoint property name and HBase columns representing lat and long in deg.
     * @return                Blank if the population has been executed correctly, the last
     *                        sucessfull key otherwise.
     * @throws LomikelException If anything goes wrong. */
@@ -160,7 +171,9 @@ public class StructureCreator extends JanusClient {
                                        int     commitLimit,
                                        boolean reset,
                                        boolean getOrCreate,
-                                       boolean fullFill) throws LomikelException {
+                                       boolean fullFill,
+                                       String  partialFill,
+                                       String  geopoint) throws LomikelException {
     log.info("Populating Graph from " + hbaseTable + "(" + tableSchema + ")@" + hbaseHost + ":" + hbasePort);
     log.info("\tvertex labels: " + label);
     log.info("\t" + rowkey + " starting with " + keyPrefixSearch);
@@ -177,8 +190,14 @@ public class StructureCreator extends JanusClient {
     if (fullFill) {
       log.info("\tfilling all variables");
       }
+    else if (partialFill != null && !partialFill.trim().equals("")) {
+      log.info("\tfilling " + rowkey + ",lbl," + partialFill.trim());
+      }
     else {
       log.info("\tfilling only " + rowkey + " and lbl");
+      }
+    if (geopoint != null && !geopoint.trim().equals("")) {
+      log.info("\tfilling also geopoint " + geopoint.trim());
       }
     if (!keyStart.equals("")) {
       log.info("Staring at " + keyStart);
@@ -205,7 +224,7 @@ public class StructureCreator extends JanusClient {
       }
     hc.scan(null, searchS, "*", 0, false, false);
     ResultScanner rs = hc.resultScanner();
-    Schema schema = hc.schema();
+    HBaseSchema schema = hc.schema();
     log.info("Populating Graph");
     Vertex v;
     String key;
@@ -215,6 +234,12 @@ public class StructureCreator extends JanusClient {
     String field;
     String column;
     String value;
+    byte[] b;
+    String[] cc;
+    byte[] lat;
+    byte[] lon;
+    String[] latclm;
+    String[] lonclm;
     int i = 0;
     //for (Result r : rs) {
     //  i++;
@@ -265,6 +290,21 @@ public class StructureCreator extends JanusClient {
                   }
                 }
               }
+            }
+          else if (partialFill != null && !partialFill.trim().equals("")) { // TBD: optimize
+            for (String clm : partialFill.split(",")) {
+              cc = clm.trim().split(":");
+              b = resultMap.get(Bytes.toBytes(cc[0])).get(Bytes.toBytes(cc[1]));
+              v.property(cc[1], schema.decode(clm, b));
+              }
+            }
+          if (geopoint != null && !geopoint.trim().equals("")) { // TBD: optimize
+            cc = geopoint.split(",");
+            latclm = cc[1].split(":");
+            lonclm = cc[2].split(":");
+            lat = resultMap.get(Bytes.toBytes(latclm[0])).get(Bytes.toBytes(latclm[1]));
+            lon = resultMap.get(Bytes.toBytes(lonclm[0])).get(Bytes.toBytes(lonclm[1]));
+            v.property(cc[0], Geoshape.point(new Double(schema.decode(cc[1], lat)), new Double(schema.decode(cc[2], lon))));
             }
           }
         if (timer(label + "s created", i - 1, 100, commitLimit)) {
