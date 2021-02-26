@@ -305,7 +305,7 @@ public class StructureCreator extends JanusClient {
             lat = resultMap.get(Bytes.toBytes(latclm[0])).get(Bytes.toBytes(latclm[1]));
             lon = resultMap.get(Bytes.toBytes(lonclm[0])).get(Bytes.toBytes(lonclm[1]));
             log.info(new Double(schema.decode(cc[1], lat)) + " " + new Double(schema.decode(cc[2], lon)));
-            v.property(cc[0], Geoshape.point(new Double(schema.decode(cc[1], lat)), new Double(schema.decode(cc[2], lon))));
+            v.property(cc[0], Geoshape.point(new Double(schema.decode(cc[1], lat)), new Double(schema.decode(cc[2], lon)) - 180));
             }
           }
         if (timer(label + "s created", i - 1, 100, commitLimit)) {
