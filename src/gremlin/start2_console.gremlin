@@ -1,1 +1,5 @@
+clientH = new HBaseClient(c.getString("storage.hostname"), c.getString("backend.hbase.port"))
+clientH.connect(c.getString("backend.hbase.table"), c.getString("backend.hbase.schema"))
+Hertex.setHBaseClient(clientH)
+
 HBaseClient.registerVertexType("alert", Alert.class)
