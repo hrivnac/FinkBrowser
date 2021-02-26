@@ -5,7 +5,6 @@ import com.Lomikel.HBaser.HBaseClient;
 import com.Lomikel.Utils.DateTimeManagement;
 import com.Lomikel.Utils.Pair;
 import com.Lomikel.Utils.LomikelException;
-import com.Lomikel.Januser.JanusClient;
 
 // HealPix
 import cds.healpix.Healpix;
@@ -18,9 +17,6 @@ import static cds.healpix.VerticesAndPathComputer.LAT_INDEX;
 
 // HBase
 import org.apache.hadoop.hbase.TableExistsException;
-
-// TinkerPop
-import org.apache.tinkerpop.gremlin.structure.Vertex;
 
 // Java
 import java.lang.Math;

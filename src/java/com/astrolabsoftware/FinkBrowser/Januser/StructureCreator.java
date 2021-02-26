@@ -1,76 +1,33 @@
 package com.astrolabsoftware.FinkBrowser.Januser;
 
-//
+// Lomikel
 import com.Lomikel.Utils.Init;
-import com.Lomikel.Utils.Info;
 import com.Lomikel.DB.Schema;
 import com.Lomikel.Utils.LomikelException;
 import com.Lomikel.HBaser.HBaseClient;
-import com.Lomikel.HBaser.HBaseSchema;
-import com.Lomikel.Phoenixer.PhoenixProxyClient;
-import com.Lomikel.Phoenixer.PhoenixSchema;
 import com.Lomikel.Januser.JanusClient;
 
 // Tinker Pop
-import org.apache.tinkerpop.gremlin.process.traversal.dsl.graph.GraphTraversalSource;
 import static org.apache.tinkerpop.gremlin.process.traversal.dsl.graph.__.unfold;
-import org.apache.tinkerpop.gremlin.structure.Edge;
 import org.apache.tinkerpop.gremlin.structure.Vertex;
-import org.apache.tinkerpop.gremlin.structure.Property;
-import org.apache.tinkerpop.gremlin.structure.VertexProperty;
-import org.apache.tinkerpop.gremlin.structure.Direction;
 
 // Janus Graph
 import org.janusgraph.core.JanusGraph;
-import org.janusgraph.core.JanusGraphFactory;
 
 // HBase
-import org.apache.hadoop.hbase.HBaseConfiguration;
-import org.apache.hadoop.hbase.TableName ;
-import org.apache.hadoop.hbase.client.Admin;
 import org.apache.hadoop.hbase.client.Connection;
-import org.apache.hadoop.hbase.client.ConnectionFactory;
-import org.apache.hadoop.hbase.client.Table;
-import org.apache.hadoop.hbase.client.TableDescriptorBuilder;
-import org.apache.hadoop.hbase.client.ColumnFamilyDescriptorBuilder;
 import org.apache.hadoop.hbase.util.Bytes;
-import org.apache.hadoop.hbase.client.Get;
-import org.apache.hadoop.hbase.client.Put;
 import org.apache.hadoop.hbase.client.Result;
 import org.apache.hadoop.hbase.util.Bytes;
 import org.apache.hadoop.hbase.util.Bytes;
-import org.apache.hadoop.hbase.client.Get;
 import org.apache.hadoop.hbase.client.Result;
 import org.apache.hadoop.hbase.client.ResultScanner;
-import org.apache.hadoop.hbase.client.Scan;
 import org.apache.hadoop.hbase.util.Bytes;
-import org.apache.hadoop.hbase.filter.Filter;  
-import org.apache.hadoop.hbase.filter.FilterList;  
-import org.apache.hadoop.hbase.filter.SingleColumnValueFilter;  
-import org.apache.hadoop.hbase.filter.RowFilter;  
-import org.apache.hadoop.hbase.filter.PrefixFilter;  
-import org.apache.hadoop.hbase.filter.CompareFilter.CompareOp;
-import org.apache.hadoop.hbase.filter.BinaryPrefixComparator;
-import org.apache.hadoop.hbase.filter.BinaryComparator;
-import org.apache.hadoop.hbase.filter.RegexStringComparator;
-import org.apache.hadoop.hbase.filter.SubstringComparator;
-import org.apache.hadoop.hbase.filter.MultiRowRangeFilter;
-import org.apache.hadoop.hbase.filter.MultiRowRangeFilter.RowRange;
-import org.apache.hadoop.hbase.TableNotFoundException;
 import org.apache.hadoop.hbase.Cell;
 
 // Java
-import java.util.List;
 import java.util.Map;
-import java.util.HashMap;
-import java.util.Set;
-import java.util.HashSet;
-import java.util.Iterator;
 import java.util.NavigableMap;
-import java.util.Properties;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
 
 // Log4J
 import org.apache.log4j.Logger;
@@ -84,7 +41,28 @@ import org.apache.log4j.Logger;
   * @author <a href="mailto:Julius.Hrivnac@cern.ch">J.Hrivnac</a> */
 public class StructureCreator extends JanusClient {
 
-  /** TBD */
+  /** Create JanusGraph structures from the HBase database.
+    * @param args[0]  The operation to perform: <tt>populate</tt>.
+    * @param args[1]  The file with the complete JanusGraph properties.
+    * @param args[2]  The HBase hostname.
+    * @param args[3]  The HBase port.
+    * @param args[4]  The HBase table to replicate in Graph.
+    * @param args[5]  The HBase table schema name.
+    * @param args[6]  The label of newly created Vertexes.
+    * @param args[7]  The row key name.
+    * @param args[8]  The key prefix to limit replication to.
+    * @param args[9]  The key to start search from, may be blank.
+    * @param args[10] The key to stop search at, may be blank.
+    * @param args[11] The maximal number of entries to process (-1 means all entries).
+    * @param args[12] The number of entries to skip (-1 or 0 means no skipping).
+    * @param args[13] The number of events to commit in one step (-1 means commit only at the end).
+    * @param args[14] Whether remove all {@link Vertex}es with the define
+    *                 label before populating or check for each one and only
+    *                 create it if it doesn't exist yet.
+    * @param args[15] Whether check the existence of the vertex before creating it.
+    *                 (Index-based verification is disabled for speed.)
+    * @param args[16] Whether fill all variables or just rowkey and lbl.
+    * @throws LomikelException If anything goes wrong. */
   public static void main(String[] args) throws Exception {
     Init.init();
     if (args[0].trim().equals("populate")) {

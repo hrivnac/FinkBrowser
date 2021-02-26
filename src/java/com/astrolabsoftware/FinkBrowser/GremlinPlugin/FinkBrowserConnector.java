@@ -2,16 +2,11 @@ package com.astrolabsoftware.FinkBrowser.GremlinPlugin;
 
 import com.astrolabsoftware.FinkBrowser.Januser.Alert;
 
-// Lomikel
-import com.Lomikel.HBaser.HBaseClient;
-import com.Lomikel.Phoenixer.PhoenixProxyClient;
-
 // TinkerPop
 import org.apache.tinkerpop.gremlin.jsr223.AbstractGremlinPlugin;
 import org.apache.tinkerpop.gremlin.jsr223.DefaultImportCustomizer;
 import org.apache.tinkerpop.gremlin.jsr223.DefaultImportCustomizer.Builder;
 import org.apache.tinkerpop.gremlin.jsr223.ImportCustomizer;
-import org.apache.tinkerpop.gremlin.jsr223.console.ConsoleCustomizer;
 
 // Log4J
 import org.apache.log4j.Logger;
