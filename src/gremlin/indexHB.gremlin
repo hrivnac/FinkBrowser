@@ -1,0 +1,55 @@
+// Create HBase Index
+// (Lomikel schema should be already loaded)
+// =========================================
+
+graph.tx().rollback()
+
+mgmt = graph.openManagement()
+
+// Properties
+lbl       = mgmt.getPropertyKey('lbl'      )
+rowkey    = mgmt.getPropertyKey('rowkey'   )
+objectId  = mgmt.getPropertyKey('objectId' )
+jd        = mgmt.getPropertyKey('jd'       )
+ra        = mgmt.getPropertyKey('ra'       )
+dec       = mgmt.getPropertyKey('dec'      )
+direction = mgmt.getPropertyKey('direction')
+ssnamenr  = mgmt.getPropertyKey('ssnamenr' )
+alert     = mgmt.getVertexLabel('alert'    )
+
+//  Indexes                                                            
+mgmt.buildIndex('byRowkey',    Vertex.class).addKey(rowkey  )      .unique().buildCompositeIndex()
+mgmt.buildIndex('byObjectId',  Vertex.class).addKey(objectId)               .buildCompositeIndex()
+mgmt.buildIndex('byJd',        Vertex.class).addKey(jd)                     .buildCompositeIndex()
+mgmt.buildIndex('byRaDec',     Vertex.class).addKey(ra).addKey(dec)         .buildCompositeIndex()
+mgmt.buildIndex('byDirection', Vertex.class).addKey(direction)              .buildCompositeIndex()
+mgmt.buildIndex('bySsnamenr',  Vertex.class).addKey(ssnamenr)               .buildCompositeIndex()
+                                                                       
+mgmt.commit()
+
+// Wait for index
+ManagementSystem.awaitGraphIndexStatus(graph, 'byRowkey'   ).status(SchemaStatus.REGISTERED).call()
+ManagementSystem.awaitGraphIndexStatus(graph, 'byObjectId' ).status(SchemaStatus.REGISTERED).call()
+ManagementSystem.awaitGraphIndexStatus(graph, 'byJd'       ).status(SchemaStatus.REGISTERED).call()
+ManagementSystem.awaitGraphIndexStatus(graph, 'byRaDec'    ).status(SchemaStatus.REGISTERED).call()
+ManagementSystem.awaitGraphIndexStatus(graph, 'byDirection').status(SchemaStatus.REGISTERED).call()
+ManagementSystem.awaitGraphIndexStatus(graph, 'bySsnamenr' ).status(SchemaStatus.REGISTERED).call()
+
+// Reindex existing data
+mgmt = graph.openManagement()
+mgmt.updateIndex(mgmt.getGraphIndex('byRowkey'   ), SchemaAction.REINDEX).get()
+mgmt.updateIndex(mgmt.getGraphIndex('byObjectId' ), SchemaAction.REINDEX).get()
+mgmt.updateIndex(mgmt.getGraphIndex('byJd'       ), SchemaAction.REINDEX).get()
+mgmt.updateIndex(mgmt.getGraphIndex('byRaDec'    ), SchemaAction.REINDEX).get()
+mgmt.updateIndex(mgmt.getGraphIndex('byDirection'), SchemaAction.REINDEX).get()
+mgmt.updateIndex(mgmt.getGraphIndex('bySsnamenr' ), SchemaAction.REINDEX).get()
+mgmt.getGraphIndexes(Vertex.class)
+mgmt.commit()
+
+// Enable index
+ManagementSystem.awaitGraphIndexStatus(graph, 'byRowkey'   ).status(SchemaStatus.ENABLED).call()
+ManagementSystem.awaitGraphIndexStatus(graph, 'byObjectId' ).status(SchemaStatus.ENABLED).call()
+ManagementSystem.awaitGraphIndexStatus(graph, 'byJd'       ).status(SchemaStatus.ENABLED).call()
+ManagementSystem.awaitGraphIndexStatus(graph, 'byRaDec'    ).status(SchemaStatus.ENABLED).call()
+ManagementSystem.awaitGraphIndexStatus(graph, 'byDirection').status(SchemaStatus.ENABLED).call()
+ManagementSystem.awaitGraphIndexStatus(graph, 'bySsnamenr' ).status(SchemaStatus.ENABLED).call()
