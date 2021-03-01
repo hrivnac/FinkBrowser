@@ -16,14 +16,16 @@ contains = mgmt.getEdgeLabel( 'contains')
 holds    = mgmt.makeEdgeLabel('holds'   ).multiplicity(ONE2MANY ).make()
 
 // Properties
-title    = mgmt.getPropertyKey( 'title'   )
-lbl      = mgmt.getPropertyKey( 'lbl'     )
-name     = mgmt.getPropertyKey( 'name'    )
-rowkey   = mgmt.makePropertyKey('rowkey'  ).dataType(String.class  ).cardinality(Cardinality.SINGLE).make()
-objectId = mgmt.makePropertyKey('objectId').dataType(String.class  ).cardinality(Cardinality.SINGLE).make()
-jd       = mgmt.makePropertyKey('jd'      ).dataType(Double.class  ).cardinality(Cardinality.SINGLE).make()
-radec    = mgmt.makePropertyKey('radec'   ).dataType(Geoshape.class).cardinality(Cardinality.SINGLE).make()
-ssnamenr = mgmt.makePropertyKey('ssnamenr').dataType(String.class  ).cardinality(Cardinality.SINGLE).make()
+title     = mgmt.getPropertyKey( 'title'    )
+lbl       = mgmt.getPropertyKey( 'lbl'      )
+name      = mgmt.getPropertyKey( 'name'     )
+rowkey    = mgmt.makePropertyKey('rowkey'   ).dataType(String.class  ).cardinality(Cardinality.SINGLE).make()
+objectId  = mgmt.makePropertyKey('objectId' ).dataType(String.class  ).cardinality(Cardinality.SINGLE).make()
+jd        = mgmt.makePropertyKey('jd'       ).dataType(Double.class  ).cardinality(Cardinality.SINGLE).make()
+ra        = mgmt.makePropertyKey('ra'       ).dataType(Double.class  ).cardinality(Cardinality.SINGLE).make()
+dec       = mgmt.makePropertyKey('dec'      ).dataType(Double.class  ).cardinality(Cardinality.SINGLE).make()
+direction = mgmt.makePropertyKey('direction').dataType(Geoshape.class).cardinality(Cardinality.SINGLE).make()
+ssnamenr  = mgmt.makePropertyKey('ssnamenr' ).dataType(String.class  ).cardinality(Cardinality.SINGLE).make()
 
 // Vertex properties
 mgmt.addProperties(AstroLabNet,
@@ -40,7 +42,9 @@ mgmt.addProperties(alert,
                    rowkey,
                    objectId,
                    jd,
-                   radec,
+                   ra,
+                   dec,
+                   direction,
                    ssnamenr)   
                                       
 // Edge properties
