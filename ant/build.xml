@@ -466,6 +466,7 @@
       <lib file="${janusgraph_dir}/lib/jcabi-manifests-1.1.jar"/>
       <lib file="${janusgraph_dir}/lib/jcl-over-slf4j-1.7.25.jar"/>
       <lib file="${janusgraph_dir}/lib/jline-2.14.6.jar"/>
+      <lib file="${janusgraph_dir}/lib/jts-core-1.16.1.jar"/>
       <lib file="${janusgraph_dir}/lib/log4j-1.2.16.jar"/>
       <lib file="${janusgraph_dir}/lib/netty-all-4.1.45.Final.jar"/>
       <lib file="${janusgraph_dir}/lib/picocli-3.9.5.jar"/>
