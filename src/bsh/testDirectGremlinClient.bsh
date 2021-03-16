@@ -1,0 +1,8 @@
+// Connect to JanusGraph
+DirectGremlinClient client = new DirectGremlinClient("134.158.74.85", 24444);
+g = client.g();
+
+// Get properties of the first alert
+print(g.V().has('lbl', 'alert').limit(1).next());
+
+client.close();
