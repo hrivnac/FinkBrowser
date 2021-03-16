@@ -47,7 +47,7 @@ public class CLI extends com.Lomikel.Apps.CLI {
       }
     try {
       interpreter().eval("import com.astrolabsoftware.FinkBrowser.Januser.Alert");
-      log.info("FinkHBaseClient imported");
+      log.info("Alert imported");
       }
     catch (EvalError e) {
       log.error("Cannot import com.astrolabsoftware.FinkBrowser.Januser.Alert");
