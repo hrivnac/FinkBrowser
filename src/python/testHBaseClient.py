@@ -25,3 +25,4 @@ print(client.scan(None, "key:key:ZTF17", None, 100000, true, true))
 client.close()
 
 jpype.shutdownJVM()
+
