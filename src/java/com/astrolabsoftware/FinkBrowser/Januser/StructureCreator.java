@@ -8,6 +8,7 @@ import com.Lomikel.Utils.LomikelException;
 import com.Lomikel.HBaser.HBaseClient;
 import com.Lomikel.HBaser.HBaseSchema;
 import com.Lomikel.Januser.JanusClient;
+import com.Lomikel.Januser.GremlinRecipies;
 
 // Tinker Pop
 import static org.apache.tinkerpop.gremlin.process.traversal.dsl.graph.__.unfold;
@@ -205,6 +206,7 @@ public class StructureCreator extends JanusClient {
     if (!keyStop.equals("")) {
       log.info("Stopping at " + keyStop);
       }
+    GremlinRecipies gr = new GremlinRecipies(this);
     timerStart();
     if (reset) {                        
       log.info("Cleaning Graph, vertexes: " + label);
@@ -268,7 +270,7 @@ public class StructureCreator extends JanusClient {
             break;
             }
           if (getOrCreate) {
-            v = getOrCreate(label, rowkey, key);
+            v = gr.getOrCreate(label, rowkey, key);
             }
           else {
             v = g().addV(label).property(rowkey, key).property("lbl", label).next();
