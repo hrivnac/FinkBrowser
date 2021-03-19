@@ -5,6 +5,8 @@ import com.Lomikel.Januser.Hertex;
 
 // Tinker Pop
 import org.apache.tinkerpop.gremlin.structure.Vertex;
+import org.apache.tinkerpop.gremlin.process.traversal.dsl.graph.GraphTraversalSource;
+
 
 // Log4J
 import org.apache.log4j.Logger;
@@ -18,7 +20,7 @@ import org.apache.log4j.Logger;
 public class Alert extends Hertex {
    
   static {
-    setRowkeyName(Alert.class, "rowkey");
+    setRowkeyName("alert", Alert.class, "rowkey");
     }
   
   /** Dress existing {@link Vertex} with values from HBase.
@@ -35,6 +37,19 @@ public class Alert extends Hertex {
   public Alert(Vertex   vertex,
                String[] fields) {
     super(vertex, fields);
+    }
+    
+  /** Get {@link Alert} backuped by <em>HBase</em>
+    * from the <em>JanusGraph</em>, or create if it doesn't exist yet.
+    * @param rowkey  The {@link Vertex} <tt>rowkey</tt> value.
+    * @param g       The {@link GraphTraversalSource} to be used to execute operations.
+    * @param enhance Whether enhance all values from the <em>HBase</em>.
+    * @return        The created {@link Vertex}. It will be created even when no corresponding
+    *                entry exists in the <em>HBase</em>. In that case, it can be enhanced later. */
+  public static Vertex getOrCreate(String                 rowkey,
+                                   GraphTraversalSource   g,
+                                   boolean                enhance) {
+    return Hertex.getOrCreate("alert", rowkey, g, enhance);
     }
         
   /** Logging . */
