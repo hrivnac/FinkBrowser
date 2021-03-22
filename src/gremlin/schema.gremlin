@@ -16,9 +16,11 @@ contains = mgmt.getEdgeLabel( 'contains')
 holds    = mgmt.makeEdgeLabel('holds'   ).multiplicity(ONE2MANY ).make()
 
 // Properties
-title     = mgmt.getPropertyKey( 'title'    )
-lbl       = mgmt.getPropertyKey( 'lbl'      )
-name      = mgmt.getPropertyKey( 'name'     )
+title     = mgmt.getPropertyKey('title'     )
+lbl       = mgmt.getPropertyKey('lbl'       )
+name      = mgmt.getPropertyKey('name'      )
+hbase     = mgmt.getPropertyKey('hbase'     )
+fullfill  = mgmt.getPropertyKey('fullfill'  )
 rowkey    = mgmt.makePropertyKey('rowkey'   ).dataType(String.class  ).cardinality(Cardinality.SINGLE).make()
 objectId  = mgmt.makePropertyKey('objectId' ).dataType(String.class  ).cardinality(Cardinality.SINGLE).make()
 jd        = mgmt.makePropertyKey('jd'       ).dataType(Double.class  ).cardinality(Cardinality.SINGLE).make()
@@ -39,6 +41,8 @@ mgmt.addProperties(AlertsCollection,
                    title)   
 mgmt.addProperties(alert,
                    lbl,
+                   hbase,
+                   fullfill,
                    rowkey,
                    objectId,
                    jd,
