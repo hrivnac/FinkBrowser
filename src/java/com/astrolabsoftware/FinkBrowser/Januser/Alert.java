@@ -22,12 +22,14 @@ public class Alert extends Hertex {
   static {
     setRowkeyName("alert", Alert.class, "rowkey");
     }
-  
+
   /** Dress existing {@link Vertex} with values from HBase.
-    * Fill in all fields from the database.
-    * @param vertex The original {@link Vertex}. */
-  public Alert(Vertex vertex) {
-    this(vertex, null);
+    * @param vertex The original {@link Vertex}.
+    * @param fields The coma-separated list of fields to fill in from the database.
+    *               All fields will be filled in if <tt>null</tt>. */
+  public Alert(Vertex vertex,
+               String fields) {
+    super(vertex, fields);
     }
    
   /** Dress existing {@link Vertex} with values from HBase.
@@ -37,6 +39,21 @@ public class Alert extends Hertex {
   public Alert(Vertex   vertex,
                String[] fields) {
     super(vertex, fields);
+    }
+    
+  /** Get {@link Alert} backuped by <em>HBase</em>
+    * from the <em>JanusGraph</em>, or create if it doesn't exist yet.
+    * @param rowkey  The {@link Vertex} <tt>rowkey</tt> value.
+    * @param g       The {@link GraphTraversalSource} to be used to execute operations.
+    * @param fields  The coma-separated list of fields to fill.
+    *                <tt>null</tt> will fill all fields.
+    *                Empty String will fill nothing besides rowkey fields.
+    * @return        The created {@link Vertex}. It will be created even when no corresponding
+    *                entry exists in the <em>HBase</em>. In that case, it can be enhanced later. */
+  public static Vertex getOrCreate(String                 rowkey,
+                                   GraphTraversalSource   g,
+                                   String                 fields) {
+    return Hertex.getOrCreate("alert", rowkey, g, fields);
     }
     
   /** Get {@link Alert} backuped by <em>HBase</em>
