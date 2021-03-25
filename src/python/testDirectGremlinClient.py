@@ -12,10 +12,15 @@ from com.astrolabsoftware.FinkBrowser.Utils import Init
 
 Init.init()
 
-client = DirectGremlinClient("134.158.74.85", 24444);
-
+#client = DirectGremlinClient("134.158.74.85", 24444);
+client = DirectGremlinClient("localhost", 8182);
 g = client.g();
-print(g.V().hasLabel('alert').limit(1).valueMap().next());
+
+t = g.V().has('lbl', 'alert').limit(4).values('rowkey');
+print(client.submit(t).all().get().get(0).getString());
+
+s = "v=g.V().has('lbl', 'alert').limit(1).next();h=com.Lomikel.Januser.Wertex.enhance(v);h.properties();h.property('i:simag2').toString()";
+print(client.submit(s).one().getString());
 
 
 client.close()

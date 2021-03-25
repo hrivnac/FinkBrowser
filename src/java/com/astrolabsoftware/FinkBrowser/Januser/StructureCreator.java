@@ -275,7 +275,9 @@ public class StructureCreator extends JanusClient {
           else {
             v = g().addV(label).property(rowkey, key).property("lbl", label).next();
             }
+          v.property("hbase", true);
           if (fullFill) {
+            v.property("fullfill", true);
             for (Map.Entry<byte[], NavigableMap<byte[], byte[]>> entry : resultMap.entrySet()) {
               family = Bytes.toString(entry.getKey());
               if (!family.equals("b")) {
@@ -293,11 +295,14 @@ public class StructureCreator extends JanusClient {
                 }
               }
             }
-          else if (partialFill != null && !partialFill.trim().equals("")) { // TBD: optimize
-            for (String clm : partialFill.split(",")) {
-              cc = clm.trim().split(":");
-              b = resultMap.get(Bytes.toBytes(cc[0])).get(Bytes.toBytes(cc[1]));
-              v.property(cc[1], schema.decode(clm, b));
+          else {
+            v.property("fullfill", false);
+            if (partialFill != null && !partialFill.trim().equals("")) { // TBD: optimize
+              for (String clm : partialFill.split(",")) {
+                cc = clm.trim().split(":");
+                b = resultMap.get(Bytes.toBytes(cc[0])).get(Bytes.toBytes(cc[1]));
+                v.property(cc[1], schema.decode(clm, b));
+                }
               }
             }
           if (geopoint != null && !geopoint.trim().equals("")) { // TBD: optimize

@@ -18,7 +18,6 @@ print(client.interpret("g.V().has('lbl', 'site').limit(2).next(2)"));
 print(client.interpret2JSON("g.V().limit(20)"));
 print(client.interpret2JSON("v=g.V().has('lbl', 'alert').limit(1).next();com.Lomikel.Januser.Wertex.enhance(v).properties()"));
 
-
 client.close()
 
 jpype.shutdownJVM()
