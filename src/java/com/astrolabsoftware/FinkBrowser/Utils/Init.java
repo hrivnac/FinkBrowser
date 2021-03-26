@@ -33,7 +33,7 @@ public class Init {
   public static void init(boolean ws,
                           boolean quiet) {
     if (_initialised) {
-      log.debug("Already initialised");
+      log.debug("FinkBrowser already initialised");
       return;
       }
     try {
@@ -54,7 +54,7 @@ public class Init {
       }
     _initialised = true;
     if (!quiet) {
-      log.info("Initialised, version: " + Info.release());
+      log.info("FinkBrowser initialised, version: " + Info.release());
       }
     }
     
