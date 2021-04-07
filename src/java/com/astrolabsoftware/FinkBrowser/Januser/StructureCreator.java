@@ -57,18 +57,20 @@ public class StructureCreator extends JanusClient {
     * @param args[8]  The key prefix to limit replication to.
     * @param args[9]  The key to start search from, may be blank.
     * @param args[10] The key to stop search at, may be blank.
-    * @param args[11] The maximal number of entries to process (-1 means all entries).
-    * @param args[12] The number of entries to skip (-1 or 0 means no skipping).
-    * @param args[13] The number of events to commit in one step (-1 means commit only at the end).
-    * @param args[14] Whether remove all {@link Vertex}es with the define
+    * @param args[11] The time start search from, may be 0.
+    * @param args[12] The time stop search at, may be 0.
+    * @param args[13] The maximal number of entries to process (-1 means all entries).
+    * @param args[14] The number of entries to skip (-1 or 0 means no skipping).
+    * @param args[15] The number of events to commit in one step (-1 means commit only at the end).
+    * @param args[16] Whether remove all {@link Vertex}es with the define
     *                 label before populating or check for each one and only
     *                 create it if it doesn't exist yet.
-    * @param args[15] Whether check the existence of the vertex before creating it.
+    * @param args[17] Whether check the existence of the vertex before creating it.
     *                 (Index-based verification is disabled for speed.)
-    * @param args[16] Whether fill all variables or just rowkey and lbl.
+    * @param args[18] Whether fill all variables or just rowkey and lbl.
     *                 Overrides partialFill.
-    * @param args[17] List of (coma separated) HBase columns to fill besides the default column.
-    * @param args[18] List of (coma separated) geopoint property name and HBase columns representing lat and long in deg.
+    * @param args[19] List of (coma separated) HBase columns to fill besides the default column.
+    * @param args[20] List of (coma separated) geopoint property name and HBase columns representing lat and long in deg.
     * @throws LomikelException If anything goes wrong. */
   public static void main(String[] args) throws Exception {
     Init.init();
@@ -84,14 +86,16 @@ public class StructureCreator extends JanusClient {
                                                                                      args[8],
                                                                                      failedKey,
                                                                                      args[10],
-                                                                         new Integer(args[11]),
-                                                                         new Integer(args[12]),
+                                                                         new Long(   args[11]),
+                                                                         new Long(   args[12]),
                                                                          new Integer(args[13]),
-                                                                                     args[14].equals("true"),
-                                                                                     args[15].equals("true"),
+                                                                         new Integer(args[14]),
+                                                                         new Integer(args[15]),
                                                                                      args[16].equals("true"),
-                                                                                     args[17],
-                                                                                     args[18]);
+                                                                                     args[17].equals("true"),
+                                                                                     args[18].equals("true"),
+                                                                                     args[19],
+                                                                                     args[20]);
         }
       while (!failedKey.equals(""));
       }                             
@@ -140,6 +144,8 @@ public class StructureCreator extends JanusClient {
     * @param keyPrefixSearch The key prefix to limit replication to.
     * @param keyStart        The key to start search from, may be blank.
     * @param keyStop         The key to stop search at, may be blank.
+    * @param start           The time start search from, may be 0.
+    * @param stop            The time stop search at, may be 0.
     * @param limit           The maximal number of entries to process (-1 means all entries).
     * @param skip            The number of entries to skip (-1 or 0 means no skipping).
     * @param commitLimit     The number of events to commit in one step (-1 means commit only at the end).
@@ -167,6 +173,8 @@ public class StructureCreator extends JanusClient {
                                        String  keyPrefixSearch,
                                        String  keyStart,
                                        String  keyStop,
+                                       long    start,
+                                       long    stop,
                                        int     limit,
                                        int     skip,
                                        int     commitLimit,
@@ -206,6 +214,12 @@ public class StructureCreator extends JanusClient {
     if (!keyStop.equals("")) {
       log.info("Stopping at " + keyStop);
       }
+    if (start > 0) {
+      log.info("Staring at " + start + "ms");
+      }
+    if (stop > 0) {
+      log.info("Stopping at " + stop + "ms");
+      }
     GremlinRecipies gr = new GremlinRecipies(this);
     timerStart();
     if (reset) {                        
@@ -224,7 +238,7 @@ public class StructureCreator extends JanusClient {
     if (!keyStop.equals("")) {
       searchS += ",key:stopKey:" + keyStop;
       }
-    hc.scan(null, searchS, "*", 0, false, false);
+    hc.scan(null, searchS, "*", start, stop, false, false);
     ResultScanner rs = hc.resultScanner();
     HBaseSchema schema = hc.schema();
     log.info("Populating Graph");
