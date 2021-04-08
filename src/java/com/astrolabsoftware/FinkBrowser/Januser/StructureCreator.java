@@ -55,8 +55,8 @@ public class StructureCreator extends JanusClient {
     * @param args[6]  The label of newly created Vertexes.
     * @param args[7]  The row key name.
     * @param args[8]  The key prefix to limit replication to.
-    * @param args[9]  The key to start search from, may be blank.
-    * @param args[10] The key to stop search at, may be blank.
+    * @param args[9]  The key to start search from (in ms), may be blank.
+    * @param args[10] The key to stop search at (in ms), may be blank.
     * @param args[11] The time start search from, may be 0.
     * @param args[12] The time stop search at, may be 0.
     * @param args[13] The maximal number of entries to process (-1 means all entries).
@@ -144,8 +144,8 @@ public class StructureCreator extends JanusClient {
     * @param keyPrefixSearch The key prefix to limit replication to.
     * @param keyStart        The key to start search from, may be blank.
     * @param keyStop         The key to stop search at, may be blank.
-    * @param start           The time start search from, may be 0.
-    * @param stop            The time stop search at, may be 0.
+    * @param start           The time start search from (in ms), may be 0.
+    * @param stop            The time stop search at (in ms), may be 0.
     * @param limit           The maximal number of entries to process (-1 means all entries).
     * @param skip            The number of entries to skip (-1 or 0 means no skipping).
     * @param commitLimit     The number of events to commit in one step (-1 means commit only at the end).
