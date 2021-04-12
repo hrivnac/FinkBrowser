@@ -25,6 +25,8 @@
     <pathelement path="${hbasecommon_jar}"/>
     <pathelement path="${hbaseclient_jar}"/>
     <pathelement path="${hadoopcommon_jar}"/>
+    <pathelement path="${avro_jar}"/>
+    <pathelement path="${jackson_jar}"/>
     <pathelement path="${lomikel_jar}"/>
     <fileset dir="${janusgraph_dir}/lib">
       <include name="*.jar"/>
@@ -91,6 +93,29 @@
     <mkdir dir="../run"/>
     <mkdir dir="../dist"/>
     <mkdir dir="../doc/JavaDoc"/>
+    </target>
+
+  <!-- Avro =================================================================-->
+
+  <target name="avro"
+          description="Create Avro Representation">
+    <delete includeEmptyDirs="true">
+      <fileset dir="../build" includes="ztf.avsc"/>
+      </delete>
+    <concat destfile="../build/ztf.avsc" append="true">
+      <filelist dir="../src/avro/ztf" files="candidate.avsc"/>
+      <filelist dir="../src/avro/ztf" files="prv_candidate.avsc"/>
+      <filelist dir="../src/avro/ztf" files="alert.avsc"/>
+      <filelist dir="../src/avro/ztf" files="cutout.avsc"/>
+      </concat>
+    <java jar="${avro_tools_jar}"
+          fork="true"
+          failonerror="true">
+      <arg value="compile"/>
+      <arg value="schema"/>
+      <arg value="../build/ztf.avsc"/>
+      <arg value="../build"/>
+      </java>
     </target>
 
   <!-- Compile ==============================================================-->
@@ -483,7 +508,7 @@
       </war>
     </target>
 
-  <!-- Deploy WSA ===========================================================-->
+  <!-- Deploy WS ============================================================-->
     
   <target name="deploy"
           depends="war"
@@ -538,11 +563,10 @@
     </target>
     
   <!-- Populate Graph from HBase ============================================-->
-  <!-- copied from Lomikel -->
 
   <target name="populate-graph"
           description="Populate Graph from HBase">
-    <echo>Extract Gremlin Schema</echo>
+    <echo>Populate Graph from HBase</echo>
     <java classname="com.astrolabsoftware.FinkBrowser.Januser.StructureCreator"
           fork="true">
       <arg value="populate"/>
@@ -566,6 +590,20 @@
       <arg value="${alerts_fullFill}"/>
       <arg value="${alerts_partialFill}"/>
       <arg value="${alerts_geopoint}"/>
+      <classpath>
+        <path refid="classpath.janusgraph"/>
+        </classpath>
+      </java>
+    </target>
+         
+  <!-- Populate Graph from HBase ============================================-->
+
+  <target name="import-alerts"
+          description="Import alerts to Graph">
+    <echo>Import alerts to Graph</echo>
+    <java classname="com.astrolabsoftware.FinkBrowser.Avro.AvroReader"
+          fork="true">
+      <arg value="../data/test/697251920015010010.avro"/>
       <classpath>
         <path refid="classpath.janusgraph"/>
         </classpath>
@@ -690,14 +728,17 @@
       <Footer><![CDATA[<center>Written by: <a href='http://cern.ch/hrivnac'>J.Hrivnac</a></center>]]></Footer>
       <bottom><![CDATA[<a href='http://cern.ch/hrivnac/Activities/Packages/FinkBrowser'>Documentation</a>]]> built ${TODAY} on ${os.name} by ${user.name}</bottom>
       <group title="Apps"          packages="com.astrolabsoftware.FinkBrowser.Apps*"/>
+      <group title="Avro"          packages="com.astrolabsoftware.FinkBrowsrr.Avro*"/>
       <group title="Utils"         packages="com.astrolabsoftware.FinkBrowser.Utils*"/>
       <group title="GremlinPlugin" packages="com.astrolabsoftware.FinkBrowser.Utils*"/>
       <group title="HBaser"        packages="com.astrolabsoftware.FinkBrowser.HBaser*"/>
       <group title="Januser"       packages="com.astrolabsoftware.FinkBrowser.Januser*"/>
+      <group title="ZTF Avro"      packages="ztf*"/>
       <group title="WebService"    packages="com.astrolabsoftware.FinkBrowser.WebService*"/>
       <link href="http://docs.oracle.com/javase/8/docs/api" packagelistLoc="${javadoc}" offline="true"/>
       <link href="https://cern.ch/hrivnac/Activities/Packages/Lomikel/JavaDoc"/>
       <link href="https://cds-astro.github.io/cds-healpix-java/apidocs"/>
+      <link href="https://avro.apache.org/docs/1.8.2/api/java"/>
       <classpath>
         <path refid="classpath.run"/>
         </classpath>

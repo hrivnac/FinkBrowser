@@ -27,7 +27,7 @@ loc = g.addV('site').property('lbl',               'site').
                      property('HBase',             'http://localhost:16010').
                      property('HBase_Test_Tiny_3', 'HBaseTable.jsp?hbase=http://localhost:2181&htable=test_portal_tiny.3&group=i:objectId&schema=schema_0.7.0_0.3.6&limit=10').
                      next();
-latestAlertsLoc = g.addV('AlertsCollection').property('lbl', 'AlertsCollection').
+latestAlertsLoc = g.addV('AlertsCollection').property('lbl',   'AlertsCollection').
                                              property('title', 'Latest Local Alerts').
                                              property('hbase', 'HBaseTable.jsp?hbase=http://localhost:2181&htable=test_portal_tiny.3&group=i:objectId&schema=schema_0.7.0_0.3.6&latest=1000000').
                                              next();
