@@ -603,7 +603,10 @@
     <echo>Import alerts to Graph</echo>
     <java classname="com.astrolabsoftware.FinkBrowser.Avro.AvroReader"
           fork="true">
-      <arg value="../data/test/697251920015010010.avro"/>
+      <arg value="${janusgraph_dir}/conf/gremlin-server/Local-batch.properties"/>
+      <!--arg value="../data/test/697251920015010010.avro"/-->
+      <arg value="../../fink-broker/datasim"/>
+      <arg value="${alerts_commitLimit}"/>
       <classpath>
         <path refid="classpath.janusgraph"/>
         </classpath>

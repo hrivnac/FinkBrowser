@@ -3,7 +3,8 @@ package com.astrolabsoftware.FinkBrowser.Avro;
 import com.astrolabsoftware.FinkBrowser.Utils.Init;
 
 // Lomikel
-//import com.JHTools.HBaser.HBaseClient;
+import com.Lomikel.Januser.JanusClient;
+import com.Lomikel.Januser.GremlinRecipies;
 import com.Lomikel.Utils.LomikelException;
 
 // Avro
@@ -17,12 +18,22 @@ import org.apache.avro.generic.GenericData.Array;
 import org.apache.avro.generic.GenericDatumReader;
 import org.apache.avro.specific.SpecificDatumReader;
 
+// Tinker Pop
+import static org.apache.tinkerpop.gremlin.process.traversal.dsl.graph.__.unfold;
+import org.apache.tinkerpop.gremlin.structure.Vertex;
+
+// Janus Graph
+import org.janusgraph.core.JanusGraph;
+import org.janusgraph.core.attribute.Geoshape;
+
 // Java
 import java.io.File;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Map;
+import java.util.TreeMap;
 
 // ZTF
 import ztf.alert.candidate;
@@ -30,58 +41,52 @@ import ztf.alert.candidate;
 // Log4J
 import org.apache.log4j.Logger;
 
-/** <code>AvroReader</code> reads <em>Avro</em> files.
+/** <code>AvroReader</code> imports <em>Avro</em> files into <em>JanusGraph</em>.
   * @opt attributes
   * @opt operations
   * @opt types
   * @opt visibility
   * @author <a href="mailto:Julius.Hrivnac@cern.ch">J.Hrivnac</a> */
-public class AvroReader {
+// TBD: allow reset
+// TBD: allow getOrCreate
+public class AvroReader extends JanusClient {
         
   /** Import Avro files or directory. 
-    * @param args[0] The HBase url. 
-    * @param args[1] The Avro file or directory with Avro files. */
-  public static void main(String[] args) throws IOException {
-    //Init.init();
-    if (args.length != 1) {
-      log.error("AvroReader.exe.jar [<file>|<directory>]");
+    * @param args[0] The Janusgraph properties file. 
+    * @param args[1] The Avro file or directory with Avro files.
+    * @param args[2] The number of events to commit in one step (-1 means commit only at the end).
+    * @throws LomikelException If anything goes wrong. */
+   public static void main(String[] args) throws IOException {
+    Init.init();
+    if (args.length != 3) {
+      log.error("AvroReader.exe.jar <JanusGraph properties> [<file>|<directory>] <commit limit>");
       System.exit(-1);
       }
     try {
-      AvroReader reader = new AvroReader(args[0]);
-      reader.process(args[1]);
+      AvroReader reader = new AvroReader(            args[0],
+                                         new Integer(args[2]));
+      reader.timerStart();
+      reader.process(            args[1]);
+      reader.close();
       }
     catch (LomikelException e) {
-      log.fatal("Cannot process " + args[0], e);
+      log.fatal("Cannot import " + args[1] + " into " + args[0], e);
       System.exit(-1);
       }
     }
   
-  /** Create.
-    * @param schemaFN The filename of the schema file.
-    *                 If <tt>null</tt>, schema will be read from data file.*/
-  public AvroReader(String schemaFN) {
-    if (schemaFN == null) {
-      _schema = null;
-      }
-    else {
-    log.info("Using schema from " + schemaFN);
-      try {
-        _schema = new Schema.Parser().parse(new File(schemaFN));
-        }
-      catch (IOException e) {
-        log.warn("Cannot read schema " + schemaFN + ", will use schema from Avro file");
-        }
-      }
-    }
-    
-  /** Create from the complete {@link Server}. */
-  public AvroReader() {
-    this(null);
+  /** Create with JanusGraph properties file.
+    * @param properties  The file with the complete Janusgraph properties.
+    * @param commitLimit The number of events to commit in one step (-1 means commit only at the end). */
+  public AvroReader(String properties,
+                    int    commitLimit) {
+    super(properties);
+    _commitLimit = commitLimit;
+    _gr = new GremlinRecipies(this);
     }
         
   /** Process directory with <em>Avro</em> alert files.
-     * @param dirFN   The dirname of directiory with data file. */
+     * @param dirFN The dirname of directiory with data file. */
   public void processDir(String dirFN) {  
     log.info("Loading directory " + dirFN);
     File dir = new File(dirFN);
@@ -100,6 +105,7 @@ public class AvroReader {
         log.warn("Not Avro file: " + dataFN);
         }
       }
+    timer("alerts created", _n, -1, -1);      
     log.info("" + i + " files loaded");
     }
      
@@ -110,7 +116,7 @@ public class AvroReader {
      * @throws LomikelException If anything wrong. */
   // TBD: use generated schema (problem: it mixes ztf.alert namespace and class
   public void process(String fn) throws IOException, LomikelException {
-    log.info("Loading " + fn);
+    log.debug("Loading " + fn);
     File file = new File(fn);
     if (file.isDirectory()) {
       processDir(fn);
@@ -131,107 +137,111 @@ public class AvroReader {
     DatumReader<GenericRecord> datumReader = new GenericDatumReader<GenericRecord>();
     DataFileReader<GenericRecord> dataFileReader = new DataFileReader<GenericRecord>(file, datumReader);
     GenericRecord record = null;
+    int n = 1;
     while (dataFileReader.hasNext()) {
       record = dataFileReader.next(record);
       processAlert(record);
       }
     } 
-  
+   
   /** Process <em>Avro</em> alert.
     * @param record The full alert {@link GenericRecord}. */
-  private void processAlert(GenericRecord record) {
-    getSimpleFields(record, new String[]{"candid"});
-    String key = record.get("objectId").toString(); 
-    toCatalog(key, "i", "type", "alert"); 
-    register(record, key, "r", new String[]{"candid"});
-    register(record, key, "d", getSimpleFields(record, new String[]{"candid"}));
-    processCandidate((GenericRecord)(record.get("candidate"))); // TBD: check cast
-    Array prv_candidates = (Array)(record.get("prv_candidates")); // TBD: check cast
+  // TBD: allow getOrCreate
+  private Vertex processAlert(GenericRecord record) {
+    Map<String, String> values = getSimpleValues(record, getSimpleFields(record, new String[]{}));
+    log.debug("alert:"); 
+    Vertex v = g().addV("alert").property("lbl", "alert").next();
+    Vertex vv;
+    for (Map.Entry<String, String> entry : values.entrySet()) {
+      log.debug("\t" + entry.getKey() + " = " + entry.getValue());
+      v.property(entry.getKey(), entry.getValue());
+      }
+    vv = processCandidate((GenericRecord)(record.get("candidate")));
+    GremlinRecipies gr = new GremlinRecipies(this);
+    gr.addEdge(v, vv, "has");
+    Array prv_candidates = (Array)(record.get("prv_candidates"));
     int n = 0;
     for (Object o : prv_candidates) {
-      toCatalog(key, "r" , "prv_candid_" + ++n, key + "_" + n);
-      processPrvCandidate((GenericRecord)o, key + "_" + n); // TBD: check cast
+      vv = processPrvCandidate((GenericRecord)o);
+      gr.addEdge(v, vv, "has");
       }
-    processCutoutScience((GenericRecord)(record.get("cutoutScience")), key);
+    for (String s : new String[]{"Science", "Template", "Difference"}) { 
+      vv = processCutout((GenericRecord)(record.get("cutout" + s)));
+      gr.addEdge(v, vv, s);
+      }
+    timer("alerts created", ++_n, 100, _commitLimit);      
+    return v;
     }
   
   /** Process <em>Avro</em> candidate.
     * @param record The {@link GenericRecord} with <em>candidate</em>. */
-  private void processCandidate(GenericRecord record) {
-    String key = record.get("candid").toString();
-    toCatalog(key, "i", "type", "candidate");
-    register(record, key, "d", getSimpleFields(record, new String[]{}));
+  private Vertex processCandidate(GenericRecord record) {
+    Map<String, String> values = getSimpleValues(record, getSimpleFields(record, new String[]{}));
+    String rowkey = record.get("candid").toString();
+    log.debug("candidate:"); 
+    Vertex v = g().addV("candidate").property("lbl", "candidate").next();
+    for (Map.Entry<String, String> entry : values.entrySet()) {
+      log.debug("\t" + entry.getKey() + " = " + entry.getValue());
+      v.property(entry.getKey(), entry.getValue());
+      }
+    v.property("direction", Geoshape.point(new Double(record.get("dec").toString()), new Double(record.get("ra").toString()) - 180));
+    return v;
     }
     
   /** Process <em>Avro</em> prv_candidate.
-    * @param record The {@link GenericRecord} with <em>prv_candidate</em>.
-    * @param key0   The <em>HBase</em> key to use in absence of <em>Avro</em> key. */
-  private void processPrvCandidate(GenericRecord record,
-                                   String        key0) {
-    String key = key0;
-    if (record.get("candid") != null) {
-      key = record.get("candid").toString();
+    * @param record The {@link GenericRecord} with <em>prv_candidate</em>. */
+  // TBD: refactor with processCandidate
+  private Vertex processPrvCandidate(GenericRecord record) {
+    Map<String, String> values = getSimpleValues(record, getSimpleFields(record, new String[]{}));
+    log.debug("prv_candidate:"); 
+    Vertex v = g().addV("prv_candidate").property("lbl", "prv_candidate").next();
+    for (Map.Entry<String, String> entry : values.entrySet()) {
+      log.debug("\t" + entry.getKey() + " = " + entry.getValue());
+      v.property(entry.getKey(), entry.getValue());
       }
-    toCatalog(key, "i", "type", "prv_candidate");
-    register(record, key, "d", getSimpleFields(record, new String[]{}));
+    //v.property("direction", Geoshape.point(new Double(record.get("dec").toString()), new Double(record.get("ra").toString()) - 180));
+    return v;
     }
     
   /** Process <em>Avro</em> cutoutScience.
-    * @param record The {@link GenericRecord} with <em>cutoutScience</em>.
-    * @param key0   The <em>HBase</em> key to use in absence of <em>Avro</em> key. */
-  private void processCutoutScience(GenericRecord record,
-                                    String        key) {
-    toCatalog(key, "i", "type", "cutoutScience");
-    register(record, key, "d", getSimpleFields(record, new String[]{}));
-    register(record, key, "d", new String[]{"stampData"});
+    * @param record The {@link GenericRecord} with <em>cutoutScience</em>. */
+  // TBD: handle binary data
+  private Vertex processCutout(GenericRecord record) {
+    Map<String, String> values = getSimpleValues(record, getSimpleFields(record, new String[]{}));
+    log.debug("cutout:"); 
+    log.debug("\tfileName = " + record.get("fileName").toString());
+    Vertex v = g().addV("cutout").property("lbl", "cutout").next();
+    for (Map.Entry<String, String> entry : values.entrySet()) {
+      v.property(entry.getKey(), entry.getValue());
+      }
+    return v;
     }
 
   /** Register part of {@link GenericRecord} in <em>HBase</em>.
     * @param record  The {@link GenericRecord} to be registered in <em>HBase</em>.
-    * @param key     The <em>HBase</em> key to be used.
-    * @param family  The <em>HBase</em> family to be used.
-    * @param columns The fields to be mapped to <em>HBase</em> columns. */
-  private void register(GenericRecord record,
-                        String        key,
-                        String        family,
-                        String[]      columns) {
-    for (String s : columns) {
+    * @param fields  The fields to be mapped. */
+  private Map<String, String> getSimpleValues(GenericRecord record,
+                                              List<String>  fields) {
+    Map<String, String> content = new TreeMap<>();
+    for (String s : fields) {
       Object o = record.get(s);
       if (o instanceof ByteBuffer) {
-        byte[] b = ((ByteBuffer)o).array();
-        log.debug("Changing family from " + family + " to b for " + s);
-        toCatalog(key, "b", s, new String(b));
+        content.put(s, new String(((ByteBuffer)o).array())); // TBD: handle better
         }
       else {
-        toCatalog(key, family, s, o.toString());
+        content.put(s, o.toString());
         }
       }
+    return content;
     }
     
-  /** Send row to <em>HBase</em>.
-    * @param key    The <em>HBase</em> key to be used.
-    * @param family The <em>HBase</em> family to be used.
-    * @param column The <em>HBase</em> columns to be written to.
-    * @param value  The value to be written. */
-  // TBD: enable number of versions and timeout
-  private void toCatalog(String key,
-                         String family,
-                         String column,
-                         String value) {
-    log.info(key + ": " + family + ":" + column + "->" + value);
-    //_hbase.put("astrolabnet.catalog.1",
-    //           key,
-    //           new String[]{family + ":" + column},
-    //           new String[]{value});
-    }
-  
   /** Get {@link Field}s corresponding to simple types
     * and having non-<code>null</code> values.
     * @param record The {@link GenericRecord} to use.
     * @param avoids The array of fields names not to report.
-    * @return       The array of coressponding fields. */
-  private String[] getSimpleFields(GenericRecord record,
-                                   String[]      avoids) {
+    * @return       The list of coressponding fields. */
+  private List<String> getSimpleFields(GenericRecord record,
+                                       String[]      avoids) {
     List<String> fields = new ArrayList<>();
     Type type;
     String name;
@@ -256,12 +266,14 @@ public class AvroReader {
           }
         }
       }
-    return fields.toArray(new String[]{});
+    return fields;
     }
     
-  //private HBaseClient _hbase;  
-    
-  private Schema _schema;
+  private GremlinRecipies _gr;
+  
+  private int _n = 0;
+  
+  private int _commitLimit;
     
   /** Logging . */
   private static Logger log = Logger.getLogger(AvroReader.class);
