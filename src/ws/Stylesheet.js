@@ -1,3 +1,4 @@
+// TBD: allow properties of non-string values
 stylesheet.nodes.AstroLabNet = {
   properties:{},
   graphics: {
@@ -47,27 +48,78 @@ stylesheet.nodes.site = {
     ]
   }
 stylesheet.nodes.alert = {
-  properties:{gremlin:"valueMap('rowkey')"},
+  properties:{gremlin:"valueMap('objectId')"},
   graphics: {
-    label:{js:"rowkey"},
-    title:{js:"rowkey"},        
+    label:{js:"objectId"},
+    title:{js:"objectId"},        
     subtitle:" ",
     group:" ",        
-    shape:"image",      
-    image:"Alert.png",        
+    shape:"hexagon",      
+    image:"",        
     borderRadius:"0", 
     borderWidth:"1",  
     borderDashes:[1,0],
     value: {gremlin:"both().count().join().toString()"}        
     },
   actions:[
-    {name:"alert",   url:{js:"'/FinkBrowser/HBaseTable.jsp?selects=all&key=' + rowkey"                                     }, embedded:true},
-    {name:"alerts",  url:{js:"'/FinkBrowser/HBaseTable.jsp?selects=all&filters=key:key:' + rowkey.split('_')[0]+ ':prefix'"}, embedded:true},
-    {name:"Analyse", url:{js:"'http://134.158.75.151:24000/' + rowkey.split('_')[0]"                                       }, external:true}
+    {name:"alert",   url:{js:"'/FinkBrowser/HBaseTable.jsp?selects=all&key=' + objectId"                                     }, embedded:true},
+    {name:"alerts",  url:{js:"'/FinkBrowser/HBaseTable.jsp?selects=all&filters=key:key:' + objectId + ':prefix'"}, embedded:true},
+    {name:"Analyse", url:{js:"'http://134.158.75.151:24000/' + objectId"                                        }, external:true}
+    ]
+  }
+stylesheet.nodes.candidate = {
+  properties:{},
+  graphics: {
+    label:{gremlin:"values('candid')"},
+    title:{gremlin:"values('candid')"},        
+    subtitle:" ",
+    group:" ",        
+    shape:"dot",      
+    image:"",        
+    borderRadius:"0", 
+    borderWidth:"2",  
+    borderDashes:[1,0],
+    value:"0"        
+    },
+  actions:[
+    ]
+  }
+stylesheet.nodes.prv_candidate = {
+  properties:{},
+  graphics: {
+    label:{gremlin:"values('jd')"},
+    title:{gremlin:"values('jd')"},        
+    subtitle:" ",
+    group:" ",        
+    shape:"dot",      
+    image:"",        
+    borderRadius:"0", 
+    borderWidth:"1",  
+    borderDashes:[1,1],
+    value:"0"        
+    },
+  actions:[
+    ]
+  }
+stylesheet.nodes.cutout = {
+  properties:{},
+  graphics: {
+    label:"cutout",
+    title:"cutout",        
+    subtitle:{gremlin:"values('fileName')"},
+    group:" ",        
+    shape:"box",      
+    image:"",        
+    borderRadius:"0", 
+    borderWidth:"1",  
+    borderDashes:[1,0],
+    value:"0"        
+    },
+  actions:[
     ]
   }
 stylesheet.nodes.AlertsCollection = {
-  properties:{gremlin:"valueMap('hbase')"},
+  properties:{},
   graphics: {
     label:"title", 
     title:"title",        
@@ -89,6 +141,45 @@ stylesheet.edges.has = {
   graphics: {
     label:" ",
     title:" ",
+    subtitle:" ",
+    arrows:{to:{enabled:true, type:"vee"}},
+    value: "0.1",
+    group: " "
+    },
+  actions: [
+    ]
+  }
+stylesheet.edges.Science = {
+  properties:{},
+  graphics: {
+    label:"Science",
+    title:"Science",
+    subtitle:" ",
+    arrows:{to:{enabled:true, type:"vee"}},
+    value: "0.1",
+    group: " "
+    },
+  actions: [
+    ]
+  }
+stylesheet.edges.Template = {
+  properties:{},
+  graphics: {
+    label:"Template",
+    title:"Template",
+    subtitle:" ",
+    arrows:{to:{enabled:true, type:"vee"}},
+    value: "0.1",
+    group: " "
+    },
+  actions: [
+    ]
+  }
+stylesheet.edges.Difference = {
+  properties:{},
+  graphics: {
+    label:"Difference",
+    title:"Difference",
     subtitle:" ",
     arrows:{to:{enabled:true, type:"vee"}},
     value: "0.1",

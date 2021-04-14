@@ -604,9 +604,10 @@
     <java classname="com.astrolabsoftware.FinkBrowser.Avro.AvroReader"
           fork="true">
       <arg value="${janusgraph_dir}/conf/gremlin-server/Local-batch.properties"/>
-      <!--arg value="../data/test/697251920015010010.avro"/-->
-      <arg value="../../fink-broker/datasim"/>
+      <arg value="${alerts_avrodir}"/>
+      <arg value="${alerts_reportLimit}"/>
       <arg value="${alerts_commitLimit}"/>
+      <arg value="${alerts_strategy}"/>
       <classpath>
         <path refid="classpath.janusgraph"/>
         </classpath>

@@ -54,19 +54,24 @@ public class AvroReader extends JanusClient {
   /** Import Avro files or directory. 
     * @param args[0] The Janusgraph properties file. 
     * @param args[1] The Avro file or directory with Avro files.
-    * @param args[2] The number of events to commit in one step (-1 means commit only at the end).
+    * @param args[2] The number of events to use for progress report (-1 means no report untill the end).
+    * @param args[3] The number of events to commit in one step (-1 means commit only at the end).
+    * @param args[4] The creation strategy. <tt>drop,replace,getOrCreate</tt>.
     * @throws LomikelException If anything goes wrong. */
    public static void main(String[] args) throws IOException {
     Init.init();
-    if (args.length != 3) {
-      log.error("AvroReader.exe.jar <JanusGraph properties> [<file>|<directory>] <commit limit>");
+    if (args.length != 5) {
+      log.error("AvroReader.exe.jar <JanusGraph properties> [<file>|<directory>] <report limit> <commit limit> [create|reuse|drop]");
       System.exit(-1);
       }
     try {
       AvroReader reader = new AvroReader(            args[0],
-                                         new Integer(args[2]));
+                                         new Integer(args[2]),
+                                         new Integer(args[3]),
+                                                     args[4]);
       reader.timerStart();
-      reader.process(            args[1]);
+      reader.process(args[1]);
+      reader.commit();
       reader.close();
       }
     catch (LomikelException e) {
@@ -77,11 +82,35 @@ public class AvroReader extends JanusClient {
   
   /** Create with JanusGraph properties file.
     * @param properties  The file with the complete Janusgraph properties.
-    * @param commitLimit The number of events to commit in one step (-1 means commit only at the end). */
+    * @param reportLimit The number of events to use for progress report (-1 means no report untill the end).
+    * @param commitLimit The number of events to commit in one step (-1 means commit only at the end).
+    * @param strategy    The creation strategy. <tt>drop,replace,getOrCreate</tt>. */
   public AvroReader(String properties,
-                    int    commitLimit) {
+                    int    reportLimit,
+                    int    commitLimit,
+                    String strategy) {
     super(properties);
+    log.info("Reporting after each " + reportLimit + " alerts");
+    log.info("Committing after each " + commitLimit + " alerts");
+    log.info("Using strategy: " + strategy);
+    _reportLimit = reportLimit;
     _commitLimit = commitLimit;
+    _create      = false;
+    _reuse       = false;
+    _replace     = false;
+    _drop        = false;
+    if (strategy.contains("create")) {
+      _create = true;
+      }
+    if (strategy.contains("reuse")) {
+      _reuse = true;
+      }
+    if (strategy.contains("replace")) {
+      _replace = true;
+      }
+    if (strategy.contains("drop")) {
+      _drop = true;
+      }
     _gr = new GremlinRecipies(this);
     }
         
@@ -146,40 +175,50 @@ public class AvroReader extends JanusClient {
    
   /** Process <em>Avro</em> alert.
     * @param record The full alert {@link GenericRecord}. */
-  // TBD: allow getOrCreate
+  // TBD: drop edges
   private Vertex processAlert(GenericRecord record) {
-    Map<String, String> values = getSimpleValues(record, getSimpleFields(record, new String[]{}));
+    Map<String, String> values = getSimpleValues(record, getSimpleFields(record, new String[]{"objectId"}));
     log.debug("alert:"); 
-    Vertex v = g().addV("alert").property("lbl", "alert").next();
-    Vertex vv;
-    for (Map.Entry<String, String> entry : values.entrySet()) {
-      log.debug("\t" + entry.getKey() + " = " + entry.getValue());
-      v.property(entry.getKey(), entry.getValue());
+    Vertex v = vertex(record, "alert", "objectId");
+    if (v != null) {
+      for (Map.Entry<String, String> entry : values.entrySet()) {
+        log.debug("\t" + entry.getKey() + " = " + entry.getValue());
+        v.property(entry.getKey(), entry.getValue());
+        }
+      v.property("alertVersion", VERSION);
       }
+    Vertex vv;
     vv = processCandidate((GenericRecord)(record.get("candidate")));
-    GremlinRecipies gr = new GremlinRecipies(this);
-    gr.addEdge(v, vv, "has");
+    if (v != null) {
+      _gr.addEdge(v, vv, "has");
+      }
     Array prv_candidates = (Array)(record.get("prv_candidates"));
     int n = 0;
     for (Object o : prv_candidates) {
       vv = processPrvCandidate((GenericRecord)o);
-      gr.addEdge(v, vv, "has");
-      }
+      if (v != null) {
+        _gr.addEdge(v, vv, "has");
+        }
+      } 
     for (String s : new String[]{"Science", "Template", "Difference"}) { 
       vv = processCutout((GenericRecord)(record.get("cutout" + s)));
-      gr.addEdge(v, vv, s);
+      if (v != null) {
+        _gr.addEdge(v, vv, s);
+        }
       }
-    timer("alerts created", ++_n, 100, _commitLimit);      
+    timer("alerts processed", ++_n, _reportLimit, _commitLimit);      
     return v;
     }
   
   /** Process <em>Avro</em> candidate.
     * @param record The {@link GenericRecord} with <em>candidate</em>. */
   private Vertex processCandidate(GenericRecord record) {
-    Map<String, String> values = getSimpleValues(record, getSimpleFields(record, new String[]{}));
-    String rowkey = record.get("candid").toString();
+    Map<String, String> values = getSimpleValues(record, getSimpleFields(record, new String[]{"candid"}));
     log.debug("candidate:"); 
-    Vertex v = g().addV("candidate").property("lbl", "candidate").next();
+    Vertex v = vertex(record, "candidate", null);
+    if (v == null) {
+      return v;
+      }
     for (Map.Entry<String, String> entry : values.entrySet()) {
       log.debug("\t" + entry.getKey() + " = " + entry.getValue());
       v.property(entry.getKey(), entry.getValue());
@@ -192,14 +231,19 @@ public class AvroReader extends JanusClient {
     * @param record The {@link GenericRecord} with <em>prv_candidate</em>. */
   // TBD: refactor with processCandidate
   private Vertex processPrvCandidate(GenericRecord record) {
-    Map<String, String> values = getSimpleValues(record, getSimpleFields(record, new String[]{}));
+    Map<String, String> values = getSimpleValues(record, getSimpleFields(record, new String[]{"candid"}));
     log.debug("prv_candidate:"); 
-    Vertex v = g().addV("prv_candidate").property("lbl", "prv_candidate").next();
+    Vertex v = vertex(record, "prv_candidate", null);
+    if (v == null) {
+      return v;
+      }
     for (Map.Entry<String, String> entry : values.entrySet()) {
       log.debug("\t" + entry.getKey() + " = " + entry.getValue());
       v.property(entry.getKey(), entry.getValue());
       }
-    //v.property("direction", Geoshape.point(new Double(record.get("dec").toString()), new Double(record.get("ra").toString()) - 180));
+    if (record.get("dec") != null && record.get("ra") != null) {
+      v.property("direction", Geoshape.point(new Double(record.get("dec").toString()), new Double(record.get("ra").toString()) - 180));
+      }
     return v;
     }
     
@@ -210,7 +254,10 @@ public class AvroReader extends JanusClient {
     Map<String, String> values = getSimpleValues(record, getSimpleFields(record, new String[]{}));
     log.debug("cutout:"); 
     log.debug("\tfileName = " + record.get("fileName").toString());
-    Vertex v = g().addV("cutout").property("lbl", "cutout").next();
+    Vertex v = vertex(record, "cutout", null);
+    if (v == null) {
+      return v;
+      }
     for (Map.Entry<String, String> entry : values.entrySet()) {
       v.property(entry.getKey(), entry.getValue());
       }
@@ -269,11 +316,59 @@ public class AvroReader extends JanusClient {
     return fields;
     }
     
+  /** Create or drop a {@link Vertex} according to chosen strategy.
+    * @param record    The full {@link GenericRecord}.
+    * @param label     The {@link Vertex} label.
+    * @param property  The name of {@link Vertex} property.
+    *                  If <tt>null</tt> strategy is ignored and {@link Vertex} is created.
+    * @return          The created {@link Vertex} or <tt>null</tt>. */
+  private Vertex vertex(GenericRecord record,
+                        String        label,
+                        String        property) {
+    Vertex v = null;
+    // Not unique Vertex
+    if (property == null) {
+      if (_drop) {
+        return v;
+        }
+      else {
+        log.info("Creating: " + label);
+        return g().addV(label).property("lbl", label).next();
+        }
+      }
+    // Unique Vertex
+    if (_drop || _replace) {
+      log.info("Dropping " + label + ": " + property + " = " + record.get(property));
+      _gr.drop(label, property, record.get(property), true);
+      }
+    if (_reuse) {
+      log.info("Getting " + label + ": " + property + " = " + record.get(property));
+      v = _gr.getOrCreate(label, property, record.get(property));
+      }
+    if (_create || _replace) {
+      log.info("Creating " + label + ": " + property + " = " + record.get(property));
+      v = g().addV(label).property("lbl", label).property(property, record.get(property)).next();
+      }
+    return v;
+    }
+    
   private GremlinRecipies _gr;
   
   private int _n = 0;
   
+  private int _reportLimit;
+  
   private int _commitLimit;
+  
+  private boolean _create;
+  
+  private boolean _reuse;
+  
+  private boolean _replace;
+  
+  private boolean _drop;
+  
+  private static String VERSION = "ztf-3.2";
     
   /** Logging . */
   private static Logger log = Logger.getLogger(AvroReader.class);
