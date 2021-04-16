@@ -642,7 +642,7 @@
           description="Patch JanusGraph">
     <echo>Patching JanusGraph Server</echo>
     <echo>... system</echo>
- 		<copy todir="${janusgraph_dir}/scripts">
+ 		<copy todir="${janusgraph_dir}/scripts" overwrite="true">
 			<fileset dir="../src/sys/janusgraph/scripts" includes="*"/>
       </copy>
     <replace file="${janusgraph_dir}/scripts/setup-finkbrowser.groovy" token="@STORAGE.HOSTNAME@"     value="${zookeeper}"/>
@@ -655,7 +655,7 @@
     <delete includeEmptyDirs="true">
       <fileset dir="${janusgraph_dir}/ext/finkbrowser.connector" includes="FinkBrowser-*.jar"/>
       </delete>
- 		<copy todir="${janusgraph_dir}/ext/finkbrowser.connector">
+ 		<copy todir="${janusgraph_dir}/ext/finkbrowser.connector" overwrite="true">
 			<fileset dir="../lib" includes="FinkBrowser-${version}.jar"/>
       </copy>
     <exec executable="../src/sh/updateJanusExt.sh">
