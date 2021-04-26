@@ -68,10 +68,10 @@ stylesheet.nodes.alert = {
     ]
   }
 stylesheet.nodes.candidate = {
-  properties:{},
+  properties:{gremlin:"valueMap('candid')"},
   graphics: {
-    label:{gremlin:"values('candid')"},
-    title:{gremlin:"values('candid')"},        
+    label:{js:"candid"},
+    title:{js:"candid"},        
     subtitle:" ",
     group:" ",        
     shape:"dot",      
