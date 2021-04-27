@@ -177,7 +177,12 @@ public class AvroReader extends JanusClient {
     * @param record The full alert {@link GenericRecord}. */
   // TBD: drop edges
   private Vertex processAlert(GenericRecord record) {
-    Map<String, String> values = getSimpleValues(record, getSimpleFields(record, new String[]{"objectId"}));
+    Map<String, String> values = getSimpleValues(record, getSimpleFields(record, new String[]{"objectId",
+                                                                                              "candidate",
+                                                                                              "prv_candidates",
+                                                                                              "cutoutScience",
+                                                                                              "cutoutTemplate",
+                                                                                              "cutoutDifference"}));
     log.debug("alert:"); 
     Vertex v = vertex(record, "alert", "objectId");
     if (v != null) {
@@ -301,6 +306,7 @@ public class AvroReader extends JanusClient {
           type == Type.FLOAT   ||
           type == Type.LONG    ||
           type == Type.INT     ||
+          type == Type.UNION   ||
           type == Type.STRING) {
         veto = false;
         for (String avoid : avoids) {
@@ -311,6 +317,9 @@ public class AvroReader extends JanusClient {
         if (!veto) {
           fields.add(name);
           }
+        }
+      else {
+        log.debug("Skipped: " + name + " of " + type);
         }
       }
     return fields;
@@ -332,13 +341,13 @@ public class AvroReader extends JanusClient {
         return v;
         }
       else {
-        log.info("Creating: " + label);
+        log.debug("Creating: " + label);
         return g().addV(label).property("lbl", label).next();
         }
       }
     // Unique Vertex
     if (_drop || _replace) {
-      log.info("Dropping " + label + ": " + property + " = " + record.get(property));
+      log.debug("Dropping " + label + ": " + property + " = " + record.get(property));
       _gr.drop(label, property, record.get(property), true);
       }
     if (_reuse) {
@@ -346,7 +355,7 @@ public class AvroReader extends JanusClient {
       v = _gr.getOrCreate(label, property, record.get(property));
       }
     if (_create || _replace) {
-      log.info("Creating " + label + ": " + property + " = " + record.get(property));
+      log.debug("Creating " + label + ": " + property + " = " + record.get(property));
       v = g().addV(label).property("lbl", label).property(property, record.get(property)).next();
       }
     return v;
