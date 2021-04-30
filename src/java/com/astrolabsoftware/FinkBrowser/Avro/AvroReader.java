@@ -3,6 +3,7 @@ package com.astrolabsoftware.FinkBrowser.Avro;
 import com.astrolabsoftware.FinkBrowser.Utils.Init;
 
 // Lomikel
+import com.Lomikel.Utils.Coding;
 import com.Lomikel.Januser.JanusClient;
 import com.Lomikel.Januser.GremlinRecipies;
 import com.Lomikel.Utils.LomikelException;
@@ -278,7 +279,7 @@ public class AvroReader extends JanusClient {
     for (String s : fields) {
       Object o = record.get(s);
       if (o instanceof ByteBuffer) {
-        content.put(s, new String(((ByteBuffer)o).array())); // TBD: handle better
+        content.put(s, new String(((ByteBuffer)o).array()));
         }
       else {
         content.put(s, o.toString());
@@ -301,25 +302,26 @@ public class AvroReader extends JanusClient {
     for (Field field : record.getSchema().getFields()) {
       type = field.schema().getType();
       name = field.name();
-      if (type == Type.BOOLEAN ||
-          type == Type.DOUBLE  ||
-          type == Type.FLOAT   ||
-          type == Type.LONG    ||
-          type == Type.INT     ||
-          type == Type.UNION   ||
-          type == Type.STRING) {
-        veto = false;
-        for (String avoid : avoids) {
-          if (name.equals(avoid) || record.get(name) == null) {
-            veto = true;
-            }
-          }
-        if (!veto) {
-          fields.add(name);
+      veto = false;
+      for (String avoid : avoids) {
+        if (name.equals(avoid) || record.get(name) == null) {
+          veto = true;
           }
         }
-      else {
-        log.debug("Skipped: " + name + " of " + type);
+      if (!veto) {
+        if (type == Type.BOOLEAN ||
+            type == Type.DOUBLE  ||
+            type == Type.FLOAT   ||
+            type == Type.LONG    ||
+            type == Type.INT     ||
+            type == Type.UNION   ||
+            type == Type.STRING  ||
+            type == Type.BYTES) {
+            fields.add(name);
+          }
+        else {
+          log.warn("Skipped: " + name + " of " + type);
+          }
         }
       }
     return fields;
