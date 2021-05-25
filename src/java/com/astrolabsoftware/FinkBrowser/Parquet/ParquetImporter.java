@@ -153,7 +153,7 @@ public class ParquetImporter extends JanusClient {
       p = fileStatus.getPath();
       if (p.getName().endsWith("." + fileExt)) {
         try {
-          process(p.getName());
+          process(dirFN + "/" + p.getName());
           i++;
           }
         catch (IOException | LomikelException e) {
