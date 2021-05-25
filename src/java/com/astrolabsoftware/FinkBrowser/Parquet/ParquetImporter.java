@@ -174,7 +174,7 @@ public class ParquetImporter extends JanusClient {
      * @throws IOException      If problem with file reading.
      * @throws LomikelException If anything wrong. */
   public void process(String fn) throws IOException, LomikelException {
-    log.debug("Loading " + fn);
+    log.info("Loading " + fn);
     _conf = new Configuration();
     _fs = FileSystem.get(_conf);
     Path path = new Path(fn);
@@ -197,9 +197,10 @@ public class ParquetImporter extends JanusClient {
       final RecordReader<Group> recordReader = columnIO.getRecordReader(pages, new GroupRecordConverter(schema));
       String sTemp = "";
       Group g;
-      int c = 0;
-      while ((g = recordReader.read()) != null && c++ < 1) {
+      int i = 0;
+      while ((g = recordReader.read()) != null && ++i < rows) { // BUG?: i++ ?
         processGroup(g, "alert");
+        timer("alerts processed", ++_n, _reportLimit, _commitLimit);      
         }
       }
     }   
@@ -212,7 +213,7 @@ public class ParquetImporter extends JanusClient {
   private List<Vertex> processGroup(Group  g,
                                     String lbl) {
     lbl = reLabel(lbl);
-    log.info(lbl);
+    //log.info(lbl);
     SimpleGroup sg;
     GroupType type;
     String[] jt;
