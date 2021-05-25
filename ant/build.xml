@@ -25,8 +25,10 @@
     <pathelement path="${hbasecommon_jar}"/>
     <pathelement path="${hbaseclient_jar}"/>
     <pathelement path="${hadoopcommon_jar}"/>
-    <pathelement path="${avro_jar}"/>
-    <pathelement path="${jackson_jar}"/>
+    <pathelement path="${parquetavro_jar}"/>    
+    <pathelement path="${parquethadoop_jar}"/>    
+    <pathelement path="${jacksoncore_jar}"/>    
+    <pathelement path="${jacksonmapper_jar}"/>    
     <pathelement path="${lomikel_jar}"/>
     <fileset dir="${janusgraph_dir}/lib">
       <include name="*.jar"/>
@@ -59,10 +61,15 @@
       </fileset>
     <pathelement path="${lomikel_jar}"/>
     <pathelement path="${bsh_jar}"/>
+    <pathelement path="${parquetavro_jar}"/>    
+    <pathelement path="${parquethadoop_jar}"/>    
+    <pathelement path="${jacksoncore_jar}"/>    
+    <pathelement path="${jacksonmapper_jar}"/>    
     </path>
-
-  <property name="classpath.build.content" refid="classpath.build"/>
-  <property name="classpath.run.content"   refid="classpath.run"/>
+    
+  <property name="classpath.build.content"      refid="classpath.build"/>
+  <property name="classpath.run.content"        refid="classpath.run"/>
+  <property name="classpath.janusgraph.content" refid="classpath.janusgraph"/>
 
   <!-- Info =================================================================-->
     
@@ -93,6 +100,18 @@
     <mkdir dir="../run"/>
     <mkdir dir="../dist"/>
     <mkdir dir="../doc/JavaDoc"/>
+    </target>
+    
+  <target name="classpath.hadoop"
+          description="Prepare Hadoop Classpath">   
+    <exec executable="../src/sh/hadoopclasspath.sh"
+          outputproperty="classpath.hadoop">
+      <arg value="classpath"/>
+      </exec>
+    <script language="javascript">
+      var before = project.getProperty("classpath.hadoop");
+      project.setProperty("classes.hadoop", before.replaceAll(":", ","));
+      </script>
     </target>
 
   <!-- Avro =================================================================-->
@@ -135,6 +154,8 @@
       <!--compilerarg value="-Xlint:deprecation"/-->
       <src path="../src/java/com/astrolabsoftware/FinkBrowser"/>
       <src path="../build"/>
+      <exclude name="com/astrolabsoftware/FinkBrowser/Avro/**"/>
+      <exclude name="ztf/**"/>
       <classpath>
         <path refid="classpath.build"/>
         </classpath>
@@ -168,6 +189,16 @@
         <attribute name="AppName"    value="FinkBrowser"/>
         <attribute name="AppVersion" value="${version} ${TSTAMP}"/>
         <attribute name="Main-Class" value="com.astrolabsoftware.FinkBrowser.Apps.CLI"/>
+        </manifest>
+      </jar>
+    <jar jarfile="../lib/ParquetImporter.jar" index="yes">
+      <zipfileset includes="**/*" src="../lib/FinkBrowser-${version}.jar" excludes="META-INF/*"/>
+      <zipfileset includes="**/*" src="${lomikel_jar}" excludes="META-INF/*"/>
+      <manifest>
+        <attribute name="Created-By" value="${user.name}"/>
+        <attribute name="AppName"    value="FinkBrowser-ParquetImporter"/>
+        <attribute name="AppVersion" value="${version} ${TSTAMP}"/>
+        <attribute name="Main-Class" value="com.astrolabsoftware.FinkBrowser.Parquet.Test"/>
         </manifest>
       </jar>
     <jar jarfile="../lib/FinkBrowser.exe.jar" index="yes">
@@ -598,9 +629,9 @@
          
   <!-- Populate Graph from HBase ============================================-->
 
-  <target name="import-alerts"
-          description="Import alerts to Graph">
-    <echo>Import alerts to Graph</echo>
+  <target name="import-avro"
+          description="Import Avro alerts to Graph">
+    <echo>Import Avro alerts to Graph</echo>
     <java classname="com.astrolabsoftware.FinkBrowser.Avro.AvroReader"
           fork="true">
       <arg value="${janusgraph_dir}/conf/gremlin-server/Local-batch.properties"/>
@@ -612,6 +643,21 @@
         <path refid="classpath.janusgraph"/>
         </classpath>
       </java>
+    </target>
+
+  <target name="import-parquet"
+          depends="classpath.hadoop"
+          description="Import Parquet alerts to Graph">
+    <echo>Import Parquet alerts to Graph</echo>
+    <exec executable="${hadoop_dir}/bin/hadoop">
+      <arg value="com.astrolabsoftware.FinkBrowser.Parquet.ParquetImporter"/>
+      <arg value="${janusgraph_dir}/conf/gremlin-server/Local-batch.properties"/>
+      <arg value="${alerts_parquetdir}"/>
+      <arg value="${alerts_reportLimit}"/>
+      <arg value="${alerts_commitLimit}"/>
+      <arg value="${alerts_strategy}"/>
+      <env key="HADOOP_CLASSPATH" path="${classpath.janusgraph.content}"/>
+      </exec>
     </target>
          
   <!-- Clean ================================================================-->
@@ -733,6 +779,7 @@
       <bottom><![CDATA[<a href='http://cern.ch/hrivnac/Activities/Packages/FinkBrowser'>Documentation</a>]]> built ${TODAY} on ${os.name} by ${user.name}</bottom>
       <group title="Apps"          packages="com.astrolabsoftware.FinkBrowser.Apps*"/>
       <group title="Avro"          packages="com.astrolabsoftware.FinkBrowsrr.Avro*"/>
+      <group title="Parquet"       packages="com.astrolabsoftware.FinkBrowsrr.Parquet*"/>
       <group title="Utils"         packages="com.astrolabsoftware.FinkBrowser.Utils*"/>
       <group title="GremlinPlugin" packages="com.astrolabsoftware.FinkBrowser.Utils*"/>
       <group title="HBaser"        packages="com.astrolabsoftware.FinkBrowser.HBaser*"/>
