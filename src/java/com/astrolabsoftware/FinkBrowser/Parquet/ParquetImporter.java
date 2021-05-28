@@ -34,6 +34,7 @@ import org.apache.parquet.example.data.simple.BinaryValue;
 import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.LocatedFileStatus;
 import org.apache.hadoop.fs.RemoteIterator;
+import org.apache.hadoop.fs.FileStatus;
 
 // Tinker Pop
 import static org.apache.tinkerpop.gremlin.process.traversal.dsl.graph.__.unfold;
@@ -144,15 +145,13 @@ public class ParquetImporter extends JanusClient {
                          String fileExt) throws IOException, FileNotFoundException {  
     log.info("Loading directory " + dirFN);
     Path path = new Path(dirFN);
-    LocatedFileStatus fileStatus;
+    //LocatedFileStatus fileStatus;
     Path p;
-    RemoteIterator<LocatedFileStatus> it = _fs.listFiles(path, false);
+    //RemoteIterator<LocatedFileStatus> it = _fs.listFiles(path, false);
     int i = 0;
-    while (it.hasNext()) {
-      fileStatus = it.next();
+    //while (it.hasNext()) {
+    for (FileStatus fileStatus : _fs.listStatus(path)) {
       p = fileStatus.getPath();
-      log.info(p);
-      log.info(_fs.isDirectory(p));
       if (_fs.isDirectory(p)) {
         processDir(dirFN + "/" + p.getName(), fileExt);
         }
