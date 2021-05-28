@@ -151,8 +151,9 @@ public class ParquetImporter extends JanusClient {
     while (it.hasNext()) {
       fileStatus = it.next();
       p = fileStatus.getPath();
+      log.info(p);
+      log.info(_fs.isDirectory(p));
       if (_fs.isDirectory(p)) {
-        log.info(p);
         processDir(dirFN + "/" + p.getName(), fileExt);
         }
       else if (p.getName().endsWith("." + fileExt)) {
