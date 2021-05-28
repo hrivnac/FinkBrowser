@@ -146,15 +146,12 @@ public class ParquetImporter extends JanusClient {
     Path path = new Path(dirFN);
     LocatedFileStatus fileStatus;
     Path p;
-    RemoteIterator<LocatedFileStatus> it = _fs.listFiles(path, true);
+    RemoteIterator<LocatedFileStatus> it = _fs.listFiles(path, false);
     int i = 0;
     while (it.hasNext()) {
       fileStatus = it.next();
       p = fileStatus.getPath();
-      if (_fs.isFile(p)) {
-        processDir(dirFN + "/" + p.getName(), fileExt);
-        }
-      else if (p.getName().endsWith("." + fileExt)) {
+      if (p.getName().endsWith("." + fileExt)) {
         try {
           process(dirFN + "/" + p.getName());
           i++;
