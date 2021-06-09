@@ -9,8 +9,6 @@ import com.Lomikel.Januser.GremlinRecipies;
 import com.Lomikel.Utils.LomikelException;
 
 // Parquet
-import org.apache.hadoop.conf.Configuration;
-import org.apache.hadoop.fs.Path;
 import org.apache.parquet.avro.AvroParquetReader;
 import org.apache.parquet.hadoop.ParquetReader;
 import org.apache.parquet.hadoop.ParquetFileReader;
@@ -35,6 +33,8 @@ import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.LocatedFileStatus;
 import org.apache.hadoop.fs.RemoteIterator;
 import org.apache.hadoop.fs.FileStatus;
+import org.apache.hadoop.fs.Path;
+import org.apache.hadoop.conf.Configuration;
 
 // Tinker Pop
 import static org.apache.tinkerpop.gremlin.process.traversal.dsl.graph.__.unfold;
@@ -145,11 +145,8 @@ public class ParquetImporter extends JanusClient {
                          String fileExt) throws IOException, FileNotFoundException {  
     log.info("Loading directory " + dirFN);
     Path path = new Path(dirFN);
-    //LocatedFileStatus fileStatus;
     Path p;
-    //RemoteIterator<LocatedFileStatus> it = _fs.listFiles(path, false);
     int i = 0;
-    //while (it.hasNext()) {
     for (FileStatus fileStatus : _fs.listStatus(path)) {
       p = fileStatus.getPath();
       if (_fs.isDirectory(p)) {

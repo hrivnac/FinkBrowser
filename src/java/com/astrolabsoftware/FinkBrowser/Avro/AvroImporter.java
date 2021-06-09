@@ -1,6 +1,4 @@
 // why omit candid ?
-// recursive dir
-// hdfs
 // linked candidates
 
 
@@ -72,14 +70,14 @@ public class AvroImporter extends JanusClient {
       System.exit(-1);
       }
     try {
-      AvroImporter reader = new AvroImporter(            args[0],
-                                             new Integer(args[2]),
-                                             new Integer(args[3]),
-                                                         args[4]);
-      reader.timerStart();                  
-      reader.process(args[1]);
-      reader.commit();
-      reader.close();
+      AvroImporter importer = new AvroImporter(            args[0],
+                                               new Integer(args[2]),
+                                               new Integer(args[3]),
+                                                           args[4]);
+      importer.timerStart();                    
+      importer.process(args[1]);
+      importer.commit();
+      importer.close();
       }
     catch (LomikelException e) {
       log.fatal("Cannot import " + args[1] + " into " + args[0], e);
@@ -121,16 +119,20 @@ public class AvroImporter extends JanusClient {
     _gr = new GremlinRecipies(this);
     }
         
-  /** Process directory with <em>Avro</em> alert files.
+  /** Process directory with <em>Avro</em> alert files (recursive).
     * @param dirFN The dirname of directiory with data file.
-    * @param fileExt The file extention. */
+    * @param fileExt The file extention.
+     * @throws IOException      If problem with file reading. */
   public void processDir(String dirFN,
-                         String fileExt) {  
+                         String fileExt) throws IOException {  
     log.info("Loading directory " + dirFN);
     File dir = new File(dirFN);
     int i = 0;
     for (String dataFN : dir.list()) {
-      if (dataFN.endsWith("." + fileExt)) {
+      if (new File(dirFN + "/" + dataFN).isDirectory()) {
+        processDir(dirFN + "/" + dataFN, "avro");
+        }
+      else if (dataFN.endsWith("." + fileExt)) {
         try {
           process(dirFN + "/" + dataFN);
           i++;
@@ -163,20 +165,27 @@ public class AvroImporter extends JanusClient {
       log.error("Not a file/directory: " + fn);
       return;
       }
+    processFile(file);
+    }
+    
+  /** Process <em>Avro</em> alert file .
+     * @param file The data file.
+     * @throws IOException If problem with file reading. */
+  public void processFile(File file) throws IOException {
     DatumReader<GenericRecord> datumReader = new GenericDatumReader<GenericRecord>();
     DataFileReader<GenericRecord> dataFileReader = new DataFileReader<GenericRecord>(file, datumReader);
     GenericRecord record = null;
-    int n = 1;
     while (dataFileReader.hasNext()) {
       record = dataFileReader.next(record);
       processAlert(record);
       }
+    dataFileReader.close();
     } 
    
   /** Process <em>Avro</em> alert.
     * @param record The full alert {@link GenericRecord}.
     * @return       The created {@link Vertex}. */
-  private Vertex processAlert(GenericRecord record) {
+  public Vertex processAlert(GenericRecord record) {
     Map<String, String> values = getSimpleValues(record, getSimpleFields(record, new String[]{"objectId",
                                                                                               "candidate",
                                                                                               "prv_candidates",
@@ -356,6 +365,12 @@ public class AvroImporter extends JanusClient {
       v = g().addV(label).property("lbl", label).property(property, record.get(property)).next();
       }
     return v;
+    }
+    
+  /** Give number of created alerts.
+    * @return The number of created alerts. */
+  public int n() {
+    return _n;
     }
     
   private GremlinRecipies _gr;

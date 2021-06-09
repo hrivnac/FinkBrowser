@@ -644,6 +644,21 @@
         </classpath>
       </java>
     </target>
+    
+  <target name="import-avro-hdfs"
+          depends="classpath.hadoop"
+          description="Import Avro alerts from HDFS to Graph">
+    <echo>Import Avro alerts from HDFS to Graph</echo>
+    <exec executable="${hadoop_dir}/bin/hadoop">
+      <arg value="com.astrolabsoftware.FinkBrowser.Avro.HDFSAvroImporter"/>
+      <arg value="${janusgraph_dir}/conf/gremlin-server/Local-batch.properties"/>
+      <arg value="${alerts_avrodir}"/>
+      <arg value="${alerts_reportLimit}"/>
+      <arg value="${alerts_commitLimit}"/>
+      <arg value="${alerts_strategy}"/>
+      <env key="HADOOP_CLASSPATH" path="${classpath.janusgraph.content}"/>
+      </exec>
+    </target>
 
   <target name="import-parquet"
           depends="classpath.hadoop"
