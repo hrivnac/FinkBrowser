@@ -101,11 +101,62 @@ stylesheet.nodes.prv_candidate = {
   actions:[
     ]
   }
-stylesheet.nodes.cutout = {
+stylesheet.nodes.mulens = {
   properties:{},
   graphics: {
-    label:"cutout",
-    title:"cutout",        
+    label:"mulens",
+    title:"mulens",        
+    subtitle:" ",
+    group:" ",        
+    shape:"dot",      
+    image:"",        
+    borderRadius:"0", 
+    borderWidth:"0",  
+    borderDashes:[1,1],
+    value:"0"        
+    },
+  actions:[
+    ]
+  }
+stylesheet.nodes.Science = {
+  properties:{},
+  graphics: {
+    label:"Science",
+    title:"Science",        
+    subtitle:{gremlin:"values('fileName')"},
+    group:" ",        
+    shape:"box",      
+    image:"",        
+    borderRadius:"0", 
+    borderWidth:"3",  
+    borderDashes:[1,0],
+    value:"0"        
+    },
+  actions:[
+    ]
+  }
+stylesheet.nodes.Template = {
+  properties:{},
+  graphics: {
+    label:"Template",
+    title:"Template",        
+    subtitle:{gremlin:"values('fileName')"},
+    group:" ",        
+    shape:"box",      
+    image:"",        
+    borderRadius:"0", 
+    borderWidth:"1",  
+    borderDashes:[1,0],
+    value:"0"        
+    },
+  actions:[
+    ]
+  }
+stylesheet.nodes.Difference = {
+  properties:{},
+  graphics: {
+    label:"Difference",
+    title:"Difference",        
     subtitle:{gremlin:"values('fileName')"},
     group:" ",        
     shape:"box",      
@@ -149,37 +200,11 @@ stylesheet.edges.has = {
   actions: [
     ]
   }
-stylesheet.edges.Science = {
+stylesheet.edges.cutout = {
   properties:{},
   graphics: {
-    label:"Science",
-    title:"Science",
-    subtitle:" ",
-    arrows:{to:{enabled:true, type:"vee"}},
-    value: "0.1",
-    group: " "
-    },
-  actions: [
-    ]
-  }
-stylesheet.edges.Template = {
-  properties:{},
-  graphics: {
-    label:"Template",
-    title:"Template",
-    subtitle:" ",
-    arrows:{to:{enabled:true, type:"vee"}},
-    value: "0.1",
-    group: " "
-    },
-  actions: [
-    ]
-  }
-stylesheet.edges.Difference = {
-  properties:{},
-  graphics: {
-    label:"Difference",
-    title:"Difference",
+    label:"cutout",
+    title:"cutout",
     subtitle:" ",
     arrows:{to:{enabled:true, type:"vee"}},
     value: "0.1",

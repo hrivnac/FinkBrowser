@@ -1,3 +1,9 @@
+// why omit candid ?
+// recursive dir
+// hdfs
+// linked candidates
+
+
 package com.astrolabsoftware.FinkBrowser.Avro;
 
 import com.astrolabsoftware.FinkBrowser.Utils.Init;
@@ -146,9 +152,8 @@ public class AvroImporter extends JanusClient {
      *           or directory with files.
      * @throws IOException      If problem with file reading.
      * @throws LomikelException If anything wrong. */
-  // TBD: use generated schema (problem: it mixes ztf.alert namespace and class
   public void process(String fn) throws IOException, LomikelException {
-    log.debug("Loading " + fn);
+    log.info("Loading " + fn);
     File file = new File(fn);
     if (file.isDirectory()) {
       processDir(fn, "avro");
@@ -158,14 +163,6 @@ public class AvroImporter extends JanusClient {
       log.error("Not a file/directory: " + fn);
       return;
       }
-    /*
-    DatumReader<candidate> candidateDatumReader = new SpecificDatumReader<candidate>(candidate.class);
-    DataFileReader<candidate> dataFileReader = new DataFileReader<candidate>(file, candidateDatumReader);
-    candidate c = null;
-    while (dataFileReader.hasNext()) {
-      c = dataFileReader.next(c);
-      log.info(c);
-      }*/
     DatumReader<GenericRecord> datumReader = new GenericDatumReader<GenericRecord>();
     DataFileReader<GenericRecord> dataFileReader = new DataFileReader<GenericRecord>(file, datumReader);
     GenericRecord record = null;
@@ -177,12 +174,13 @@ public class AvroImporter extends JanusClient {
     } 
    
   /** Process <em>Avro</em> alert.
-    * @param record The full alert {@link GenericRecord}. */
-  // TBD: drop edges
+    * @param record The full alert {@link GenericRecord}.
+    * @return       The created {@link Vertex}. */
   private Vertex processAlert(GenericRecord record) {
     Map<String, String> values = getSimpleValues(record, getSimpleFields(record, new String[]{"objectId",
                                                                                               "candidate",
                                                                                               "prv_candidates",
+                                                                                              "mulens",
                                                                                               "cutoutScience",
                                                                                               "cutoutTemplate",
                                                                                               "cutoutDifference"}));
@@ -195,53 +193,53 @@ public class AvroImporter extends JanusClient {
         }
       v.property("alertVersion", VERSION);
       }
-    Vertex vv;
-    vv = processCandidate((GenericRecord)(record.get("candidate")));
-    if (v != null) {
-      _gr.addEdge(v, vv, "has");
+    String ss;
+    processGenericRecord((GenericRecord)(record.get("candidate")),
+                         "candidate",
+                         new String[]{"candid"},
+                         true,
+                         v,
+                         "has");
+    processGenericRecord((GenericRecord)(record.get("mulens")),
+                         "mulens",
+                         new String[]{},
+                         false,
+                         v,
+                         "has");
+    Array a = (Array)record.get("prv_candidates");
+    if (a != null) {
+      for (Object o : a) {
+        processGenericRecord((GenericRecord)o,
+                             "prv_candidate",
+                             new String[]{"candid"},
+                             true,
+                             v,
+                             "has");
+        } 
       }
-    Array prv_candidates = (Array)(record.get("prv_candidates"));
-    int n = 0;
-    for (Object o : prv_candidates) {
-      vv = processPrvCandidate((GenericRecord)o);
-      if (v != null) {
-        _gr.addEdge(v, vv, "has");
-        }
-      } 
     for (String s : new String[]{"Science", "Template", "Difference"}) { 
-      vv = processCutout((GenericRecord)(record.get("cutout" + s)));
-      if (v != null) {
-        _gr.addEdge(v, vv, s);
-        }
+      processCutout((GenericRecord)(record.get("cutout" + s)), "cutout" + s, v);
       }
     timer("alerts processed", ++_n, _reportLimit, _commitLimit);      
     return v;
     }
-  
-  /** Process <em>Avro</em> candidate.
-    * @param record The {@link GenericRecord} with <em>candidate</em>. */
-  private Vertex processCandidate(GenericRecord record) {
+   
+  /** Process <em>Avro</em> {@link GenericRecord}.
+    * @param record       The {@link GenericRecord} to process.
+    * @param name         The name of new {@link Vertex}.
+    * @param avoids       The fields to not process.
+    * @param tryDirection Whether try created <em>Direction</em> propertye from <em>ra,dec</em> fields.
+    * @param mother       The mother {@link Vertex}.
+    * @param edgerName    The name of the edge to the mother {@link Vertex}.
+    * @return             The created {@link Vertex}. */
+  private Vertex processGenericRecord(GenericRecord record,
+                                      String        name,
+                                      String[]      avoids,
+                                      boolean       tryDirection,
+                                      Vertex        mother,
+                                      String        edgeName) {
     Map<String, String> values = getSimpleValues(record, getSimpleFields(record, new String[]{"candid"}));
-    log.debug("candidate:"); 
-    Vertex v = vertex(record, "candidate", null);
-    if (v == null) {
-      return v;
-      }
-    for (Map.Entry<String, String> entry : values.entrySet()) {
-      log.debug("\t" + entry.getKey() + " = " + entry.getValue());
-      v.property(entry.getKey(), entry.getValue());
-      }
-    v.property("direction", Geoshape.point(new Double(record.get("dec").toString()), new Double(record.get("ra").toString()) - 180));
-    return v;
-    }
-    
-  /** Process <em>Avro</em> prv_candidate.
-    * @param record The {@link GenericRecord} with <em>prv_candidate</em>. */
-  // TBD: refactor with processCandidate
-  private Vertex processPrvCandidate(GenericRecord record) {
-    Map<String, String> values = getSimpleValues(record, getSimpleFields(record, new String[]{"candid"}));
-    log.debug("prv_candidate:"); 
-    Vertex v = vertex(record, "prv_candidate", null);
+    Vertex v = vertex(record, name, null);
     if (v == null) {
       return v;
       }
@@ -252,24 +250,19 @@ public class AvroImporter extends JanusClient {
     if (record.get("dec") != null && record.get("ra") != null) {
       v.property("direction", Geoshape.point(new Double(record.get("dec").toString()), new Double(record.get("ra").toString()) - 180));
       }
+    _gr.addEdge(mother, v, "has");    
     return v;
     }
     
-  /** Process <em>Avro</em> cutoutScience.
-    * @param record The {@link GenericRecord} with <em>cutoutScience</em>. */
+  /** Process <em>Avro</em> cutout.
+    * @param record       The {@link GenericRecord} to process.
+    * @param name         The name of cutout.
+    * @param mother       The {@link Vertex} to attach to. */
   // TBD: handle binary data
-  private Vertex processCutout(GenericRecord record) {
-    Map<String, String> values = getSimpleValues(record, getSimpleFields(record, new String[]{}));
-    log.debug("cutout:"); 
-    log.debug("\tfileName = " + record.get("fileName").toString());
-    Vertex v = vertex(record, "cutout", null);
-    if (v == null) {
-      return v;
-      }
-    for (Map.Entry<String, String> entry : values.entrySet()) {
-      v.property(entry.getKey(), entry.getValue());
-      }
-    return v;
+  private void processCutout(GenericRecord record,
+                             String        name,
+                             Vertex        mother) {
+    mother.property(name, record.get("fileName").toString());
     }
 
   /** Register part of {@link GenericRecord} in <em>HBase</em>.

@@ -13,15 +13,11 @@ candidate        = mgmt.makeVertexLabel('candidate'       ).make()
 prv_candidate    = mgmt.makeVertexLabel('prv_candidate'   ).make()
 cutout           = mgmt.makeVertexLabel('cutout'          ).make()
 mulens           = mgmt.makeVertexLabel('mulens'          ).make()
-Science          = mgmt.makeVertexLabel('Science'         ).make()
-Template         = mgmt.makeVertexLabel('Template'        ).make()
-Difference       = mgmt.makeVertexLabel('Difference'      ).make()
 
 // Edges
 has        = mgmt.getEdgeLabel( 'has'     )
 contains   = mgmt.getEdgeLabel( 'contains')
 holds      = mgmt.makeEdgeLabel('holds'   ).multiplicity(ONE2MANY).make()
-cutout     = mgmt.makeEdgeLabel('cutout'  ).multiplicity(ONE2MANY ).make()
 
 // Properties
 title                = mgmt.getPropertyKey('title'                )
@@ -154,6 +150,9 @@ class_2              = mgmt.makePropertyKey('class_2'             ).dataType(Str
 ml_score_1           = mgmt.makePropertyKey('ml_score_1'          ).dataType(Double.class  ).cardinality(Cardinality.SINGLE).make()
 ml_score_2           = mgmt.makePropertyKey('ml_score_2'          ).dataType(Double.class  ).cardinality(Cardinality.SINGLE).make()
 timestamp            = mgmt.makePropertyKey('timestamp'           ).dataType(String.class  ).cardinality(Cardinality.SINGLE).make() // LocalDateTime
+cutoutScience        = mgmt.makePropertyKey('cutoutScience'       ).dataType(String.class  ).cardinality(Cardinality.SINGLE).make()
+cutoutTemplate       = mgmt.makePropertyKey('cutoutTemplate'      ).dataType(String.class  ).cardinality(Cardinality.SINGLE).make()
+cutoutDifference     = mgmt.makePropertyKey('cutoutDifference'    ).dataType(String.class  ).cardinality(Cardinality.SINGLE).make()
 
 // Vertex properties
 mgmt.addProperties(AstroLabNet,
@@ -179,7 +178,10 @@ mgmt.addProperties(alert,
                    rfscore,
                    roid ,
                    snn_sn_vs_all,
-                   snn_snia_vs_nonia)   
+                   snn_snia_vs_nonia,
+                   cutoutScience,
+                   cutoutTemplate,
+                   cutoutDifference)   
 mgmt.addProperties(candidate,
                    lbl,
                    candid,
@@ -346,28 +348,6 @@ mgmt.addProperties(prv_candidate,
                    clrcoeff,
                    clrcounc,
                    rbversion)
-mgmt.addProperties(Science,
-                   lbl,
-                   hbase,
-                   fullfill,
-                   rowkey,
-                   fileName,
-                   stampData)
-mgmt.addProperties(Template,
-                   lbl,
-                   hbase,
-                   fullfill,
-                   rowkey,
-                   fileName,
-                   stampData)
-mgmt.addProperties(Difference,
-                   lbl,
-                   hbase,
-                   fullfill,
-                   rowkey,
-                   timestamp,
-                   fileName,
-                   stampData)
 mgmt.addProperties(mulens,
                    class_1,
                    class_2,
@@ -389,9 +369,6 @@ mgmt.addConnection(holds,      site,             AlertsCollection)
 mgmt.addConnection(has,        alert,            candidate)
 mgmt.addConnection(has,        alert,            prv_candidate)
 mgmt.addConnection(has,        alert,            mulens)
-mgmt.addConnection(cutout,     alert,            Science)
-mgmt.addConnection(cutout,     alert,            Template)
-mgmt.addConnection(cutout,     alert,            Difference)
 
 // Info
 mgmt.printSchema()

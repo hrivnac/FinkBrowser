@@ -632,7 +632,7 @@
   <target name="import-avro"
           description="Import Avro alerts to Graph">
     <echo>Import Avro alerts to Graph</echo>
-    <java classname="com.astrolabsoftware.FinkBrowser.Avro.AvroReader"
+    <java classname="com.astrolabsoftware.FinkBrowser.Avro.AvroImporter"
           fork="true">
       <arg value="${janusgraph_dir}/conf/gremlin-server/Local-batch.properties"/>
       <arg value="${alerts_avrodir}"/>
