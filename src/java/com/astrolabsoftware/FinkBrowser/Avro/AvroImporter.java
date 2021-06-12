@@ -205,13 +205,13 @@ public class AvroImporter extends JanusClient {
     String ss;
     processGenericRecord((GenericRecord)(record.get("candidate")),
                          "candidate",
-                         new String[]{"candid"},
+                         "candid",
                          true,
                          v,
                          "has");
     processGenericRecord((GenericRecord)(record.get("mulens")),
                          "mulens",
-                         new String[]{},
+                         null,
                          false,
                          v,
                          "has");
@@ -220,7 +220,7 @@ public class AvroImporter extends JanusClient {
       for (Object o : a) {
         processGenericRecord((GenericRecord)o,
                              "prv_candidate",
-                             new String[]{"candid"},
+                             "candid",
                              true,
                              v,
                              "has");
@@ -236,19 +236,19 @@ public class AvroImporter extends JanusClient {
   /** Process <em>Avro</em> {@link GenericRecord}.
     * @param record       The {@link GenericRecord} to process.
     * @param name         The name of new {@link Vertex}.
-    * @param avoids       The fields to not process.
+    * @param idName       The name of the unique identifying field.
     * @param tryDirection Whether try created <em>Direction</em> propertye from <em>ra,dec</em> fields.
     * @param mother       The mother {@link Vertex}.
     * @param edgerName    The name of the edge to the mother {@link Vertex}.
     * @return             The created {@link Vertex}. */
   private Vertex processGenericRecord(GenericRecord record,
                                       String        name,
-                                      String[]      avoids,
+                                      String        idName,
                                       boolean       tryDirection,
                                       Vertex        mother,
                                       String        edgeName) {
-    Map<String, String> values = getSimpleValues(record, getSimpleFields(record, new String[]{"candid"}));
-    Vertex v = vertex(record, name, null);
+    Map<String, String> values = getSimpleValues(record, getSimpleFields(record, new String[]{idName}));
+    Vertex v = vertex(record, name, idName);
     if (v == null) {
       return v;
       }
