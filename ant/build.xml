@@ -650,6 +650,7 @@
           depends="classpath.hadoop"
           description="Import Avro alerts from HDFS to Graph">
     <echo>Import Avro alerts from HDFS to Graph</echo>
+    <echo>${classpath.janusgraph.content}</echo>
     <exec executable="${hadoop_dir}/bin/hadoop">
       <arg value="com.astrolabsoftware.FinkBrowser.Avro.HDFSAvroImporter"/>
       <arg value="${janusgraph_dir}/conf/gremlin-server/Local-batch.properties"/>
