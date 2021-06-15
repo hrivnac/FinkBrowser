@@ -1,7 +1,3 @@
-// why omit candid ?
-// linked candidates
-
-
 package com.astrolabsoftware.FinkBrowser.Avro;
 
 import com.astrolabsoftware.FinkBrowser.Utils.Init;
@@ -39,6 +35,12 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.TreeMap;
+import java.util.Base64;
+import java.nio.ByteBuffer;
+import java.nio.file.FileSystem;
+import java.nio.file.Path;
+import java.nio.file.Files;
+import java.nio.file.FileSystems;
 
 // ZTF
 //import ztf.alert.candidate;
@@ -59,21 +61,23 @@ public class AvroImporter extends JanusClient {
   /** Import Avro files or directory. 
     * @param args[0] The Janusgraph properties file. 
     * @param args[1] The Avro file or directory with Avro files.
-    * @param args[2] The number of events to use for progress report (-1 means no report untill the end).
-    * @param args[3] The number of events to commit in one step (-1 means commit only at the end).
-    * @param args[4] The creation strategy. <tt>drop,replace,getOrCreate</tt>.
+    * @param args[2] The directory for FITS files.
+    * @param args[3] The number of events to use for progress report (-1 means no report untill the end).
+    * @param args[4] The number of events to commit in one step (-1 means commit only at the end).
+    * @param args[5] The creation strategy. <tt>drop,replace,getOrCreate</tt>.
     * @throws LomikelException If anything goes wrong. */
    public static void main(String[] args) throws IOException {
     Init.init();
-    if (args.length != 5) {
+    if (args.length != 6) {
       log.error("AvroImporter.exe.jar <JanusGraph properties> [<file>|<directory>] <report limit> <commit limit> [create|reuse|drop]");
       System.exit(-1);
       }
     try {
       AvroImporter importer = new AvroImporter(            args[0],
-                                               new Integer(args[2]),
                                                new Integer(args[3]),
-                                                           args[4]);
+                                               new Integer(args[4]),
+                                                           args[5],
+                                                           args[2]);
       importer.timerStart();                    
       importer.process(args[1]);
       importer.commit();
@@ -89,17 +93,21 @@ public class AvroImporter extends JanusClient {
     * @param properties  The file with the complete Janusgraph properties.
     * @param reportLimit The number of events to use for progress report (-1 means no report untill the end).
     * @param commitLimit The number of events to commit in one step (-1 means commit only at the end).
-    * @param strategy    The creation strategy. <tt>drop,replace,getOrCreate</tt>. */
+    * @param strategy    The creation strategy. <tt>drop,replace,getOrCreate</tt>.
+    * @param fitsDir     The directory for FITS files. */
   public AvroImporter(String properties,
                       int    reportLimit,
                       int    commitLimit,
-                      String strategy) {
+                      String strategy,
+                      String fitsDir) {
     super(properties);
     log.info("Reporting after each " + reportLimit + " alerts");
     log.info("Committing after each " + commitLimit + " alerts");
     log.info("Using strategy: " + strategy);
+    log.info("Writing FITS into: " + fitsDir);
     _reportLimit = reportLimit;
     _commitLimit = commitLimit;
+    _fitsDir     = fitsDir;
     _create      = false;
     _reuse       = false;
     _replace     = false;
@@ -271,7 +279,11 @@ public class AvroImporter extends JanusClient {
   private void processCutout(GenericRecord record,
                              String        name,
                              Vertex        mother) {
-    mother.property(name, record.get("fileName").toString());
+    String fn = record.get("fileName").toString();
+    byte[] data = ((ByteBuffer)(record.get("stampData"))).array();
+    mother.property(name, fn);
+    //mother.property(name, Base64.getEncoder().encodeToString(data));
+    writeFits(fn, data);
     }
 
   /** Register part of {@link GenericRecord} in <em>HBase</em>.
@@ -367,9 +379,28 @@ public class AvroImporter extends JanusClient {
     return v;
     }
     
+  /** Write FITS file.
+    * @param fn   The FITS file name.
+    * @param data The FITS file content. */
+  protected void writeFits(String fn,
+                           byte[] data) {
+    try {
+      Files.write(FileSystems.getDefault().getPath(fitsDir() + "/" + fn), data);
+      }
+    catch (IOException e) {
+      log.error("Cannot write " + fn, e);
+      }
+    }
+    
+  /** The directory for FITS files.
+    * @return The FITS file directory. */
+  protected String fitsDir() {
+    return _fitsDir;
+    } 
+    
   /** Give number of created alerts.
     * @return The number of created alerts. */
-  public int n() {
+  protected int n() {
     return _n;
     }
     
@@ -380,6 +411,8 @@ public class AvroImporter extends JanusClient {
   private int _reportLimit;
   
   private int _commitLimit;
+  
+  private String _fitsDir;
   
   private boolean _create;
   

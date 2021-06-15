@@ -28,6 +28,7 @@ import org.apache.hadoop.fs.RemoteIterator;
 import org.apache.hadoop.fs.FileStatus;
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.conf.Configuration;
+import org.apache.hadoop.fs.FSDataOutputStream;
 
 // Tinker Pop
 import static org.apache.tinkerpop.gremlin.process.traversal.dsl.graph.__.unfold;
@@ -65,21 +66,23 @@ public class HDFSAvroImporter extends AvroImporter {
   /** Import Avro files or directory. 
     * @param args[0] The Janusgraph properties file. 
     * @param args[1] The Avro file or directory with Avro files.
-    * @param args[2] The number of events to use for progress report (-1 means no report untill the end).
-    * @param args[3] The number of events to commit in one step (-1 means commit only at the end).
-    * @param args[4] The creation strategy. <tt>drop,replace,getOrCreate</tt>.
+    * @param args[2] The directory for FITS files.
+    * @param args[3] The number of events to use for progress report (-1 means no report untill the end).
+    * @param args[4] The number of events to commit in one step (-1 means commit only at the end).
+    * @param args[5] The creation strategy. <tt>drop,replace,getOrCreate</tt>.
     * @throws LomikelException If anything goes wrong. */
    public static void main(String[] args) throws IOException {
     Init.init();
-    if (args.length != 5) {
+    if (args.length != 6) {
       log.error("HDFSAvroImporter.exe.jar <JanusGraph properties> [<file>|<directory>] <report limit> <commit limit> [create|reuse|drop]");
       System.exit(-1);
       }
     try {
       HDFSAvroImporter importer = new HDFSAvroImporter(            args[0],
-                                                       new Integer(args[2]),
                                                        new Integer(args[3]),
-                                                                   args[4]);
+                                                       new Integer(args[4]),
+                                                                   args[5],
+                                                                   args[2]);
       importer.timerStart();                  
       importer.process(args[1]);
       importer.commit();
@@ -95,12 +98,14 @@ public class HDFSAvroImporter extends AvroImporter {
     * @param properties  The file with the complete Janusgraph properties.
     * @param reportLimit The number of events to use for progress report (-1 means no report untill the end).
     * @param commitLimit The number of events to commit in one step (-1 means commit only at the end).
-    * @param strategy    The creation strategy. <tt>drop,replace,getOrCreate</tt>. */
+    * @param strategy    The creation strategy. <tt>drop,replace,getOrCreate</tt>. 
+    * @param fitsDir     The directory for FITS files. */
   public HDFSAvroImporter(String properties,
                           int    reportLimit,
                           int    commitLimit,
-                          String strategy) {
-    super(properties, reportLimit, commitLimit, strategy);
+                          String strategy,
+                          String fitsDir) {
+    super(properties, reportLimit, commitLimit, strategy, fitsDir);
     }
         
   @Override
@@ -163,6 +168,19 @@ public class HDFSAvroImporter extends AvroImporter {
       }
     dataFileReader.close();
     }     
+    
+  @Override
+  protected void writeFits(String fn,
+                           byte[] data) {
+    //try {
+    //  FSDataOutputStream out = _fs.create(new Path(fitsDir() + "/" + fn));
+    //  out.write(data);
+    //  out.close();
+    //  }
+    //catch (IOException e) {
+    //  log.error("Cannot write " + fn, e);
+    //  }
+    }
     
   private Configuration _conf;
   

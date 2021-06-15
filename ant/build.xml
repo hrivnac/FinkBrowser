@@ -636,6 +636,7 @@
           fork="true">
       <arg value="${janusgraph_dir}/conf/gremlin-server/Local-batch.properties"/>
       <arg value="${alerts_avrodir}"/>
+      <arg value="${alerts_fitsdir}"/>
       <arg value="${alerts_reportLimit}"/>
       <arg value="${alerts_commitLimit}"/>
       <arg value="${alerts_strategy}"/>
@@ -653,6 +654,7 @@
       <arg value="com.astrolabsoftware.FinkBrowser.Avro.HDFSAvroImporter"/>
       <arg value="${janusgraph_dir}/conf/gremlin-server/Local-batch.properties"/>
       <arg value="${alerts_avrodir}"/>
+      <arg value="${alerts_fitsdir}"/>
       <arg value="${alerts_reportLimit}"/>
       <arg value="${alerts_commitLimit}"/>
       <arg value="${alerts_strategy}"/>
