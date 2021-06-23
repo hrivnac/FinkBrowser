@@ -7,4 +7,3 @@ com.Lomikel.HBaser.HBaseClient.registerVertexType("alert", com.astrolabsoftware.
 def hi_finkbrowser() {
   return "Hello World from FinkBrowser !"
   }
-  

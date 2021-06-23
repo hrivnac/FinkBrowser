@@ -69,7 +69,7 @@ public class HDFSAvroImporter extends AvroImporter {
     * @param args[2] The directory for FITS files.
     * @param args[3] The number of events to use for progress report (-1 means no report untill the end).
     * @param args[4] The number of events to commit in one step (-1 means commit only at the end).
-    * @param args[5] The creation strategy. <tt>drop,replace,getOrCreate</tt>.
+    * @param args[5] The creation strategy. <tt>create,drop,replace,skip</tt>.
     * @throws LomikelException If anything goes wrong. */
    public static void main(String[] args) throws IOException {
     Init.init();

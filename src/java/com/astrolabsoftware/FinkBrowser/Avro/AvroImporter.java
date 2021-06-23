@@ -66,7 +66,7 @@ public class AvroImporter extends JanusClient {
     * @param args[2] The directory for FITS files.
     * @param args[3] The number of events to use for progress report (-1 means no report untill the end).
     * @param args[4] The number of events to commit in one step (-1 means commit only at the end).
-    * @param args[5] The creation strategy. <tt>drop,replace,getOrCreate</tt>.
+    * @param args[5] The creation strategy. <tt>create,drop,replace,skip</tt>.
     * @throws LomikelException If anything goes wrong. */
    public static void main(String[] args) throws IOException {
     Init.init();
@@ -125,6 +125,9 @@ public class AvroImporter extends JanusClient {
       }
     if (strategy.contains("drop")) {
       _drop = true;
+      }
+    if (strategy.contains("skip")) {
+      _skip = true;
       }
     _gr = new GremlinRecipies(this);
     }
@@ -281,6 +284,9 @@ public class AvroImporter extends JanusClient {
   private void processCutout(GenericRecord record,
                              String        name,
                              Vertex        mother) {
+    if (mother == null) {
+      return;
+      }
     String fn = record.get("fileName").toString();
     byte[] data = ((ByteBuffer)(record.get("stampData"))).array();
     mother.property(name, fn);
@@ -355,6 +361,10 @@ public class AvroImporter extends JanusClient {
                         String        label,
                         String        property) {
     Vertex v = null;
+    // Do nothing
+    if (_skip) {
+      return v;
+      }
     // Not unique Vertex
     if (property == null) {
       if (_drop) {
@@ -423,6 +433,8 @@ public class AvroImporter extends JanusClient {
   private boolean _replace;
   
   private boolean _drop;
+  
+  private boolean _skip;
   
   private static String VERSION = "ztf-3.2";
     

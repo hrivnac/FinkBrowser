@@ -4,6 +4,7 @@ from gremlin_python import statics
 from gremlin_python.process.anonymous_traversal import traversal
 from gremlin_python.process.graph_traversal import __
 from gremlin_python.process.strategies import *
+from gremlin_python.driver import client
 from gremlin_python.driver.driver_remote_connection import DriverRemoteConnection
 from gremlin_python.process.traversal import T
 from gremlin_python.process.traversal import Order
@@ -20,18 +21,23 @@ from gremlin_python.process.traversal import WithOptions
 
 statics.load_statics(globals())
 
-g = traversal().withRemote(DriverRemoteConnection('ws://localhost:8182/gremlin','g'))
+# for direct calls
+g = traversal().withRemote(DriverRemoteConnection('ws://134.158.74.85:24444/gremlin','g'))
+
+# for submitting scripts 
+client = client.Client('ws://134.158.74.85:24444/gremlin', 'g')
 
 x = g.V().has('lbl', 'alert').limit(1).valueMap().next()
-# Geoshape is JanusGraph extension, so it doesn't work in Gremlin-only client
-#x = g.V().has('lbl', 'candidate').has('direction', geoWithin(Geoshape.circle(-26, -153, 0.0005*6371.0087714*180/Math.PI)))
 print(x) 
 
-query = "g.V().has('lbl', 'alert').limit(1).valueMap()"
-x = gremlin_client.submit(query).next()
+x = g.V().has('lbl', 'candidate').has('jd', inside(2459324.90447, 2459324.90448)).in_().values('objectId').next()
 print(x)
 
-# sometimes fails (bug ?)
-query = "g.V().has('lbl', 'candidate').has('direction', geoWithin(Geoshape.circle(-26, -153, 5*6371.0087714*180/Math.PI))).valueMap()"
-x = gremlin_client.submit(query).one()[0].get('direction')[0].get('@value')
+query = "g.V().has('lbl', 'alert').limit(1).valueMap()"
+x = client.submit(query).next()
 print(x)
+
+query = "g.V().has('lbl', 'candidate').has('direction', geoWithin(Geoshape.circle(5.475797, -87.662704, 0.00001*6371.0087714*180/Math.PI))).valueMap()"
+x = client.submit(query).one()[0].get('direction')[0].get('@value')
+print(x)
+

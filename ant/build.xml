@@ -799,7 +799,7 @@
       <group title="Avro"          packages="com.astrolabsoftware.FinkBrowsrr.Avro*"/>
       <group title="Parquet"       packages="com.astrolabsoftware.FinkBrowsrr.Parquet*"/>
       <group title="Utils"         packages="com.astrolabsoftware.FinkBrowser.Utils*"/>
-      <group title="GremlinPlugin" packages="com.astrolabsoftware.FinkBrowser.Utils*"/>
+      <group title="GremlinPlugin" packages="com.astrolabsoftware.FinkBrowser.GremlinPlugin*"/>
       <group title="HBaser"        packages="com.astrolabsoftware.FinkBrowser.HBaser*"/>
       <group title="Januser"       packages="com.astrolabsoftware.FinkBrowser.Januser*"/>
       <group title="ZTF Avro"      packages="ztf*"/>
@@ -852,7 +852,11 @@
   <target name="j2h"
           depends="init"
           description="Construct source documentation">
-    <taskdef name="java2html" classname="com.java2html.Java2HTMLTask"/>
+    <taskdef name="java2html" classname="com.java2html.Java2HTMLTask">
+      <classpath>
+        <pathelement location="../extlib/j2h.jar"/>
+        </classpath>
+      </taskdef>
 	  <java2html title="GraphDB" 
                simple="no"
              	 tabsize="4"
