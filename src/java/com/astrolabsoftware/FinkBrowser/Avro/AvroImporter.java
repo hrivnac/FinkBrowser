@@ -82,7 +82,9 @@ public class AvroImporter extends JanusClient {
                                                            args[2]);
       importer.timerStart();                    
       importer.process(args[1]);
-      importer.commit();
+      if (!importer.skip()) {
+        importer.commit();
+        }
       importer.close();
       }
     catch (LomikelException e) {
@@ -199,6 +201,7 @@ public class AvroImporter extends JanusClient {
     * @param record The full alert {@link GenericRecord}.
     * @return       The created {@link Vertex}. */
   public Vertex processAlert(GenericRecord record) {
+    _nAlerts++;
     Map<String, String> values = getSimpleValues(record, getSimpleFields(record, new String[]{"objectId",
                                                                                               "candidate",
                                                                                               "prv_candidates",
@@ -216,12 +219,14 @@ public class AvroImporter extends JanusClient {
       v.property("alertVersion", VERSION);
       }
     String ss;
+    _nCandidates++;
     processGenericRecord((GenericRecord)(record.get("candidate")),
                          "candidate",
                          "candid",
                          true,
                          v,
                          "has");
+    _nMulens++;
     processGenericRecord((GenericRecord)(record.get("mulens")),
                          "mulens",
                          null,
@@ -231,6 +236,7 @@ public class AvroImporter extends JanusClient {
     Array a = (Array)record.get("prv_candidates");
     if (a != null) {
       for (Object o : a) {
+        _nPrvCandidates++;
         processGenericRecord((GenericRecord)o,
                              "prv_candidate",
                              "candid",
@@ -240,9 +246,10 @@ public class AvroImporter extends JanusClient {
         } 
       }
     for (String s : new String[]{"Science", "Template", "Difference"}) { 
+      _nCutouts++;
       processCutout((GenericRecord)(record.get("cutout" + s)), "cutout" + s, v);
       }
-    timer("alerts processed", ++_n, _reportLimit, _commitLimit);      
+    timer("alerts processed", ++_n, _reportLimit, _commitLimit); 
     return v;
     }
    
@@ -390,7 +397,7 @@ public class AvroImporter extends JanusClient {
       }
     return v;
     }
-    
+        
   /** Write FITS file.
     * @param fn   The FITS file name.
     * @param data The FITS file content. */
@@ -416,6 +423,23 @@ public class AvroImporter extends JanusClient {
     return _n;
     }
     
+  /** TBD */
+  protected boolean skip() {
+    return _skip;
+    }
+    
+  @Override
+  public void close() {
+    
+    log.info("Import statistics:");
+    log.info("\talerts:         " + _nAlerts);
+    log.info("\tcandidates:     " + _nCandidates);
+    log.info("\tprv_candidates: " + _nPrvCandidates);
+    log.info("\tmulens:         " + _nMulens);
+    log.info("\tcutouts:        " + _nCutouts);
+    super.close();
+    }
+    
   private GremlinRecipies _gr;
   
   private int _n = 0;
@@ -435,6 +459,16 @@ public class AvroImporter extends JanusClient {
   private boolean _drop;
   
   private boolean _skip;
+  
+  private int _nAlerts = 0;
+  
+  private int _nCandidates = 0;
+  
+  private int _nPrvCandidates = 0;
+  
+  private int _nMulens = 0;
+  
+  private int _nCutouts = 0;
   
   private static String VERSION = "ztf-3.2";
     

@@ -85,7 +85,9 @@ public class HDFSAvroImporter extends AvroImporter {
                                                                    args[2]);
       importer.timerStart();                  
       importer.process(args[1]);
-      importer.commit();
+      if (!importer.skip()) {
+        importer.commit();
+        }
       importer.close();
       }
     catch (LomikelException e) {
