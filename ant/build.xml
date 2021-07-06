@@ -635,6 +635,10 @@
     <java classname="com.astrolabsoftware.FinkBrowser.Januser.AlertUtilities"
           fork="true">
       <arg value="${janusgraph_dir}/conf/gremlin-server/Local-batch.properties"/>
+      <arg value="2459314.7213079"/>
+      <arg value="2459314.722002344"/>
+      <arg value="candidate"/>
+      <arg value="2"/>
       <classpath>
         <path refid="classpath.janusgraph"/>
         </classpath>
