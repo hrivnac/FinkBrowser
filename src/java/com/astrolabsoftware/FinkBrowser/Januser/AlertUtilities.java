@@ -50,7 +50,7 @@ public class AlertUtilities extends JanusClient {
   /** TBD */
   public static void main(String[] args) {
     AlertUtilities au = new AlertUtilities(args[0]);
-    List<Vertex> r = au.searchJd(2459314.7213079, 2459314.722002344, "candidate");
+    List<Vertex> r = au.searchJd(new Double(args[1]), new Double(args[2]), args[3], new Integer(args[4]));
     log.info(r);
     au.close();
     }
@@ -87,9 +87,14 @@ public class AlertUtilities extends JanusClient {
   /** TBD */
   public List<Vertex> searchJd(double since,
                                double till,
-                               String lbl) {
-    log.info("Searching " + lbl + " within " + since + " - " + till);
-    return g().V().has("jd", inside(since, till)).has("lbl", lbl).toList();
+                               String lbl,
+                               int    limit) {
+    log.info("Searching " + lbl + " within " + since + " - " + till + ", limit = " + limit);
+    if (limit <= 0) {
+      log.info(g().V().has("jd", inside(since, till)).has("lbl", lbl).count());
+      return null;
+      }
+    return g().V().has("jd", inside(since, till)).has("lbl", lbl).limit(limit).toList();
     }
     
   /** Logging . */

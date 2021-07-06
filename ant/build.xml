@@ -631,7 +631,7 @@
 
   <target name="check-utilities"
           description="Check Alert Utilities">
-    <echo>Populate Graph from HBase</echo>
+    <echo>Check Alert Utilities</echo>
     <java classname="com.astrolabsoftware.FinkBrowser.Januser.AlertUtilities"
           fork="true">
       <arg value="${janusgraph_dir}/conf/gremlin-server/Local-batch.properties"/>
