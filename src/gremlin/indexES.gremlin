@@ -49,6 +49,7 @@ mgmt.updateIndex(mgmt.getGraphIndex('byJdES'       ), SchemaAction.REINDEX).get(
 mgmt.updateIndex(mgmt.getGraphIndex('byRaDecES'    ), SchemaAction.REINDEX).get()
 mgmt.updateIndex(mgmt.getGraphIndex('byDirectionES'), SchemaAction.REINDEX).get()
 mgmt.getGraphIndexes(Vertex.class)
+mgmt.printIndexes()
 mgmt.commit()
 
 // Enable index

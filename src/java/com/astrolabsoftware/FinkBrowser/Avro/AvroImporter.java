@@ -211,6 +211,7 @@ public class AvroImporter extends JanusClient {
                                                                                               "cutoutDifference"}));
     log.debug("alert:"); 
     Vertex v = vertex(record, "alert", "objectId");
+    Vertex v0;
     if (v != null) {
       for (Map.Entry<String, String> entry : values.entrySet()) {
         log.debug("\t" + entry.getKey() + " = " + entry.getValue());
@@ -220,29 +221,46 @@ public class AvroImporter extends JanusClient {
       }
     String ss;
     _nCandidates++;
+    v0 = processGenericRecord((GenericRecord)(record.get("candidate")),
+                              "candidate",
+                              "candid",
+                              true,
+                              v,
+                              "has",
+                              CANDIDATE_FIELDS);
     processGenericRecord((GenericRecord)(record.get("candidate")),
-                         "candidate",
-                         "candid",
-                         true,
-                         v,
-                         "has");
+                         "candidateData",
+                         null,
+                         false,
+                         v0,
+                         "props",
+                         CANDIDATE_DATA_FIELDS);
     _nMulens++;
     processGenericRecord((GenericRecord)(record.get("mulens")),
                          "mulens",
                          null,
                          false,
                          v,
-                         "has");
+                         "has",
+                         null);
     Array a = (Array)record.get("prv_candidates");
     if (a != null) {
       for (Object o : a) {
         _nPrvCandidates++;
+        v0 = processGenericRecord((GenericRecord)o,
+                                  "prv_candidate",
+                                  "candid",
+                                  true,
+                                  v,
+                                  "has",
+                                  PRV_CANDIDATE_FIELDS);
         processGenericRecord((GenericRecord)o,
-                             "prv_candidate",
-                             "candid",
-                             true,
-                             v,
-                             "has");
+                             "prv_candidateData",
+                             null,
+                             false,
+                             v0,
+                             "has",
+                             PRV_CANDIDATE_DATA_FIELDS);
         } 
       }
     for (String s : new String[]{"Science", "Template", "Difference"}) { 
@@ -257,24 +275,43 @@ public class AvroImporter extends JanusClient {
     * @param record       The {@link GenericRecord} to process.
     * @param name         The name of new {@link Vertex}.
     * @param idName       The name of the unique identifying field.
-    * @param tryDirection Whether try created <em>Direction</em> propertye from <em>ra,dec</em> fields.
+    * @param tryDirection Whether try created <em>Direction</em> property from <em>ra,dec</em> fields.
     * @param mother       The mother {@link Vertex}.
     * @param edgerName    The name of the edge to the mother {@link Vertex}.
+    * @param fields       The array of fields to fill. All fields are filled if <code>null</code>
     * @return             The created {@link Vertex}. */
   private Vertex processGenericRecord(GenericRecord record,
                                       String        name,
                                       String        idName,
                                       boolean       tryDirection,
                                       Vertex        mother,
-                                      String        edgeName) {
-    Map<String, String> values = getSimpleValues(record, getSimpleFields(record, new String[]{idName}));
+                                      String        edgeName,
+                                      String[]      fields) {
+    String[] idNameA;
+    if (idName == null) {
+      idNameA= new String[]{};
+      }
+    else {
+      idNameA = new String[]{idName};
+      }
+    Map<String, String> values = getSimpleValues(record, getSimpleFields(record, idNameA));
     Vertex v = vertex(record, name, idName);
     if (v == null) {
       return v;
       }
-    for (Map.Entry<String, String> entry : values.entrySet()) {
-      log.debug("\t" + entry.getKey() + " = " + entry.getValue());
-      v.property(entry.getKey(), entry.getValue());
+    if (fields != null) {
+      for (String field : fields) {
+        if (values.containsKey(field)) {
+          //log.debug("\t" + field + " = " + values.get(field));
+          v.property(field, values.get(field));
+          }
+        }
+      }
+    else {
+      for (Map.Entry<String, String> entry : values.entrySet()) {
+        //log.debug("\t" + entry.getKey() + " = " + entry.getValue());
+        v.property(entry.getKey(), entry.getValue());
+        }
       }
     if (record.get("dec") != null && record.get("ra") != null) {
       v.property("direction", Geoshape.point(new Double(record.get("dec").toString()), new Double(record.get("ra").toString()) - 180));
@@ -312,7 +349,7 @@ public class AvroImporter extends JanusClient {
       if (o instanceof ByteBuffer) {
         content.put(s, new String(((ByteBuffer)o).array()));
         }
-      else {
+      else if (o != null) {
         content.put(s, o.toString());
         }
       }
@@ -470,6 +507,166 @@ public class AvroImporter extends JanusClient {
   
   private int _nCutouts = 0;
   
+  private static String[] CANDIDATE_FIELDS          = {"jd",
+                                                       "ra",
+                                                       "dec",
+                                                       "direction",
+                                                       "ssnamenr"};
+  private static String[] PRV_CANDIDATE_FIELDS      = {"jd",
+                                                       "ra",
+                                                       "dec",
+                                                       "direction",
+                                                       "ssnamenr"};
+                                                    
+  private static String[] CANDIDATE_DATA_FIELDS     = {"fid",
+                                                       "pid",
+                                                       "diffmaglim",
+                                                       "pdiffimfilename",
+                                                       "programpi",
+                                                       "programid",
+                                                       "isdiffpos",
+                                                       "tblid",
+                                                       "nid",
+                                                       "rcid",
+                                                       "field",
+                                                       "xpos",
+                                                       "ypos",
+                                                       "magpsf",
+                                                       "sigmapsf",
+                                                       "chipsf",
+                                                       "magap",
+                                                       "sigmagap",
+                                                       "distnr",
+                                                       "magnr",
+                                                       "sigmagnr",
+                                                       "chinr",
+                                                       "sharpnr",
+                                                       "sky",
+                                                       "magdiff",
+                                                       "fwhm",
+                                                       "classtar",
+                                                       "mindtoedge",
+                                                       "magfromlim",
+                                                       "seeratio",
+                                                       "aimage",
+                                                       "bimage",
+                                                       "aimagerat",
+                                                       "bimagerat",
+                                                       "elong",
+                                                       "nneg",
+                                                       "nbad",
+                                                       "rb",
+                                                       "ssdistnr",
+                                                       "ssmagnr",
+                                                       "sumrat",
+                                                       "magapbig",
+                                                       "sigmagapbig",
+                                                       "ranr",
+                                                       "decnr",
+                                                       "sgmag1",
+                                                       "srmag1",
+                                                       "simag1",
+                                                       "szmag1",
+                                                       "sgscore1",
+                                                       "distpsnr1",
+                                                       "ndethist",
+                                                       "ncovhist",
+                                                       "jdstarthist",
+                                                       "jdendhist",
+                                                       "scorr",
+                                                       "tooflag",
+                                                       "objectidps1",
+                                                       "objectidps2",
+                                                       "sgmag2",
+                                                       "srmag2",
+                                                       "simag2",
+                                                       "szmag2",
+                                                       "sgscore2",
+                                                       "distpsnr2",
+                                                       "objectidps3",
+                                                       "sgmag3",
+                                                       "srmag3",
+                                                       "simag3",
+                                                       "szmag3",
+                                                       "sgscore3",
+                                                       "distpsnr3",
+                                                       "nmtchps",
+                                                       "rfid",
+                                                       "jdstartref",
+                                                       "jdendref",
+                                                       "nframesref",
+                                                       "rbversion",
+                                                       "dsnrms",
+                                                       "ssnrms",
+                                                       "dsdiff",
+                                                       "magzpsci",
+                                                       "magzpsciunc",
+                                                       "magzpscirms",
+                                                       "nmatches",
+                                                       "clrcoeff",
+                                                       "clrcounc",
+                                                       "zpclrcov",
+                                                       "zpmed",
+                                                       "clrmed",
+                                                       "clrrms",
+                                                       "neargaia",
+                                                       "neargaiabright",
+                                                       "maggaia",
+                                                       "maggaiabright",
+                                                       "exptime"};
+ 
+  private static String[] PRV_CANDIDATE_DATA_FIELDS = {"fid",
+                                                       "pid",
+                                                       "diffmaglim",
+                                                       "pdiffimfilename",
+                                                       "programpi",
+                                                       "programid",
+                                                       "isdiffpos",
+                                                       "tblid",
+                                                       "nid",
+                                                       "rcid",
+                                                       "field",
+                                                       "xpos",
+                                                       "ypos",
+                                                       "magpsf",
+                                                       "sigmapsf",
+                                                       "chipsf",
+                                                       "magap",
+                                                       "sigmagap",
+                                                       "distnr",
+                                                       "magnr",
+                                                       "sigmagnr",
+                                                       "chinr",
+                                                       "sharpnr",
+                                                       "sky",
+                                                       "magdiff",
+                                                       "fwhm",
+                                                       "classtar",
+                                                       "mindtoedge",
+                                                       "magfromlim",
+                                                       "seeratio",
+                                                       "aimage",
+                                                       "bimage",
+                                                       "aimagerat",
+                                                       "bimagerat",
+                                                       "elong",
+                                                       "nneg",
+                                                       "nbad",
+                                                       "rb",
+                                                       "ssdistnr",
+                                                       "ssmagnr",
+                                                       "sumrat",
+                                                       "magapbig",
+                                                       "sigmagapbig",
+                                                       "ranr",
+                                                       "decnr",
+                                                       "magzpsci",
+                                                       "magzpsciunc",
+                                                       "magzpscirms",
+                                                       "clrcoeff",
+                                                       "clrcounc",
+                                                       "rbversion"};
+    
   private static String VERSION = "ztf-3.2";
     
   /** Logging . */

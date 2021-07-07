@@ -5,18 +5,21 @@
 mgmt = graph.openManagement()
 
 // Vertexes
-AstroLabNet      = mgmt.makeVertexLabel('AstroLabNet'     ).make()
-site             = mgmt.makeVertexLabel('site'            ).make()
-AlertsCollection = mgmt.makeVertexLabel('AlertsCollection').make()
-alert            = mgmt.makeVertexLabel('alert'           ).make()
-candidate        = mgmt.makeVertexLabel('candidate'       ).make()
-prv_candidate    = mgmt.makeVertexLabel('prv_candidate'   ).make()
-cutout           = mgmt.makeVertexLabel('cutout'          ).make()
-mulens           = mgmt.makeVertexLabel('mulens'          ).make()
+AstroLabNet       = mgmt.makeVertexLabel('AstroLabNet'      ).make()
+site              = mgmt.makeVertexLabel('site'             ).make()
+AlertsCollection  = mgmt.makeVertexLabel('AlertsCollection' ).make()
+alert             = mgmt.makeVertexLabel('alert'            ).make()
+candidate         = mgmt.makeVertexLabel('candidate'        ).make()
+candidateData     = mgmt.makeVertexLabel('candidateData'    ).make()
+prv_candidate     = mgmt.makeVertexLabel('prv_candidate'    ).make()
+prv_candidateData = mgmt.makeVertexLabel('prv_candidateData').make()
+cutout            = mgmt.makeVertexLabel('cutout'           ).make()
+mulens            = mgmt.makeVertexLabel('mulens'           ).make()
 
 // Edges
 has        = mgmt.getEdgeLabel( 'has'     )
 contains   = mgmt.getEdgeLabel( 'contains')
+props      = mgmt.getEdgeLabel( 'props'   )
 holds      = mgmt.makeEdgeLabel('holds'   ).multiplicity(ONE2MANY).make()
 
 // Properties
@@ -186,6 +189,12 @@ mgmt.addProperties(candidate,
                    lbl,
                    candid,
                    jd,
+                   ra,
+                   dec,
+                   direction,
+                   ssnamenr)
+mgmt.addProperties(candidateData,
+                   lbl,
                    fid,
                    pid,
                    diffmaglim,
@@ -199,9 +208,6 @@ mgmt.addProperties(candidate,
                    field,
                    xpos,
                    ypos,
-                   ra,
-                   dec,
-                   direction,
                    magpsf,
                    sigmapsf,
                    chipsf,
@@ -229,7 +235,6 @@ mgmt.addProperties(candidate,
                    rb,
                    ssdistnr,
                    ssmagnr,
-                   ssnamenr,
                    sumrat,
                    magapbig,
                    sigmagapbig,
@@ -288,11 +293,14 @@ mgmt.addProperties(candidate,
                    exptime)
 mgmt.addProperties(prv_candidate,
                    lbl,
-                   hbase,
-                   fullfill,
-                   rowkey,
                    candid,
                    jd,
+                   ra,
+                   dec,
+                   direction,
+                   ssnamenr)
+mgmt.addProperties(prv_candidateData,
+                   lbl,
                    fid,
                    pid,
                    diffmaglim,
@@ -306,9 +314,6 @@ mgmt.addProperties(prv_candidate,
                    field,
                    xpos,
                    ypos,
-                   ra,
-                   dec,
-                   direction,
                    magpsf,
                    sigmapsf,
                    chipsf,
@@ -336,7 +341,6 @@ mgmt.addProperties(prv_candidate,
                    rb,
                    ssdistnr,
                    ssmagnr,
-                   ssnamenr,
                    sumrat,
                    magapbig,
                    sigmagapbig,
@@ -369,6 +373,8 @@ mgmt.addConnection(holds,      site,             AlertsCollection)
 mgmt.addConnection(has,        alert,            candidate)
 mgmt.addConnection(has,        alert,            prv_candidate)
 mgmt.addConnection(has,        alert,            mulens)
+mgmt.addConnection(props,      candidate,        candidateData)
+mgmt.addConnection(props,      prv_candidate,    prv_candidateData)
 
 // Info
 mgmt.printSchema()

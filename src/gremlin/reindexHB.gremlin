@@ -12,4 +12,5 @@ mgmt.updateIndex(mgmt.getGraphIndex('byRaDec'      ), SchemaAction.REINDEX).get(
 mgmt.updateIndex(mgmt.getGraphIndex('byDirection'  ), SchemaAction.REINDEX).get()
 mgmt.updateIndex(mgmt.getGraphIndex('bySsnamenr'   ), SchemaAction.REINDEX).get()
 mgmt.getGraphIndexes(Vertex.class)
+mgmt.printIndexes()
 mgmt.commit()
