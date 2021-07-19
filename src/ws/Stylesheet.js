@@ -118,57 +118,6 @@ stylesheet.nodes.mulens = {
   actions:[
     ]
   }
-stylesheet.nodes.Science = {
-  properties:{},
-  graphics: {
-    label:"Science",
-    title:"Science",        
-    subtitle:{gremlin:"values('fileName')"},
-    group:" ",        
-    shape:"box",      
-    image:"",        
-    borderRadius:"0", 
-    borderWidth:"3",  
-    borderDashes:[1,0],
-    value:"0"        
-    },
-  actions:[
-    ]
-  }
-stylesheet.nodes.Template = {
-  properties:{},
-  graphics: {
-    label:"Template",
-    title:"Template",        
-    subtitle:{gremlin:"values('fileName')"},
-    group:" ",        
-    shape:"box",      
-    image:"",        
-    borderRadius:"0", 
-    borderWidth:"1",  
-    borderDashes:[1,0],
-    value:"0"        
-    },
-  actions:[
-    ]
-  }
-stylesheet.nodes.Difference = {
-  properties:{},
-  graphics: {
-    label:"Difference",
-    title:"Difference",        
-    subtitle:{gremlin:"values('fileName')"},
-    group:" ",        
-    shape:"box",      
-    image:"",        
-    borderRadius:"0", 
-    borderWidth:"1",  
-    borderDashes:[1,0],
-    value:"0"        
-    },
-  actions:[
-    ]
-  }
 stylesheet.nodes.AlertsCollection = {
   properties:{},
   graphics: {
@@ -192,19 +141,6 @@ stylesheet.edges.has = {
   graphics: {
     label:" ",
     title:" ",
-    subtitle:" ",
-    arrows:{to:{enabled:true, type:"vee"}},
-    value: "0.1",
-    group: " "
-    },
-  actions: [
-    ]
-  }
-stylesheet.edges.cutout = {
-  properties:{},
-  graphics: {
-    label:"cutout",
-    title:"cutout",
     subtitle:" ",
     arrows:{to:{enabled:true, type:"vee"}},
     value: "0.1",

@@ -10,10 +10,7 @@ site              = mgmt.makeVertexLabel('site'             ).make()
 AlertsCollection  = mgmt.makeVertexLabel('AlertsCollection' ).make()
 alert             = mgmt.makeVertexLabel('alert'            ).make()
 candidate         = mgmt.makeVertexLabel('candidate'        ).make()
-candidateData     = mgmt.makeVertexLabel('candidateData'    ).make()
 prv_candidate     = mgmt.makeVertexLabel('prv_candidate'    ).make()
-prv_candidateData = mgmt.makeVertexLabel('prv_candidateData').make()
-cutout            = mgmt.makeVertexLabel('cutout'           ).make()
 mulens            = mgmt.makeVertexLabel('mulens'           ).make()
 
 // Edges
@@ -28,7 +25,6 @@ lbl                  = mgmt.getPropertyKey('lbl'                  )
 name                 = mgmt.getPropertyKey('name'                 )
 hbase                = mgmt.getPropertyKey('hbase'                )
 fullfill             = mgmt.getPropertyKey('fullfill'             )
-rowkey               = mgmt.makePropertyKey('rowkey'              ).dataType(String.class  ).cardinality(Cardinality.SINGLE).make()
 alertVersion         = mgmt.makePropertyKey('alertVersion'        ).dataType(String.class  ).cardinality(Cardinality.SINGLE).make()
 candid               = mgmt.makePropertyKey('candid'              ).dataType(Long.class    ).cardinality(Cardinality.SINGLE).make()
 objectId             = mgmt.makePropertyKey('objectId'            ).dataType(String.class  ).cardinality(Cardinality.SINGLE).make()
@@ -192,9 +188,7 @@ mgmt.addProperties(candidate,
                    ra,
                    dec,
                    direction,
-                   ssnamenr)
-mgmt.addProperties(candidateData,
-                   lbl,
+                   ssnamenr,
                    fid,
                    pid,
                    diffmaglim,
@@ -298,9 +292,7 @@ mgmt.addProperties(prv_candidate,
                    ra,
                    dec,
                    direction,
-                   ssnamenr)
-mgmt.addProperties(prv_candidateData,
-                   lbl,
+                   ssnamenr,
                    fid,
                    pid,
                    diffmaglim,
@@ -373,8 +365,6 @@ mgmt.addConnection(holds,      site,             AlertsCollection)
 mgmt.addConnection(has,        alert,            candidate)
 mgmt.addConnection(has,        alert,            prv_candidate)
 mgmt.addConnection(has,        alert,            mulens)
-mgmt.addConnection(props,      candidate,        candidateData)
-mgmt.addConnection(props,      prv_candidate,    prv_candidateData)
 
 // Info
 mgmt.printSchema()
