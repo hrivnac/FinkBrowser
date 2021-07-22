@@ -8,12 +8,19 @@ def hi_finkbrowser() {
   return "Hello World from FinkBrowser !"
   }
 
-def geosearch(lat, lon, radius, jdmin, jdmax, limit) {
-  nDir = g.V().has('direction', geoWithin(Geoshape.circle(lat, lon, radius*6371.0087714*180/Math.PI))).count().next()
-  nJD  = g.V().has('direction', geoWithin(Geoshape.circle(lat, lon, radius*6371.0087714*180/Math.PI))).limit(nDir).has('jd', inside(jdmin, jdmax)).count().next()
+def geosearch_help() {
+  return 'geosearch(ra, dec, ang[deg], jdmin, jdmax, limit)';
+  }
+  
+def geosearch(ra, dec, ang, jdmin, jdmax, limit) {
+  lat = dec
+  lon = ra - 180
+  dist = ang * 6371.0087714 * Math.PI / 180
+  nDir = g.V().has('direction', geoWithin(Geoshape.circle(lat, lon, dist))).count().next()
+  nJD  = g.V().has('direction', geoWithin(Geoshape.circle(lat, lon, dist))).limit(nDir).has('jd', inside(jdmin, jdmax)).count().next()
   if (limit < nJD) {
     nJD = limit
     }
-  return g.V().has('direction', geoWithin(Geoshape.circle(lat, lon, radius*6371.0087714*180/Math.PI))).limit(nDir).has('jd', inside(jdmin, jdmax)).limit(nJD)
+  return g.V().has('direction', geoWithin(Geoshape.circle(lat, lon, dist))).limit(nDir).has('jd', inside(jdmin, jdmax)).limit(nJD)
   }
   
