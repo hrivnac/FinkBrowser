@@ -152,6 +152,7 @@ timestamp            = mgmt.makePropertyKey('timestamp'           ).dataType(Str
 cutoutScience        = mgmt.makePropertyKey('cutoutScience'       ).dataType(String.class  ).cardinality(Cardinality.SINGLE).make()
 cutoutTemplate       = mgmt.makePropertyKey('cutoutTemplate'      ).dataType(String.class  ).cardinality(Cardinality.SINGLE).make()
 cutoutDifference     = mgmt.makePropertyKey('cutoutDifference'    ).dataType(String.class  ).cardinality(Cardinality.SINGLE).make()
+importDate           = mgmt.makePropertyKey('importDate'          ).dataType(String.class  ).cardinality(Cardinality.SINGLE).make()
 
 // Vertex properties
 mgmt.addProperties(AstroLabNet,
@@ -166,6 +167,7 @@ mgmt.addProperties(AlertsCollection,
 mgmt.addProperties(alert,
                    lbl,
                    alertVersion,
+                   importDate,
                    objectId,
                    publisher,
                    schemavsn,

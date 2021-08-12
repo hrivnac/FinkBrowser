@@ -32,6 +32,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.util.List;
+import java.util.Date;
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.TreeMap;
@@ -109,6 +110,7 @@ public class AvroImporter extends JanusClient {
     log.info("Committing after each " + commitLimit + " alerts");
     log.info("Using strategy: " + strategy);
     log.info("Writing FITS into: " + fitsDir);
+    log.info("Importing at " + _date);
     _reportLimit = reportLimit;
     _commitLimit = commitLimit;
     _fitsDir     = fitsDir;
@@ -217,6 +219,7 @@ public class AvroImporter extends JanusClient {
         v.property(entry.getKey(), entry.getValue());
         }
       v.property("alertVersion", VERSION);
+      v.property("importDate",   _date);
       }
     String ss;
     _nCandidates++;
@@ -445,7 +448,8 @@ public class AvroImporter extends JanusClient {
     return _n;
     }
     
-  /** TBD */
+  /** Tell, whether import shpuld be skipped.
+    * @return Whether import shpuld be skipped. */
   protected boolean skip() {
     return _skip;
     }
@@ -459,6 +463,7 @@ public class AvroImporter extends JanusClient {
     log.info("\tprv_candidates: " + _nPrvCandidates);
     log.info("\tmulens:         " + _nMulens);
     log.info("\tcutouts:        " + _nCutouts);
+    log.info("Imported at " + _date);
     super.close();
     }
     
@@ -491,6 +496,8 @@ public class AvroImporter extends JanusClient {
   private int _nMulens = 0;
   
   private int _nCutouts = 0;
+  
+  private String _date = new Date().toString();
       
   private static String VERSION = "ztf-3.2";
     
