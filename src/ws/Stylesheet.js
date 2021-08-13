@@ -18,7 +18,7 @@ stylesheet.nodes.AstroLabNet = {
     ]
   }
 stylesheet.nodes.site = {
-  properties:{gremlin:"valueMap('lbl', 'Livy', 'Spark', 'Spark History', 'Ganglia', 'Hadoop', 'HBase', 'Prometheus', 'Mesos', 'Grafana', 'Zeppelin', 'Tomcat', 'HBase_ZTF_Season1', 'HBase_Test_Tiny_3')"},
+  properties:{gremlin:"valueMap('lbl', 'Livy', 'Spark', 'Spark History', 'Ganglia', 'Hadoop', 'HBase', 'Prometheus', 'Mesos', 'Grafana', 'Zeppelin', 'Tomcat', 'HBase_ZTF_Season1', 'HBase_Test_Tiny_3').toList()[0]"},
   graphics: {
     label:"title", 
     title:"title",        
@@ -48,10 +48,10 @@ stylesheet.nodes.site = {
     ]
   }
 stylesheet.nodes.alert = {
-  properties:{gremlin:"valueMap('objectId')"},
+  properties:{gremlin:"valueMap('objectId').toList()[0]"},
   graphics: {
-    label:{js:"objectId"},
-    title:{js:"objectId"},        
+    label:"objectId",
+    title:"objectId",        
     subtitle:" ",
     group:" ",        
     shape:"hexagon",      
@@ -68,10 +68,10 @@ stylesheet.nodes.alert = {
     ]
   }
 stylesheet.nodes.candidate = {
-  properties:{gremlin:"valueMap('candid')"},
+  properties:{gremlin:"valueMap('candid').toList()[0]"},
   graphics: {
-    label:{js:"candid"},
-    title:{js:"candid"},        
+    label:"candid",
+    title:"candid",        
     subtitle:" ",
     group:" ",        
     shape:"dot",      
@@ -85,10 +85,10 @@ stylesheet.nodes.candidate = {
     ]
   }
 stylesheet.nodes.prv_candidate = {
-  properties:{},
+  properties:{gremlin:"valueMap('jd').toList()[0]"},
   graphics: {
-    label:{gremlin:"values('jd')"},
-    title:{gremlin:"values('jd')"},        
+    label:"jd",
+    title:"jd",        
     subtitle:" ",
     group:" ",        
     shape:"dot",      
@@ -102,16 +102,16 @@ stylesheet.nodes.prv_candidate = {
     ]
   }
 stylesheet.nodes.mulens = {
-  properties:{},
+  properties:{gremlin:"valueMap('mulens').toList()[0]"},
   graphics: {
     label:"mulens",
     title:"mulens",        
     subtitle:" ",
     group:" ",        
-    shape:"dot",      
+    shape:"square",      
     image:"",        
     borderRadius:"0", 
-    borderWidth:"0",  
+    borderWidth:"1",  
     borderDashes:[1,1],
     value:"0"        
     },
@@ -119,7 +119,7 @@ stylesheet.nodes.mulens = {
     ]
   }
 stylesheet.nodes.AlertsCollection = {
-  properties:{},
+  properties:{gremlin:"valueMap('title').toList()[0]"},
   graphics: {
     label:"title", 
     title:"title",        
