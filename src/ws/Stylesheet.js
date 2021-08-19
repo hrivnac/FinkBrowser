@@ -14,7 +14,8 @@ stylesheet.nodes.AstroLabNet = {
     value:"0"         
     },
   actions:[
-    {name:"Fink Data Explorer Home",  url:"https://cern.ch/hrivnac/Activities/Packages/FinkBrowser", external:true}
+    {name:"Fink Data Explorer Home",  url:"https://cern.ch/hrivnac/Activities/Packages/FinkBrowser",                target:"external"},
+    {name:"Show",                     url:{gremlin:"id().next().toString().replaceFirst(\"^\", \"Node.jsp?id=\")"}, target:"result"  }
     ]
   }
 stylesheet.nodes.site = {
@@ -32,23 +33,21 @@ stylesheet.nodes.site = {
     value:"0"         
     },
   actions:[
-    {name:"Livy",               url:"Livy"             , external:true},
-    {name:"Spark",              url:"Spark"            , external:true},
-    {name:"Spark History",      url:"Spark History"    , external:true},
-    {name:"Ganglia",            url:"Ganglia"          , external:true},
-    {name:"Hadoop",             url:"Hadoop"           , external:true},
-    {name:"HBase",              url:"HBase"            , external:true},
-    {name:"Prometheus",         url:"Prometheus"       , external:true},
-    {name:"Mesos",              url:"Mesos"            , external:true},
-    {name:"Grafana",            url:"Grafana"          , external:true},
-    {name:"Zeppelin",           url:"Zeppelin"         , external:true},
-    {name:"Tomcat",             url:"Tomcat"           , external:true},
-    {name:"HBase ZTF-Season1",  url:"HBase_ZTF_Season1", embedded:true},
-    {name:"HBase Test Tiny 3",  url:"HBase_Test_Tiny_3", embedded:true}
+    {name:"Livy",               url:"Livy"         , target:"external"},
+    {name:"Spark",              url:"Spark"        , target:"external"},
+    {name:"Spark History",      url:"Spark History", target:"external"},
+    {name:"Ganglia",            url:"Ganglia"      , target:"external"},
+    {name:"Hadoop",             url:"Hadoop"       , target:"external"},
+    {name:"HBase",              url:"HBase"        , target:"external"},
+    {name:"Prometheus",         url:"Prometheus"   , target:"external"},
+    {name:"Mesos",              url:"Mesos"        , target:"external"},
+    {name:"Grafana",            url:"Grafana"      , target:"external"},
+    {name:"Zeppelin",           url:"Zeppelin"     , target:"external"},
+    {name:"Tomcat",             url:"Tomcat"       , target:"external"}
     ]
   }
 stylesheet.nodes.alert = {
-  properties:{gremlin:"valueMap('objectId').toList()[0]"},
+  properties:{gremlin:"valueMap('objectId', 'cutoutScience', 'cutoutTemplate', 'cutoutDifference').toList()[0]"},
   graphics: {
     label:"objectId",
     title:"objectId",        
@@ -61,14 +60,20 @@ stylesheet.nodes.alert = {
     borderDashes:[1,0],
     value: {gremlin:"both().count().join().toString()"}        
     },
-  actions:[
-    {name:"alert",   url:{js:"'/FinkBrowser/HBaseTable.jsp?selects=all&key=' + objectId"                                     }, embedded:true},
-    {name:"alerts",  url:{js:"'/FinkBrowser/HBaseTable.jsp?selects=all&filters=key:key:' + objectId + ':prefix'"}, embedded:true},
-    {name:"Analyse", url:{js:"'http://134.158.75.151:24000/' + objectId"                                        }, external:true}
+  actions:[                                                                 
+    {name:"Science",    url:{js:"'FITSView.jsp?fn=' + cutoutScience"                               }, target:"image"   },
+    {name:"Science",    url:{js:"'FITSView.jsp?fn=' + cutoutScience"                               }, target:"external"},
+    {name:"Template",   url:{js:"'FITSView.jsp?fn=' + cutoutTemplate"                              }, target:"image"   },
+    {name:"Template",   url:{js:"'FITSView.jsp?fn=' + cutoutTemplate"                              }, target:"external"},
+    {name:"Difference", url:{js:"'FITSView.jsp?fn=' + cutoutDifference"                            }, target:"image"   },
+    {name:"Difference", url:{js:"'FITSView.jsp?fn=' + cutoutDifference"                            }, target:"external"},
+    {name:"Analyse",    url:{js:"'http://134.158.75.151:24000/' + objectId"                        }, target:"external"},
+    {name:"Show",       url:{gremlin:"id().next().toString().replaceFirst(\"^\", \"Node.jsp?id=\")"}, target:"result"  }
     ]
   }
+  
 stylesheet.nodes.candidate = {
-  properties:{gremlin:"valueMap('candid').toList()[0]"},
+  properties:{gremlin:"valueMap('candid', 'ra', 'dec').toList()[0]"},
   graphics: {
     label:"candid",
     title:"candid",        
@@ -82,6 +87,8 @@ stylesheet.nodes.candidate = {
     value:"0"        
     },
   actions:[
+    {name:"Sky View", url:{js:"'d3/skyview.jsp?ra=' + ra + '&dec=' + dec"},                         target:"skyview"},
+    {name:"Show",     url:{gremlin:"id().next().toString().replaceFirst(\"^\", \"Node.jsp?id=\")"}, target:"result" }
     ]
   }
 stylesheet.nodes.prv_candidate = {
@@ -99,6 +106,7 @@ stylesheet.nodes.prv_candidate = {
     value:"0"        
     },
   actions:[
+    {name:"Show", url:{gremlin:"id().next().toString().replaceFirst(\"^\", \"Node.jsp?id=\")"}, target:"result"}
     ]
   }
 stylesheet.nodes.mulens = {
@@ -116,6 +124,7 @@ stylesheet.nodes.mulens = {
     value:"0"        
     },
   actions:[
+    {name:"Show", url:{gremlin:"id().next().toString().replaceFirst(\"^\", \"Node.jsp?id=\")"}, target:"result"}
     ]
   }
 stylesheet.nodes.AlertsCollection = {
@@ -133,7 +142,7 @@ stylesheet.nodes.AlertsCollection = {
     value: {gremlin:"both().count().join().toString()"}        
     },
   actions:[
-    {name:"Alerts", url:{js:"hbase"}, embedded:true}
+    {name:"Show", url:{gremlin:"id().next().toString().replaceFirst(\"^\", \"Node.jsp?id=\")"}, target:"result"}
     ]
   }
 stylesheet.edges.has = {
