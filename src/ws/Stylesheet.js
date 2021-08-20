@@ -52,7 +52,7 @@ stylesheet.nodes.alert = {
     label:"objectId",
     title:"objectId",        
     subtitle:" ",
-    group:" ",        
+    group:"objectId",        
     shape:"hexagon",      
     image:"",        
     borderRadius:"0", 
@@ -71,18 +71,17 @@ stylesheet.nodes.alert = {
     {name:"Show",       url:{gremlin:"id().next().toString().replaceFirst(\"^\", \"Node.jsp?id=\")"}, target:"result"  }
     ]
   }
-  
 stylesheet.nodes.candidate = {
   properties:{gremlin:"valueMap('candid', 'ra', 'dec').toList()[0]"},
   graphics: {
     label:"candid",
     title:"candid",        
     subtitle:" ",
-    group:" ",        
+    group:{gremlin:"in().has('lbl', 'alert').values('objectId').toList()[0]"},        
     shape:"dot",      
     image:"",        
     borderRadius:"0", 
-    borderWidth:"2",  
+    borderWidth:"3",  
     borderDashes:[1,0],
     value:"0"        
     },
@@ -97,7 +96,7 @@ stylesheet.nodes.prv_candidate = {
     label:"jd",
     title:"jd",        
     subtitle:" ",
-    group:" ",        
+    group:{gremlin:"in().has('lbl','alert').values('objectId').toList()[0]"},        
     shape:"dot",      
     image:"",        
     borderRadius:"0", 
@@ -115,7 +114,7 @@ stylesheet.nodes.mulens = {
     label:"mulens",
     title:"mulens",        
     subtitle:" ",
-    group:" ",        
+    group:{gremlin:"in().has('lbl','alert').values('objectId').toList()[0]"},        
     shape:"square",      
     image:"",        
     borderRadius:"0", 
