@@ -174,14 +174,14 @@ public class HDFSAvroImporter extends AvroImporter {
   @Override
   protected void writeFits(String fn,
                            byte[] data) {
-    //try {
-    //  FSDataOutputStream out = _fs.create(new Path(fitsDir() + "/" + fn));
-    //  out.write(data);
-    //  out.close();
-    //  }
-    //catch (IOException e) {
-    //  log.error("Cannot write " + fn, e);
-    //  }
+    try {
+      FSDataOutputStream out = _fs.create(new Path(fitsDir() + "/" + fn));
+      out.write(data);
+      out.close();
+      }
+    catch (IOException e) {
+      log.error("Cannot write " + fn, e);
+      }
     }
     
   private Configuration _conf;
