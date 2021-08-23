@@ -1,7 +1,7 @@
 // TBD: allow properties of non-string values
 
 function storeData(fn, dataS) {
-  console.log(fn);
+  return "FITSView.jsp?fn=" + fn + "&data=" + encodeURIComponent(dataS);
   }
 
 stylesheet.nodes.AstroLabNet = {
