@@ -222,7 +222,6 @@ public class AvroImporter extends JanusClient {
       v.property("importDate",   _date);
       }
     String ss;
-    _nCandidates++;
     processGenericRecord((GenericRecord)(record.get("candidate")),
                          "candidate",
                          "candid",
@@ -230,7 +229,6 @@ public class AvroImporter extends JanusClient {
                          v,
                          "has",
                          null);
-    _nMulens++;
     processGenericRecord((GenericRecord)(record.get("mulens")),
                          "mulens",
                          null,
@@ -238,6 +236,8 @@ public class AvroImporter extends JanusClient {
                          v,
                          "has",
                          null);
+    Vertex vv = vertex(record, "prv_candidates", null);
+    _gr.addEdge(v, vv, "has");    
     Array a = (Array)record.get("prv_candidates");
     if (a != null) {
       for (Object o : a) {
@@ -246,15 +246,12 @@ public class AvroImporter extends JanusClient {
                              "prv_candidate",
                              "candid",
                              true,
-                             v,
-                             "has",
+                             vv,
+                             "holds",
                              null);
         } 
       }
-    for (String s : new String[]{"Science", "Template", "Difference"}) { 
-      _nCutouts++;
-      processCutout((GenericRecord)(record.get("cutout" + s)), "cutout" + s, v);
-      }
+    processCutout(record, v);
     timer("alerts processed", ++_n, _reportLimit, _commitLimit); 
     return v;
     }
@@ -310,20 +307,23 @@ public class AvroImporter extends JanusClient {
     
   /** Process <em>Avro</em> cutout.
     * @param record       The {@link GenericRecord} to process.
-    * @param name         The name of cutout.
     * @param mother       The {@link Vertex} to attach to. */
   // TBD: handle binary data
   private void processCutout(GenericRecord record,
-                             String        name,
                              Vertex        mother) {
-    if (mother == null) {
-      return;
+    Vertex v = vertex(record, "cutout", null);
+    GenericRecord r;
+    String fn;
+    byte[] data;
+    for (String s : new String[]{"Science", "Template", "Difference"}) { 
+      r = (GenericRecord)(record.get("cutout" + s));
+      fn = r.get("fileName").toString();
+      data = ((ByteBuffer)(r.get("stampData"))).array();
+      v.property("cutout" + s + "Fn", fn);
+      v.property("cutout" + s,        Base64.getEncoder().encodeToString(data));
       }
-    String fn = record.get("fileName").toString();
-    byte[] data = ((ByteBuffer)(record.get("stampData"))).array();
-    mother.property(name, fn);
-    //mother.property(name, Base64.getEncoder().encodeToString(data));
-    writeFits(fn, data);
+    _gr.addEdge(mother, v, "has");
+    //writeFits(fn, data);
     }
 
   /** Register part of {@link GenericRecord} in <em>HBase</em>.
@@ -459,10 +459,7 @@ public class AvroImporter extends JanusClient {
     
     log.info("Import statistics:");
     log.info("\talerts:         " + _nAlerts);
-    log.info("\tcandidates:     " + _nCandidates);
     log.info("\tprv_candidates: " + _nPrvCandidates);
-    log.info("\tmulens:         " + _nMulens);
-    log.info("\tcutouts:        " + _nCutouts);
     log.info("Imported at " + _date);
     super.close();
     }
@@ -489,13 +486,7 @@ public class AvroImporter extends JanusClient {
   
   private int _nAlerts = 0;
   
-  private int _nCandidates = 0;
-  
   private int _nPrvCandidates = 0;
-  
-  private int _nMulens = 0;
-  
-  private int _nCutouts = 0;
   
   private String _date = new Date().toString();
       

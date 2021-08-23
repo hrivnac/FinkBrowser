@@ -1,4 +1,9 @@
 // TBD: allow properties of non-string values
+
+function storeData(fn, dataS) {
+  console.log(fn);
+  }
+
 stylesheet.nodes.AstroLabNet = {
   properties:{},
   graphics: {
@@ -47,7 +52,7 @@ stylesheet.nodes.site = {
     ]
   }
 stylesheet.nodes.alert = {
-  properties:{gremlin:"valueMap('objectId', 'cutoutScience', 'cutoutTemplate', 'cutoutDifference').toList()[0]"},
+  properties:{gremlin:"valueMap('objectId').toList()[0]"},
   graphics: {
     label:"objectId",
     title:"objectId",        
@@ -56,19 +61,13 @@ stylesheet.nodes.alert = {
     shape:"hexagon",      
     image:"",        
     borderRadius:"0", 
-    borderWidth:"1",  
+    borderWidth:"3",  
     borderDashes:[1,0],
-    value: {gremlin:"both().count().join().toString()"}        
+    value:{gremlin:"out().out().count().join().toString()"}        
     },
   actions:[                                                                 
-    {name:"Science",    url:{js:"'FITSView.jsp?fn=' + cutoutScience"                               }, target:"image"   },
-    {name:"Science",    url:{js:"'FITSView.jsp?fn=' + cutoutScience"                               }, target:"external"},
-    {name:"Template",   url:{js:"'FITSView.jsp?fn=' + cutoutTemplate"                              }, target:"image"   },
-    {name:"Template",   url:{js:"'FITSView.jsp?fn=' + cutoutTemplate"                              }, target:"external"},
-    {name:"Difference", url:{js:"'FITSView.jsp?fn=' + cutoutDifference"                            }, target:"image"   },
-    {name:"Difference", url:{js:"'FITSView.jsp?fn=' + cutoutDifference"                            }, target:"external"},
-    {name:"Analyse",    url:{js:"'http://134.158.75.151:24000/' + objectId"                        }, target:"external"},
-    {name:"Show",       url:{gremlin:"id().next().toString().replaceFirst(\"^\", \"Node.jsp?id=\")"}, target:"result"  }
+    {name:"Analyse", url:{js:"'http://134.158.75.151:24000/' + objectId"                        }, target:"external"},
+    {name:"Show",    url:{gremlin:"id().next().toString().replaceFirst(\"^\", \"Node.jsp?id=\")"}, target:"result"  }
     ]
   }
 stylesheet.nodes.candidate = {
@@ -90,13 +89,31 @@ stylesheet.nodes.candidate = {
     {name:"Show",     url:{gremlin:"id().next().toString().replaceFirst(\"^\", \"Node.jsp?id=\")"}, target:"result" }
     ]
   }
+stylesheet.nodes.prv_candidates = {
+  properties:{},
+  graphics: {
+    label:"prv_candidates",
+    title:"prv_candidates",        
+    subtitle:" ",
+    group:{gremlin:"in().has('lbl','alert').values('objectId').toList()[0]"},        
+    shape:"dot",      
+    image:"",        
+    borderRadius:"0", 
+    borderWidth:"3",  
+    borderDashes:[1,1],
+    value:{gremlin:"out().count().join().toString()"}        
+    },
+  actions:[
+    {name:"Show", url:{gremlin:"id().next().toString().replaceFirst(\"^\", \"Node.jsp?id=\")"}, target:"result"}
+    ]
+  }
 stylesheet.nodes.prv_candidate = {
   properties:{gremlin:"valueMap('jd').toList()[0]"},
   graphics: {
     label:"jd",
     title:"jd",        
     subtitle:" ",
-    group:{gremlin:"in().has('lbl','alert').values('objectId').toList()[0]"},        
+    group:{gremlin:"in().in().has('lbl','alert').values('objectId').toList()[0]"},        
     shape:"dot",      
     image:"",        
     borderRadius:"0", 
@@ -118,11 +135,35 @@ stylesheet.nodes.mulens = {
     shape:"square",      
     image:"",        
     borderRadius:"0", 
-    borderWidth:"1",  
-    borderDashes:[1,1],
+    borderWidth:"3",  
+    borderDashes:[1,0],
     value:"0"        
     },
   actions:[
+    {name:"Show", url:{gremlin:"id().next().toString().replaceFirst(\"^\", \"Node.jsp?id=\")"}, target:"result"}
+    ]
+  }
+stylesheet.nodes.cutout = {
+  properties:{gremlin:"valueMap('cutoutScienceFn', 'cutoutTemplateFn', 'cutoutDifferenceFn', 'cutoutScience', 'cutoutTemplate', 'cutoutDifference').toList()[0]"},
+  graphics: {
+    label:"cutout",
+    title:"cutout",        
+    subtitle:" ",
+    group:{gremlin:"in().has('lbl', 'alert').values('objectId').toList()[0]"},        
+    shape:"triangle",      
+    image:"",        
+    borderRadius:"0", 
+    borderWidth:"3",  
+    borderDashes:[1,0],
+    value: {gremlin:"both().count().join().toString()"}        
+    },
+  actions:[                                                                 
+    {name:"Science",    url:{js:"storeData(cutoutScienceFn,    cutoutScience)"               }, target:"image"   },
+    {name:"Science",    url:{js:"storeData(cutoutScienceFn,    cutoutScience)"               }, target:"external"},
+    {name:"Template",   url:{js:"storeData(cutoutTemplateFn,   cutoutTemplate)"              }, target:"image"   },
+    {name:"Template",   url:{js:"storeData(cutoutTemplateFn,   cutoutTemplate)"              }, target:"external"},
+    {name:"Difference", url:{js:"storeData(cutoutDifferenceFn, cutoutDifference)"            }, target:"image"   },
+    {name:"Difference", url:{js:"storeData(cutoutDifferenceFn, cutoutDifference)"            }, target:"external"},
     {name:"Show", url:{gremlin:"id().next().toString().replaceFirst(\"^\", \"Node.jsp?id=\")"}, target:"result"}
     ]
   }
