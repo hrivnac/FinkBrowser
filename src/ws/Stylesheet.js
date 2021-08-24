@@ -66,12 +66,13 @@ stylesheet.nodes.alert = {
     value:{gremlin:"out().out().count().join().toString()"}        
     },
   actions:[                                                                 
-    {name:"Analyse", url:{js:"'http://134.158.75.151:24000/' + objectId"                        }, target:"external"},
-    {name:"Show",    url:{gremlin:"id().next().toString().replaceFirst(\"^\", \"Node.jsp?id=\")"}, target:"result"  }
+    {name:"Analyse", url:{js:"'http://134.158.75.151:24000/' + objectId"                         }, target:"external"},
+    {name:"Show",    url:{gremlin:"id().next().toString().replaceFirst(\"^\", \"Node.jsp?id=\")" }, target:"result"  },
+    {name:"Table",   url:{gremlin:"id().next().toString().replaceFirst(\"^\", \"Nodes.jsp?id=\")"}, target:"table"   }
     ]
   }
 stylesheet.nodes.candidate = {
-  properties:{gremlin:"valueMap('candid', 'ra', 'dec').toList()[0]"},
+  properties:{gremlin:"valueMap('candid').toList()[0]"},
   graphics: {
     label:"candid",
     title:"candid",        
@@ -85,8 +86,9 @@ stylesheet.nodes.candidate = {
     value:"0"        
     },
   actions:[
-    {name:"Sky View", url:{js:"'d3/skyview.jsp?ra=' + ra + '&dec=' + dec"},                         target:"skyview"},
-    {name:"Show",     url:{gremlin:"id().next().toString().replaceFirst(\"^\", \"Node.jsp?id=\")"}, target:"result" }
+    {name:"Sky View", url:{gremlin:"id().next().toString().replaceFirst(\"^\", \"d3/skyview.jsp?id=\")"}, target:"skyview"},
+    {name:"Show",     url:{gremlin:"id().next().toString().replaceFirst(\"^\", \"Node.jsp?id=\")"},       target:"result" },
+    {name:"Table",    url:{gremlin:"id().next().toString().replaceFirst(\"^\", \"Nodes.jsp?id=\")"},      target:"table"  }
     ]
   }
 stylesheet.nodes.prv_candidates = {
@@ -104,7 +106,8 @@ stylesheet.nodes.prv_candidates = {
     value:{gremlin:"out().count().join().toString()"}        
     },
   actions:[
-    {name:"Show", url:{gremlin:"id().next().toString().replaceFirst(\"^\", \"Node.jsp?id=\")"}, target:"result"}
+    {name:"Show",  url:{gremlin:"id().next().toString().replaceFirst(\"^\", \"Node.jsp?id=\")"},  target:"result"},
+    {name:"Table", url:{gremlin:"id().next().toString().replaceFirst(\"^\", \"Nodes.jsp?id=\")"}, target:"table" }
     ]
   }
 stylesheet.nodes.prv_candidate = {
@@ -122,7 +125,8 @@ stylesheet.nodes.prv_candidate = {
     value:"0"        
     },
   actions:[
-    {name:"Show", url:{gremlin:"id().next().toString().replaceFirst(\"^\", \"Node.jsp?id=\")"}, target:"result"}
+    {name:"Show",  url:{gremlin:"id().next().toString().replaceFirst(\"^\", \"Node.jsp?id=\")"},  target:"result"},
+    {name:"Table", url:{gremlin:"id().next().toString().replaceFirst(\"^\", \"Nodes.jsp?id=\")"}, target:"table" }
     ]
   }
 stylesheet.nodes.mulens = {
@@ -140,7 +144,8 @@ stylesheet.nodes.mulens = {
     value:"0"        
     },
   actions:[
-    {name:"Show", url:{gremlin:"id().next().toString().replaceFirst(\"^\", \"Node.jsp?id=\")"}, target:"result"}
+    {name:"Show",  url:{gremlin:"id().next().toString().replaceFirst(\"^\", \"Node.jsp?id=\")"},  target:"result"},
+    {name:"Table", url:{gremlin:"id().next().toString().replaceFirst(\"^\", \"Nodes.jsp?id=\")"}, target:"table" }
     ]
   }
 stylesheet.nodes.cutout = {
@@ -158,13 +163,14 @@ stylesheet.nodes.cutout = {
     value: {gremlin:"both().count().join().toString()"}        
     },
   actions:[                                                                 
-    {name:"Science",    url:{js:"storeData(cutoutScienceFn,    cutoutScience)"               }, target:"image"   },
-    {name:"Science",    url:{js:"storeData(cutoutScienceFn,    cutoutScience)"               }, target:"external"},
-    {name:"Template",   url:{js:"storeData(cutoutTemplateFn,   cutoutTemplate)"              }, target:"image"   },
-    {name:"Template",   url:{js:"storeData(cutoutTemplateFn,   cutoutTemplate)"              }, target:"external"},
-    {name:"Difference", url:{js:"storeData(cutoutDifferenceFn, cutoutDifference)"            }, target:"image"   },
-    {name:"Difference", url:{js:"storeData(cutoutDifferenceFn, cutoutDifference)"            }, target:"external"},
-    {name:"Show", url:{gremlin:"id().next().toString().replaceFirst(\"^\", \"Node.jsp?id=\")"}, target:"result"}
+    {name:"Science",    url:{js:"storeData(cutoutScienceFn,    cutoutScience)"                      }, target:"image"   },
+    {name:"Science",    url:{js:"storeData(cutoutScienceFn,    cutoutScience)"                      }, target:"external"},
+    {name:"Template",   url:{js:"storeData(cutoutTemplateFn,   cutoutTemplate)"                     }, target:"image"   },
+    {name:"Template",   url:{js:"storeData(cutoutTemplateFn,   cutoutTemplate)"                     }, target:"external"},
+    {name:"Difference", url:{js:"storeData(cutoutDifferenceFn, cutoutDifference)"                   }, target:"image"   },
+    {name:"Difference", url:{js:"storeData(cutoutDifferenceFn, cutoutDifference)"                   }, target:"external"},
+    {name:"Show",       url:{gremlin:"id().next().toString().replaceFirst(\"^\", \"Node.jsp?id=\")" }, target:"result"  },
+    {name:"Table",      url:{gremlin:"id().next().toString().replaceFirst(\"^\", \"Nodes.jsp?id=\")"}, target:"table"   }
     ]
   }
 stylesheet.nodes.AlertsCollection = {
