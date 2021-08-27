@@ -29,19 +29,7 @@ public class FinkPropertiesProcessor extends PropertiesProcessor {
     return DateTimeManagement.julianDate2String(Double.valueOf(jd), "yyyy MM dd HH:mm:ss.SSS");
     }
 
-  @Override
-  // TBD
-  public String ra() {
-    return "i:ra";
-    }
-    
-  @Override
-  // TBD
-  public String dec() {
-    return "i:dec";
-    }
-
   /** Logging . */
-  private static Logger log = Logger.getLogger(PropertiesProcessor.class);
+  private static Logger log = Logger.getLogger(FinkPropertiesProcessor.class);
 
   }
