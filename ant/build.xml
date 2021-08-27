@@ -390,6 +390,7 @@
         <exclude name="Plot.jsp"/>
         <exclude name="SkyView.jsp"/>
         <exclude name="Params.jsp"/>
+        <exclude name="PropertiesProcessor.jsp"/>
         <exclude name="Image.jsp"/>
         <exclude name="HBaseClient.jsp"/>
         <exclude name="profiles/*"/>
