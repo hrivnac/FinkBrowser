@@ -86,7 +86,6 @@ stylesheet.nodes.candidate = {
     value:"0"        
     },
   actions:[
-    {name:"Sky View", url:{gremlin:"id().next().toString().replaceFirst(\"^\", \"d3/skyview.jsp?id=\")"}, target:"skyview"},
     {name:"Show",     url:{gremlin:"id().next().toString().replaceFirst(\"^\", \"Node.jsp?id=\")"},       target:"result" },
     {name:"Table",    url:{gremlin:"id().next().toString().replaceFirst(\"^\", \"Nodes.jsp?id=\")"},      target:"table"  }
     ]
