@@ -1,6 +1,7 @@
 // Create ElasticSearch Index
 // (Lomikel schema should be already loaded)
-// =========================================
+// (uses direct indexing, big data can use also MR indexing) 
+// =========================================================
 
 graph.tx().rollback()
 
