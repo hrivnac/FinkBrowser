@@ -455,8 +455,7 @@ public class AvroImporter extends JanusClient {
     }
     
   @Override
-  public void close() {
-    
+  public void close() {    
     log.info("Import statistics:");
     log.info("\talerts:         " + _nAlerts);
     log.info("\tprv_candidates: " + _nPrvCandidates);
