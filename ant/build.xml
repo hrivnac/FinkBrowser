@@ -343,11 +343,11 @@
   <target name="war"
           depends="jar"
           description="Create WAR">
- 		<copy file="${lomikel_ws}/index.jsp"   tofile="../build/index.jsp"   overwrite="true"/>
- 		<copy file="${lomikel_ws}/Top.jsp"     tofile="../build/Top.jsp"     overwrite="true"/>
- 		<copy file="${lomikel_ws}/TopMini.jsp" tofile="../build/TopMini.jsp" overwrite="true"/>
+ 		<copy file="${lomikel_ws}/index.jsp"         tofile="../build/index.jsp"   overwrite="true"/>
+ 		<copy file="${lomikel_ws}/Top.jsp"           tofile="../build/Top.jsp"     overwrite="true"/>
+ 		<copy file="${lomikel_ws}/TopMini.jsp"       tofile="../build/TopMini.jsp" overwrite="true"/>
  		<copy file="../src/ws/Servers-${target}.jsp" tofile="../build/Servers.jsp" overwrite="true"/>
- 		<copy file="../src/ws/Graphs-${target}.jsp"   tofile="../build/Graphs.jsp" overwrite="true"/>
+ 		<copy file="../src/ws/Graphs-${target}.jsp"  tofile="../build/Graphs.jsp"  overwrite="true"/>
     <replace file="../build/index.jsp"   token="@NAME@"    value="${browsername}"/>
     <replace file="../build/index.jsp"   token="@ICON@"    value="${browsericon}"/>
     <replace file="../build/Top.jsp"     token="@VERSION@" value="${version}"/>
@@ -374,6 +374,7 @@
 	    	<include name="**/*.png"/>
 	    	<include name="images/*"/>
 	    	<include name="d3/**/*"/>
+        <exclude name="Graphs-*.jsp"/>
         <exclude name="Servers-*.jsp"/>
         </fileset>
       <fileset dir="${lomikel_ws}">
@@ -384,7 +385,7 @@
         <exclude name="Top.jsp"/>
         <exclude name="TopMini.jsp"/>
         <exclude name="Init.jsp"/>
-        <exclude name="Servers-*.jsp"/>
+        <exclude name="Servers.jsp"/>
         <exclude name="Graphs.jsp"/>
         <exclude name="Result.jsp"/>
         <exclude name="Plot.jsp"/>

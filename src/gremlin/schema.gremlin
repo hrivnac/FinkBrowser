@@ -19,6 +19,7 @@ cutout            = mgmt.makeVertexLabel('cutout'           ).make()
 has        = mgmt.getEdgeLabel( 'has'     )
 contains   = mgmt.getEdgeLabel( 'contains')
 props      = mgmt.getEdgeLabel( 'props'   )
+overlspa   = mgmt.getEdgeLabel( 'overlaps')
 holds      = mgmt.makeEdgeLabel('holds'   ).multiplicity(ONE2MANY).make()
 
 // Properties
@@ -27,6 +28,10 @@ lbl                  = mgmt.getPropertyKey('lbl'                  )
 name                 = mgmt.getPropertyKey('name'                 )
 hbase                = mgmt.getPropertyKey('hbase'                )
 fullfill             = mgmt.getPropertyKey('fullfill'             )
+ra                   = mgmt.getPropertyKey('ra'                   )
+dec                  = mgmt.getPropertyKey('dec'                  )
+timestamp            = mgmt.getPropertyKey('timestamp'            )
+importDate           = mgmt.getPropertyKey('importDate'           )
 alertVersion         = mgmt.makePropertyKey('alertVersion'        ).dataType(String.class  ).cardinality(Cardinality.SINGLE).make()
 candid               = mgmt.makePropertyKey('candid'              ).dataType(Long.class    ).cardinality(Cardinality.SINGLE).make()
 objectId             = mgmt.makePropertyKey('objectId'            ).dataType(String.class  ).cardinality(Cardinality.SINGLE).make()
@@ -46,8 +51,6 @@ rcid                 = mgmt.makePropertyKey('rcid'                ).dataType(Int
 field                = mgmt.makePropertyKey('field'               ).dataType(Integer.class ).cardinality(Cardinality.SINGLE).make() 
 xpos                 = mgmt.makePropertyKey('xpos'                ).dataType(Float.class   ).cardinality(Cardinality.SINGLE).make() 
 ypos                 = mgmt.makePropertyKey('ypos'                ).dataType(Float.class   ).cardinality(Cardinality.SINGLE).make() 
-ra                   = mgmt.makePropertyKey('ra'                  ).dataType(Double.class  ).cardinality(Cardinality.SINGLE).make() 
-dec                  = mgmt.makePropertyKey('dec'                 ).dataType(Double.class  ).cardinality(Cardinality.SINGLE).make() 
 direction            = mgmt.makePropertyKey('direction'           ).dataType(Geoshape.class).cardinality(Cardinality.SINGLE).make()
 magpsf               = mgmt.makePropertyKey('magpsf'              ).dataType(Float.class   ).cardinality(Cardinality.SINGLE).make() 
 sigmapsf             = mgmt.makePropertyKey('sigmapsf'            ).dataType(Float.class   ).cardinality(Cardinality.SINGLE).make() 
@@ -150,14 +153,12 @@ class_1              = mgmt.makePropertyKey('class_1'             ).dataType(Str
 class_2              = mgmt.makePropertyKey('class_2'             ).dataType(String.class  ).cardinality(Cardinality.SINGLE).make()
 ml_score_1           = mgmt.makePropertyKey('ml_score_1'          ).dataType(Double.class  ).cardinality(Cardinality.SINGLE).make()
 ml_score_2           = mgmt.makePropertyKey('ml_score_2'          ).dataType(Double.class  ).cardinality(Cardinality.SINGLE).make()
-timestamp            = mgmt.makePropertyKey('timestamp'           ).dataType(String.class  ).cardinality(Cardinality.SINGLE).make() // LocalDateTime
 cutoutScienceFn      = mgmt.makePropertyKey('cutoutScienceFn'     ).dataType(String.class  ).cardinality(Cardinality.SINGLE).make()
 cutoutTemplateFn     = mgmt.makePropertyKey('cutoutTemplateFn'    ).dataType(String.class  ).cardinality(Cardinality.SINGLE).make()
 cutoutDifferenceFn   = mgmt.makePropertyKey('cutoutDifferenceFn'  ).dataType(String.class  ).cardinality(Cardinality.SINGLE).make()
 cutoutScience        = mgmt.makePropertyKey('cutoutScience'       ).dataType(String.class  ).cardinality(Cardinality.SINGLE).make()
 cutoutTemplate       = mgmt.makePropertyKey('cutoutTemplate'      ).dataType(String.class  ).cardinality(Cardinality.SINGLE).make()
 cutoutDifference     = mgmt.makePropertyKey('cutoutDifference'    ).dataType(String.class  ).cardinality(Cardinality.SINGLE).make()
-importDate           = mgmt.makePropertyKey('importDate'          ).dataType(String.class  ).cardinality(Cardinality.SINGLE).make()
 
 // Vertex properties
 mgmt.addProperties(AstroLabNet,

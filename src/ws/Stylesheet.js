@@ -1,5 +1,3 @@
-// TBD: allow properties of non-string values
-
 function storeData(fn, dataS) {
   return "FITSView.jsp?fn=" + fn + "&data=" + encodeURIComponent(dataS);
   }
@@ -201,6 +199,8 @@ stylesheet.edges.has = {
     group: " "
     },
   actions: [
+     {name:"Show",  url:{gremlin:"id().next().toString().replaceFirst(\"^\", \"Edge.jsp?id=\")"},   target:"result"  },
+     {name:"Table", url:{gremlin:"id().next().toString().replaceFirst(\"^\", \"Edges.jsp?id=\")"},  target:"table"   }
     ]
   }
 stylesheet.edges.holds = {
@@ -214,6 +214,8 @@ stylesheet.edges.holds = {
     group: " "
     },
   actions: [
+    {name:"Show",  url:{gremlin:"id().next().toString().replaceFirst(\"^\", \"Edge.jsp?id=\")"},   target:"result"  },
+    {name:"Table", url:{gremlin:"id().next().toString().replaceFirst(\"^\", \"Edges.jsp?id=\")"},  target:"table"   }
     ]
   }
 stylesheet.edges.contains = {
@@ -227,5 +229,7 @@ stylesheet.edges.contains = {
     group: " "
     },
   actions: [
+    {name:"Show",  url:{gremlin:"id().next().toString().replaceFirst(\"^\", \"Edge.jsp?id=\")"},   target:"result"  },
+    {name:"Table", url:{gremlin:"id().next().toString().replaceFirst(\"^\", \"Edges.jsp?id=\")"},  target:"table"   }
     ]
   }
