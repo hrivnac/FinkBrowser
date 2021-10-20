@@ -19,7 +19,7 @@ cutout            = mgmt.makeVertexLabel('cutout'           ).make()
 has        = mgmt.getEdgeLabel( 'has'     )
 contains   = mgmt.getEdgeLabel( 'contains')
 props      = mgmt.getEdgeLabel( 'props'   )
-overlspa   = mgmt.getEdgeLabel( 'overlaps')
+overlaps   = mgmt.getEdgeLabel( 'overlaps')
 holds      = mgmt.makeEdgeLabel('holds'   ).multiplicity(ONE2MANY).make()
 
 // Properties

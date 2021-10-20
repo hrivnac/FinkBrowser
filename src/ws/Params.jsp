@@ -11,4 +11,5 @@
   String timestampField = "jd";
   String raField = "ra";
   String decField = "dec";
+  String vertexTitle = "";
   %>
