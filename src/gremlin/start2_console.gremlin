@@ -4,6 +4,10 @@
 //
 //HBaseClient.registerVertexType("alert", Alert.class)
 
+def hi_finkbrowser() {
+  return "Hello World from FinkBrowser console !"
+  }
+
 def geosearch_help() {
   return 'geosearch(ra, dec, ang[deg], jdmin, jdmax, limit)';
   }

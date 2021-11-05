@@ -5,7 +5,7 @@
 //com.Lomikel.HBaser.HBaseClient.registerVertexType("alert", com.astrolabsoftware.FinkBrowser.Januser.Alert.class)
 
 def hi_finkbrowser() {
-  return "Hello World from FinkBrowser !"
+  return "Hello World from FinkBrowser server !"
   }
 
 def geosearch_help() {
