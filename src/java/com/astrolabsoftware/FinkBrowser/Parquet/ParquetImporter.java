@@ -332,7 +332,7 @@ public class ParquetImporter extends JanusClient {
         }
       if (_reuse) {
         log.info("Getting " + label + ": " + property + " = " + props.get(property));
-        v = _gr.getOrCreate(label, property, props.get(property));
+        v = _gr.getOrCreate(label, property, props.get(property)).get(0);
         }
       if (_create || _replace) {
         log.debug("Creating " + label + ": " + property + " = " + props.get(property));

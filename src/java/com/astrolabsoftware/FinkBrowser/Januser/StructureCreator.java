@@ -285,7 +285,7 @@ public class StructureCreator extends JanusClient {
             break;
             }
           if (getOrCreate) {
-            v = gr.getOrCreate(label, rowkey, key);
+            v = gr.getOrCreate(label, rowkey, key).get(0);
             }
           else {
             v = g().addV(label).property(rowkey, key).property("lbl", label).next();

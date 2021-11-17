@@ -53,7 +53,7 @@ public class Alert extends Hertex {
   public static Vertex getOrCreate(String                 rowkey,
                                    GraphTraversalSource   g,
                                    String                 fields) {
-    return Hertex.getOrCreate("alert", rowkey, g, fields);
+    return Hertex.getOrCreate("alert", rowkey, g, fields).get(0);
     }
     
   /** Get {@link Alert} backuped by <em>HBase</em>
@@ -66,7 +66,7 @@ public class Alert extends Hertex {
   public static Vertex getOrCreate(String                 rowkey,
                                    GraphTraversalSource   g,
                                    boolean                enhance) {
-    return Hertex.getOrCreate("alert", rowkey, g, enhance);
+    return Hertex.getOrCreate("alert", rowkey, g, enhance).get(0);
     }
         
   /** Logging . */
