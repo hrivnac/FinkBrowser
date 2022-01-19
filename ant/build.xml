@@ -70,6 +70,9 @@
   <property name="classpath.build.content"      refid="classpath.build"/>
   <property name="classpath.run.content"        refid="classpath.run"/>
   <property name="classpath.janusgraph.content" refid="classpath.janusgraph"/>
+  
+  <taskdef resource="edu/umd/cs/findbugs/anttask/tasks.properties"
+           classpath="${spotbugs}/lib/spotbugs-ant.jar" />
 
   <!-- Info =================================================================-->
     
@@ -953,6 +956,18 @@
       <sourcePath path="../src" />
       <class location="../lib/FinkBrowser-${version}.jar" />
       </findbugs>   
+    </target>
+    
+  <target name="spotbugs"
+          depends="jar"
+          description="SpotBugs Check">
+    <spotbugs home="${spotbugs}"
+              output="html"
+              outputFile="Spotbugs.html" >
+      <auxClasspath refid="classpath.build"/>
+      <sourcePath path="../src/java" />
+      <class location="../lib/FinkBRowser-${version}.jar" />
+      </spotbugs>
     </target>
 
   <!-- Clean Imports ========================================================-->  
