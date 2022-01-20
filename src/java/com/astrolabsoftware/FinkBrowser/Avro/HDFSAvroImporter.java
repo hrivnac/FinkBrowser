@@ -66,7 +66,7 @@ public class HDFSAvroImporter extends AvroImporter {
   /** Import Avro files or directory. 
     * @param args[0] The Janusgraph properties file. 
     * @param args[1] The Avro file or directory with Avro files.
-    * @param args[2] The directory for FITS files.
+    * @param args[2] The directory for FITS files. If <tt>null</tt> or empty, FITS are included in the Graph.
     * @param args[3] The number of events to use for progress report (-1 means no report untill the end).
     * @param args[4] The number of events to commit in one step (-1 means commit only at the end).
     * @param args[5] The creation strategy. <tt>create,drop,replace,skip</tt>.
@@ -101,7 +101,7 @@ public class HDFSAvroImporter extends AvroImporter {
     * @param reportLimit The number of events to use for progress report (-1 means no report untill the end).
     * @param commitLimit The number of events to commit in one step (-1 means commit only at the end).
     * @param strategy    The creation strategy. <tt>drop,replace,getOrCreate</tt>. 
-    * @param fitsDir     The directory for FITS files. */
+    * @param fitsDir     The directory for FITS files. If <tt>null</tt>or empty, FITS are included in the Graph. */
   public HDFSAvroImporter(String properties,
                           int    reportLimit,
                           int    commitLimit,
