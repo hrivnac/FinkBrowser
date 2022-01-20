@@ -3,7 +3,7 @@ HADOOP_CLASSPATH=/opt/janusgraph/lib/RoaringBitmap-0.5.11.jar:/opt/janusgraph/li
   com.astrolabsoftware.FinkBrowser.Avro.HDFSAvroImporter \
   /opt/janusgraph/conf/gremlin-server/Local-batch.properties \
   ${1} \
-  /user/julius.hrivnac/fits \
+  "" \
   100 \
   200 \
   create
