@@ -112,7 +112,12 @@ public class AvroImporter extends JanusClient {
     log.info("Reporting after each " + reportLimit + " alerts");
     log.info("Committing after each " + commitLimit + " alerts");
     log.info("Using strategy: " + strategy);
-    log.info("Writing FITS into: " + fitsDir);
+    if (fitsDir == null) {
+      log.info("Writing FITS into Graph");
+      }
+    else {
+      log.info("Writing FITS into: " + fitsDir);
+      }
     log.info("Importing at " + _date);
     _reportLimit = reportLimit;
     _commitLimit = commitLimit;
