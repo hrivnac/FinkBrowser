@@ -4,9 +4,6 @@ package com.astrolabsoftware.FinkBrowser.WebService;
 import com.Lomikel.Utils.DateTimeManagement;
 import com.Lomikel.WebService.PropertiesProcessor;
 
-// Java
-import java.util.Map;
-
 // Log4J
 import org.apache.log4j.Logger;
 

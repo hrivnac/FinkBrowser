@@ -3,13 +3,11 @@ package com.astrolabsoftware.FinkBrowser.Avro;
 import com.astrolabsoftware.FinkBrowser.Utils.Init;
 
 // Lomikel
-import com.Lomikel.Utils.Coding;
 import com.Lomikel.Januser.JanusClient;
 import com.Lomikel.Januser.GremlinRecipies;
 import com.Lomikel.Utils.LomikelException;
 
 // Avro
-import org.apache.avro.Schema;
 import org.apache.avro.Schema.Field;
 import org.apache.avro.Schema.Type;
 import org.apache.avro.io.DatumReader;
@@ -17,7 +15,6 @@ import org.apache.avro.file.DataFileReader;
 import org.apache.avro.generic.GenericRecord;
 import org.apache.avro.generic.GenericData.Array;
 import org.apache.avro.generic.GenericDatumReader;
-import org.apache.avro.specific.SpecificDatumReader;
 
 // Tinker Pop
 import static org.apache.tinkerpop.gremlin.process.traversal.dsl.graph.__.unfold;
@@ -38,12 +35,8 @@ import java.util.Map;
 import java.util.TreeMap;
 import java.util.Base64;
 import java.nio.ByteBuffer;
-import java.nio.file.FileSystem;
-import java.nio.file.Path;
 import java.nio.file.Files;
 import java.nio.file.FileSystems;
-import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.LinkedBlockingQueue;
 
 // ZTF
 //import ztf.alert.candidate;

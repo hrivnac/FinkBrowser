@@ -3,8 +3,6 @@ package com.astrolabsoftware.FinkBrowser.Januser;
 import com.astrolabsoftware.FinkBrowser.Utils.Init;
 
 // Lomikel
-import com.Lomikel.DB.Schema;
-import com.Lomikel.Utils.ByteArray;
 import com.Lomikel.Utils.LomikelException;
 import com.Lomikel.HBaser.HBaseClient;
 import com.Lomikel.HBaser.HBaseSchema;

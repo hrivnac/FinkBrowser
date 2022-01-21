@@ -1,40 +1,15 @@
 package com.astrolabsoftware.FinkBrowser.Januser;
 
-import com.astrolabsoftware.FinkBrowser.Utils.Init;
-
 // Lomikel
-import com.Lomikel.DB.Schema;
-import com.Lomikel.Utils.ByteArray;
-import com.Lomikel.Utils.LomikelException;
-import com.Lomikel.HBaser.HBaseClient;
-import com.Lomikel.HBaser.HBaseSchema;
 import com.Lomikel.Januser.JanusClient;
-import com.Lomikel.Januser.GremlinRecipies;
 
 // Tinker Pop
 import static org.apache.tinkerpop.gremlin.process.traversal.dsl.graph.__.unfold;
 import static org.apache.tinkerpop.gremlin.process.traversal.P.*;
 import org.apache.tinkerpop.gremlin.structure.Vertex;
 
-// Janus Graph
-import org.janusgraph.core.JanusGraph;
-import org.janusgraph.core.attribute.Geoshape;
-
-// HBase
-import org.apache.hadoop.hbase.client.Connection;
-import org.apache.hadoop.hbase.util.Bytes;
-import org.apache.hadoop.hbase.client.Result;
-import org.apache.hadoop.hbase.util.Bytes;
-import org.apache.hadoop.hbase.util.Bytes;
-import org.apache.hadoop.hbase.client.Result;
-import org.apache.hadoop.hbase.client.ResultScanner;
-import org.apache.hadoop.hbase.util.Bytes;
-import org.apache.hadoop.hbase.Cell;
-
 // Java
 import java.util.List;
-import java.util.Map;
-import java.util.NavigableMap;
 
 // Log4J
 import org.apache.log4j.Logger;

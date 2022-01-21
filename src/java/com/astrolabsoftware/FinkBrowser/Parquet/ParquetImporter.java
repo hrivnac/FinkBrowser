@@ -3,14 +3,11 @@ package com.astrolabsoftware.FinkBrowser.Parquet;
 import com.astrolabsoftware.FinkBrowser.Utils.Init;
 
 // Lomikel
-import com.Lomikel.Utils.Coding;
 import com.Lomikel.Januser.JanusClient;
 import com.Lomikel.Januser.GremlinRecipies;
 import com.Lomikel.Utils.LomikelException;
 
 // Parquet
-import org.apache.parquet.avro.AvroParquetReader;
-import org.apache.parquet.hadoop.ParquetReader;
 import org.apache.parquet.hadoop.ParquetFileReader;
 import org.apache.parquet.hadoop.metadata.ParquetMetadata;
 import org.apache.parquet.format.converter.ParquetMetadataConverter;
@@ -22,16 +19,11 @@ import org.apache.parquet.io.RecordReader;
 import org.apache.parquet.example.data.simple.convert.GroupRecordConverter;
 import org.apache.parquet.example.data.Group;
 import org.apache.parquet.example.data.simple.SimpleGroup;
-import org.apache.parquet.schema.Type;
 import org.apache.parquet.schema.GroupType;
 import org.apache.parquet.schema.PrimitiveType.PrimitiveTypeName.*;
-import org.apache.parquet.io.api.Binary;
-import org.apache.parquet.example.data.simple.BinaryValue;
 
 // Hadoop
 import org.apache.hadoop.fs.FileSystem;
-import org.apache.hadoop.fs.LocatedFileStatus;
-import org.apache.hadoop.fs.RemoteIterator;
 import org.apache.hadoop.fs.FileStatus;
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.conf.Configuration;
@@ -45,10 +37,8 @@ import org.janusgraph.core.JanusGraph;
 import org.janusgraph.core.attribute.Geoshape;
 
 // Java
-import java.io.File;
 import java.io.IOException;
 import java.io.FileNotFoundException;
-import java.nio.ByteBuffer;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Map;

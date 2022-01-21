@@ -1,12 +1,7 @@
 package com.astrolabsoftware.FinkBrowser.Parquet;
 
-import java.io.IOException;
-
-import org.apache.avro.generic.GenericData;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.Path;
-import org.apache.parquet.avro.AvroParquetReader;
-import org.apache.parquet.hadoop.ParquetReader;
 import org.apache.parquet.hadoop.ParquetFileReader;
 import org.apache.parquet.hadoop.metadata.ParquetMetadata;
 import org.apache.parquet.format.converter.ParquetMetadataConverter;
@@ -18,10 +13,7 @@ import org.apache.parquet.io.RecordReader;
 import org.apache.parquet.example.data.simple.convert.GroupRecordConverter;
 import org.apache.parquet.example.data.Group;
 import org.apache.parquet.example.data.simple.SimpleGroup;
-import org.apache.parquet.schema.Type;
 import org.apache.parquet.schema.GroupType;
-
-import java.util.List;
 
 public class Test {
 

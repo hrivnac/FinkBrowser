@@ -7,7 +7,6 @@ import com.Lomikel.Januser.Hertex;
 import org.apache.tinkerpop.gremlin.structure.Vertex;
 import org.apache.tinkerpop.gremlin.process.traversal.dsl.graph.GraphTraversalSource;
 
-
 // Log4J
 import org.apache.log4j.Logger;
 

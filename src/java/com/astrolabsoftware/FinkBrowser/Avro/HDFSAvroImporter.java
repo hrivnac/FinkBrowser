@@ -3,28 +3,18 @@ package com.astrolabsoftware.FinkBrowser.Avro;
 import com.astrolabsoftware.FinkBrowser.Utils.Init;
 
 // Lomikel
-import com.Lomikel.Utils.Coding;
-import com.Lomikel.Januser.JanusClient;
-import com.Lomikel.Januser.GremlinRecipies;
 import com.Lomikel.Utils.LomikelException;
 
 // Avro
-import org.apache.avro.Schema;
-import org.apache.avro.Schema.Field;
-import org.apache.avro.Schema.Type;
 import org.apache.avro.io.DatumReader;
 import org.apache.avro.file.DataFileReader;
 import org.apache.avro.generic.GenericRecord;
-import org.apache.avro.generic.GenericData.Array;
 import org.apache.avro.generic.GenericDatumReader;
-import org.apache.avro.specific.SpecificDatumReader;
 import org.apache.avro.file.SeekableInput;
 import org.apache.avro.mapred.FsInput;
 
 // Hadoop
 import org.apache.hadoop.fs.FileSystem;
-import org.apache.hadoop.fs.LocatedFileStatus;
-import org.apache.hadoop.fs.RemoteIterator;
 import org.apache.hadoop.fs.FileStatus;
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.conf.Configuration;
@@ -32,20 +22,12 @@ import org.apache.hadoop.fs.FSDataOutputStream;
 
 // Tinker Pop
 import static org.apache.tinkerpop.gremlin.process.traversal.dsl.graph.__.unfold;
-import org.apache.tinkerpop.gremlin.structure.Vertex;
 
 // Janus Graph
 import org.janusgraph.core.JanusGraph;
-import org.janusgraph.core.attribute.Geoshape;
 
 // Java
-import java.io.File;
 import java.io.IOException;
-import java.nio.ByteBuffer;
-import java.util.List;
-import java.util.ArrayList;
-import java.util.Map;
-import java.util.TreeMap;
 
 // ZTF
 //import ztf.alert.candidate;
