@@ -38,9 +38,6 @@ import java.nio.ByteBuffer;
 import java.nio.file.Files;
 import java.nio.file.FileSystems;
 
-// ZTF
-//import ztf.alert.candidate;
-
 // Log4J
 import org.apache.log4j.Logger;
 
@@ -50,8 +47,6 @@ import org.apache.log4j.Logger;
   * @opt types
   * @opt visibility
   * @author <a href="mailto:Julius.Hrivnac@cern.ch">J.Hrivnac</a> */
-// TBD: allow reset
-// TBD: allow getOrCreate
 public class AvroImporter extends JanusClient {
         
   /** Import Avro files or directory. 
@@ -309,7 +304,6 @@ public class AvroImporter extends JanusClient {
   /** Process <em>Avro</em> cutout.
     * @param record       The {@link GenericRecord} to process.
     * @param mother       The {@link Vertex} to attach to. */
-  // TBD: handle binary data
   private void processCutout(GenericRecord record,
                              Vertex        mother) {
     Vertex v = vertex(record, "cutout", null);

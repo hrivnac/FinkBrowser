@@ -1,4 +1,4 @@
-/opt/graalvm/bin/native-image \
+${graalvm_dir}/bin/native-image \
 --initialize-at-build-time=\
 org.apache.log4j.Level,\
 org.apache.log4j.Logger,\

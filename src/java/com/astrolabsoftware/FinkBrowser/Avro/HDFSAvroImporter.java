@@ -29,9 +29,6 @@ import org.janusgraph.core.JanusGraph;
 // Java
 import java.io.IOException;
 
-// ZTF
-//import ztf.alert.candidate;
-
 // Log4J
 import org.apache.log4j.Logger;
 
@@ -41,8 +38,6 @@ import org.apache.log4j.Logger;
   * @opt types
   * @opt visibility
   * @author <a href="mailto:Julius.Hrivnac@cern.ch">J.Hrivnac</a> */
-// TBD: allow reset
-// TBD: allow getOrCreate
 public class HDFSAvroImporter extends AvroImporter {
         
   /** Import Avro files or directory. 
