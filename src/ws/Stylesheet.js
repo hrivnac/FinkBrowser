@@ -126,25 +126,6 @@ stylesheet.nodes.prv_candidate = {
     {name:"Table", url:{gremlin:"id().next().toString().replaceFirst(\"^\", \"Nodes.jsp?id=\")"}, target:"table" }
     ]
   }
-stylesheet.nodes.mulens = {
-  properties:{gremlin:"valueMap('mulens').toList()[0]"},
-  graphics: {
-    label:"mulens",
-    title:"mulens",        
-    subtitle:" ",
-    group:{gremlin:"in().has('lbl','alert').values('objectId').toList()[0]"},        
-    shape:"square",      
-    image:"",        
-    borderRadius:"0", 
-    borderWidth:"3",  
-    borderDashes:[1,0],
-    value:"0"        
-    },
-  actions:[
-    {name:"Show",  url:{gremlin:"id().next().toString().replaceFirst(\"^\", \"Node.jsp?id=\")"},  target:"result"},
-    {name:"Table", url:{gremlin:"id().next().toString().replaceFirst(\"^\", \"Nodes.jsp?id=\")"}, target:"table" }
-    ]
-  }
 stylesheet.nodes.cutout = {
   properties:{gremlin:"valueMap('cutoutScienceFn', 'cutoutTemplateFn', 'cutoutDifferenceFn', 'cutoutScience', 'cutoutTemplate', 'cutoutDifference').toList()[0]"},
   graphics: {

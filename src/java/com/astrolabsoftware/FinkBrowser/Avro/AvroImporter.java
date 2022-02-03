@@ -211,7 +211,12 @@ public class AvroImporter extends JanusClient {
     if (v != null) {
       for (Map.Entry<String, String> entry : values.entrySet()) {
         log.debug("\t" + entry.getKey() + " = " + entry.getValue());
-        v.property(entry.getKey(), entry.getValue());
+        try {
+          v.property(entry.getKey(), entry.getValue());
+          }
+        catch (IllegalArgumentException e) {
+          log.error("Cannot add property: " + entry.getKey() + " = " + entry.getValue(), e);
+          }
         }
       v.property("alertVersion", VERSION);
       v.property("importDate",   _date);
