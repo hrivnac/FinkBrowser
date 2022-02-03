@@ -203,7 +203,6 @@ public class AvroImporter extends JanusClient {
     Map<String, String> values = getSimpleValues(record, getSimpleFields(record, new String[]{"objectId",
                                                                                               "candidate",
                                                                                               "prv_candidates",
-                                                                                              "mulens",
                                                                                               "cutoutScience",
                                                                                               "cutoutTemplate",
                                                                                               "cutoutDifference"}));
@@ -225,13 +224,6 @@ public class AvroImporter extends JanusClient {
                          v,
                          "has",
                          null);
-        processGenericRecord((GenericRecord)(record.get("mulens")),
-                             "mulens",
-                             null,
-                             false,
-                             v,
-                             "has",
-                             null);
     Vertex vv = vertex(record, "prv_candidates", null);
     _gr.addEdge(v, vv, "has");    
     Array a = (Array)record.get("prv_candidates");
