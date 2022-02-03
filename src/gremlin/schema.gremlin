@@ -155,6 +155,7 @@ szmag2               = mgmt.makePropertyKey('szmag2'              ).dataType(Flo
 szmag3               = mgmt.makePropertyKey('szmag3'              ).dataType(Float.class   ).cardinality(Cardinality.SINGLE).make() 
 tblid                = mgmt.makePropertyKey('tblid'               ).dataType(Integer.class ).cardinality(Cardinality.SINGLE).make() 
 tooflag              = mgmt.makePropertyKey('tooflag'             ).dataType(Integer.class ).cardinality(Cardinality.SINGLE).make() 
+tracklet             = mgmt.makePropertyKey('tracklet'            ).dataType(String.class  ).cardinality(Cardinality.SINGLE).make() 
 xpos                 = mgmt.makePropertyKey('xpos'                ).dataType(Float.class   ).cardinality(Cardinality.SINGLE).make() 
 ypos                 = mgmt.makePropertyKey('ypos'                ).dataType(Float.class   ).cardinality(Cardinality.SINGLE).make() 
 zpclrcov             = mgmt.makePropertyKey('zpclrcov'            ).dataType(Float.class   ).cardinality(Cardinality.SINGLE).make() 
@@ -186,7 +187,8 @@ mgmt.addProperties(alert,
                    roid,
                    schemavsn,
                    snn_snia_vs_nonia,
-                   snn_sn_vs_all)
+                   snn_sn_vs_all,
+                   tracklet)
 mgmt.addProperties(candidate,
                    lbl,
                    aimage,
