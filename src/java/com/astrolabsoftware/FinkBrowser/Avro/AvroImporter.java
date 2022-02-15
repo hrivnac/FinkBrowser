@@ -130,7 +130,7 @@ public class AvroImporter extends JanusClient {
       _skip = true;
       }
     _gr = new GremlinRecipies(this);
-    g().V().has("lbl", "site").has("title", "IJCLab").out().has("lbl", "Imports").property("import", _date).iterate();
+    g().V().has("lbl", "site").has("title", "IJCLab").out().has("lbl", "Imports").property("importDates", _date).iterate();
     }
         
   /** Process directory with <em>Avro</em> alert files (recursive).
