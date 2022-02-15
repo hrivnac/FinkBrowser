@@ -341,6 +341,31 @@
       </jar>
     </target>
         
+  <!-- Compile Native =======================================================-->
+    
+  <target name="compile-native"
+          depends="jar,classpath.hadoop"
+          description="Compile into native application">
+    <echo>Compile into native HDFSAvroImporter</echo>
+    <exec executable="${graalvm_dir}/bin/native-image">
+      <arg value="--allow-incomplete-classpath"/>
+      <arg value="--initialize-at-build-time=org.slf4j.helpers.Util,org.apache.log4j.PatternLayout,com.sun.beans.introspect.ClassInfo,org.apache.log4j.Layout,java.beans.Introspector,org.apache.log4j.Level,org.apache.log4j.Logger,org.apache.log4j.helpers.LogLog,org.apache.log4j.Priority,org.apache.log4j.LogManager,org.apache.log4j.helpers.Loader,org.apache.log4j.Category,org.apache.log4j.spi.RootLogger,org.apache.log4j.spi.LoggingEvent,org.slf4j.LoggerFactory,org.slf4j.impl.Log4jLoggerAdapter,org.slf4j.impl.StaticLoggerBinder"/>
+      <arg value="-H:Name=HDFSNativeImporter.exe"/>
+      <arg value="-H:Path=../bin"/>
+      <arg value="-cp"/>
+      <arg value="${classpath.janusgraph.content}"/>
+      <arg value="com.astrolabsoftware.FinkBrowser.Avro.HDFSAvroImporter"/>
+      </exec>
+    <echo>Compile into native FinkBrowser</echo>
+    <exec executable="${graalvm_dir}/bin/native-image">
+      <arg value="--initialize-at-build-time=org.apache.log4j.Level,org.apache.log4j.Logger,org.apache.log4j.helpers.LogLog,org.apache.log4j.Priority,org.apache.log4j.LogManager,org.apache.log4j.helpers.Loader,org.apache.log4j.Category,org.apache.log4j.spi.RootLogger,org.apache.log4j.spi.LoggingEvent,org.slf4j.LoggerFactory,org.slf4j.impl.Log4jLoggerAdapter,org.slf4j.impl.StaticLoggerBinder"/>
+      <arg value="-H:Name=FinkBrowser.exe"/>
+      <arg value="-H:Path=../bin"/>
+      <arg value="-jar"/>
+      <arg value="../lib/FinkBrowser.exe.jar"/>
+      </exec>
+    </target>
+        
   <!-- WAR ==================================================================-->
 
   <target name="war"
@@ -683,28 +708,6 @@
       <arg value="${alerts_commitLimit}"/>
       <arg value="${alerts_strategy}"/>
       <env key="HADOOP_CLASSPATH" path="${classpath.janusgraph.content}"/>
-      </exec>
-    </target>
-    
-  <target name="compile-native"
-          depends="jar"
-          description="Compile into native application">
-    <echo>Compile into native HDFSAvroImporter</echo>
-    <exec executable="${graalvm_dir}/bin/native-image">
-      <arg value="--initialize-at-build-time=org.slf4j.helpers.Util,org.apache.log4j.PatternLayout,com.sun.beans.introspect.ClassInfo,org.apache.log4j.Layout,java.beans.Introspector,org.apache.log4j.Level,org.apache.log4j.Logger,org.apache.log4j.helpers.LogLog,org.apache.log4j.Priority,org.apache.log4j.LogManager,org.apache.log4j.helpers.Loader,org.apache.log4j.Category,org.apache.log4j.spi.RootLogger,org.apache.log4j.spi.LoggingEvent,org.slf4j.LoggerFactory,org.slf4j.impl.Log4jLoggerAdapter,org.slf4j.impl.StaticLoggerBinder"/>
-      <arg value="-H:Name=HDFSNativeImporter.exe"/>
-      <arg value="-H:Path=../bin"/>
-      <arg value="-cp"/>
-      <arg value="${classpath.janusgraph.content}"/>
-      <arg value="com.astrolabsoftware.FinkBrowser.Avro.HDFSAvroImporter"/>
-      </exec>
-    <echo>Compile into native FinkBrowser</echo>
-    <exec executable="${graalvm_dir}/bin/native-image">
-      <arg value="--initialize-at-build-time=org.apache.log4j.Level,org.apache.log4j.Logger,org.apache.log4j.helpers.LogLog,org.apache.log4j.Priority,org.apache.log4j.LogManager,org.apache.log4j.helpers.Loader,org.apache.log4j.Category,org.apache.log4j.spi.RootLogger,org.apache.log4j.spi.LoggingEvent,org.slf4j.LoggerFactory,org.slf4j.impl.Log4jLoggerAdapter,org.slf4j.impl.StaticLoggerBinder"/>
-      <arg value="-H:Name=FinkBrowser.exe"/>
-      <arg value="-H:Path=../bin"/>
-      <arg value="-jar"/>
-      <arg value="../lib/FinkBrowser.exe.jar"/>
       </exec>
     </target>
 

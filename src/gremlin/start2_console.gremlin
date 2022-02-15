@@ -23,3 +23,17 @@ def geosearch(g, ra, dec, ang, jdmin, jdmax, limit) {
     }
   return g.V().has('direction', geoWithin(Geoshape.circle(lat, lon, dist))).limit(nDir).has('jd', inside(jdmin, jdmax)).limit(nJD)
   }
+
+def drop_by_date(g, importDate, nCommit) {
+  //importDate = 'Mon Feb 14 05:51:20 UTC 2022'
+  //nCommit = 500
+  i = 0
+  while(true){
+    g.V().has('importDate', importDate).limit(nCommit).out().out().drop();
+    g.V().has('importDate', importDate).limit(nCommit).out().drop();
+    g.V().has('importDate', importDate).limit(nCommit).drop();
+    graph.traversal().tx().commit()
+    Thread.sleep(2000)
+    println(nCommit * i++)
+    }
+  }
