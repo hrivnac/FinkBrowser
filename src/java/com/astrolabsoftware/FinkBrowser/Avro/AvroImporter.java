@@ -487,9 +487,7 @@ public class AvroImporter extends JanusClient {
   private int _nPrvCandidates = 0;
   
   private String _date = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS").format(new Date()).toString();
-  
-  yyyy-MM-dd'T'HH:mm:ss.SSSZ"
-      
+     
   private static String VERSION = "ztf-3.2";
     
   /** Logging . */
