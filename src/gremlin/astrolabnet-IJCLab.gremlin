@@ -21,7 +21,7 @@ ijclab = g.addV('site').property('lbl',              'site').
                         property('Tomcat',           'http://134.158.74.221:8080').
                         property('HBase_ZTF_Season1','HBaseTable.jsp?hbase=http://134.158.74.54:2181&htable=ztf_season1&group=i:objectId&schema=schema_0.7.0_0.3.8&limit=100').
                         next();
-imports = g.addV('Imports').next()
+imports = g.addV('Imports').property('lbl', 'Imports).next()
 latestAlertsIJCLab100    = g.addV('AlertsCollection').property('lbl', 'AlertsCollection').
                                                       property('title', 'Latest IJCLab Alerts(100min)').
                                                       property('hbase', 'HBaseTable.jsp?hbase=http://134.158.74.54:2181&htable=ztf_season1&group=i:objectId&schema=schema_0.7.0_0.3.8&latest=100').
