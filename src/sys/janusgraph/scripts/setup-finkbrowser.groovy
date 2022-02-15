@@ -35,6 +35,7 @@ def drop_by_date(importDate, nCommit) {
   tot = 0
   nMax=g.V().has('importDate', 'Mon Feb 14 05:51:20 UTC 2022').count().next()
   println('' + nMax + ' vertexes to drop')
+  t0 = System.currentTimeMillis()
   while(true) {
     g.V().has('importDate', importDate).limit(nCommit).out().out().drop().iterate()
     g.V().has('importDate', importDate).limit(nCommit).out().drop().iterate()
@@ -42,7 +43,8 @@ def drop_by_date(importDate, nCommit) {
     graph.traversal().tx().commit()
     Thread.sleep(1000)
     tot = nCommit * ++i
-    println(tot + ' = ' + (100 * tot / nMax) + '%')
+    dt = (System.currentTimeMillis() - t0) / 1000
+    println(tot + ' = ' + (100 * tot / nMax) + '% at ' + tot / dt + 'Hz')
     }
   }
   
