@@ -13,6 +13,7 @@ candidate         = mgmt.makeVertexLabel('candidate'        ).make()
 prv_candidates    = mgmt.makeVertexLabel('prv_candidates'   ).make()
 prv_candidate     = mgmt.makeVertexLabel('prv_candidate'    ).make()
 cutout            = mgmt.makeVertexLabel('cutout'           ).make()
+Imports           = mgmt.makeVertexLabel('Imports'          ).make()
 
 // Edges
 has        = mgmt.getEdgeLabel( 'has'     )
@@ -73,6 +74,7 @@ fink_broker_version  = mgmt.makePropertyKey('fink_broker_version' ).dataType(Str
 fink_science_version = mgmt.makePropertyKey('fink_science_version').dataType(String.class  ).cardinality(Cardinality.SINGLE).make()
 fwhm                 = mgmt.makePropertyKey('fwhm'                ).dataType(Float.class   ).cardinality(Cardinality.SINGLE).make() 
 isdiffpos            = mgmt.makePropertyKey('isdiffpos'           ).dataType(String.class  ).cardinality(Cardinality.SINGLE).make() 
+importDates          = mgmt.makePropertyKey('importDates'         ).dataType(Date.class    ).cardinality(Cardinality.LIST  ).make() 
 jdendhist            = mgmt.makePropertyKey('jdendhist'           ).dataType(Double.class  ).cardinality(Cardinality.SINGLE).make() 
 jdendref             = mgmt.makePropertyKey('jdendref'            ).dataType(Double.class  ).cardinality(Cardinality.SINGLE).make() 
 jd                   = mgmt.makePropertyKey('jd'                  ).dataType(Double.class  ).cardinality(Cardinality.SINGLE).make() 
@@ -359,6 +361,8 @@ mgmt.addProperties(cutout,
                    cutoutScience,
                    cutoutTemplate,
                    cutoutDifference) 
+mgmt.addProperties(Imports,
+                   importDates) 
                                       
 // Edge properties
 mgmt.addProperties(has,
@@ -370,6 +374,7 @@ mgmt.addProperties(holds,
 
 // Connections                   
 mgmt.addConnection(has,        AstroLabNet,      site)
+mgmt.addConnection(has,        site,             Imports)
 mgmt.addConnection(contains,   AlertsCollection, alert)
 mgmt.addConnection(holds,      site,             AlertsCollection)
 mgmt.addConnection(has,        alert,            candidate)
