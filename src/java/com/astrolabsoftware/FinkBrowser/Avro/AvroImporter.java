@@ -30,6 +30,7 @@ import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.util.List;
 import java.util.Date;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.TreeMap;
@@ -485,7 +486,9 @@ public class AvroImporter extends JanusClient {
   
   private int _nPrvCandidates = 0;
   
-  private String _date = new Date().toString();
+  private String _date = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS").format(new Date()).toString();
+  
+  yyyy-MM-dd'T'HH:mm:ss.SSSZ"
       
   private static String VERSION = "ztf-3.2";
     
