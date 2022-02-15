@@ -33,10 +33,11 @@ def drop_by_date(importDate, nCommit) {
   //nCommit = 500
   i = 0
   tot = 0
-  while(true){
-    g.V().has('importDate', importDate).limit(nCommit).out().out().drop()
-        g.V().has('importDate', importDate).limit(nCommit).out().drop()
-    g.V().has('importDate', importDate).limit(nCommit).drop()
+  nMax=g.V().has('importDate', 'Mon Feb 14 05:51:20 UTC 2022').count().next()
+  while(true) {
+    g.V().has('importDate', importDate).limit(nCommit).out().out().drop().iterate()
+    g.V().has('importDate', importDate).limit(nCommit).out().drop().iterate()
+    g.V().has('importDate', importDate).limit(nCommit).drop().iterate()
     graph.traversal().tx().commit()
     Thread.sleep(1000)
     tot += nCommit * ++i

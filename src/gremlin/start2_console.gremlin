@@ -35,7 +35,7 @@ def drop_by_date(graph, importDate, nCommit) {
   tot = 0
   g = graph.traversal()
   nMax=g.V().has('importDate', 'Mon Feb 14 05:51:20 UTC 2022').count().next()
-  while(true){
+  while(true) {
     g.V().has('importDate', importDate).limit(nCommit).out().out().drop()
     g.V().has('importDate', importDate).limit(nCommit).out().drop()
     g.V().has('importDate', importDate).limit(nCommit).drop()
