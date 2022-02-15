@@ -33,8 +33,8 @@ def drop_by_date(importDate, nCommit) {
     g.V().has('importDate', importDate).limit(nCommit).out().drop();
     g.V().has('importDate', importDate).limit(nCommit).drop();
     graph.traversal().tx().commit()
-    Thread.sleep(2000)
-    println(nCommit * i++)
+    Thread.sleep(1000)
+    println(nCommit * ++i)
     }
   }
   
