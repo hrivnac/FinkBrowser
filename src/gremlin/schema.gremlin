@@ -14,6 +14,7 @@ prv_candidates    = mgmt.makeVertexLabel('prv_candidates'   ).make()
 prv_candidate     = mgmt.makeVertexLabel('prv_candidate'    ).make()
 cutout            = mgmt.makeVertexLabel('cutout'           ).make()
 Imports           = mgmt.makeVertexLabel('Imports'          ).make()
+Import            = mgmt.makeVertexLabel('Import'           ).make()
 
 // Edges
 has        = mgmt.getEdgeLabel( 'has'     )
@@ -27,6 +28,7 @@ dec                  = mgmt.getPropertyKey('dec'                  )
 fullfill             = mgmt.getPropertyKey('fullfill'             )
 hbase                = mgmt.getPropertyKey('hbase'                )
 importDate           = mgmt.getPropertyKey('importDate'           )
+importSource         = mgmt.getPropertyKey('importSource'         )
 lbl                  = mgmt.getPropertyKey('lbl'                  )
 name                 = mgmt.getPropertyKey('name'                 )
 ra                   = mgmt.getPropertyKey('ra'                   )
@@ -74,7 +76,6 @@ fink_broker_version  = mgmt.makePropertyKey('fink_broker_version' ).dataType(Str
 fink_science_version = mgmt.makePropertyKey('fink_science_version').dataType(String.class  ).cardinality(Cardinality.SINGLE).make()
 fwhm                 = mgmt.makePropertyKey('fwhm'                ).dataType(Float.class   ).cardinality(Cardinality.SINGLE).make() 
 isdiffpos            = mgmt.makePropertyKey('isdiffpos'           ).dataType(String.class  ).cardinality(Cardinality.SINGLE).make() 
-importDates          = mgmt.makePropertyKey('importDates'         ).dataType(String.class  ).cardinality(Cardinality.LIST  ).make() 
 jdendhist            = mgmt.makePropertyKey('jdendhist'           ).dataType(Double.class  ).cardinality(Cardinality.SINGLE).make() 
 jdendref             = mgmt.makePropertyKey('jdendref'            ).dataType(Double.class  ).cardinality(Cardinality.SINGLE).make() 
 jd                   = mgmt.makePropertyKey('jd'                  ).dataType(Double.class  ).cardinality(Cardinality.SINGLE).make() 
@@ -135,7 +136,8 @@ sgscore3             = mgmt.makePropertyKey('sgscore3'            ).dataType(Flo
 sharpnr              = mgmt.makePropertyKey('sharpnr'             ).dataType(Float.class   ).cardinality(Cardinality.SINGLE).make() 
 sigmagapbig          = mgmt.makePropertyKey('sigmagapbig'         ).dataType(Float.class   ).cardinality(Cardinality.SINGLE).make() 
 sigmagap             = mgmt.makePropertyKey('sigmagap'            ).dataType(Float.class   ).cardinality(Cardinality.SINGLE).make() 
-sigmagnr             = mgmt.makePropertyKey('sigmagnr'            ).dataType(Float.class   ).cardinality(Cardinality.SINGLE).make() 
+sigmagnimportSource         = mgmt.makePropertyKey('importSource'        ).dataType(String.class  ).cardinality(Cardinality.SINGLE).make()
+r             = mgmt.makePropertyKey('sigmagnr'            ).dataType(Float.class   ).cardinality(Cardinality.SINGLE).make() 
 sigmapsf             = mgmt.makePropertyKey('sigmapsf'            ).dataType(Float.class   ).cardinality(Cardinality.SINGLE).make() 
 simag1               = mgmt.makePropertyKey('simag1'              ).dataType(Float.class   ).cardinality(Cardinality.SINGLE).make() 
 simag2               = mgmt.makePropertyKey('simag2'              ).dataType(Float.class   ).cardinality(Cardinality.SINGLE).make() 
@@ -355,6 +357,7 @@ mgmt.addProperties(prv_candidate,
                    xpos,
                    ypos)
 mgmt.addProperties(cutout,
+                   lbl,
                    cutoutScienceFn,
                    cutoutTemplateFn,
                    cutoutDifferenceFn, 
@@ -362,7 +365,11 @@ mgmt.addProperties(cutout,
                    cutoutTemplate,
                    cutoutDifference) 
 mgmt.addProperties(Imports,
-                   importDates) 
+                   lbl) 
+mgmt.addProperties(Import,
+                   lbl,
+                   importSource,
+                   importDate) 
                                       
 // Edge properties
 mgmt.addProperties(has,
@@ -375,6 +382,7 @@ mgmt.addProperties(holds,
 // Connections                   
 mgmt.addConnection(has,        AstroLabNet,      site)
 mgmt.addConnection(has,        site,             Imports)
+mgmt.addConnection(has,        Imports,          Import)
 mgmt.addConnection(contains,   AlertsCollection, alert)
 mgmt.addConnection(holds,      site,             AlertsCollection)
 mgmt.addConnection(has,        alert,            candidate)
