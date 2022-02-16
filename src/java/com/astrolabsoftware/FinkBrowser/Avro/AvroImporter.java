@@ -131,10 +131,6 @@ public class AvroImporter extends JanusClient {
       _skip = true;
       }
     _gr = new GremlinRecipies(this);
-    Vertex import1 = g().addV("Import").property("lbl", "Import").property("importSource", _fitsDir).property("importDate", _date).next();
-    Vertex imports = g().V().has("lbl", "site").has("title", "IJCLab").out().has("lbl", "Imports").next();
-    _gr.addEdge(imports, import1, "has"); 
-    commit();
     }
         
   /** Process directory with <em>Avro</em> alert files (recursive).
@@ -174,6 +170,10 @@ public class AvroImporter extends JanusClient {
      * @throws LomikelException If anything wrong. */
   public void process(String fn) throws IOException, LomikelException {
     log.info("Loading " + fn);
+    Vertex import1 = g().addV("Import").property("lbl", "Import").property("importSource", fn).property("importDate", _date).next();
+    Vertex imports = g().V().has("lbl", "site").has("title", "IJCLab").out().has("lbl", "Imports").next();
+    _gr.addEdge(imports, import1, "has"); 
+    commit();
     File file = new File(fn);
     if (file.isDirectory()) {
       processDir(fn, "avro");
