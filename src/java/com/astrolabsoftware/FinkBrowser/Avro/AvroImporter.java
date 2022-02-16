@@ -170,6 +170,7 @@ public class AvroImporter extends JanusClient {
      * @throws LomikelException If anything wrong. */
   public void process(String fn) throws IOException, LomikelException {
     log.info("Loading " + fn);
+    register(fn);
     File file = new File(fn);
     if (file.isDirectory()) {
       processDir(fn, "avro");
@@ -197,7 +198,6 @@ public class AvroImporter extends JanusClient {
      * @param file The data file.
      * @throws IOException If problem with file reading. */
   public void processFile(File file) throws IOException {
-    register(file.toString());
     DatumReader<GenericRecord> datumReader = new GenericDatumReader<GenericRecord>();
     DataFileReader<GenericRecord> dataFileReader = new DataFileReader<GenericRecord>(file, datumReader);
     GenericRecord record = null;
