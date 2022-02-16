@@ -381,7 +381,7 @@ mgmt.addProperties(holds,
 // Connections                   
 mgmt.addConnection(has,        AstroLabNet,      site)
 mgmt.addConnection(props,      site,             Imports)
-mgmt.addConnection(has,        Imports,          Import)
+mgmt.addConnection(holds,      Imports,          Import)
 mgmt.addConnection(contains,   AlertsCollection, alert)
 mgmt.addConnection(holds,      site,             AlertsCollection)
 mgmt.addConnection(has,        alert,            candidate)
