@@ -119,6 +119,7 @@ public class HDFSAvroImporter extends AvroImporter {
   @Override
   public void process(String fn) throws IOException, LomikelException {
     log.info("Loading " + fn);
+    register(fn);
     _conf = new Configuration();
     _fs = FileSystem.get(_conf);
     Path path = new Path(fn);
