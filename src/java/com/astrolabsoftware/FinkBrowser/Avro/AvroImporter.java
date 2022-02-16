@@ -70,6 +70,7 @@ public class AvroImporter extends JanusClient {
                                                new Integer(args[4]),
                                                            args[5],
                                                            args[2]);
+      register(args[1]);
       importer.timerStart();                    
       importer.process(args[1]);
       if (!importer.skip()) {
@@ -170,7 +171,6 @@ public class AvroImporter extends JanusClient {
      * @throws LomikelException If anything wrong. */
   public void process(String fn) throws IOException, LomikelException {
     log.info("Loading " + fn);
-    register(fn);
     File file = new File(fn);
     if (file.isDirectory()) {
       processDir(fn, "avro");
@@ -186,7 +186,7 @@ public class AvroImporter extends JanusClient {
   /** Register <em>Import</em> {@link Vertex}.
      * @param fn The filename of the data file
      *           or directory with files. */
-  protected void register(String fn) {
+  public void register(String fn) {
     now();
     Vertex import1 = g().addV("Import").property("lbl", "Import").property("importSource", fn).property("importDate", _date).next();
     Vertex imports = g().V().has("lbl", "site").has("title", "IJCLab").out().has("lbl", "Imports").next();
