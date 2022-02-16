@@ -70,7 +70,6 @@ public class AvroImporter extends JanusClient {
                                                new Integer(args[4]),
                                                            args[5],
                                                            args[2]);
-      register(args[1]);
       importer.timerStart();                    
       importer.process(args[1]);
       if (!importer.skip()) {
@@ -171,6 +170,7 @@ public class AvroImporter extends JanusClient {
      * @throws LomikelException If anything wrong. */
   public void process(String fn) throws IOException, LomikelException {
     log.info("Loading " + fn);
+    register(fn);
     File file = new File(fn);
     if (file.isDirectory()) {
       processDir(fn, "avro");
@@ -187,11 +187,14 @@ public class AvroImporter extends JanusClient {
      * @param fn The filename of the data file
      *           or directory with files. */
   public void register(String fn) {
-    now();
-    Vertex import1 = g().addV("Import").property("lbl", "Import").property("importSource", fn).property("importDate", _date).next();
-    Vertex imports = g().V().has("lbl", "site").has("title", "IJCLab").out().has("lbl", "Imports").next();
-    _gr.addEdge(imports, import1, "has"); 
-    commit();
+    if (_top) {
+      now();
+      Vertex import1 = g().addV("Import").property("lbl", "Import").property("importSource", fn).property("importDate", _date).next();
+      Vertex imports = g().V().has("lbl", "site").has("title", "IJCLab").out().has("lbl", "Imports").next();
+      _gr.addEdge(imports, import1, "has"); 
+      commit();
+      }
+    _top = false;
     }
     
   /** Process <em>Avro</em> alert file .
@@ -473,7 +476,7 @@ public class AvroImporter extends JanusClient {
     super.close();
     }
     
-  /** Register new {@link Date}. */
+  /** Set new {@link Date}. */
   protected void now() {
     _date = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS").format(new Date()).toString();
     }
@@ -503,6 +506,8 @@ public class AvroImporter extends JanusClient {
   private int _nPrvCandidates = 0;
   
   private String _date = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS").format(new Date()).toString();
+  
+  private boolean _top = true;
      
   private static String VERSION = "ztf-3.2";
     

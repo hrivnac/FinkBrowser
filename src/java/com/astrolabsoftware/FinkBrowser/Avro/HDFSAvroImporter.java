@@ -60,7 +60,6 @@ public class HDFSAvroImporter extends AvroImporter {
                                                        new Integer(args[4]),
                                                                    args[5],
                                                                    args[2]);
-      importer.register(args[1]);
       importer.timerStart();
       importer.process(args[1]);
       if (!importer.skip()) {
@@ -120,6 +119,7 @@ public class HDFSAvroImporter extends AvroImporter {
   @Override
   public void process(String fn) throws IOException, LomikelException {
     log.info("Loading " + fn);
+    register(fn);
     _conf = new Configuration();
     _fs = FileSystem.get(_conf);
     Path path = new Path(fn);
