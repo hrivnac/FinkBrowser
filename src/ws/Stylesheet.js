@@ -138,7 +138,7 @@ stylesheet.nodes.cutout = {
     borderRadius:"0", 
     borderWidth:"3",  
     borderDashes:[1,0],
-    value: {gremlin:"both().count().join().toString()"}        
+    value:{gremlin:"both().count().join().toString()"}        
     },
   actions:[                                                                 
     {name:"Science",    url:{js:"storeData(cutoutScienceFn,    cutoutScience)"                      }, target:"image"   },
@@ -163,7 +163,43 @@ stylesheet.nodes.AlertsCollection = {
     borderRadius:"0", 
     borderWidth:"1",  
     borderDashes:[1,0],
-    value: {gremlin:"both().count().join().toString()"}        
+    value:{gremlin:"both().count().join().toString()"}        
+    },
+  actions:[
+    {name:"Show", url:{gremlin:"id().next().toString().replaceFirst(\"^\", \"Node.jsp?id=\")"}, target:"result"}
+    ]
+  }
+stylesheet.nodes.Imports = {
+  properties:" ",
+  graphics: {
+    label:" ", 
+    title:" ",        
+    subtitle:" ",     
+    group:" ",        
+    shape:"dot",      
+    image:"",        
+    borderRadius:"0", 
+    borderWidth:"2",  
+    borderDashes:[1,0],
+    value:{gremlin:"out().count().join().toString()"}        
+    },
+  actions:[
+    {name:"Show", url:{gremlin:"id().next().toString().replaceFirst(\"^\", \"Node.jsp?id=\")"}, target:"result"}
+    ]
+  }
+stylesheet.nodes.Import = {
+  properties:{gremlin:"valueMap('importDate', 'importSource').toList()[0]"},
+  graphics: {
+    label:"importSource", 
+    title:"importSource",        
+    subtitle:"importDate",     
+    group:" ",        
+    shape:"dot",      
+    image:"",        
+    borderRadius:"0", 
+    borderWidth:"1",  
+    borderDashes:[1,0],
+    value:" "        
     },
   actions:[
     {name:"Show", url:{gremlin:"id().next().toString().replaceFirst(\"^\", \"Node.jsp?id=\")"}, target:"result"}
@@ -176,8 +212,8 @@ stylesheet.edges.has = {
     title:" ",
     subtitle:" ",
     arrows:{to:{enabled:true, type:"vee"}},
-    value: "0.1",
-    group: " "
+    value:"0.1",
+    group:" "
     },
   actions: [
      {name:"Show",  url:{gremlin:"id().next().toString().replaceFirst(\"^\", \"Edge.jsp?id=\")"},   target:"result"  },
@@ -191,8 +227,8 @@ stylesheet.edges.holds = {
     title:" ",
     subtitle:" ",
     arrows:{to:{enabled:true, type:"vee"}},
-    value: "0.1",
-    group: " "
+    value:"0.1",
+    group:" "
     },
   actions: [
     {name:"Show",  url:{gremlin:"id().next().toString().replaceFirst(\"^\", \"Edge.jsp?id=\")"},   target:"result"  },
@@ -206,8 +242,8 @@ stylesheet.edges.contains = {
     title:" ",
     subtitle:" ",
     arrows:{to:{enabled:true, type:"vee"}},
-    value: "0.1",
-    group: " "
+    value:"0.1",
+    group:" "
     },
   actions: [
     {name:"Show",  url:{gremlin:"id().next().toString().replaceFirst(\"^\", \"Edge.jsp?id=\")"},   target:"result"  },
