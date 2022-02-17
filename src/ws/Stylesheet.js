@@ -181,7 +181,7 @@ stylesheet.nodes.Imports = {
     borderRadius:"0", 
     borderWidth:"2",  
     borderDashes:[1,0],
-    value:{gremlin:"out().count().join().toString()"}        
+    value:{gremlin:"both().count().join().toString()"}        
     },
   actions:[
     {name:"Show", url:{gremlin:"id().next().toString().replaceFirst(\"^\", \"Node.jsp?id=\")"}, target:"result"}
@@ -199,7 +199,7 @@ stylesheet.nodes.Import = {
     borderRadius:"0", 
     borderWidth:"1",  
     borderDashes:[1,0],
-    value:" "        
+    value:"0"        
     },
   actions:[
     {name:"Show", url:{gremlin:"id().next().toString().replaceFirst(\"^\", \"Node.jsp?id=\")"}, target:"result"}
