@@ -188,6 +188,7 @@ public class AvroImporter extends JanusClient {
      *           or directory with files. */
   public void register(String fn) {
     if (_top) {
+      _topFn = fn;
       now();
       Vertex import1 = g().addV("Import").property("lbl", "Import").property("importSource", fn).property("importDate", _date).next();
       Vertex imports = g().V().has("lbl", "site").has("title", "IJCLab").out().has("lbl", "Imports").next();
@@ -469,6 +470,7 @@ public class AvroImporter extends JanusClient {
     
   @Override
   public void close() {    
+    g().V().has("lbl", "Import").has("importSource", _topFn).has("importDate", _date).property("complete", true).next();
     log.info("Import statistics:");
     log.info("\talerts:         " + _nAlerts);
     log.info("\tprv_candidates: " + _nPrvCandidates);
@@ -508,6 +510,8 @@ public class AvroImporter extends JanusClient {
   private String _date = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS").format(new Date()).toString();
   
   private boolean _top = true;
+  
+  private String _topFn;
      
   private static String VERSION = "ztf-3.2";
     
