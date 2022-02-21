@@ -470,7 +470,7 @@ public class AvroImporter extends JanusClient {
     
   @Override
   public void close() {    
-    g().V().has("lbl", "Import").has("importSource", _topFn).has("importDate", _date).property("complete", true).next();
+    g().V().has("lbl", "Import").has("importSource", _topFn).has("importDate", _date).property("complete", true).property("nAlerts", _nAlerts).next();
     commit();
     log.info("Import statistics:");
     log.info("\talerts:         " + _nAlerts);

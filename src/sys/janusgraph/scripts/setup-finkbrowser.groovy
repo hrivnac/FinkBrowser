@@ -33,7 +33,7 @@ def drop_by_date(importDate, nCommit) {
   //nCommit = 500
   i = 0
   tot = 0
-  nMax=g.V().has('importDate', 'Mon Feb 14 05:51:20 UTC 2022').count().next()
+  nMax=g.V().has('importDate', importDate).count().next()
   println('' + nMax + ' vertexes to drop')
   t0 = System.currentTimeMillis()
   while(true) {
@@ -44,7 +44,10 @@ def drop_by_date(importDate, nCommit) {
     Thread.sleep(1000)
     tot = nCommit * ++i
     dt = (System.currentTimeMillis() - t0) / 1000
-    println(tot + ' = ' + (100 * tot / nMax) + '% at ' + tot / dt + 'Hz')
+    per = 100 * tot / nMax
+    freq = tot / dt
+    rest = (nMax - tot) / freq / 60 /60
+    println(tot + ' = ' + per + '% at ' + freq + 'Hz, ' + rest + 'h to go')
     }
   }
   
