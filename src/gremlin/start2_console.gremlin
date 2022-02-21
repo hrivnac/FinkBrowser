@@ -55,7 +55,7 @@ def drop_by_date(graph, importDate, nCommit, tWait) {
   
 def importStatus(g) {
   println('Imported:')
-  g.V().has('lbl', 'Import').has('nAlerts', neq(0)).valueMap().each{println('\t' + it)}
+  g.V().has('lbl', 'Import').has('nAlerts', neq(0)).order().by('importSource').valueMap('importSource', 'importDate', 'nAlerts').each{println('\t' + it)}
   println('Importing:')
-  g.V().has('lbl', 'Import').hasNot('complete').valueMap().each{println('\t' + it)}
+  g.V().has('lbl', 'Import').hasNot('complete').order().by('importSource').valueMap('importSource', 'importDate').each{println('\t' + it)}
   }
