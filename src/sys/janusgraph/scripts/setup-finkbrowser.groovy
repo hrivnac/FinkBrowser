@@ -25,10 +25,10 @@ def geosearch(ra, dec, ang, jdmin, jdmax, limit) {
   }
 
 def drop_by_date_help() {
-  return 'drop_by_date(graph, importDate, nCommit)'
+  return 'drop_by_date(graph, importDate, nCommit, tWait)'
   }
   
-def drop_by_date(importDate, nCommit) {
+def drop_by_date(importDate, nCommit, tWait) {
   //importDate = 'Mon Feb 14 05:51:20 UTC 2022'
   //nCommit = 500
   i = 0
@@ -41,7 +41,7 @@ def drop_by_date(importDate, nCommit) {
     g.V().has('importDate', importDate).limit(nCommit).out().drop().iterate()
     g.V().has('importDate', importDate).limit(nCommit).drop().iterate()
     graph.traversal().tx().commit()
-    Thread.sleep(1000)
+    Thread.sleep(tWait)
     tot = nCommit * ++i
     dt = (System.currentTimeMillis() - t0) / 1000
     per = 100 * tot / nMax
@@ -49,5 +49,12 @@ def drop_by_date(importDate, nCommit) {
     rest = (nMax - tot) / freq / 60 /60
     println(tot + ' = ' + per + '% at ' + freq + 'Hz, ' + rest + 'h to go')
     }
+  }
+  
+def importStatus() {
+  println('Imported:')
+  g.V().has('lbl', 'Import').has('nAlerts', neq(0)).valueMap().each{println('\t' + it)}
+  println('Importing:')
+  g.V().has('lbl', 'Import').hasNot('complete').valueMap().each{println('\t' + it)}
   }
   

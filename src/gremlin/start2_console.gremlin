@@ -52,3 +52,10 @@ def drop_by_date(graph, importDate, nCommit, tWait) {
     println(tot + ' = ' + per + '% at ' + freq + 'Hz, ' + rest + 'h to go')
     }
   }
+  
+def importStatus(g) {
+  println('Imported:')
+  g.V().has('lbl', 'Import').has('nAlerts', neq(0)).valueMap().each{println('\t' + it)}
+  println('Importing:')
+  g.V().has('lbl', 'Import').hasNot('complete').valueMap().each{println('\t' + it)}
+  }
