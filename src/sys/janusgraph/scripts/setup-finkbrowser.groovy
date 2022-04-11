@@ -50,11 +50,12 @@ def drop_by_date(importDate, nCommit, tWait) {
     println(tot + ' = ' + per + '% at ' + freq + 'Hz, ' + rest + 'h to go')
     }
   }
-  
-def importStatus() {
-  println('Imported:')
-  g.V().has('lbl', 'Import').has('nAlerts', neq(0)).valueMap().each{println('\t' + it)}
-  println('Importing:')
-  g.V().has('lbl', 'Import').hasNot('complete').valueMap().each{println('\t' + it)}
+    
+def importStatus(g) {
+  txt = ''
+  txt += 'Imported:\n'
+  g.V().has('lbl', 'Import').has('nAlerts', neq(0)).order().by('importSource').valueMap('importSource', 'importDate', 'nAlerts').each{txt += '\t' + it + '\n'}
+  txt += 'Importing:\n'
+  g.V().has('lbl', 'Import').hasNot('complete').order().by('importSource').valueMap('importSource', 'importDate').each{txt += '\t' + it + '\n'}
+  return txt
   }
-  

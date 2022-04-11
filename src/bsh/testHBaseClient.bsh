@@ -1,6 +1,6 @@
 // Connect to HBase table
 //HBaseClient client = new HBaseClient("localhost", 2181);
-HBaseClient client = new HBaseClient("134.158.74.54", 2181);
+com.Lomikel.HBaser.HBaseClient client = new com.Lomikel.HBaser.HBaseClient("134.158.74.54", 2181);
 client.connect("ztf_season1", "schema_0.7.0_0.3.8");
 client.setLimit(5);
 

@@ -172,9 +172,12 @@
           description="Create JARs">
     <jar jarfile="../lib/FinkBrowser-${version}.jar" index="yes">
       <fileset dir="../build"    includes="com/astrolabsoftware/FinkBrowser/**/*.class"/>
-      <fileset dir="../src/java" includes="com/astrolabsoftware/FinkBrowser/**/*.properties"/>
-      <fileset dir="../src/java" includes="com/astrolabsoftware/FinkBrowser/**/*.png"/>
-      <fileset dir="../src/java" includes="com/astrolabsoftware/FinkBrowser/**/*.bsh"/>
+      <fileset dir="../src/java"   includes="com/astrolabsoftware/FinkBrowser/**/*.properties"/>
+      <fileset dir="../src/java"   includes="com/astrolabsoftware/FinkBrowser/**/*.png"/>
+      <fileset dir="../src/java"   includes="com/astrolabsoftware/FinkBrowser/**/*.bsh"/>
+      <fileset dir="../src/java"   includes="com/astrolabsoftware/FinkBrowser/**/*.groovy"/>
+      <fileset dir="../src/bsh"    includes="*.bsh"/>
+      <fileset dir="../src/groovy" includes="*.groovy"/>
       <service type="org.apache.tinkerpop.gremlin.jsr223.GremlinPlugin">
         <provider classname="com.astrolabsoftware.FinkBrowser.GremlinPlugin.FinkBrowserConnector"/>
         </service>
