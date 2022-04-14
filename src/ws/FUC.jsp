@@ -9,9 +9,8 @@
 <%
   String api          = request.getParameter("api");
   String importStatus = request.getParameter("importStatus");
-  String[] args       = new String[4]{"--api", api, "--importStatus", importStatus};
+  String[] args       = new String[]{"--api", api, "--importStatus", importStatus};
   out.println(FUC.doit(args));
   %>
-<%=output%>
 
 
