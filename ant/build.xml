@@ -339,7 +339,7 @@
         <attribute name="Created-By" value="${user.name}"/>
         <attribute name="AppName"    value="FinkBrowser"/>
         <attribute name="AppVersion" value="${version} ${TSTAMP}"/>
-        <attribute name="Main-Class" value="com.astrolabsoftware.FinkBrowser.Apps.CLI"/>
+        <attribute name="Main-Class" value="com.astrolabsoftware.FinkBrowser.Apps.FUC"/>
         </manifest>
       </jar>
     </target>

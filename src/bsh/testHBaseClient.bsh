@@ -1,7 +1,7 @@
 // Connect to HBase table
 //HBaseClient client = new HBaseClient("localhost", 2181);
-com.Lomikel.HBaser.HBaseClient client = new com.Lomikel.HBaser.HBaseClient("134.158.74.54", 2181);
-client.connect("ztf_season1", "schema_0.7.0_0.3.8");
+com.Lomikel.HBaser.HBaseClient client = new com.Lomikel.HBaser.HBaseClient("hbase-1.lal.in2p3.fr", 2183);
+client.connect("ztf", "schema_1.4_0.5.1");
 client.setLimit(5);
 
 // Get two known alerts (two columns) 
@@ -30,7 +30,7 @@ print(client.results2String(results));
 // It only works for string columns, use Evaluator for numerical columns
 // Available comparators: exact, prefix, substring (default), regex
 results = client.scan(null,
-                      "d:cdsxmatch:YSO:exact",
+                      "d:cdsxmatch:YSO:exact,random:random:0.5",
                       "i:candid,d:cdsxmatch",
                       0,
                       true,
