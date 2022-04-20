@@ -26,7 +26,6 @@ import javax.swing.ImageIcon;
 import org.apache.log4j.Logger;
 
 /** Simple Command Line.
-  * with usual interval operations.
   * @opt attributes
   * @opt operations
   * @opt types
@@ -34,8 +33,7 @@ import org.apache.log4j.Logger;
   * @author <a href="mailto:Julius.Hrivnac@cern.ch">J.Hrivnac</a> */
 public class FUC {
 
-  /** Create. 
-    * TBD */
+  /** Create. */
   public FUC() {
     }
 
@@ -43,10 +41,9 @@ public class FUC {
     * @param args The arguments. */
   public static void main(String[] args) {
     System.out.println(doit(args));
-    System.exit(0);
     }
     
-  /** TBD
+  /** Start and pass arguments on.
     * @param args The arguments. */
   public static String doit(String[] args) {
     Init.init();
@@ -65,32 +62,39 @@ public class FUC {
       scriptArgs = "objectId = '" + cline.getOptionValue("objectId") + "';\n";
       scriptSrc = "object.";
       }
-    CLI cli = null;
     if (CLI.api().equals("bsh") ) {
       log.info("Starting Fink Universal Client in BeanShell");
       if (scriptSrc != null) {
         scriptSrc += "bsh";
         }
-      cli = new BSCLI(Icons.lomikel, // TBD
-                      "<html><h3>http://cern.ch/hrivnac/Activities/Packages/FinkBrowser</h3></html>",
-                      "Welcome to Fink Universal Client " + Info.release() + "\nhttp://cern.ch/hrivnac/Activities/Packages/FinkBrowser\n",
-                      scriptSrc,
-                      scriptArgs);
+      _cli = new BSCLI(Icons.lomikel, // TBD: better icon
+                       "<html><h3>http://cern.ch/hrivnac/Activities/Packages/FinkBrowser</h3></html>",
+                       "Welcome to Fink Universal Client " + Info.release() + "\nhttp://cern.ch/hrivnac/Activities/Packages/FinkBrowser\n" + CLI.help(),
+                       scriptSrc,
+                       scriptArgs);
       }
     else if (CLI.api().equals("groovy") ) {
       log.info("Starting Fink Universal Client in Groovy");
       if (scriptSrc != null) {
         scriptSrc += "groovy";
         }
-      cli = new GCLI(scriptSrc,
-                     scriptArgs);
+      _cli = new GCLI(scriptSrc,
+                      scriptArgs);
       }
     else {
       log.fatal("Unknown api language " + CLI.api());
-      System.exit(-1);
+      return "FATAL: Unknown api language " + CLI.api();
       }
-    return cli.execute();
+    return _cli.execute();
     }
+
+  /** Give the embedded {@link CLI}.
+    * @return The embedded {@link CLI}. */
+  public static CLI cli() {
+    return _cli;
+    }
+    
+  private static CLI _cli;
     
   /** Logging . */
   private static Logger log = Logger.getLogger(FUC.class);
