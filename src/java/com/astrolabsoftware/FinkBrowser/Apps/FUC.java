@@ -26,6 +26,9 @@ import javax.swing.ImageIcon;
 import org.apache.log4j.Logger;
 
 /** Simple Command Line.
+  * Implememts:
+  * https://fink-portal.org/api
+  * https://github.com/astrolabsoftware/fink-notebook-template
   * @opt attributes
   * @opt operations
   * @opt types
@@ -48,13 +51,18 @@ public class FUC {
   public static String doit(String[] args) {
     Init.init();
     Options options = new Options();
+    options.addOption("r", "gremlin",       true,  "gremlin graph search clause");
     options.addOption("t", "importStatus",  false, "status of imported alerts");
-    options.addOption("i", "objectId",      true, "objectId");
-    options.addOption("o", "output-format", true, "output format: txt, csv, json");
+    options.addOption("i", "objectId",      true,  "objectId");
+    options.addOption("o", "output-format", true,  "output format: txt, csv, json");
     CommandLine cline = CLI.parseArgs(args, "java -jar FinkBrowser.exe.jar", options);
     String scriptArgs = null;      
     String scriptSrc = null;
-    if (cline.hasOption("importStatus")) {
+    if (cline.hasOption("gremlin")) {
+      scriptArgs = "gremlin = '" + cline.getOptionValue("gremlin") + "';\n";
+      scriptSrc = "gremlin.";
+      }
+    else if (cline.hasOption("importStatus")) {
       scriptArgs = "";
       scriptSrc = "imports.";
       }

@@ -8,6 +8,13 @@ def hi_finkbrowser() {
   return "Hello World from FinkBrowser server !"
   }
 
+def help() {
+  geosearch_help();
+  drop_by_date_help();
+  importStatus_help();
+  candidates_help();
+  }
+
 def geosearch_help() {
   return 'geosearch(ra, dec, ang[deg], jdmin, jdmax, limit)'
   }
@@ -50,8 +57,12 @@ def drop_by_date(importDate, nCommit, tWait) {
     println(tot + ' = ' + per + '% at ' + freq + 'Hz, ' + rest + 'h to go')
     }
   }
+  
+def importStatus_help() {
+  return 'importStatus(g)'
+  }
     
-def importStatus(g) {
+def importStatus() {
   txt = ''
   txt += 'Imported:\n'
   g.V().has('lbl', 'Import').has('nAlerts', neq(0)).order().by('importSource').valueMap('importSource', 'importDate', 'nAlerts').each{txt += '\t' + it + '\n'}
@@ -59,3 +70,11 @@ def importStatus(g) {
   g.V().has('lbl', 'Import').hasNot('complete').order().by('importSource').valueMap('importSource', 'importDate').each{txt += '\t' + it + '\n'}
   return txt
   }
+  
+def candidates_help() {
+  return 'candidates(g, objectId)';
+  }
+  
+def candidates(g, objectId) {
+  return g.V().has('objectId', objectId).out().has('lbl', 'candidate');
+  }  

@@ -13,6 +13,7 @@
   String api          = request.getParameter("api");
   String importStatus = request.getParameter("importStatus");
   String objectId     = request.getParameter("objectId");
+  String gremlin      = request.getParameter("gremlin");
   List<String> argsL = new ArrayList<>();
   argsL.add("--web");
   if (help != null) {
@@ -28,6 +29,10 @@
   if (objectId != null) {
     argsL.add("--objectId");
     argsL.add(objectId);
+    }
+  if (gremlin != null) {
+    argsL.add("--gremlin");
+    argsL.add(gremlin);
     }
   String[] args = argsL.toArray(new String[0]);
   if (help != null) {
