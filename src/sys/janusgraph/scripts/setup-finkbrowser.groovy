@@ -8,7 +8,6 @@ def hi_finkbrowser() {
   return "Hello World from FinkBrowser server !"
   }
 
-
 def geosearch_help() {
   return 'geosearch(ra, dec, ang[deg], jdmin, jdmax, limit)'
   }
@@ -66,10 +65,10 @@ def importStatus() {
   }
   
 def candidates_help() {
-  return 'candidates(g, objectId)';
+  return 'candidates(objectId)';
   }
   
-def candidates(g, objectId) {
+def candidates(objectId) {
   return g.V().has('objectId', objectId).out().has('lbl', 'candidate');
   }  
   
