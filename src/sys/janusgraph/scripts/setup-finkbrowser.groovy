@@ -73,8 +73,8 @@ def candidates(objectId) {
   }  
   
 def help() {
-  geosearch_help();
-  drop_by_date_help();
-  importStatus_help();
-  candidates_help();
+  return geosearch_help()    + "\n"
+       + drop_by_date_help() + "\n"
+       + importStatus_help() + "\n"
+       + candidates_help();
   }
