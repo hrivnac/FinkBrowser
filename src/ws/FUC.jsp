@@ -45,7 +45,6 @@
     out.println(FUC.cli().help());
     }
   out.println(FUC.doit(args));
-  FUC.cli().close();
   %>
 
 
