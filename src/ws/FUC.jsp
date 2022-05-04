@@ -11,6 +11,7 @@
 <%
   String help         = request.getParameter("help");
   String api          = request.getParameter("api");
+  String oformat      = request.getParameter("output-format");
   String importStatus = request.getParameter("importStatus");
   String objectId     = request.getParameter("objectId");
   String gremlin      = request.getParameter("gremlin");
@@ -22,6 +23,10 @@
   if (api != null) {
     argsL.add("--api");
     argsL.add(api);
+    }
+  if (oformat != null) {
+    argsL.add("--output-format");
+    argsL.add(oformat);
     }
   if (importStatus != null) {
     argsL.add("--importStatus");

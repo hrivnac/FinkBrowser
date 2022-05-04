@@ -54,20 +54,26 @@ public class FUC {
     options.addOption("r", "gremlin",       true,  "gremlin graph search clause");
     options.addOption("t", "importStatus",  false, "status of imported alerts");
     options.addOption("i", "objectId",      true,  "objectId");
-    options.addOption("o", "output-format", true,  "output format: txt, csv, json");
+    options.addOption("o", "output-format", true,  "output format: txt (default), json");
     CommandLine cline = CLI.parseArgs(args, "java -jar FinkBrowser.exe.jar", options);
-    String scriptArgs = null;      
+    String scriptArgs = "";      
     String scriptSrc = null;
+    if (cline.hasOption("output-format")) {
+      scriptArgs += "oformat = '" + cline.getOptionValue("output-format") + "';\n";
+      }
+    else {
+      scriptArgs += "oformat = 'txt';\n";
+      }
     if (cline.hasOption("gremlin")) {
-      scriptArgs = "gremlin = '" + cline.getOptionValue("gremlin") + "';\n";
+      scriptArgs += "gremlin = '" + cline.getOptionValue("gremlin") + "';\n";
       scriptSrc = "gremlin.";
       }
     else if (cline.hasOption("importStatus")) {
-      scriptArgs = "";
+      scriptArgs += ";\n";
       scriptSrc = "imports.";
       }
     else if (cline.hasOption("objectId")) {
-      scriptArgs = "objectId = '" + cline.getOptionValue("objectId") + "';\n";
+      scriptArgs += "objectId = '" + cline.getOptionValue("objectId") + "';\n";
       scriptSrc = "object.";
       }
     if (CLI.api().equals("bsh") ) {
