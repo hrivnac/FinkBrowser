@@ -1,4 +1,7 @@
-<%@ page language="java" contentType="application/json; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page language="java"
+         contentType="application/json; charset=UTF-8"
+         pageEncoding="UTF-8"
+         trimDirectiveWhitespaces="true" %>
 
 <%@ page import="com.astrolabsoftware.FinkBrowser.Apps.FUC" %>
 <%@ page import="java.net.URLDecoder" %>
@@ -46,5 +49,3 @@
     }
   out.println(FUC.doit(args));
   %>
-
-
