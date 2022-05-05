@@ -36,14 +36,28 @@ public class Info extends com.Lomikel.Utils.Info {
   public static String manager() {
     return _manager;
     }
+    
+  /** Give gremlin hostname.
+    * @return The gremlin hostname. */
+  public static String gremlinHost() {
+    return _gremlinHost;
+    }
+    
+  /** Give gremlin port.
+    * @return The gremlin port. */
+  public static short gremlinPort() {
+    return _gremlinPort;
+    }
       
-  protected static String _name    = "FinkBrowser";
-  protected static String _version = "@version@";
-  protected static String _build   = "@TSTAMP@";
-  protected static String _builder = "@user.name@";
-  protected static String _tmp     = "@TMP@";
-  protected static String _manager = "@MANAGER@";
-  protected static String _target  = "@TARGET@";
+  protected static String _name        = "FinkBrowser";
+  protected static String _version     = "@version@";
+  protected static String _build       = "@TSTAMP@";
+  protected static String _builder     = "@user.name@";
+  protected static String _tmp         = "@TMP@";
+  protected static String _manager     = "@MANAGER@";
+  protected static String _target      = "@TARGET@";
+  protected static String _gremlinHost = "@GREMLIN_HOST@";
+  protected static short  _gremlinPort =  @GREMLIN_PORT@;
                         
   /** Logging . */
   private static Logger log = Logger.getLogger(Info.class);

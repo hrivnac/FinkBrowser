@@ -1,6 +1,9 @@
+import com.astrolabsoftware.FinkBrowser.Utils.Info;
 import com.Lomikel.Januser.StringGremlinClient;
 import org.apache.tinkerpop.gremlin.driver.Result;
-StringGremlinClient client = new StringGremlinClient("134.158.74.85", 24444);
+
+StringGremlinClient client = new StringGremlinClient(Info.gremlinHost(), Info.gremlinPort());
+
 if (oformat.equals("txt")) {
   StringBuffer answer = new StringBuffer("");
   for (Result result : client.interpret(gremlin)) {
