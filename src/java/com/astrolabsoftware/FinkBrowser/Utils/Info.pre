@@ -49,15 +49,15 @@ public class Info extends com.Lomikel.Utils.Info {
     return _gremlinPort;
     }
       
-  protected static String _name        = "FinkBrowser";
-  protected static String _version     = "@version@";
-  protected static String _build       = "@TSTAMP@";
-  protected static String _builder     = "@user.name@";
-  protected static String _tmp         = "@TMP@";
-  protected static String _manager     = "@MANAGER@";
-  protected static String _target      = "@TARGET@";
-  protected static String _gremlinHost = "@GREMLIN_HOST@";
-  protected static short  _gremlinPort =  @GREMLIN_PORT@;
+  protected static final String _name        = "FinkBrowser";
+  protected static final String _version     = "@version@";
+  protected static final String _build       = "@TSTAMP@";
+  protected static final String _builder     = "@user.name@";
+  protected static final String _tmp         = "@TMP@";
+  protected static final String _manager     = "@MANAGER@";
+  protected static final String _target      = "@TARGET@";
+  protected static final String _gremlinHost = "@GREMLIN_HOST@";
+  protected static final short  _gremlinPort =  @GREMLIN_PORT@;
                         
   /** Logging . */
   private static Logger log = Logger.getLogger(Info.class);
