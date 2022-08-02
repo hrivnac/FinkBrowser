@@ -769,7 +769,7 @@
     <replace file="${janusgraph_dir}/scripts/setup-finkbrowser.groovy" token="@STORAGE.HBASE.PORT@"   value="${hbase_port}"/>
     <echo>... plugin</echo>
     <mkdir dir="${janusgraph_dir}/ext/finkbrowser.connector/plugin"/>
-    <copy file="../lib/FinkBrowser-full-${version}.jar" tofile="${janusgraph_dir}/ext/FinkBrowser.connector/plugin/FinkBrowser.jar" overwrite="true"/>
+    <copy file="../lib/FinkBrowser-${version}.jar" tofile="${janusgraph_dir}/ext/FinkBrowser.connector/plugin/FinkBrowser.jar" overwrite="true"/>
     <exec executable="../src/sh/updateJanusExt.sh">
       <arg line="${janusgraph_dir}/ext/plugins.txt"/>
       </exec>
