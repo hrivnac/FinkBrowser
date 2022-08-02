@@ -47,7 +47,7 @@ class FinkBrowserIJCLab {
       g.V().has('importDate', importDate).limit(nCommit).drop().iterate()
       graph.traversal().tx().commit()
       Thread.sleep(tWait)
-      def tot = nCommit * ++i
+      tot = nCommit * ++i
       def dt = (System.currentTimeMillis() - t0) / 1000
       def per = 100 * tot / nMax
       def freq = tot / dt
