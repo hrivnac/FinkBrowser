@@ -83,7 +83,9 @@ class FinkBrowserIJCLab {
          + importStatus_help() + "\n"
          + candidates_help();
     }
-  
+
+  def static clientH  
+    
   }
 
 FinkBrowserIJCLab.init(c)  
