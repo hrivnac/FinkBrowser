@@ -88,4 +88,4 @@ class FinkBrowserIJCLab {
     
   }
 
-FinkBrowserIJCLab.init(c)  
+FinkBrowserIJCLab.init()  
