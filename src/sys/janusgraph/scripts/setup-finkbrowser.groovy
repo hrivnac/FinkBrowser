@@ -1,15 +1,15 @@
-class FinkBrowserIJCLab {
+class FinkBrowserServer {
 
   def static init() {
     clientH = new com.Lomikel.HBaser.HBaseClient("@STORAGE.HOSTNAME@", @STORAGE.HBASE.PORT@)
     clientH.connect("@STORAGE.HBASE.TABLE@", "@STORAGE.HBASE.SCHEMA@")
     com.Lomikel.Januser.Hertex.setHBaseClient(clientH)    
     com.Lomikel.HBaser.HBaseClient.registerVertexType("alert", com.astrolabsoftware.FinkBrowser.Januser.Alert.class)
-    println "class FinkBrowser IJCLab initialised"
+    println "class FinkBrowser Server initialised"
     }
 
   def static hi() {
-    return "Hello World from FinkBrowser server !"
+    return "Hello World from FinkBrowser Server !"
     }
   
   def static geosearch_help() {
@@ -88,4 +88,4 @@ class FinkBrowserIJCLab {
     
   }
 
-FinkBrowserIJCLab.init()  
+FinkBrowserServer.init()  
