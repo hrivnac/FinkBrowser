@@ -41,7 +41,7 @@ class FinkBrowser {
     def tot = 0
     def nMax = g.V().has('importDate', importDate).count().next()
     println('' + nMax + ' vertexes to drop')
-    t0 = System.currentTimeMillis()
+    def t0 = System.currentTimeMillis()
     while(true) {
       g.V().has('importDate', importDate).limit(nCommit).out().out().drop().iterate()
       g.V().has('importDate', importDate).limit(nCommit).out().drop().iterate()
