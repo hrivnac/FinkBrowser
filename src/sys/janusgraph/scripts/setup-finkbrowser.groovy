@@ -8,7 +8,7 @@ class FinkBrowserIJCLab {
     println "class FinkBrowser IJCLab initialised"
     }
 
-  def static hi_finkbrowser() {
+  def static hi() {
     return "Hello World from FinkBrowser server !"
     }
   

@@ -5,6 +5,7 @@
 mgmt = graph.openManagement()
 
 // Vertexes
+datalink          = mgmt.getVertexLabel('datalink'    )
 AstroLabNet       = mgmt.makeVertexLabel('AstroLabNet'      ).make()
 site              = mgmt.makeVertexLabel('site'             ).make()
 AlertsCollection  = mgmt.makeVertexLabel('AlertsCollection' ).make()
@@ -21,6 +22,7 @@ has        = mgmt.getEdgeLabel( 'has'     )
 contains   = mgmt.getEdgeLabel( 'contains')
 props      = mgmt.getEdgeLabel( 'props'   )
 overlaps   = mgmt.getEdgeLabel( 'overlaps')
+from       = mgmt.makeEdgeLabel('from'    ).multiplicity(SIMPLE  ).make() // TBD: move to Lomikel
 holds      = mgmt.makeEdgeLabel('holds'   ).multiplicity(ONE2MANY).make()
 
 // Properties
@@ -393,6 +395,8 @@ mgmt.addConnection(has,        alert,            prv_candidate)
 mgmt.addConnection(has,        alert,            cutout)
 mgmt.addConnection(has,        alert,            prv_candidates)
 mgmt.addConnection(holds,      prv_candidates,   prv_candidate)
+mgmt.addConnection(from,       alert,            datalink)
+mgmt.addConnection(from,       candidate,            datalink)
 
 // Info
 mgmt.printSchema()
