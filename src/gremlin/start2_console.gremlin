@@ -1,3 +1,6 @@
+import com.astrolabsoftware.FinkBrowser.HBaser.FinkHBaseClient
+import groovy.sql.Sql
+
 class FinkBrowser {
 
   def static init(config) {
@@ -11,6 +14,34 @@ class FinkBrowser {
   def static hi() {
     return "Hello World from FinkBrowser console !"
     }
+
+ def static getDataLink(v) {
+    switch (v.values('technology').next()) {
+      case 'HBase':
+        def (hostname, port, table, schema) = v.values('url').next().split(':') // 134.158.74.54:2181:ztf:schema_0.7.0_0.3.8
+        def client = new HBaseClient(hostname, port)
+        client.connect(table, schema)
+        return Eval.me('client', client, v.values('query').next())
+        break
+      case 'Graph':
+        def (backend, hostname, port, table) = v.values('url').next().split(':') // hbase:188.184.87.217:8182:janusgraph
+        def graph = JanusGraphFactory.build().
+                                      set('storage.backend',     backend ).
+                                      set('storage.hostname',    hostname).
+                                      set('storage.port',        port    ).
+                                      set('storage.hbase.table', table   ).
+                                      open()
+        def g = graph.traversal()
+        return Eval.me('g', g, v.values('query').next())
+        break
+      case 'Phoenix':
+        return groovy.sql.Sql.newInstance(v.values('url').next(), 'org.apache.phoenix.jdbc.PhoenixDriver').
+                      rows(v.values('query').next())
+        break
+      default:
+        return 'unknown DataLink ' + v
+        }
+      }
   
   def static geosearch_help() {
     return 'geosearch(g, ra, dec, ang[deg], jdmin, jdmax, limit)'
