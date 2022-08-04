@@ -110,7 +110,7 @@ class FinkBrowserServer {
     }  
     
   def static help() {
-    return getDataLink(_help() + "\n" +
+    return getDataLink_help() + "\n" +
            geosearch_help()    + "\n" +
            drop_by_date_help() + "\n" +
            importStatus_help() + "\n" +
