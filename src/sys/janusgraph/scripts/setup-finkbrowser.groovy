@@ -12,7 +12,11 @@ class FinkBrowserServer {
     return "Hello World from FinkBrowser Server !"
     }
 
- def static getDataLink(v) {
+  def static getDataLink_help() {
+    return 'getDataLink(v)'
+    }
+   
+  def static getDataLink(v) {
     switch (v.values('technology').next()) {
       case 'HBase':
         def (hostname, port, table, schema) = v.values('url').next().split(':') // 134.158.74.54:2181:ztf:schema_0.7.0_0.3.8
@@ -40,9 +44,9 @@ class FinkBrowserServer {
         }
       }
   
-  def static geosearch_help() {
-    return 'geosearch(g, ra, dec, ang[deg], jdmin, jdmax, limit)'
-    }
+   def static geosearch_help() {
+     return 'geosearch(g, ra, dec, ang[deg], jdmin, jdmax, limit)'
+     }
     
   def static geosearch(g, ra, dec, ang, jdmin, jdmax, limit) {
     def lat = dec
@@ -106,10 +110,11 @@ class FinkBrowserServer {
     }  
     
   def static help() {
-    return geosearch_help()    + "\n"
-         + drop_by_date_help() + "\n"
-         + importStatus_help() + "\n"
-         + candidates_help();
+    return getDataLink(_help() + "\n" +
+           geosearch_help()    + "\n" +
+           drop_by_date_help() + "\n" +
+           importStatus_help() + "\n" +
+           candidates_help();
     }
 
   def static clientH  

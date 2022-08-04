@@ -15,7 +15,11 @@ class FinkBrowser {
     return "Hello World from FinkBrowser console !"
     }
 
- def static getDataLink(v) {
+  def static getDataLink_help() {
+    return 'getDataLink(v)'
+    }
+
+  def static getDataLink(v) {
     switch (v.values('technology').next()) {
       case 'HBase':
         def (hostname, port, table, schema) = v.values('url').next().split(':') // 134.158.74.54:2181:ztf:schema_0.7.0_0.3.8
@@ -110,7 +114,8 @@ class FinkBrowser {
     }  
       
   def static help() {
-    return geosearch_help()    + "\n" +
+    return getDataLink(_help() + "\n" +
+           geosearch_help()    + "\n" +
            drop_by_date_help() + "\n" +
            importStatus_help() + "\n" +
            candidates_help();
