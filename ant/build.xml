@@ -180,6 +180,7 @@
       <fileset dir="../src/java"   includes="com/astrolabsoftware/FinkBrowser/**/*.groovy"/>
       <fileset dir="../src/bsh"    includes="*.bsh"/>
       <fileset dir="../src/groovy" includes="*.groovy"/>
+      <zipfileset includes="**/*" src="${healpix_jar}" excludes="META-INF/*"/>
       <service type="org.apache.tinkerpop.gremlin.jsr223.GremlinPlugin">
         <provider classname="com.astrolabsoftware.FinkBrowser.GremlinPlugin.FinkBrowserConnector"/>
         </service>
@@ -213,7 +214,6 @@
       <zipfileset includes="**/*" src="../lib/FinkBrowser-${version}.jar" excludes="META-INF/*"/>
       <zipfileset includes="**/*" src="${lomikel_jar}" excludes="META-INF/*"/>
       <zipfileset includes="**/*" src="${orgjson_jar}" excludes="META-INF/*"/>
-      <zipfileset includes="**/*" src="${healpix_jar}" excludes="META-INF/*"/>
       <zipfileset includes="**/*" src="${javaxmail_jar}" excludes="META-INF/*"/>
       <zipfileset includes="**/*" src="${hbase_dir}/lib/commons-beanutils-core-1.8.0.jar" excludes="META-INF/*"/>
       <zipfileset includes="**/*" src="${hbase_dir}/lib/commons-cli-1.2.jar" excludes="META-INF/*"/>
