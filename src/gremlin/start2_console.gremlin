@@ -106,19 +106,19 @@ class FinkBrowser {
     }
   
   def static candidates_help() {
-    return 'candidates(g, objectId)';
+    return 'candidates(g, objectId)'
     }
     
   def static candidates(g, objectId) {
-    return g.V().has('objectId', objectId).out().has('lbl', 'candidate');
+    return g.V().has('objectId', objectId).out().has('lbl', 'candidate')
     }  
       
   def static help() {
-    return getDataLink(_help() + "\n" +
+    return getDataLink_help()  + "\n" +
            geosearch_help()    + "\n" +
            drop_by_date_help() + "\n" +
            importStatus_help() + "\n" +
-           candidates_help();
+           candidates_help()
     }
 
   def static clientH  
