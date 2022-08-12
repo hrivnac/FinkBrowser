@@ -47,8 +47,8 @@ class FinkBrowserServer {
         return Eval.me('g', g, query)
         break
       case 'Phoenix':
-        return groovy.sql.Sql.newInstance(url), 'org.apache.phoenix.jdbc.PhoenixDriver').
-                      rows(query)
+        return groovy.sql.Sql.newInstance(url, 'org.apache.phoenix.jdbc.PhoenixDriver').
+                              rows(query)
         break
       default:
         return 'unknown DataLink ' + v
