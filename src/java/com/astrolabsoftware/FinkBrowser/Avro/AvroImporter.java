@@ -227,8 +227,10 @@ public class AvroImporter extends JanusClient {
                                                                                       "cutoutTemplate",
                                                                                       "cutoutDifference"}));
     log.debug("alert:"); 
-    Vertex v = vertex(record, "alert", "objectId");
+    Vertex v = vertex(record, "alert", null);
     if (v != null) {
+      Vertex s = _gr.getOrCreate("source", "objectId", objetcId).get(0);
+      _gr.addEdge(s, v, "has");
       for (Map.Entry<String, String> entry : values.entrySet()) {
         log.debug("\t" + entry.getKey() + " = " + entry.getValue());
         try {
@@ -240,31 +242,34 @@ public class AvroImporter extends JanusClient {
         }
       v.property("alertVersion", VERSION);
       v.property("importDate",   _date);
+      String ss;
+      processGenericRecord((GenericRecord)(record.get("candidate")),
+                           "candidate",
+                           "candid",
+                           true,
+                           v,
+                           "has",
+                           COLUMNS_CANDIDATE);
+      Vertex vv = vertex(record, "prv_candidates", null);
+      _gr.addEdge(v, vv, "has");    
+      Array a = (Array)record.get("prv_candidates");
+      if (a != null) {
+        for (Object o : a) {
+          _nPrvCandidates++;
+          processGenericRecord((GenericRecord)o,
+                               "prv_candidate",
+                               "candid",
+                               true,
+                               vv,
+                               "holds",
+                               COLUMNS_CANDIDATE);
+          } 
+        }
+      processCutout(record, v);
       }
-    String ss;
-    processGenericRecord((GenericRecord)(record.get("candidate")),
-                         "candidate",
-                         "candid",
-                         true,
-                         v,
-                         "has",
-                         COLUMNS_CANDIDATE);
-    Vertex vv = vertex(record, "prv_candidates", null);
-    _gr.addEdge(v, vv, "has");    
-    Array a = (Array)record.get("prv_candidates");
-    if (a != null) {
-      for (Object o : a) {
-        _nPrvCandidates++;
-        processGenericRecord((GenericRecord)o,
-                             "prv_candidate",
-                             "candid",
-                             true,
-                             vv,
-                             "holds",
-                             COLUMNS_CANDIDATE);
-        } 
+    else {
+      log.error("Failed to create alert from " + record);
       }
-    processCutout(record, v);
     timer("alerts processed", ++_n, _reportLimit, _commitLimit); 
     return v;
     }
@@ -498,7 +503,6 @@ public class AvroImporter extends JanusClient {
                                                                           });
    private static List<String> COLUMNS_CANDIDATE = Arrays.asList(new String[] {"candid",
                                                                                "classtar",
-                                                                               "dec",
                                                                                "diffmaglim",
                                                                                "distnr",
                                                                                "distpsnr1",
@@ -520,7 +524,6 @@ public class AvroImporter extends JanusClient {
                                                                                "neargaia",
                                                                                "nid",
                                                                                "Plx",
-                                                                               "ra",
                                                                                "rb",
                                                                                "rcid",
                                                                                "sgscore1",
@@ -567,3 +570,4 @@ public class AvroImporter extends JanusClient {
   private static Logger log = Logger.getLogger(AvroImporter.class);
                                                 
   }
+
