@@ -495,7 +495,7 @@ public class AvroImporter extends JanusClient {
                                                                           "snn_snia_vs_nonia",
                                                                           "snn_sn_vs_all",
                                                                           "tracklet"
-                                                                          })
+                                                                          });
    private static List<String> COLUMNS_CANDIDATE = Arrays.asList(new String[] {"candid",
                                                                                "classtar",
                                                                                "dec",
@@ -529,7 +529,7 @@ public class AvroImporter extends JanusClient {
                                                                                "ssdistnr",
                                                                                "ssmagnr",
                                                                                "ssnamenr",
-                                                                               "vsx"})
+                                                                               "vsx"});
    
   private GremlinRecipies _gr;
   
