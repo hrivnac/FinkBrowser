@@ -229,7 +229,7 @@ public class AvroImporter extends JanusClient {
     log.debug("alert:"); 
     Vertex v = vertex(record, "alert", null);
     if (v != null) {
-      Vertex s = _gr.getOrCreate("source", "objectId", objetcId).get(0);
+      Vertex s = _gr.getOrCreate("source", "objectId", record.get("objectId")).get(0);
       _gr.addEdge(s, v, "has");
       for (Map.Entry<String, String> entry : values.entrySet()) {
         log.debug("\t" + entry.getKey() + " = " + entry.getValue());
