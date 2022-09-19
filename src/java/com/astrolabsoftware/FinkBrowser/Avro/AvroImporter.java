@@ -29,6 +29,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.util.List;
+import java.util.Arrays;
 import java.util.Date;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -217,12 +218,14 @@ public class AvroImporter extends JanusClient {
     * @return       The created {@link Vertex}. */
   public Vertex processAlert(GenericRecord record) {
     _nAlerts++;
-    Map<String, String> values = getSimpleValues(record, getSimpleFields(record, new String[]{"objectId",
-                                                                                              "candidate",
-                                                                                              "prv_candidates",
-                                                                                              "cutoutScience",
-                                                                                              "cutoutTemplate",
-                                                                                              "cutoutDifference"}));
+    Map<String, String> values = getSimpleValues(record, getSimpleFields(record,
+                                                                         COLUMNS_ALERT,
+                                                                         new String[]{"objectId",
+                                                                                      "candidate",
+                                                                                      "prv_candidates",
+                                                                                      "cutoutScience",
+                                                                                      "cutoutTemplate",
+                                                                                      "cutoutDifference"}));
     log.debug("alert:"); 
     Vertex v = vertex(record, "alert", "objectId");
     if (v != null) {
@@ -245,7 +248,7 @@ public class AvroImporter extends JanusClient {
                          true,
                          v,
                          "has",
-                         null);
+                         COLUMNS_CANDIDATE);
     Vertex vv = vertex(record, "prv_candidates", null);
     _gr.addEdge(v, vv, "has");    
     Array a = (Array)record.get("prv_candidates");
@@ -258,7 +261,7 @@ public class AvroImporter extends JanusClient {
                              true,
                              vv,
                              "holds",
-                             null);
+                             COLUMNS_CANDIDATE);
         } 
       }
     processCutout(record, v);
@@ -273,7 +276,7 @@ public class AvroImporter extends JanusClient {
     * @param tryDirection Whether try created <em>Direction</em> property from <em>ra,dec</em> fields.
     * @param mother       The mother {@link Vertex}.
     * @param edgerName    The name of the edge to the mother {@link Vertex}.
-    * @param fields       The array of fields to fill. All fields are filled if <code>null</code>
+    * @param fields       The list of fields to fill. All fields are filled if <code>null</code>
     * @return             The created {@link Vertex}. */
   private Vertex processGenericRecord(GenericRecord record,
                                       String        name,
@@ -281,7 +284,7 @@ public class AvroImporter extends JanusClient {
                                       boolean       tryDirection,
                                       Vertex        mother,
                                       String        edgeName,
-                                      String[]      fields) {
+                                      List<String>  fields) {
     String[] idNameA;
     if (idName == null) {
       idNameA= new String[]{};
@@ -289,24 +292,14 @@ public class AvroImporter extends JanusClient {
     else {
       idNameA = new String[]{idName};
       }
-    Map<String, String> values = getSimpleValues(record, getSimpleFields(record, idNameA));
+    Map<String, String> values = getSimpleValues(record, fields, getSimpleFields(record, idNameA));
     Vertex v = vertex(record, name, idName);
     if (v == null) {
       return v;
       }
-    if (fields != null) {
-      for (String field : fields) {
-        if (values.containsKey(field)) {
-          //log.debug("\t" + field + " = " + values.get(field));
-          v.property(field, values.get(field));
-          }
-        }
-      }
-    else {
-      for (Map.Entry<String, String> entry : values.entrySet()) {
-        //log.debug("\t" + entry.getKey() + " = " + entry.getValue());
-        v.property(entry.getKey(), entry.getValue());
-        }
+    for (Map.Entry<String, String> entry : values.entrySet()) {
+      //log.debug("\t" + entry.getKey() + " = " + entry.getValue());
+      v.property(entry.getKey(), entry.getValue());
       }
     if (record.get("dec") != null && record.get("ra") != null) {
       v.property("direction", Geoshape.point(new Double(record.get("dec").toString()), new Double(record.get("ra").toString()) - 180));
@@ -361,9 +354,13 @@ public class AvroImporter extends JanusClient {
   /** Get {@link Field}s corresponding to simple types
     * and having non-<code>null</code> values.
     * @param record The {@link GenericRecord} to use.
+    * @param keeps  The {@link GenericRecord} to report.
+    *               Report all if <tt>null</tt>.
     * @param avoids The array of fields names not to report.
+    *               Cannot cancel <em>keeps</em> argument.
     * @return       The list of coressponding fields. */
   private List<String> getSimpleFields(GenericRecord record,
+                                       List<String>  keeps,
                                        String[]      avoids) {
     List<String> fields = new ArrayList<>();
     Type type;
@@ -373,9 +370,14 @@ public class AvroImporter extends JanusClient {
       type = field.schema().getType();
       name = field.name();
       veto = false;
-      for (String avoid : avoids) {
-        if (name.equals(avoid) || record.get(name) == null) {
-          veto = true;
+      if (!keeps.contains(name)) {
+        veto = true;
+        }
+      else {
+        for (String avoid : avoids) {
+          if (name.equals(avoid) || record.get(name) == null) {
+            veto = true;
+            }
           }
         }
       if (!veto) {
@@ -483,6 +485,51 @@ public class AvroImporter extends JanusClient {
   protected void now() {
     _date = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS").format(new Date()).toString();
     }
+   
+  private static List<String> COLUMNS_ALERT = Arrays.asList(new String[] {"cdsxmatch",
+                                                                          "mulens",
+                                                                          "objectId",
+                                                                          "rf_kn_vs_nonkn",
+                                                                          "rf_snia_vs_nonia",
+                                                                          "roid",
+                                                                          "snn_snia_vs_nonia",
+                                                                          "snn_sn_vs_all",
+                                                                          "tracklet"
+                                                                          })
+   private static List<String> COLUMNS_CANDIDATE = Arrays.asList(new String[] {"candid",
+                                                                               "classtar",
+                                                                               "dec",
+                                                                               "diffmaglim",
+                                                                               "distnr",
+                                                                               "distpsnr1",
+                                                                               "DR3Name",
+                                                                               "drb",
+                                                                               "e_Plx",
+                                                                               "fid",
+                                                                               "field",
+                                                                               "gcvs",
+                                                                               "isdiffpos",
+                                                                               "jd",
+                                                                               "jdendhist",
+                                                                               "jdstarthist",
+                                                                               "maggaia",
+                                                                               "magnr",
+                                                                               "magpsf",
+                                                                               "magzpsci",
+                                                                               "ndethist",
+                                                                               "neargaia",
+                                                                               "nid",
+                                                                               "Plx",
+                                                                               "ra",
+                                                                               "rb",
+                                                                               "rcid",
+                                                                               "sgscore1",
+                                                                               "sigmagnr",
+                                                                               "sigmapsf",
+                                                                               "ssdistnr",
+                                                                               "ssmagnr",
+                                                                               "ssnamenr",
+                                                                               "vsx"})
    
   private GremlinRecipies _gr;
   

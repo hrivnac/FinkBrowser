@@ -1,5 +1,6 @@
 // Specification of schema (constrains)
 // (Lomikel schema should be already loaded)
+// https://fink-portal.org/api/v1/columns
 // =========================================
 
 mgmt = graph.openManagement()
@@ -9,6 +10,7 @@ datalink          = mgmt.getVertexLabel('datalink'    )
 AstroLabNet       = mgmt.makeVertexLabel('AstroLabNet'      ).make()
 site              = mgmt.makeVertexLabel('site'             ).make()
 AlertsCollection  = mgmt.makeVertexLabel('AlertsCollection' ).make()
+source            = mgmt.makeVertexLabel('source'            ).make()
 alert             = mgmt.makeVertexLabel('alert'            ).make()
 candidate         = mgmt.makeVertexLabel('candidate'        ).make()
 prv_candidates    = mgmt.makeVertexLabel('prv_candidates'   ).make()
@@ -66,12 +68,15 @@ distnr               = mgmt.makePropertyKey('distnr'              ).dataType(Flo
 distpsnr1            = mgmt.makePropertyKey('distpsnr1'           ).dataType(Float.class   ).cardinality(Cardinality.SINGLE).make() 
 distpsnr2            = mgmt.makePropertyKey('distpsnr2'           ).dataType(Float.class   ).cardinality(Cardinality.SINGLE).make() 
 distpsnr3            = mgmt.makePropertyKey('distpsnr3'           ).dataType(Float.class   ).cardinality(Cardinality.SINGLE).make() 
-drb                  = mgmt.makePropertyKey('drb'                 ).dataType(Float.class   ).cardinality(Cardinality.SINGLE).make() 
+DR3Name              = mgmt.makePropertyKey('DR3Name'             ).dataType(Float.class   ).cardinality(Cardinality.SINGLE).make() 
+drb                  = mgmt.makePropertyKey('drb'                 ).dataType(String.class  ).cardinality(Cardinality.SINGLE).make() 
 drbversion           = mgmt.makePropertyKey('drbversion'          ).dataType(String.class  ).cardinality(Cardinality.SINGLE).make() 
 dsdiff               = mgmt.makePropertyKey('dsdiff'              ).dataType(Float.class   ).cardinality(Cardinality.SINGLE).make() 
 dsnrms               = mgmt.makePropertyKey('dsnrms'              ).dataType(Float.class   ).cardinality(Cardinality.SINGLE).make() 
 elong                = mgmt.makePropertyKey('elong'               ).dataType(Float.class   ).cardinality(Cardinality.SINGLE).make() 
 exptime              = mgmt.makePropertyKey('exptime'             ).dataType(Float.class   ).cardinality(Cardinality.SINGLE).make() 
+e_Plx                = mgmt.makePropertyKey('e_Plx'               ).dataType(Double.class  ).cardinality(Cardinality.SINGLE).make() 
+gcvs                 = mgmt.makePropertyKey('gcvs'                ).dataType(String.class  ).cardinality(Cardinality.SINGLE).make() 
 fid                  = mgmt.makePropertyKey('fid'                 ).dataType(Integer.class ).cardinality(Cardinality.SINGLE).make() 
 field                = mgmt.makePropertyKey('field'               ).dataType(Integer.class ).cardinality(Cardinality.SINGLE).make() 
 fileName             = mgmt.makePropertyKey('fileName'            ).dataType(String.class  ).cardinality(Cardinality.SINGLE).make()
@@ -120,6 +125,7 @@ pid                  = mgmt.makePropertyKey('pid'                 ).dataType(Lon
 programid            = mgmt.makePropertyKey('programid'           ).dataType(Integer.class ).cardinality(Cardinality.SINGLE).make() 
 programpi            = mgmt.makePropertyKey('programpi'           ).dataType(String.class  ).cardinality(Cardinality.SINGLE).make() 
 publisher            = mgmt.makePropertyKey('publisher'           ).dataType(String.class  ).cardinality(Cardinality.SINGLE).make()
+Plx                  = mgmt.makePropertyKey('Plx'                 ).dataType(Double.class  ).cardinality(Cardinality.SINGLE).make()
 ranr                 = mgmt.makePropertyKey('ranr'                ).dataType(Double.class  ).cardinality(Cardinality.SINGLE).make() 
 rb                   = mgmt.makePropertyKey('rb'                  ).dataType(Float.class   ).cardinality(Cardinality.SINGLE).make() 
 rbversion            = mgmt.makePropertyKey('rbversion'           ).dataType(String.class  ).cardinality(Cardinality.SINGLE).make() 
@@ -164,7 +170,8 @@ tblid                = mgmt.makePropertyKey('tblid'               ).dataType(Int
 tooflag              = mgmt.makePropertyKey('tooflag'             ).dataType(Integer.class ).cardinality(Cardinality.SINGLE).make() 
 tracklet             = mgmt.makePropertyKey('tracklet'            ).dataType(String.class  ).cardinality(Cardinality.SINGLE).make() 
 xpos                 = mgmt.makePropertyKey('xpos'                ).dataType(Float.class   ).cardinality(Cardinality.SINGLE).make() 
-ypos                 = mgmt.makePropertyKey('ypos'                ).dataType(Float.class   ).cardinality(Cardinality.SINGLE).make() 
+xpos                 = mgmt.makePropertyKey('xpos'                ).dataType(Float.class   ).cardinality(Cardinality.SINGLE).make() 
+vsx                  = mgmt.makePropertyKey('vsx'                 ).dataType(String.class  ).cardinality(Cardinality.SINGLE).make() 
 zpclrcov             = mgmt.makePropertyKey('zpclrcov'            ).dataType(Float.class   ).cardinality(Cardinality.SINGLE).make() 
 zpmed                = mgmt.makePropertyKey('zpmed'               ).dataType(Float.class   ).cardinality(Cardinality.SINGLE).make() 
 
@@ -178,6 +185,9 @@ mgmt.addProperties(site,
 mgmt.addProperties(AlertsCollection,
                    lbl,
                    title)   
+mgmt.addProperties(source,
+                   lbl,
+                   objectId)   
 mgmt.addProperties(alert,
                    lbl,
                    alertVersion,
@@ -187,7 +197,6 @@ mgmt.addProperties(alert,
                    fink_science_version,
                    mulens,
                    nalerthist,
-                   objectId,
                    publisher,
                    rf_kn_vs_nonkn,
                    rf_snia_vs_nonia,
@@ -218,13 +227,17 @@ mgmt.addProperties(candidate,
                    distpsnr1,
                    distpsnr2,
                    distpsnr3,
+                   DR3Name,
+                   drb,
                    dsdiff,
                    dsnrms,
                    elong,
                    exptime,
+                   e_Plx,
                    fid,
                    field,
                    fwhm,
+                   gcvs,
                    isdiffpos,
                    jd,
                    jdendhist,
@@ -260,6 +273,7 @@ mgmt.addProperties(candidate,
                    pid,
                    programid,
                    programpi,
+                   Plx,
                    ra,
                    ranr,
                    rb,
@@ -296,6 +310,7 @@ mgmt.addProperties(candidate,
                    szmag3,
                    tblid,
                    tooflag,
+                   vsx,
                    xpos,
                    ypos,
                    zpclrcov,
@@ -317,10 +332,13 @@ mgmt.addProperties(prv_candidate,
                    diffmaglim,
                    direction,
                    distnr,
+                   DR3Name,
                    elong,
+                   e_Plx,
                    fid,
                    field,
                    fwhm,
+                   gcvs,
                    isdiffpos,
                    jd,
                    magap,
@@ -340,6 +358,7 @@ mgmt.addProperties(prv_candidate,
                    pid,
                    programid,
                    programpi,
+                   Plx,
                    ra,
                    ranr,
                    rb,
@@ -357,6 +376,7 @@ mgmt.addProperties(prv_candidate,
                    ssnamenr,
                    sumrat,
                    tblid,
+                   vsx,
                    xpos,
                    ypos)
 mgmt.addProperties(cutout,
@@ -390,8 +410,8 @@ mgmt.addConnection(props,      site,             Imports)
 mgmt.addConnection(holds,      Imports,          Import)
 mgmt.addConnection(contains,   AlertsCollection, alert)
 mgmt.addConnection(holds,      site,             AlertsCollection)
+mgmt.addConnection(has,        source,           alert)
 mgmt.addConnection(has,        alert,            candidate)
-mgmt.addConnection(has,        alert,            prv_candidate)
 mgmt.addConnection(has,        alert,            cutout)
 mgmt.addConnection(has,        alert,            prv_candidates)
 mgmt.addConnection(holds,      prv_candidates,   prv_candidate)
