@@ -230,13 +230,7 @@ public class AvroImporter extends JanusClient {
     Vertex v = vertex(record, "alert", null);
     if (v != null) {
       String objectId = record.get("objectId").toString();
-      String jd       = record.get("jd"      ).toString();
       Vertex s = _gr.getOrCreate("source", "objectId", objectId).get(0); // TBD: check uniqueness
-      _gr.attachDataLink(v,
-                         "Source data",
-                         "HBase",
-                         "134.158.74.54:2183:ztf:schema", // TBD: as parameter
-                         "return client.scan('" + objectId + "_" + jd + "', null, '*', 0, false, false)");
       _gr.addEdge(s, v, "has");
       for (Map.Entry<String, String> entry : values.entrySet()) {
         log.debug("\t" + entry.getKey() + " = " + entry.getValue());
@@ -256,7 +250,8 @@ public class AvroImporter extends JanusClient {
                            true,
                            v,
                            "has",
-                           COLUMNS_CANDIDATE);
+                           COLUMNS_CANDIDATE,
+                           objectId);
       Vertex vv = vertex(record, "prv_candidates", null);
       _gr.addEdge(v, vv, "has");    
       Array a = (Array)record.get("prv_candidates");
@@ -269,7 +264,8 @@ public class AvroImporter extends JanusClient {
                                true,
                                vv,
                                "holds",
-                               COLUMNS_CANDIDATE);
+                               COLUMNS_CANDIDATE,
+                               objectId);
           } 
         }
       processCutout(record, v);
@@ -289,6 +285,7 @@ public class AvroImporter extends JanusClient {
     * @param mother       The mother {@link Vertex}.
     * @param edgerName    The name of the edge to the mother {@link Vertex}.
     * @param fields       The list of fields to fill. All fields are filled if <code>null</code>
+    * @param objectId     The <em>objectId</em> of the containing source.
     * @return             The created {@link Vertex}. */
   private Vertex processGenericRecord(GenericRecord record,
                                       String        name,
@@ -296,7 +293,8 @@ public class AvroImporter extends JanusClient {
                                       boolean       tryDirection,
                                       Vertex        mother,
                                       String        edgeName,
-                                      List<String>  fields) {
+                                      List<String>  fields,
+                                      String        objectId) {
     String[] idNameA;
     if (idName == null) {
       idNameA= new String[]{};
@@ -317,6 +315,13 @@ public class AvroImporter extends JanusClient {
       v.property("direction", Geoshape.point(new Double(record.get("dec").toString()), new Double(record.get("ra").toString()) - 180));
       }
     _gr.addEdge(mother, v, "has");    
+    String jd       = record.get("jd").toString();
+    _gr.attachDataLink(v,
+                   "Candidate data",
+                   "HBase",
+                   "134.158.74.54:2183:ztf:schema", // TBD: as parameter
+                   "return client.scan('" + objectId + "_" + jd + "', null, '*', 0, false, false)");
+    
     return v;
     }
     
