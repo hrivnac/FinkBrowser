@@ -230,7 +230,7 @@ public class AvroImporter extends JanusClient {
     Vertex v = vertex(record, "alert", null);
     if (v != null) {
       _gr.attachDataLink(v,
-                         name,
+                         "Alert data",
                          "HBase",
                          "134.158.74.54:2183:ztf:schema", // TBD: as parameter
                          "client.setLimit(10); return client.scan(null, null, null, 0, false, false)");
