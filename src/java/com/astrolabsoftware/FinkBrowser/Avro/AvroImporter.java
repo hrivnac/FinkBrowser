@@ -229,7 +229,7 @@ public class AvroImporter extends JanusClient {
     log.debug("alert:"); 
     Vertex v = vertex(record, "alert", null);
     if (v != null) {
-      String objectId = record.get("objectId");
+      String objectId = record.get("objectId").toString();
       Vertex s = _gr.getOrCreate("source", "objectId", objectId).get(0); // TBD: check uniqueness
       if (_gr.created()) {
         _gr.attachDataLink(v,
