@@ -233,7 +233,7 @@ public class AvroImporter extends JanusClient {
       Vertex s = _gr.getOrCreate("source", "objectId", objectId).get(0); // TBD: check uniqueness
       if (_gr.created()) {
         _gr.attachDataLink(v,
-                           "Alert data",
+                           "Source data",
                            "HBase",
                            "134.158.74.54:2183:ztf:schema", // TBD: as parameter
                            "return client.scan('', 'key:key:" + objectId + "', '*', 0, false, false)");
