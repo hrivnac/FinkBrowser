@@ -229,12 +229,15 @@ public class AvroImporter extends JanusClient {
     log.debug("alert:"); 
     Vertex v = vertex(record, "alert", null);
     if (v != null) {
-      _gr.attachDataLink(v,
-                         "Alert data",
-                         "HBase",
-                         "134.158.74.54:2183:ztf:schema", // TBD: as parameter
-                         "client.setLimit(10); return client.scan(null, null, null, 0, false, false)");
-      Vertex s = _gr.getOrCreate("source", "objectId", record.get("objectId")).get(0);
+      String objectId = record.get("objectId");
+      Vertex s = _gr.getOrCreate("source", "objectId", objectId).get(0); // TBD: check uniqueness
+      if (_gr.created())
+        _gr.attachDataLink(v,
+                           "Alert data",
+                           "HBase",
+                           "134.158.74.54:2183:ztf:schema", // TBD: as parameter
+                           "return client.scan('', 'key:key:" + objectId + "', '*', 0, false, false)");
+        }
       _gr.addEdge(s, v, "has");
       for (Map.Entry<String, String> entry : values.entrySet()) {
         log.debug("\t" + entry.getKey() + " = " + entry.getValue());
