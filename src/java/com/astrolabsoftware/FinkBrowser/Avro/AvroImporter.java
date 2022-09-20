@@ -231,7 +231,7 @@ public class AvroImporter extends JanusClient {
     if (v != null) {
       String objectId = record.get("objectId");
       Vertex s = _gr.getOrCreate("source", "objectId", objectId).get(0); // TBD: check uniqueness
-      if (_gr.created())
+      if (_gr.created()) {
         _gr.attachDataLink(v,
                            "Alert data",
                            "HBase",
