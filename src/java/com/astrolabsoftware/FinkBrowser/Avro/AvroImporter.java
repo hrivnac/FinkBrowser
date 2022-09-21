@@ -54,7 +54,7 @@ public class AvroImporter extends JanusClient {
   /** Import Avro files or directory. 
     * @param args[0] The Janusgraph properties file. 
     * @param args[1] The Avro file or directory with Avro files.
-    * @param args[2] The directory for FITS files. If <tt>null</tt> or empty, FITS are included in the Graph.
+    * @param args[2] The directory for FITS files. If <tt>null</tt> or empty, FITS are included in the Graph. Ignored if HBase url set.
     * @param args[3] The url for HBase table with full data as <tt>ip:port:table:schema</tt>. May be <tt>null</tt> or empty.
     * @param args[4] The number of events to use for progress report (-1 means no report untill the end).
     * @param args[5] The number of events to commit in one step (-1 means commit only at the end).
@@ -91,7 +91,7 @@ public class AvroImporter extends JanusClient {
     * @param reportLimit The number of events to use for progress report (-1 means no report untill the end).
     * @param commitLimit The number of events to commit in one step (-1 means commit only at the end).
     * @param strategy    The creation strategy. <tt>drop,replace,getOrCreate</tt>.
-    * @param fitsDir     The directory for FITS files. If <tt>null</tt> or empty, FITS are included in the Graph.
+    * @param fitsDir     The directory for FITS files. If <tt>null</tt> or empty, FITS are included in the Graph. Ignored if HBase url set.
     * @param hbaseUrl    The url for HBase table with full data as <tt>ip:port:table:schema</tt>. May be <tt>null</tt> or empty. */
     
   public AvroImporter(String properties,
@@ -327,7 +327,7 @@ public class AvroImporter extends JanusClient {
       v.property("direction", Geoshape.point(new Double(record.get("dec").toString()), new Double(record.get("ra").toString()) - 180));
       }
     _gr.addEdge(mother, v, "has");
-    if (_hbaseUrl != null) {
+    if (hbaseUrl() != null) {
       String jd = record.get("jd").toString();
       _gr.attachDataLink(v,
                      "Candidate data",
@@ -351,7 +351,14 @@ public class AvroImporter extends JanusClient {
       r = (GenericRecord)(record.get("cutout" + s));
       fn = r.get("fileName").toString();
       data = ((ByteBuffer)(r.get("stampData"))).array();
-      if (fitsDir() == null) {
+      if (hbaseUrl() != null) {
+        _gr.attachDataLink(v,
+                       s + " fits",
+                       "HBase",
+                       _hbaseUrl,
+                       "return client.scan('" + objectId + "_" + jd + "', null, '*', 0, true, true)");
+        }
+      else if (fitsDir() == null) {
         v.property("cutout" + s + "Fn", fn);
         v.property("cutout" + s,        Base64.getEncoder().encodeToString(data));
         }
@@ -486,6 +493,12 @@ public class AvroImporter extends JanusClient {
     * @return The FITS file directory. */
   protected String fitsDir() {
     return _fitsDir;
+    } 
+    
+  /** The data HBase table url.
+    * @return The data HBase table url. */
+  protected String hbaseUrl() {
+    return _hbaseUrl;
     } 
     
   /** Give number of created alerts.
