@@ -80,8 +80,8 @@ public class HDFSAvroImporter extends AvroImporter {
     * @param reportLimit The number of events to use for progress report (-1 means no report untill the end).
     * @param commitLimit The number of events to commit in one step (-1 means commit only at the end).
     * @param strategy    The creation strategy. <tt>drop,replace,getOrCreate</tt>. 
-    * @param fitsDir     The directory for FITS files. If <tt>null</tt>or empty, FITS are included in the Graph. */
-    * @param hbaseUrl    The url for HBase table with full data as <tt>ip:port:table:schema</tt>. May be <tt>null</tt> or empty.
+    * @param fitsDir     The directory for FITS files. If <tt>null</tt>or empty, FITS are included in the Graph.
+    * @param hbaseUrl    The url for HBase table with full data as <tt>ip:port:table:schema</tt>. May be <tt>null</tt> or empty. */
   public HDFSAvroImporter(String properties,
                           int    reportLimit,
                           int    commitLimit,
