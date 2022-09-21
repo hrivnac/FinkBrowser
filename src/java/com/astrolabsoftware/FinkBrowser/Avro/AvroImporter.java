@@ -280,8 +280,7 @@ public class AvroImporter extends JanusClient {
                                objectId);
           } 
         }
-      String jd = (GenericRecord)(record.get("candidate")).get("jd").toString();
-      processCutout(record, v, objectId, jd);
+      processCutout(record, v, objectId, _jd); // _jd taken from candidate
       }
     else {
       log.error("Failed to create alert from " + record);
@@ -329,12 +328,12 @@ public class AvroImporter extends JanusClient {
       }
     _gr.addEdge(mother, v, "has");
     if (hbaseUrl() != null) {
-      String jd = record.get("jd").toString();
+      _jd = record.get("jd").toString();
       _gr.attachDataLink(v,
                      "Candidate data",
                      "HBase",
                      _hbaseUrl,
-                     "return client.scan('" + objectId + "_" + jd + "', null, '*', 0, true, true)");
+                     "return client.scan('" + objectId + "_" + _jd + "', null, '*', 0, true, true)");
       }
     return v;
     }
@@ -578,6 +577,8 @@ public class AvroImporter extends JanusClient {
                                                                                "vsx"});
    
   private GremlinRecipies _gr;
+  
+  private String _jd;
   
   private int _n = 0;
   
