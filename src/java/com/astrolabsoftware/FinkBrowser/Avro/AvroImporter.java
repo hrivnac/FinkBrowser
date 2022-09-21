@@ -55,9 +55,10 @@ public class AvroImporter extends JanusClient {
     * @param args[0] The Janusgraph properties file. 
     * @param args[1] The Avro file or directory with Avro files.
     * @param args[2] The directory for FITS files. If <tt>null</tt> or empty, FITS are included in the Graph.
-    * @param args[3] The number of events to use for progress report (-1 means no report untill the end).
-    * @param args[4] The number of events to commit in one step (-1 means commit only at the end).
-    * @param args[5] The creation strategy. <tt>create,drop,replace,skip</tt>.
+    * @param args[3] The url for HBase table with full data as <tt>ip:port:table:schema</tt>. May be <tt>null</tt> or empty.
+    * @param args[4] The number of events to use for progress report (-1 means no report untill the end).
+    * @param args[5] The number of events to commit in one step (-1 means commit only at the end).
+    * @param args[6] The creation strategy. <tt>create,drop,replace,skip</tt>.
     * @throws LomikelException If anything goes wrong. */
    public static void main(String[] args) throws IOException {
     Init.init();
@@ -67,10 +68,11 @@ public class AvroImporter extends JanusClient {
       }
     try {
       AvroImporter importer = new AvroImporter(            args[0],
-                                               new Integer(args[3]),
                                                new Integer(args[4]),
-                                                           args[5],
-                                                           args[2]);
+                                               new Integer(args[5]),
+                                                           args[6],
+                                                           args[2],
+                                                           args[3]);
       importer.timerStart();                    
       importer.process(args[1]);
       if (!importer.skip()) {
@@ -89,15 +91,21 @@ public class AvroImporter extends JanusClient {
     * @param reportLimit The number of events to use for progress report (-1 means no report untill the end).
     * @param commitLimit The number of events to commit in one step (-1 means commit only at the end).
     * @param strategy    The creation strategy. <tt>drop,replace,getOrCreate</tt>.
-    * @param fitsDir     The directory for FITS files. If <tt>null</tt> or empty, FITS are included in the Graph. */
+    * @param fitsDir     The directory for FITS files. If <tt>null</tt> or empty, FITS are included in the Graph.
+    * @param hbaseUrl    The url for HBase table with full data as <tt>ip:port:table:schema</tt>. May be <tt>null</tt> or empty. */
+    
   public AvroImporter(String properties,
                       int    reportLimit,
                       int    commitLimit,
                       String strategy,
-                      String fitsDir) {
+                      String fitsDir,
+                      String hbaseUrl) {
     super(properties);
     if (fitsDir != null && fitsDir.trim().equals("")) {
       fitsDir = null;
+      }
+    if (hbaseUrl != null && hbaseUrl.trim().equals("")) {
+      hbaseUrl = null;
       }
     log.info("Reporting after each " + reportLimit + " alerts");
     log.info("Committing after each " + commitLimit + " alerts");
@@ -108,10 +116,14 @@ public class AvroImporter extends JanusClient {
     else {
       log.info("Writing FITS into: " + fitsDir);
       }
+    if (hbaseUrl != null) {
+      log.info("Connecting to data from: " + hbaseUrl);
+      }
     log.info("Importing at " + _date);
     _reportLimit = reportLimit;
     _commitLimit = commitLimit;
     _fitsDir     = fitsDir;
+    _hbaseUrl    = hbaseUrl;
     _create      = false;
     _reuse       = false;
     _replace     = false;
@@ -314,14 +326,15 @@ public class AvroImporter extends JanusClient {
     if (record.get("dec") != null && record.get("ra") != null) {
       v.property("direction", Geoshape.point(new Double(record.get("dec").toString()), new Double(record.get("ra").toString()) - 180));
       }
-    _gr.addEdge(mother, v, "has");    
-    String jd       = record.get("jd").toString();
-    _gr.attachDataLink(v,
-                   "Candidate data",
-                   "HBase",
-                   "134.158.74.54:2183:ztf:schema", // TBD: as parameter
-                   "return client.scan('" + objectId + "_" + jd + "', null, '*', 0, false, false)");
-    
+    _gr.addEdge(mother, v, "has");
+    if (_hbaseUrl != null) {
+      String jd = record.get("jd").toString();
+      _gr.attachDataLink(v,
+                     "Candidate data",
+                     "HBase",
+                     _hbaseUrl,
+                     "return client.scan('" + objectId + "_" + jd + "', null, '*', 0, true, true)");
+      }
     return v;
     }
     
@@ -555,6 +568,8 @@ public class AvroImporter extends JanusClient {
   private int _commitLimit;
   
   private String _fitsDir;
+  
+  private String _hbaseUrl;
   
   private boolean _create;
   
