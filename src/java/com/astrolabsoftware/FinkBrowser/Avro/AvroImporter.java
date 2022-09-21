@@ -63,7 +63,7 @@ public class AvroImporter extends JanusClient {
    public static void main(String[] args) throws IOException {
     Init.init();
     if (args.length != 6) {
-      log.error("AvroImporter.exe.jar <JanusGraph properties> [<file>|<directory>] <report limit> <commit limit> [create|reuse|drop]");
+      log.error("AvroImporter.exe.jar <JanusGraph properties> [<file>|<directory>] <hbaseUrl> <report limit> <commit limit> [create|reuse|drop]");
       System.exit(-1);
       }
     try {

@@ -52,7 +52,7 @@ public class HDFSAvroImporter extends AvroImporter {
    public static void main(String[] args) throws IOException {
     Init.init();
     if (args.length != 6) {
-      log.error("HDFSAvroImporter.exe.jar <JanusGraph properties> [<file>|<directory>] <report limit> <commit limit> [create|reuse|drop]");
+      log.error("HDFSAvroImporter.exe.jar <JanusGraph properties> [<file>|<directory>] <hbaseUrl> <report limit> <commit limit> [create|reuse|drop]");
       System.exit(-1);
       }
     try {
@@ -86,7 +86,8 @@ public class HDFSAvroImporter extends AvroImporter {
                           int    reportLimit,
                           int    commitLimit,
                           String strategy,
-                          String fitsDir) {
+                          String fitsDir,
+                          String hbaseUrl) {
     super(properties, reportLimit, commitLimit, strategy, fitsDir, hbaseUrl);
     }
         
