@@ -280,7 +280,8 @@ public class AvroImporter extends JanusClient {
                                objectId);
           } 
         }
-      processCutout(record, v);
+      String jd = (GenericRecord)(record.get("candidate")).get("jd");
+      processCutout(record, v, objectId, jd);
       }
     else {
       log.error("Failed to create alert from " + record);
@@ -340,9 +341,13 @@ public class AvroImporter extends JanusClient {
     
   /** Process <em>Avro</em> cutout.
     * @param record       The {@link GenericRecord} to process.
-    * @param mother       The {@link Vertex} to attach to. */
+    * @param mother       The {@link Vertex} to attach to. 
+    * @param jd           The <em>jd</em> of the corresponding candidate.
+    */
   private void processCutout(GenericRecord record,
-                             Vertex        mother) {
+                             Vertex        mother,
+                             String        objectId,
+                             String        jd) {
     Vertex v = vertex(record, "cutout", null);
     GenericRecord r;
     String fn;
@@ -356,7 +361,7 @@ public class AvroImporter extends JanusClient {
                        s + " fits",
                        "HBase",
                        _hbaseUrl,
-                       "return client.scan('" + objectId + "_" + jd + "', null, '*', 0, true, true)");
+                       "return client.scan('" + objectId + "_" + jd + "', null, 'b:cutout" + s + "_stampData', 0, true, true)");
         }
       else if (fitsDir() == null) {
         v.property("cutout" + s + "Fn", fn);
