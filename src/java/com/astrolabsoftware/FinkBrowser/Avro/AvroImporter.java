@@ -350,6 +350,7 @@ public class AvroImporter extends JanusClient {
     Vertex v = vertex(record, "cutout", null);
     GenericRecord r;
     String fn;
+    String key = objectId + "_" + jd;
     byte[] data;
     for (String s : new String[]{"Science", "Template", "Difference"}) { 
       r = (GenericRecord)(record.get("cutout" + s));
@@ -360,7 +361,7 @@ public class AvroImporter extends JanusClient {
                        s + " fits",
                        "HBase",
                        _hbaseUrl,
-                       "return client.scan('" + objectId + "_" + jd + "', null, 'b:cutout" + s + "_stampData', 0, true, true)");
+                       "x=client.scan('" + key + "', null, 'b:cutout" + s + "_stampData', 0, false, false).get('" + key + "').get('b:cutout" + s + "_stampData');client.repository().get(x)");
         }
       else if (fitsDir() == null) {
         v.property("cutout" + s + "Fn", fn);
