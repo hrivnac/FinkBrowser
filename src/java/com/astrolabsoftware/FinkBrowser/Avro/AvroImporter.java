@@ -280,7 +280,7 @@ public class AvroImporter extends JanusClient {
                                objectId);
           } 
         }
-      String jd = (GenericRecord)(record.get("candidate")).get("jd");
+      String jd = (GenericRecord)(record.get("candidate")).get("jd").toString();
       processCutout(record, v, objectId, jd);
       }
     else {
