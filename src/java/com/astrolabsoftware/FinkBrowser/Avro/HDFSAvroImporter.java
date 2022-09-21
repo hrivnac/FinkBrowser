@@ -51,7 +51,7 @@ public class HDFSAvroImporter extends AvroImporter {
     * @throws LomikelException If anything goes wrong. */
    public static void main(String[] args) throws IOException {
     Init.init();
-    if (args.length != 6) {
+    if (args.length != 7) {
       log.error("HDFSAvroImporter.exe.jar <JanusGraph properties> [<file>|<directory>] <hbaseUrl> <report limit> <commit limit> [create|reuse|drop]");
       System.exit(-1);
       }
