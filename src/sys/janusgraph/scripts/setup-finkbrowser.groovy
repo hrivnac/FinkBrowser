@@ -33,7 +33,6 @@ class FinkBrowserServer {
         def (hostname, port, table, schema) = url.split(':') // 134.158.74.54:2181:ztf:schema_0.7.0_0.3.8
         def client = new com.astrolabsoftware.FinkBrowser.HBaser.FinkHBaseClient(hostname, port)
         client.connect(table, schema)
-        query = query.toString()
         return Eval.me('client', client, query)
         break
       case 'Graph':

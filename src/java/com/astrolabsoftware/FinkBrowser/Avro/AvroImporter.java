@@ -361,7 +361,7 @@ public class AvroImporter extends JanusClient {
                        s + " fits",
                        "HBase",
                        _hbaseUrl,
-                       "x=client.scan('" + key + "', null, 'b:cutout" + s + "_stampData', 0, false, false).get('" + key + "').get('b:cutout" + s + "_stampData');client.repository().get(x)");
+                       "x=client.scan('" + key + "', null, 'b:cutout" + s + "_stampData', 0, false, false).get('" + key + "').get('b:cutout" + s + "_stampData');y=client.repository().get(x);java.util.Base64.getEncoder().encodeToString(y)");
         }
       else if (fitsDir() == null) {
         v.property("cutout" + s + "Fn", fn);
