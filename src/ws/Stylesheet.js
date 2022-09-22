@@ -49,7 +49,27 @@ stylesheet.nodes.site = {
     {name:"Tomcat",             url:"Tomcat"       , target:"external"}
     ]
   }
-stylesheet.nodes.alert = {
+stylesheet.nodes.datalink = {
+  properties:{gremlin:"valueMap('name').toList()[0]"},
+  graphics: {
+    label:"name",
+    title:"name",        
+    subtitle:"technology",
+    group:" ",        
+    shape:"dot",      
+    image:"",        
+    borderRadius:"0", 
+    borderWidth:"1",  
+    borderDashes:[1,0],
+    value:"0"        
+    },
+  actions:[                                                                 
+    {name:"Analyse", url:{js:"'http://134.158.75.151:24000/' + objectId"                         }, target:"external"},
+    {name:"Show",    url:{gremlin:"id().next().toString().replaceFirst(\"^\", \"Node.jsp?id=\")" }, target:"result"  },
+    {name:"Table",   url:{gremlin:"id().next().toString().replaceFirst(\"^\", \"Nodes.jsp?id=\")"}, target:"table"   }
+    ]
+  }
+stylesheet.nodes.source = {
   properties:{gremlin:"valueMap('objectId').toList()[0]"},
   graphics: {
     label:"objectId",
@@ -61,10 +81,29 @@ stylesheet.nodes.alert = {
     borderRadius:"0", 
     borderWidth:"3",  
     borderDashes:[1,0],
-    value:{gremlin:"out().out().count().join().toString()"}        
+    value:{gremlin:"out().count().join().toString()"}        
     },
   actions:[                                                                 
     {name:"Analyse", url:{js:"'http://134.158.75.151:24000/' + objectId"                         }, target:"external"},
+    {name:"Show",    url:{gremlin:"id().next().toString().replaceFirst(\"^\", \"Node.jsp?id=\")" }, target:"result"  },
+    {name:"Table",   url:{gremlin:"id().next().toString().replaceFirst(\"^\", \"Nodes.jsp?id=\")"}, target:"table"   }
+    ]
+  }
+stylesheet.nodes.alert = {
+  properties:{gremlin:"valueMap('lbl').toList()[0]"},
+  graphics: {
+    label:"lbl",
+    title:"lbl",        
+    subtitle:" ",
+    group:"lbl",        
+    shape:"hexagon",      
+    image:"",        
+    borderRadius:"0", 
+    borderWidth:"2",  
+    borderDashes:[1,0],
+    value:{gremlin:"out().out().has('lbl', 'prv_candicate').count().join().toString()"}        
+    },
+  actions:[                                                                 
     {name:"Show",    url:{gremlin:"id().next().toString().replaceFirst(\"^\", \"Node.jsp?id=\")" }, target:"result"  },
     {name:"Table",   url:{gremlin:"id().next().toString().replaceFirst(\"^\", \"Nodes.jsp?id=\")"}, target:"table"   }
     ]
