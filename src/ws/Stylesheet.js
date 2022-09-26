@@ -95,7 +95,7 @@ stylesheet.nodes.alert = {
     label:"lbl",
     title:"lbl",        
     subtitle:" ",
-    group:"lbl",        
+    group:{gremlin:"in().has('lbl', 'source').values('objectId').toList()[0]"},        
     shape:"hexagon",      
     image:"",        
     borderRadius:"0", 
@@ -166,6 +166,25 @@ stylesheet.nodes.prv_candidate = {
     ]
   }
 stylesheet.nodes.cutout = {
+  properties:{},
+  graphics: {
+    label:"cutout",
+    title:"cutout",        
+    subtitle:" ",
+    group:{gremlin:"in().in().in().has('lbl', 'source').values('objectId').toList()[0]"},        
+    shape:"triangle",      
+    image:"",        
+    borderRadius:"0", 
+    borderWidth:"3",  
+    borderDashes:[1,0],
+    value:{gremlin:"both().count().join().toString()"}        
+    },
+  actions:[                                                                 
+    {name:"Show",       url:{gremlin:"id().next().toString().replaceFirst(\"^\", \"Node.jsp?id=\")" }, target:"result"  },
+    {name:"Table",      url:{gremlin:"id().next().toString().replaceFirst(\"^\", \"Nodes.jsp?id=\")"}, target:"table"   }
+    ]
+  }
+stylesheet.nodes.cutoutX = {
   properties:{gremlin:"valueMap('cutoutScienceFn', 'cutoutTemplateFn', 'cutoutDifferenceFn', 'cutoutScience', 'cutoutTemplate', 'cutoutDifference').toList()[0]"},
   graphics: {
     label:"cutout",
