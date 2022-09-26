@@ -50,7 +50,7 @@ stylesheet.nodes.site = {
     ]
   }
 stylesheet.nodes.datalink = {
-  properties:{gremlin:"valueMap('name').toList()[0]"},
+  properties:{gremlin:"valueMap('name', 'technology').toList()[0]"},
   graphics: {
     label:"name",
     title:"name",        
@@ -114,7 +114,7 @@ stylesheet.nodes.candidate = {
     label:"candid",
     title:"candid",        
     subtitle:" ",
-    group:{gremlin:"in().has('lbl', 'alert').values('objectId').toList()[0]"},        
+    group:{gremlin:"in().in().has('lbl', 'source').values('objectId').toList()[0]"},        
     shape:"dot",      
     image:"",        
     borderRadius:"0", 
@@ -133,7 +133,7 @@ stylesheet.nodes.prv_candidates = {
     label:"prv_candidates",
     title:"prv_candidates",        
     subtitle:" ",
-    group:{gremlin:"in().has('lbl','alert').values('objectId').toList()[0]"},        
+    group:{gremlin:"in().in().has('lbl','source').values('objectId').toList()[0]"},        
     shape:"dot",      
     image:"",        
     borderRadius:"0", 
@@ -152,7 +152,7 @@ stylesheet.nodes.prv_candidate = {
     label:"jd",
     title:"jd",        
     subtitle:" ",
-    group:{gremlin:"in().in().has('lbl','alert').values('objectId').toList()[0]"},        
+    group:{gremlin:"in().in().in().has('lbl','source').values('objectId').toList()[0]"},        
     shape:"dot",      
     image:"",        
     borderRadius:"0", 
@@ -171,7 +171,7 @@ stylesheet.nodes.cutout = {
     label:"cutout",
     title:"cutout",        
     subtitle:" ",
-    group:{gremlin:"in().has('lbl', 'alert').values('objectId').toList()[0]"},        
+    group:{gremlin:"in().in().has('lbl', 'source').values('objectId').toList()[0]"},        
     shape:"triangle",      
     image:"",        
     borderRadius:"0", 
