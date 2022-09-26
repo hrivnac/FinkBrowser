@@ -171,7 +171,7 @@ stylesheet.nodes.cutout = {
     label:"cutout",
     title:"cutout",        
     subtitle:" ",
-    group:{gremlin:"in().in().in().has('lbl', 'source').values('objectId').toList()[0]"},        
+    group:{gremlin:"in().in().has('lbl', 'source').values('objectId').toList()[0]"},        
     shape:"triangle",      
     image:"",        
     borderRadius:"0", 
