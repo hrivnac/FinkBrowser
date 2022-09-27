@@ -64,7 +64,7 @@ stylesheet.nodes.datalink = {
     value:"0"        
     },
   actions:[                                                                 
-    {name:"Link",    url:{gremlin:"each{println(FinkBrowserServer.getDataLink(it))}"                      }, target:"result"   },
+    //{name:"Link",    url:{gremlin:"each{println(FinkBrowserServer.getDataLink(it))}"             }, target:"result"  },
     {name:"Show",    url:{gremlin:"id().next().toString().replaceFirst(\"^\", \"Node.jsp?id=\")" }, target:"result"  },
     {name:"Table",   url:{gremlin:"id().next().toString().replaceFirst(\"^\", \"Nodes.jsp?id=\")"}, target:"table"   }
     ]
