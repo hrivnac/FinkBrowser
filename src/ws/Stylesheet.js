@@ -64,8 +64,8 @@ stylesheet.nodes.datalink = {
     value:"0"        
     },
   actions:[                                                                 
-    {name:"Fits",    url:{gremlin:"id=id().next().toString();FinkBrowserServer.getDataLink(id)"  }, target:"image"   },
-    {name:"Fits",    url:{gremlin:"id=id().next().toString();FinkBrowserServer.getDataLink(id)"  }, target:"external"},
+    {name:"Fits",    url:{gremlin:"each{FinkBrowserServer.getDataLink(it)}"  }, target:"image"   },
+    {name:"Fits",    url:{gremlin:"each{FinkBrowserServer.getDataLink(it)}"  }, target:"external"},
     {name:"Show",    url:{gremlin:"id().next().toString().replaceFirst(\"^\", \"Node.jsp?id=\")" }, target:"result"  },
     {name:"Table",   url:{gremlin:"id().next().toString().replaceFirst(\"^\", \"Nodes.jsp?id=\")"}, target:"table"   }
     ]
