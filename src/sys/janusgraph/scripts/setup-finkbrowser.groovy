@@ -28,30 +28,35 @@ class FinkBrowserServer {
     else {
       return 'no Query'
       }
-    switch (v.values('technology').next()) {
-      case 'HBase':
-        def (hostname, port, table, schema) = url.split(':') // 134.158.74.54:2181:ztf:schema_0.7.0_0.3.8
-        def client = new com.astrolabsoftware.FinkBrowser.HBaser.FinkHBaseClient(hostname, port)
-        client.connect(table, schema)
-        return Eval.me('client', client, query)
-        break
-      case 'Graph':
-        def (backend, hostname, port, table) = url.split(':') // hbase:188.184.87.217:8182:janusgraph
-        def graph = JanusGraphFactory.build().
-                                      set('storage.backend',     backend ).
-                                      set('storage.hostname',    hostname).
-                                      set('storage.port',        port    ).
-                                      set('storage.hbase.table', table   ).
-                                      open()
-        def g = graph.traversal()
-        return Eval.me('g', g, query)
-        break
-      case 'Phoenix':
-        return groovy.sql.Sql.newInstance(url, 'org.apache.phoenix.jdbc.PhoenixDriver').
-                              rows(query)
-        break
-      default:
-        return 'unknown DataLink ' + v
+    try {
+      switch (v.values('technology').next()) {
+        case 'HBase':
+          def (hostname, port, table, schema) = url.split(':') // 134.158.74.54:2181:ztf:schema_0.7.0_0.3.8
+          def client = new com.astrolabsoftware.FinkBrowser.HBaser.FinkHBaseClient(hostname, port)
+          client.connect(table, schema)
+          return Eval.me('client', client, query)
+          break
+        case 'Graph':
+          def (backend, hostname, port, table) = url.split(':') // hbase:188.184.87.217:8182:janusgraph
+          def graph = JanusGraphFactory.build().
+                                        set('storage.backend',     backend ).
+                                        set('storage.hostname',    hostname).
+                                        set('storage.port',        port    ).
+                                        set('storage.hbase.table', table   ).
+                                        open()
+          def g = graph.traversal()
+          return Eval.me('g', g, query)
+          break
+        case 'Phoenix':
+          return groovy.sql.Sql.newInstance(url, 'org.apache.phoenix.jdbc.PhoenixDriver').
+                                rows(query)
+          break
+        default:
+          return 'DataLink ' + v + ' unknown'
+          }
+        }
+      catch (Exception e) {
+        return 'DataLink ' + v + ' not found'
         }
       }
   
