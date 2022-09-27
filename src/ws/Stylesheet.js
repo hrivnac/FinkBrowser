@@ -180,18 +180,12 @@ stylesheet.nodes.cutout = {
     value:{gremlin:"both().count().join().toString()"}        
     },
   actions:[                                                                 
-    {name:"Science",    url:{js:"storeData(cutoutScienceFn,    cutoutScience)"                      }, target:"image"   },
-    {name:"Science",    url:{js:"storeData(cutoutScienceFn,    cutoutScience)"                      }, target:"external"},
-    {name:"Template",   url:{js:"storeData(cutoutTemplateFn,   cutoutTemplate)"                     }, target:"image"   },
-    {name:"Template",   url:{js:"storeData(cutoutTemplateFn,   cutoutTemplate)"                     }, target:"external"},
-    {name:"Difference", url:{js:"storeData(cutoutDifferenceFn, cutoutDifference)"                   }, target:"image"   },
-    {name:"Difference", url:{js:"storeData(cutoutDifferenceFn, cutoutDifference)"                   }, target:"external"},
     {name:"Show",       url:{gremlin:"id().next().toString().replaceFirst(\"^\", \"Node.jsp?id=\")" }, target:"result"  },
     {name:"Table",      url:{gremlin:"id().next().toString().replaceFirst(\"^\", \"Nodes.jsp?id=\")"}, target:"table"   }
     ]
   }
 stylesheet.nodes.cutoutX = {
-  properties:{},
+  properties:{gremlin:"valueMap('cutoutScienceFn', 'cutoutTemplateFn', 'cutoutDifferenceFn', 'cutoutScience', 'cutoutTemplate', 'cutoutDifference').toList()[0]"},
   graphics: {
     label:"cutout",
     title:"cutout",        
@@ -205,6 +199,12 @@ stylesheet.nodes.cutoutX = {
     value:{gremlin:"both().count().join().toString()"}        
     },
   actions:[                                                                 
+    {name:"Science",    url:{js:"storeData(cutoutScienceFn,    cutoutScience)"                      }, target:"image"   },
+    {name:"Science",    url:{js:"storeData(cutoutScienceFn,    cutoutScience)"                      }, target:"external"},
+    {name:"Template",   url:{js:"storeData(cutoutTemplateFn,   cutoutTemplate)"                     }, target:"image"   },
+    {name:"Template",   url:{js:"storeData(cutoutTemplateFn,   cutoutTemplate)"                     }, target:"external"},
+    {name:"Difference", url:{js:"storeData(cutoutDifferenceFn, cutoutDifference)"                   }, target:"image"   },
+    {name:"Difference", url:{js:"storeData(cutoutDifferenceFn, cutoutDifference)"                   }, target:"external"},
     {name:"Show",       url:{gremlin:"id().next().toString().replaceFirst(\"^\", \"Node.jsp?id=\")" }, target:"result"  },
     {name:"Table",      url:{gremlin:"id().next().toString().replaceFirst(\"^\", \"Nodes.jsp?id=\")"}, target:"table"   }
     ]
