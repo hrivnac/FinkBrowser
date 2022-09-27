@@ -64,7 +64,8 @@ stylesheet.nodes.datalink = {
     value:"0"        
     },
   actions:[                                                                 
-    {name:"Analyse", url:{js:"'http://134.158.75.151:24000/' + objectId"                         }, target:"external"},
+    {name:"Fits",    url:{gremlin:"id=id().next().toString();FinkBrowserServer.getDataLink(id)"  }, target:"image"   },
+    {name:"Fits",    url:{gremlin:"id=id().next().toString();FinkBrowserServer.getDataLink(id)"  }, target:"external"},
     {name:"Show",    url:{gremlin:"id().next().toString().replaceFirst(\"^\", \"Node.jsp?id=\")" }, target:"result"  },
     {name:"Table",   url:{gremlin:"id().next().toString().replaceFirst(\"^\", \"Nodes.jsp?id=\")"}, target:"table"   }
     ]
@@ -100,7 +101,7 @@ stylesheet.nodes.alert = {
     image:"",        
     borderRadius:"0", 
     borderWidth:"2",  
-    borderDashes:[1,0],
+    borderDashes:[1,1],
     value:{gremlin:"out().out().has('lbl', 'prv_candicate').count().join().toString()"}        
     },
   actions:[                                                                 
@@ -180,6 +181,12 @@ stylesheet.nodes.cutout = {
     value:{gremlin:"both().count().join().toString()"}        
     },
   actions:[                                                                 
+    {name:"Science",    url:{js:"storeData(cutoutScienceFn,    cutoutScience)"                      }, target:"image"   },
+    {name:"Science",    url:{js:"storeData(cutoutScienceFn,    cutoutScience)"                      }, target:"external"},
+    {name:"Template",   url:{js:"storeData(cutoutTemplateFn,   cutoutTemplate)"                     }, target:"image"   },
+    {name:"Template",   url:{js:"storeData(cutoutTemplateFn,   cutoutTemplate)"                     }, target:"external"},
+    {name:"Difference", url:{js:"storeData(cutoutDifferenceFn, cutoutDifference)"                   }, target:"image"   },
+    {name:"Difference", url:{js:"storeData(cutoutDifferenceFn, cutoutDifference)"                   }, target:"external"},
     {name:"Show",       url:{gremlin:"id().next().toString().replaceFirst(\"^\", \"Node.jsp?id=\")" }, target:"result"  },
     {name:"Table",      url:{gremlin:"id().next().toString().replaceFirst(\"^\", \"Nodes.jsp?id=\")"}, target:"table"   }
     ]
