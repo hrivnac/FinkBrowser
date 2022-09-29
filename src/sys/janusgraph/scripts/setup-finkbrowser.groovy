@@ -122,7 +122,7 @@ class FinkBrowserServer {
     }
     
   def static candidates(g, objectId) {
-    return g.V().has('objectId', objectId).out().has('lbl', 'candidate')
+    return g.V().has('objectId', objectId).out().out().has('lbl', 'candidate')
     }  
     
   def static help() {
