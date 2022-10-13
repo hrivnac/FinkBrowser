@@ -215,13 +215,17 @@
       <zipfileset includes="**/*" src="${lomikel_jar}" excludes="META-INF/*"/>
       <zipfileset includes="**/*" src="${orgjson_jar}" excludes="META-INF/*"/>
       <zipfileset includes="**/*" src="${javaxmail_jar}" excludes="META-INF/*"/>
+      <zipfileset includes="**/*" src="${hadoopcommon_jar}" excludes="META-INF/*"/>
+      <zipfileset includes="**/*" src="${hbasecommon_jar}" excludes="META-INF/*"/>
+      <zipfileset includes="**/*" src="${hbaseclient_jar}" excludes="META-INF/*"/>
+      <zipfileset includes="**/*" src="${groovysh_jar}" excludes="META-INF/*"/>
       <zipfileset includes="**/*" src="${hbase_dir}/lib/commons-beanutils-core-1.8.0.jar" excludes="META-INF/*"/>
       <zipfileset includes="**/*" src="${hbase_dir}/lib/commons-cli-1.2.jar" excludes="META-INF/*"/>
       <!--zipfileset includes="**/*" src="/opt/lib/commons-cli-1.4.jar" excludes="META-INF/*"/--><!-- to allow in Jupyter -->
       <zipfileset includes="**/*" src="${hbase_dir}/lib/commons-codec-1.10.jar" excludes="META-INF/*"/>
       <zipfileset includes="**/*" src="${hbase_dir}/lib/commons-collections-3.2.2.jar" excludes="META-INF/*"/>
       <zipfileset includes="**/*" src="${hbase_dir}/lib/commons-compress-1.4.1.jar" excludes="META-INF/*"/>
-      <zipfileset includes="**/*" src="${hbase_dir}/lib/commons-configuration-1.6.jar" excludes="META-INF/*"/>
+      <!--zipfileset includes="**/*" src="${hbase_dir}/lib/commons-configuration-1.6.jar" excludes="META-INF/*"/-->
       <zipfileset includes="**/*" src="${hbase_dir}/lib/commons-crypto-1.0.0.jar" excludes="META-INF/*"/>
       <zipfileset includes="**/*" src="${hbase_dir}/lib/commons-daemon-1.0.13.jar" excludes="META-INF/*"/>
       <zipfileset includes="**/*" src="${hbase_dir}/lib/commons-digester-1.8.jar" excludes="META-INF/*"/>
@@ -238,12 +242,9 @@
       <zipfileset includes="**/*" src="${hbase_dir}/lib/hadoop-annotations-2.8.5.jar" excludes="META-INF/*"/>
       <zipfileset includes="**/*" src="${hbase_dir}/lib/hadoop-auth-2.8.5.jar" excludes="META-INF/*"/>
       <zipfileset includes="**/*" src="${hbase_dir}/lib/hadoop-client-2.8.5.jar" excludes="META-INF/*"/>
-      <zipfileset includes="**/*" src="${hbase_dir}/lib/hadoop-common-2.8.5.jar" excludes="META-INF/*"/>
       <zipfileset includes="**/*" src="${hbase_dir}/lib/hadoop-distcp-2.8.5.jar" excludes="META-INF/*"/>
       <zipfileset includes="**/*" src="${hbase_dir}/lib/hamcrest-core-1.3.jar" excludes="META-INF/*"/>
       <zipfileset includes="**/*" src="${hbase_dir}/lib/hbase-annotations-2.2.4.jar" excludes="META-INF/*"/>
-      <zipfileset includes="**/*" src="${hbase_dir}/lib/hbase-client-2.2.4.jar" excludes="META-INF/*"/>
-      <zipfileset includes="**/*" src="${hbase_dir}/lib/hbase-common-2.2.4.jar" excludes="META-INF/*"/>
       <zipfileset includes="**/*" src="${hbase_dir}/lib/hbase-endpoint-2.2.4.jar" excludes="META-INF/*"/>
       <zipfileset includes="**/*" src="${hbase_dir}/lib/hbase-external-blockcache-2.2.4.jar" excludes="META-INF/*"/>
       <zipfileset includes="**/*" src="${hbase_dir}/lib/hbase-hadoop2-compat-2.2.4.jar" excludes="META-INF/*"/>
@@ -297,6 +298,7 @@
       <zipfileset includes="**/*" src="${janusgraph_dir}/lib/commons-codec-1.15.jar" excludes="META-INF/*"/>
       <zipfileset includes="**/*" src="${janusgraph_dir}/lib/commons-collections-3.2.2.jar" excludes="META-INF/*"/>
       <zipfileset includes="**/*" src="${janusgraph_dir}/lib/commons-configuration-1.10.jar" excludes="META-INF/*"/>
+      <zipfileset includes="**/*" src="${janusgraph_dir}/lib/commons-configuration2-2.7.jar" excludes="META-INF/*"/>
       <zipfileset includes="**/*" src="${janusgraph_dir}/lib/commons-lang-2.6.jar" excludes="META-INF/*"/>
       <zipfileset includes="**/*" src="${janusgraph_dir}/lib/commons-lang3-3.11.jar" excludes="META-INF/*"/>
       <zipfileset includes="**/*" src="${janusgraph_dir}/lib/commons-logging-1.2.jar" excludes="META-INF/*"/>
@@ -310,7 +312,6 @@
       <zipfileset includes="**/*" src="${janusgraph_dir}/lib/groovy-2.5.14-indy.jar" excludes="META-INF/*"/>
       <zipfileset includes="**/*" src="${janusgraph_dir}/lib/groovy-cli-picocli-2.5.14.jar" excludes="META-INF/*"/>
       <zipfileset includes="**/*" src="${janusgraph_dir}/lib/groovy-console-2.5.14.jar" excludes="META-INF/*"/>
-      <zipfileset includes="**/*" src="${janusgraph_dir}/lib/groovy-groovysh-2.5.14-indy.jar" excludes="META-INF/*"/>
       <zipfileset includes="**/*" src="${janusgraph_dir}/lib/groovy-json-2.5.14-indy.jar" excludes="META-INF/*"/>
       <zipfileset includes="**/*" src="${janusgraph_dir}/lib/groovy-jsr223-2.5.14-indy.jar" excludes="META-INF/*"/>
       <zipfileset includes="**/*" src="${janusgraph_dir}/lib/groovy-swing-2.5.14.jar" excludes="META-INF/*"/>
@@ -446,6 +447,10 @@
       <lib file="${orgjson_jar}"/>
       <lib file="${healpix_jar}"/>
       <lib file="${javaxmail_jar}"/>
+      <lib file="${hadoopcommon_jar}"/>
+      <lib file="${hbasecommon_jar}"/>
+      <lib file="${hbaseclient_jar}"/>
+      <lib file="${groovysh_jar}"/>
       <lib file="${hbase_dir}/lib/commons-beanutils-core-1.8.0.jar"/>
       <lib file="${hbase_dir}/lib/commons-cli-1.2.jar"/>
       <lib file="${hbase_dir}/lib/commons-codec-1.10.jar"/>
@@ -468,12 +473,9 @@
       <lib file="${hbase_dir}/lib/hadoop-annotations-2.8.5.jar"/>
       <lib file="${hbase_dir}/lib/hadoop-auth-2.8.5.jar"/>
       <lib file="${hbase_dir}/lib/hadoop-client-2.8.5.jar"/>
-      <lib file="${hbase_dir}/lib/hadoop-common-2.8.5.jar"/>
       <lib file="${hbase_dir}/lib/hadoop-distcp-2.8.5.jar"/>
       <lib file="${hbase_dir}/lib/hamcrest-core-1.3.jar"/>
       <lib file="${hbase_dir}/lib/hbase-annotations-2.2.4.jar"/>
-      <lib file="${hbase_dir}/lib/hbase-client-2.2.4.jar"/>
-      <lib file="${hbase_dir}/lib/hbase-common-2.2.4.jar"/>
       <lib file="${hbase_dir}/lib/hbase-endpoint-2.2.4.jar"/>
       <lib file="${hbase_dir}/lib/hbase-external-blockcache-2.2.4.jar"/>
       <lib file="${hbase_dir}/lib/hbase-hadoop2-compat-2.2.4.jar"/>
@@ -540,7 +542,6 @@
       <lib file="${janusgraph_dir}/lib/groovy-2.5.7-indy.jar"/>
       <lib file="${janusgraph_dir}/lib/groovy-cli-picocli-2.5.7.jar"/>
       <lib file="${janusgraph_dir}/lib/groovy-console-2.5.7.jar"/>
-      <lib file="${janusgraph_dir}/lib/groovy-groovysh-2.5.7-indy.jar"/>
       <lib file="${janusgraph_dir}/lib/groovy-json-2.5.7-indy.jar"/>
       <lib file="${janusgraph_dir}/lib/groovy-jsr223-2.5.7-indy.jar"/>
       <lib file="${janusgraph_dir}/lib/groovy-swing-2.5.7.jar"/>
@@ -791,6 +792,9 @@
   <target name="dist"
           depends="jar"
           description="Construct distribution">
+    <copy todir="../dist">
+			<fileset dir="${lomikel_dist}" includes="**/"/>
+      </copy>
     <copy todir="../dist">
 			<fileset dir="../lib" includes="*.jar"/>
       </copy>
