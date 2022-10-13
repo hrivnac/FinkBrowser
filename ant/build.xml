@@ -790,15 +790,47 @@
   <!-- Dist =================================================================-->
 
   <target name="dist"
-          depends="jar"
+          depends="init"
           description="Construct distribution">
-    <copy todir="../dist">
-			<fileset dir="${lomikel_dist}" includes="**/"/>
+    <mkdir dir="../dist/conf"/>
+    <copy todir="../dist/jars">
+			<fileset dir="${lomikel_jars}" includes="**/"/>
       </copy>
-    <copy todir="../dist">
+    <copy todir="../dist/jars">
 			<fileset dir="../lib" includes="*.jar"/>
       </copy>
-  </target>
+    <mkdir dir="../dist/conf"/>
+    <copy todir="../dist/conf">
+			<fileset dir="${janusgraph_dir}/conf/gremlin-server" includes="Local*.properties"/>
+      </copy>
+    <mkdir dir="../dist/src"/>
+    <mkdir dir="../dist/src/gremlin"/>
+    <copy todir="../dist/src/gremlin">
+			<fileset dir="${lomikel_src}/gremlin" includes="*.gremlin"/>
+			<fileset dir="../src/gremlin" includes="*.gremlin"/>
+      </copy>
+    <mkdir dir="../dist/bin"/>
+    <basename property="groovy_sql_jar_dist" file="${groovy_sql_jar}"/>
+    <basename property="healpix_jar_dist" file="${healpix_jar}"/>
+    <echo file="../dist/bin/gremlin_console_IJCLab.sh" append="false">
+#!/usr/bin/env bash
+FB=$(dirname "$0")
+FB=$(builtin cd ${FB}/..) 
+export CLASSPATH="${FB}/jars/${groovy_sql_jar_dist}:${FB}/jars/${healpix_jar_dist}"
+$${janusgraph_dir}/bin/gremlin.sh -i "${FB}/src/gremlin/start_console.gremlin ${FB}/conf/Local-IJCLab.properties ${FB}" -i "${FB}/src/gremlin/start2_console.gremlin"
+      </echo>
+    <chmod file="../dist/bin/gremlin_console_IJCLab.sh" perm="a+x"/>
+    <tar tarfile="../FinkBrowser-${version}.tar.gz"
+         longfile="gnu" 
+         compression="gzip">
+      <tarfileset dir="../dist"
+                  prefix="FinkBrowser"
+                  preserveLeadingSlashes="false"
+                  mode="777">
+        <include name="**/*"/>
+        </tarfileset>
+      </tar>
+    </target>
    
   <!-- JavaDoc ==============================================================-->
 
