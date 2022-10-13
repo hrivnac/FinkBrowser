@@ -820,7 +820,7 @@ export CLASSPATH="${FB}/jars/${groovy_sql_jar_dist}:${FB}/jars/${healpix_jar_dis
 $${janusgraph_dir}/bin/gremlin.sh -i "${FB}/src/gremlin/start_console.gremlin ${FB}/conf/Local-IJCLab.properties ${FB}" -i "${FB}/src/gremlin/start2_console.gremlin"
       </echo>
     <chmod file="../dist/bin/gremlin_console_IJCLab.sh" perm="a+x"/>
-    <tar tarfile="../FinkBrowser-${version}.tar.gz"
+    <tar tarfile="../FinkBrowser-dist-${version}.tar.gz"
          longfile="gnu" 
          compression="gzip">
       <tarfileset dir="../dist"
