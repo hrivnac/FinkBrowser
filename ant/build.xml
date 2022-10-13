@@ -792,6 +792,10 @@
   <target name="dist"
           depends="init"
           description="Construct distribution">
+    <delete includeEmptyDirs="true">
+      <fileset dir="../dist" includes="**/*"/>
+      </delete>
+    <mkdir dir="../dist"/>
     <mkdir dir="../dist/conf"/>
     <copy todir="../dist/jars">
 			<fileset dir="${lomikel_jars}" includes="**/"/>
@@ -818,6 +822,24 @@ FB=$(dirname "$0")
 FB=$(builtin cd ${FB}/..) 
 export CLASSPATH="${FB}/jars/${groovy_sql_jar_dist}:${FB}/jars/${healpix_jar_dist}"
 $${janusgraph_dir}/bin/gremlin.sh -i "${FB}/src/gremlin/start_console.gremlin ${FB}/conf/Local-IJCLab.properties ${FB}" -i "${FB}/src/gremlin/start2_console.gremlin"
+      </echo>
+    <echo file="../dist/bin/gremlin_IJCLab.sh" append="false">
+#!/usr/bin/env bash
+FB=$(dirname "$0")
+FB=$(builtin cd ${FB}/..) 
+$${janusgraph_dir}/bin/gremlin.sh -i "${FB}/src/gremlin/start_IJCLab.gremlin" -i "${FB}/src/gremlin/start2.gremlin"
+      </echo>
+    <echo file="../dist/read.me" append="false">
+      -) get JanusGraph release https://github.com/JanusGraph/janusgraph/releases
+      -) set env variable janusgraph_dir to you JanusGraph instalation
+      -) start one of the Gremlin clients
+         -) FinkBrowser/bin/gremlin_IJClab.sh
+            connects to IJClab JanusGraph server
+            (less powerfull, but more portable)
+         -) FinkBrowser/bin/gremlin_console_IJCLab.sh
+            connects to IJCLab HBase and ElasticSearch servers and starts local JanusGraph proccess
+            (more powerfull)
+      (make sure to have unrestricted way to JanusGraph or HBase+ElasticSearch servers)
       </echo>
     <chmod file="../dist/bin/gremlin_console_IJCLab.sh" perm="a+x"/>
     <tar tarfile="../FinkBrowser-dist-${version}.tar.gz"
