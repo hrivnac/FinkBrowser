@@ -1,3 +1,5 @@
+// Several examples of simple gremlin commands
+
 g.V().has('lbl', 'source').
       has('objectId', 'ZTF18abimyys').
       out().
@@ -38,6 +40,7 @@ g.V().has('lbl', 'source').
       has('lbl', 'candidate').
       valueMap()
 
+// Get data (from HBase) attached in 'candidate's       
 g.V().has('lbl', 'source').
       has('objectId', 'ZTF18abimyys').
       out().
@@ -62,9 +65,11 @@ g.V().has('lbl', 'source').
         println(FinkBrowser.getDataLink(it))
         }
 
+// Geometric searches
 FinkBrowser.geosearch(g, 230, 30, 0.2, 2459601.03, 2459601.04, 10).elementMap().unfold()  
 FinkBrowser.geosearch(g, 230, 30, 0.2, 2459601.03, 2459601.04, 10).in().elementMap().unfold()  
 FinkBrowser.geosearch(g, 230, 30, 0.2, 2459601.03, 2459601.04, 10).in().in().elementMap().unfold()  
 FinkBrowser.geosearch(g, 230, 30, 0.2, 2459601.03, 2459601.04, 10).in().in().out().elementMap().unfold()
  
+// Candidate searches
 FinkBrowser.candidates(g, 'ZTF18aagsirm')

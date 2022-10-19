@@ -820,7 +820,7 @@
 #!/usr/bin/env bash
 FB=$(dirname "$0")
 FB=$(builtin cd ${FB}/..) 
-/bin/cp -r ${FB}/janusgraph_patch/* $${janusgraph_dir}
+/bin/cp -r ${FB}/janusgraph-patch/* $${janusgraph_dir}
       </echo>
     <echo file="../dist/bin/gremlin_console_IJCLab.sh" append="false">
 #!/usr/bin/env bash
@@ -841,7 +841,7 @@ $${janusgraph_dir}/bin/gremlin.sh -i "${FB}/src/gremlin/start_IJCLab.gremlin" -i
       -) FinkBrowser/bin/patch_janusgraph.sh
          patches JanusGraph instalation
       -) start one of the Gremlin clients
-         -) FinkBrowser/bin/gremlin_IJClab.sh
+         -) FinkBrowser/bin/gremlin_IJCLab.sh
             connects to IJClab JanusGraph server
             (less powerfull, but more portable)
          -) FinkBrowser/bin/gremlin_console_IJCLab.sh
