@@ -190,16 +190,6 @@
         <attribute name="AppVersion" value="${version} ${TSTAMP}"/>
         </manifest>
       </jar>
-    <jar jarfile="../lib/FinkBrowser.min.exe.jar" index="yes">
-      <zipfileset includes="**/*" src="../lib/FinkBrowser-${version}.jar" excludes="META-INF/*"/>
-      <zipfileset includes="**/*" src="${lomikel_jar}" excludes="META-INF/*"/>
-      <manifest>
-        <attribute name="Created-By" value="${user.name}"/>
-        <attribute name="AppName"    value="FinkBrowser"/>
-        <attribute name="AppVersion" value="${version} ${TSTAMP}"/>
-        <attribute name="Main-Class" value="com.astrolabsoftware.FinkBrowser.Apps.CLI"/>
-        </manifest>
-      </jar>
     <!--jar jarfile="../lib/ParquetImporter.jar" index="yes">
       <zipfileset includes="**/*" src="../lib/FinkBrowser-${version}.jar" excludes="META-INF/*"/>
       <zipfileset includes="**/*" src="${lomikel_jar}" excludes="META-INF/*"/>
