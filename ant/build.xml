@@ -871,7 +871,7 @@ $${janusgraph_dir}/bin/gremlin.sh -i "${FB}/src/gremlin/start_IJCLab.gremlin" -i
   <!-- JavaDoc ==============================================================-->
 
   <target name="doc"
-          depends="jar,j2h,viz,uml"
+          depends="init"
           description="Construct documentation">
  		<copy todir="../doc">
 			<fileset dir="../src" includes="*.html"/>
@@ -885,6 +885,7 @@ $${janusgraph_dir}/bin/gremlin.sh -i "${FB}/src/gremlin/start_IJCLab.gremlin" -i
  		<copy todir="../doc/Gremlin">
 			<fileset dir="../src/gremlin" includes="*.gremlin"/>
 			<fileset dir="${lomikel_src}/gremlin" includes="examples.gremlin"/>
+			<fileset dir="${lomikel_src}/gremlin" includes="examplesLomikel.gremlin"/>
       </copy>
     <mkdir dir="../doc/BeanShell"/>
  		<copy todir="../doc/BeanShell">
