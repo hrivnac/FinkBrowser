@@ -21,7 +21,12 @@
 </tr></table>
 <hr/>
 
-<h2><a href="http://134.158.74.221:8080/FinkBrowser/?profile=ijclabe">Prototype running @IJCLab</a> (under development)</h2>
+<ul>
+<li><a href="http://134.158.74.221:8080/FinkBrowser/?profile=ijclabe">Prototype running @IJCLab</a> (under development)</li>
+<li><a href="FinkBrowser.exe.jar">Executable client</a></li>
+<li><a href="FinkBrowser-dist.tar.gz">Gremlin console distribution</a></li>
+</ul>
+
 <hr/>
 
 <h2>Documentation</h2>
@@ -29,8 +34,6 @@
 <ul>
 <li><a href="JavaDoc">JavaDoc</a></li>
 <li><a href="Src">Source</a></li>
-<li><a href="build.jpg">Ant build dependencies</a></li>
-<li><a href="index.jpg">Class diagram</a></li>
 <li><a href="https://github.com/hrivnac/FinkBrowser.git">https://github.com/hrivnac/FinkBrowser.git</a></li>
 <li>Externals:
     <a href="https://www.java.com">Java</a>,
@@ -38,6 +41,7 @@
     <a href="https://github.com/cds-astro/cds-healpix-java">HealPix</a>,
     <a href="http://www.jython.org">Jython</a> (for Jython client, optional),
     <a href="http://www.jpype.org">JPype</a> (for CPython client, optional),
+    <a href="https://pypi.org/project/gremlinpython">Gremlin Python</a> (for Phython client, optional),
     <a href="http://sagemath.org">Sage</a> (to perform math analyses, optional),
     <a href="http://matplotlib.org">MatPlotLib</a> (to perform math analyses, optional),
     <a href="http://jupyter.org">Jupyter</a> (to run in a Notebook),
@@ -121,14 +125,18 @@ It allows <a href="https://beanshell.github.io">BeanShell</a>/Java scripting, wi
 <iframe src="BeanShell/testStringGremlinClient.bsh" seamless></iframe>
 <u><b><a href="https://github.com/hrivnac/FinkBrowser/blob/master/src/bsh/testDirectGremlinClient.bsh">BeanShell/Java example</a> (direct Gremlin connection):</b></u>
 <iframe src="BeanShell/testDirectGremlinClient.bsh" seamless></iframe>
-<u><b><a href="https://github.com/hrivnac/FinkBrowser/blob/master/src/python/testStringGremlinClient.jy">Jython example</a> (submitting Gremlin as String, needs <a href="http://www.jython.org">Jython</a>):</b></u>
-<iframe src="Python/testStringGremlinClient.jy" seamless></iframe>
-<u><b><a href="https://github.com/hrivnac/FinkBrowser/blob/master/src/python/testDirectGremlinClient.jy">Jython example</a> (direct Gremlin connection, needs <a href="http://www.jython.org">Jython</a>):</b></u>
-<iframe src="Python/testDirectGremlinClient.jy" seamless></iframe>
-<u><b><a href="https://github.com/hrivnac/FinkBrowser/blob/master/src/python/testStringGremlinClient.py">CPython example</a> (submitting Gremlin as String, needs <a href="http://www.jpype.org">JPype</a>):</b></u>
-<iframe src="Python/testStringGremlinClient.py" seamless></iframe>
-<u><b><a href="https://github.com/hrivnac/FinkBrowser/blob/master/src/python/testDirectGremlinClient.py">CPython example</a> (direct Gremlin connection, needs <a href="http://www.jpype.org">JPype</a>):</b></u>
-<iframe src="Python/testDirectGremlinClient.py" seamless></iframe>
+<u><b><a href="https://github.com/hrivnac/FinkBrowser/blob/master/src/python/testGremlinJythonString.jy">Jython example</a> (submitting Gremlin as String, needs <a href="http://www.jython.org">Jython</a>):</b></u>
+<iframe src="Python/testGremlinJythonString.jy" seamless></iframe>
+<u><b><a href="https://github.com/hrivnac/FinkBrowser/blob/master/src/python/testGremlinJythonDirect.jy">Jython example</a> (direct Gremlin connection, needs <a href="http://www.jython.org">Jython</a>):</b></u>
+<iframe src="Python/testGremlinJythonDirect.jy" seamless></iframe>
+<u><b><a href="https://github.com/hrivnac/FinkBrowser/blob/master/src/python/testGremlinPythonString.py">CPython example</a> (submitting Gremlin as String, needs <a href="http://www.jpype.org">JPype</a>):</b></u>
+<iframe src="Python/testGremlinPythonString.py" seamless></iframe>
+<u><b><a href="https://github.com/hrivnac/FinkBrowser/blob/master/src/python/testGremlinPythonDirect.py">CPython example</a> (direct Gremlin connection, needs <a href="http://www.jpype.org">JPype</a>):</b></u>
+<iframe src="Python/testGremlinPythonDirect.py" seamless></iframe>
+<u><b><a href="https://github.com/hrivnac/FinkBrowser/blob/master/src/python/testGremlinJPypeString.py">JPype example</a> (submitting Gremlin as String, needs <a href="https://pypi.org/project/gremlinpython/">Gremlin Python</a>):</b></u>
+<iframe src="Python/testGremlinJPypeString.py" seamless></iframe>
+<u><b><a href="https://github.com/hrivnac/FinkBrowser/blob/master/src/python/testGremlinJPypeDirect.py">JPype example</a> (direct Gremlin connection, needs <a href="https://pypi.org/project/gremlinpython/">Gremlin Python</a>):</b></u>
+<iframe src="Python/testGremlinJPypeDirect.py" seamless></iframe>
 </pre>
 <u><b>Another usefull methods:</b></u>
 <pre style="color:blue; font-size:60%; background-color:#dddddd">
@@ -168,8 +176,14 @@ client.setRangeScan(true)
 <u><b><a href="https://github.com/hrivnac/FinkBrowser/blob/master/src/Jupyter/TestHBaseClient-SageMath.nb">Running in Jupyter/SageMath</a>:</b></u><br/>
 <iframe src="Jupyter/TestHBaseClient-SageMath.nb-txt" seamless></iframe>
 <a href="Jupyter-SageMath.jpg"><img src="Jupyter-SageMath.jpg" width="400"></a><br/>
-<u><b><a href="https://github.com/hrivnac/FinkBrowser/blob/master/src/gremlin/test.gremlin">Running in Gremlin console</a>:</b></u><br/>
+<u><b><a href="https://github.com/hrivnac/FinkBrowser/blob/master/src/gremlin/examplesConsole.gremlin">Running in Gremlin console</a>:</b></u><br/>
+<iframe src="Gremlin/examplesConsole.gremlin" seamless></iframe>
+<u><b><a href="https://github.com/hrivnac/FinkBrowser/blob/master/src/gremlin/test.gremlin">Dressing HBase data as Graphs in Gremlin console</a>:</b></u><br/>
 <iframe src="Gremlin/test.gremlin" seamless></iframe>
+<u><b><a href="https://github.com/hrivnac/FinkBrowser/blob/master/src/gremlin/examples.gremlin">Extensive Gremlin examples (from Lomikel)</a>:</b></u><br/>
+<iframe src="Gremlin/examples.gremlin" seamless></iframe>
+<u><b><a href="https://github.com/hrivnac/FinkBrowser/blob/master/src/gremlin/examplesLomikel.gremlin">Special Lomikel Gremlin examples (from Lomikel)</a>:</b></u><br/>
+<iframe src="Gremlin/examplesLomikel.gremlin" seamless></iframe>
 <hr/>
 
 <h2><a name="Bugs-ToDos">Bugs, Inconsistencies and ToDos</a></h2>

@@ -856,7 +856,7 @@ $${janusgraph_dir}/bin/gremlin.sh -i "${FB}/src/gremlin/start_IJCLab.gremlin" -i
 			<fileset dir="${janusgraph_dir}" includes="ext/**/*"/>
 			<fileset dir="${janusgraph_dir}" includes="scripts/*"/>
       </copy>    
-    <tar tarfile="../FinkBrowser-dist-${version}.tar.gz"
+    <tar tarfile="../FinkBrowser-dist.tar.gz"
          longfile="gnu" 
          compression="gzip">
       <tarfileset dir="../dist"
@@ -884,6 +884,7 @@ $${janusgraph_dir}/bin/gremlin.sh -i "${FB}/src/gremlin/start_IJCLab.gremlin" -i
     <mkdir dir="../doc/Gremlin"/>
  		<copy todir="../doc/Gremlin">
 			<fileset dir="../src/gremlin" includes="*.gremlin"/>
+			<fileset dir="${lomikel_src}/gremlin" includes="examples.gremlin"/>
       </copy>
     <mkdir dir="../doc/BeanShell"/>
  		<copy todir="../doc/BeanShell">
@@ -941,16 +942,15 @@ $${janusgraph_dir}/bin/gremlin.sh -i "${FB}/src/gremlin/start_IJCLab.gremlin" -i
   <!-- Post =================================================================-->
 
   <target name="post"
-          depends="init"
-          description="Post documentation">
+          depends="jar,doc,war,dist"
+          description="Post documentation and distribution">
     <delete includeEmptyDirs="true">
       <fileset dir="${doc}" includes="**/*"/>
       </delete>
  		<copy todir="${doc}" force="true">
 			<fileset dir="../doc" includes="**/*"/>
-      </copy>
- 		<copy todir="${doc}/.." force="true">
-			<fileset dir="../dist" includes="FinkBrowser.exe.jar"/>
+			<fileset dir="../lib" includes="FinkBrowser.exe.jar"/>
+			<fileset dir=".." includes="*.tar.gz"/>
       </copy>
     </target>
 
@@ -1006,7 +1006,7 @@ $${janusgraph_dir}/bin/gremlin.sh -i "${FB}/src/gremlin/start_IJCLab.gremlin" -i
   <target name="uml"
           depends="init"
           description="Create UML Graph">
-    <mkdir dir="../doc/UML"/>
+    <!--mkdir dir="../doc/UML"/>
     <pathconvert targetos="unix" property="classpath.run" refid="classpath.run"/>
 	  <apply executable="javadoc" dest="../build" parallel="true">
 		  <arg value="-classpath"/>
@@ -1018,7 +1018,7 @@ $${janusgraph_dir}/bin/gremlin.sh -i "${FB}/src/gremlin/start_IJCLab.gremlin" -i
 		  <arg line="-doclet org.umlgraph.doclet.UmlGraph"/>
 		  <arg value="-all"/>
 		  <arg value="-noguillemot"/>
-		  <!--arg value="-horizontal"/-->
+		  <arg value="-horizontal"/>
 		  <arg line="-output ../doc/index.dot"/>
 		  <fileset dir="../src"/>
 		  <fileset dir="../build"/>
@@ -1031,7 +1031,7 @@ $${janusgraph_dir}/bin/gremlin.sh -i "${FB}/src/gremlin/start_IJCLab.gremlin" -i
 		  <srcfile/>
 		  <fileset dir="../doc"/>
 		  <mapper type="glob" from="*.dot" to="*.jpg"/>
-      </apply>
+      </apply-->
     </target>
 
   <!-- Find Bugs ============================================================-->  
