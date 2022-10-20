@@ -3,6 +3,7 @@
 /lib/*
 /bin/*
 /dist/*
+/data/*
 /build/*
 /run/*
 /doc/*
