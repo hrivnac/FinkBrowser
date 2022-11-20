@@ -804,28 +804,24 @@
 			<fileset dir="../src/gremlin" includes="*.gremlin"/>
       </copy>
     <mkdir dir="../dist/bin"/>
+    <basename property="bsh_jar_dist" file="${bsh_jar}"/>
     <basename property="groovy_sql_jar_dist" file="${groovy_sql_jar}"/>
     <basename property="healpix_jar_dist" file="${healpix_jar}"/>
     <echo file="../dist/bin/patch_janusgraph.sh" append="false">
 #!/usr/bin/env bash
-FB=$(dirname "$0")
-FB=$(builtin cd ${FB}/..) 
-/bin/cp -r ${FB}/janusgraph-patch/* $${janusgraph_dir}
+/bin/cp -r $${finkbrowser_dir}/janusgraph-patch/* $${janusgraph_dir}
       </echo>
     <echo file="../dist/bin/gremlin_console_IJCLab.sh" append="false">
 #!/usr/bin/env bash
-FB=$(dirname "$0")
-FB=$(builtin cd ${FB}/..) 
-export CLASSPATH="${FB}/jars/${groovy_sql_jar_dist}:${FB}/jars/${healpix_jar_dist}"
-$${janusgraph_dir}/bin/gremlin.sh -i "${FB}/src/gremlin/start_console.gremlin ${FB}/conf/Local-IJCLab.properties ${FB}" -i "${FB}/src/gremlin/start2_console.gremlin"
+export CLASSPATH="$${finkbrowser_dir}/jars/${bsh_jar_dist}:$${finkbrowser_dir}/jars/${groovy_sql_jar_dist}:$${finkbrowser_dir}/jars/${healpix_jar_dist}"
+$${janusgraph_dir}/bin/gremlin.sh -i "$${finkbrowser_dir}/src/gremlin/start_console.gremlin $${finkbrowser_dir}/conf/Local-IJCLab.properties $${finkbrowser_dir}" -i "$${finkbrowser_dir}/src/gremlin/start2_console.gremlin"
       </echo>
     <echo file="../dist/bin/gremlin_IJCLab.sh" append="false">
 #!/usr/bin/env bash
-FB=$(dirname "$0")
-FB=$(builtin cd ${FB}/..) 
-$${janusgraph_dir}/bin/gremlin.sh -i "${FB}/src/gremlin/start_IJCLab.gremlin" -i "${FB}/src/gremlin/start2.gremlin"
+$${janusgraph_dir}/bin/gremlin.sh -i "$${finkbrowser_dir}/src/gremlin/start_IJCLab.gremlin" -i "$${finkbrowser_dir}/src/gremlin/start2.gremlin"
       </echo>
     <echo file="../dist/read.me" append="false">
+      -) set variable finkbrowser_dir to this distribution
       -) get JanusGraph release https://github.com/JanusGraph/janusgraph/releases
       -) set env variable janusgraph_dir to you JanusGraph instalation
       -) FinkBrowser/bin/patch_janusgraph.sh

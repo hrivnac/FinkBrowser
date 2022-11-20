@@ -2,7 +2,7 @@ package com.astrolabsoftware.FinkBrowser.Utils;
 
 // Lomikel
 import com.Lomikel.Utils.NotifierURL;
-import com.Lomikel.HBaser.Evaluator;
+import com.Lomikel.HBaser.HBaseEvaluator;
 
 // Log4J
 import org.apache.log4j.Logger;
@@ -37,10 +37,10 @@ public class Init {
       return;
       }
     try {
-      Evaluator.setAuxFuctions("com.astrolabsoftware.FinkBrowser.HBaser.FinkEvaluatorFunctions",
-                               "com/astrolabsoftware/FinkBrowser/HBaser/FinkEvaluatorFunctions.bsh"); 
-      Evaluator.setAuxFuctions(null,
-                               "com/astrolabsoftware/FinkBrowser/WebService/FinkHBaseColumnsProcessor.bsh"); 
+      HBaseEvaluator.setAuxFuctions("com.astrolabsoftware.FinkBrowser.HBaser.FinkEvaluatorFunctions",
+                                    "com/astrolabsoftware/FinkBrowser/HBaser/FinkEvaluatorFunctions.bsh"); 
+      HBaseEvaluator.setAuxFuctions(null,
+                                    "com/astrolabsoftware/FinkBrowser/WebService/FinkHBaseColumnsProcessor.bsh"); 
       if (ws) {
         NotifierURL.notify("", "FinkBrowserWS", Info.release());
         }

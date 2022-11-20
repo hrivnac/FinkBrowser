@@ -417,6 +417,8 @@ mgmt.addConnection(has,        alert,            prv_candidates)
 mgmt.addConnection(holds,      prv_candidates,   prv_candidate)
 mgmt.addConnection(from,       alert,            datalink)
 mgmt.addConnection(from,       candidate,        datalink)
+mgmt.addConnection(from,       prv_candidate,    datalink)
+mgmt.addConnection(from,       cutout,           datalink)
 
 // Info
 mgmt.printSchema()
