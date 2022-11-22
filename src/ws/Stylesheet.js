@@ -35,6 +35,7 @@ stylesheet.nodes.site = {
     borderDashes:[1,0],
     value:"0"         
     },
+
   actions:[
     {name:"Livy",               url:"Livy"         , target:"external"},
     {name:"Spark",              url:"Spark"        , target:"external"},
@@ -64,9 +65,10 @@ stylesheet.nodes.datalink = {
     value:"0"        
     },
   actions:[                                                                 
-    {name:"Link",    url:{gremlin:"id().next().toString().replaceFirst(\"^\", \"DataLink.jsp?id=\")"}, target:"result"  },
-    {name:"Show",    url:{gremlin:"id().next().toString().replaceFirst(\"^\", \"Node.jsp?id=\")"    }, target:"result"  },
-    {name:"Table",   url:{gremlin:"id().next().toString().replaceFirst(\"^\", \"Nodes.jsp?id=\")"   }, target:"table"   }
+    {name:"Link",    url:{gremlin:"id().next().toString().replaceFirst(\"^\", \"DataLink.jsp?id=\")"    }, target:"result"  },
+    {name:"Fits",    url:{gremlin:"id().next().toString().replaceFirst(\"^\", \"DataLinkFits.jsp?id=\")"}, target:"result"  },
+    {name:"Show",    url:{gremlin:"id().next().toString().replaceFirst(\"^\", \"Node.jsp?id=\")"        }, target:"result"  },
+    {name:"Table",   url:{gremlin:"id().next().toString().replaceFirst(\"^\", \"Nodes.jsp?id=\")"       }, target:"table"   }
     ]
   }
 stylesheet.nodes.source = {
