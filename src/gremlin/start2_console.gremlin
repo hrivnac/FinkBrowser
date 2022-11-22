@@ -14,54 +14,6 @@ class FinkBrowser {
   def static hi() {
     return "Hello World from FinkBrowser console !"
     }
-
-  def static getDataLink_help() {
-    return 'getDataLink(v, q)'
-    }
-
-  def static getDataLink(v, q = null) {
-    def url   = v.values('url'  ).next()
-    def query
-    if (q != null) {
-      query = q
-      }
-    else if (v.values('query').hasNext()) {
-      query = v.values('query').next()
-      }
-    else {
-      return 'no Query'
-      }
-    try {
-      switch (v.values('technology').next()) {
-        case 'HBase':
-          def (hostname, port, table, schema) = url.split(':') // 134.158.74.54:2181:ztf:schema_0.7.0_0.3.8
-          def client = new FinkHBaseClient(hostname, port)
-          client.connect(table, schema)
-          return Eval.me('client', client, query)
-          break
-        case 'Graph':
-          def (backend, hostname, port, table) = url.split(':') // hbase:188.184.87.217:8182:janusgraph
-          def graph = JanusGraphFactory.build().
-                                        set('storage.backend',     backend ).
-                                        set('storage.hostname',    hostname).
-                                        set('storage.port',        port    ).
-                                        set('storage.hbase.table', table   ).
-                                        open()
-          def g = graph.traversal()
-          return Eval.me('g', g, query.next())
-          break
-        case 'Phoenix':
-          return Sql.newInstance(url, 'org.apache.phoenix.jdbc.PhoenixDriver').
-                        rows(query)
-          break
-        default:
-          return 'DataLink ' + v + ' unknown'
-          }
-        }
-      catch (Exception e) {
-        return 'DataLink ' + v + ' not found'
-        }
-      }
   
   def static geosearch_help() {
     return 'geosearch(g, ra, dec, ang[deg], jdmin, jdmax, limit)'

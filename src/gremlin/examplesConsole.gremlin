@@ -50,7 +50,7 @@ g.V().has('lbl', 'source').
       out().
       has('lbl', 'datalink').
       each {
-        println(FinkBrowser.getDataLink(it))
+        println(Lomikel.getDataLink(it))
         }
 
 g.V().has('lbl', 'source').
@@ -58,11 +58,21 @@ g.V().has('lbl', 'source').
       out().
       has('lbl', 'alert').
       out().
-      has('lbl', 'cutout').
+      has('lbl', 'cutout').g.V().has('lbl', 'source').
+      has('objectId', 'ZTF18abimyys').
+      out().
+      has('lbl', 'alert').
+      out().
+      has('lbl', 'candidate').
       out().
       has('lbl', 'datalink').
       each {
-        println(FinkBrowser.getDataLink(it))
+        println(Lomikel.getDataLink(it))
+        }
+      out().
+      has('lbl', 'datalink').
+      each {
+        println(Lomikel.getDataLink(it))
         }
 
 // Geometric searches
