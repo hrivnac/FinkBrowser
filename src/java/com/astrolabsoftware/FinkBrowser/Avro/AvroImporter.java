@@ -326,7 +326,7 @@ public class AvroImporter extends JanusClient {
       Array<Double> array = (Array<Double>)(record.get("pca"));
       Iterator<Double> it = array.iterator();
       while (it.hasNext()) {
-        v.property("pca", it.next());
+        v.property("pcas", it.next());
         }
       v.property("importDate", _date);      
       }
