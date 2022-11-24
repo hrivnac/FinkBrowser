@@ -225,6 +225,7 @@ public class AvroImporter extends JanusClient {
     GenericRecord record = null;
     while (dataFileReader.hasNext()) {
       record = dataFileReader.next(record);
+      log.info(_dataType);
       if (_dataType.equals("alert")) {
         processAlert(record);
         }
