@@ -359,6 +359,7 @@ public class AvroImporter extends JanusClient {
     else {
       idNameA = new String[]{idName};
       }
+    log.info(record);
     Map<String, String> values = getSimpleValues(record, getSimpleFields(record, fields, idNameA));
     Vertex v = vertex(record, name, idName);
     if (v == null) {
