@@ -323,52 +323,17 @@ public class AvroImporter extends JanusClient {
       String objectId = record.get("objectId").toString();
       Vertex s = _gr.getOrCreate("source", "objectId", objectId).get(0); // TBD: check uniqueness
       _gr.addEdge(s, v, "has");
-      for (Map.Entry<String, String> entry : values.entrySet()) {
-        //log.debug("\t" + entry.getKey() + " = " + entry.getValue());
-        try {
-          v.property(entry.getKey(), entry.getValue());
-          }
-        catch (IllegalArgumentException e) {
-          log.error("Cannot add property: " + entry.getKey() + " = " + entry.getValue(), e);
-          }
+      Array<Double> array = (Array<Double>)(record.get("pca"));
+      Iterator<Double> it = array.iterator();
+      while (it.hasNext()) {
+        v.property(propertyName, it.next());
         }
       v.property("importDate", _date);      
-      processGenericRecordArray(record,
-                                "PCA",
-                                "pca",
-                                v,
-                                "has",
-                                objectId);
       }
     else {
       log.error("Failed to create pca from " + record);
       }
     timer("pcas processed", ++_n, _reportLimit, _commitLimit); 
-    return v;
-    }
-    
-  /** Process <em>Avro</em> {@link GenericRecord.Array}.
-    * @param record       The {@link GenericRecord} to process.{@link GenericRecord.Array}
-    * @param name         The name of new {@link Vertex}.
-    * @param propertyName The name of the {@link GenericRecord.Array} array to use.
-    * @param mother       The mother {@link Vertex}.
-    * @param edgerName    The name of the edge to the mother {@link Vertex}.
-    * @param objectId     The <em>objectId</em> of the containing source.
-    * @return             The created {@link Vertex}. */
-  private Vertex processGenericRecordArray(GenericRecord record,
-                                           String        name,
-                                           String        propertyName,
-                                           Vertex        mother,
-                                           String        edgeName,
-                                           String        objectId) {
-    Array<Double> array = (Array<Double>)(record.get("pca"));
-    //Vertex v = vertex(record, name, idName);
-    Vertex v = g().addV(name).property("lbl", name).next();
-    Iterator<Double> it = array.iterator();
-    while (it.hasNext()) {
-      v.property(propertyName, it.next());
-      }
-    _gr.addEdge(mother, v, edgeName);
     return v;
     }
    
