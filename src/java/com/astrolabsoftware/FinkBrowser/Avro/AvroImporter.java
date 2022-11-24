@@ -332,8 +332,9 @@ public class AvroImporter extends JanusClient {
           }
         }
       v.property("importDate", _date);      
-      processGenericRecordArray((Array<Double>)(record.get("pca")),
+      processGenericRecordArray(record),
                                 "PCA",
+                                "pca",
                                 v,
                                 "has",
                                 objectId);
@@ -346,22 +347,25 @@ public class AvroImporter extends JanusClient {
     }
     
   /** Process <em>Avro</em> {@link GenericRecord.Array}.
-    * @param array        The {@link GenericRecord.Array} to process.
+    * @param record       The {@link GenericRecord} to process.{@link GenericRecord.Array}
     * @param name         The name of new {@link Vertex}.
+    * @param propertyName The name of the {@link GenericRecord.Array} array to use.
     * @param mother       The mother {@link Vertex}.
     * @param edgerName    The name of the edge to the mother {@link Vertex}.
     * @param objectId     The <em>objectId</em> of the containing source.
     * @return             The created {@link Vertex}. */
-  private Vertex processGenericRecordArray(Array<Double> array,
+  private Vertex processGenericRecordArray(GenericRecord record,
                                            String        name,
+                                           String        propertyName,
                                            Vertex        mother,
                                            String        edgeName,
                                            String        objectId) {
+    Array<Double> array = (Array<Double>)(record.get("pca");
     //Vertex v = vertex(record, name, idName);
     Vertex v = g().addV(name).property("lbl", name).next();
     Iterator<Double> it = array.iterator();
     while (it.hasNext()) {
-      v.property(, it.next());
+      v.property(propertyName, it.next());
       }
     _gr.addEdge(mother, v, edgeName);
     return v;
