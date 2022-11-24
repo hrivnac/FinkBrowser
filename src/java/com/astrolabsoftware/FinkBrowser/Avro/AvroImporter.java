@@ -321,7 +321,7 @@ public class AvroImporter extends JanusClient {
     log.debug("pca:"); 
     Vertex v = vertex(record, "PCA", null);
     if (v != null) {
-      String objectId = record.get("objectId").toString();org.apache.tinkerpop.gremlin.process.traversal.util.DefaultTraversal
+      String objectId = record.get("objectId").toString();
       //Vertex s = _gr.getOrCreate("source", "objectId", objectId).get(0);
       DefaultTraversal<?, Vertex> t = g().V().has("lbl", "source").has("objectId", objectId);
       if (t.hasNext()) {
