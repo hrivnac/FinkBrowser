@@ -264,7 +264,7 @@ public class AvroImporter extends JanusClient {
       Vertex s = _gr.getOrCreate("source", "objectId", objectId).get(0); // TBD: check uniqueness
       _gr.addEdge(s, v, "has");
       for (Map.Entry<String, String> entry : values.entrySet()) {
-        log.debug("\t" + entry.getKey() + " = " + entry.getValue());
+        //log.debug("\t" + entry.getKey() + " = " + entry.getValue());
         try {
           v.property(entry.getKey(), entry.getValue());
           }
@@ -323,7 +323,7 @@ public class AvroImporter extends JanusClient {
       Vertex s = _gr.getOrCreate("source", "objectId", objectId).get(0); // TBD: check uniqueness
       _gr.addEdge(s, v, "has");
       for (Map.Entry<String, String> entry : values.entrySet()) {
-        log.debug("\t" + entry.getKey() + " = " + entry.getValue());
+        //log.debug("\t" + entry.getKey() + " = " + entry.getValue());
         try {
           v.property(entry.getKey(), entry.getValue());
           }
@@ -331,20 +331,39 @@ public class AvroImporter extends JanusClient {
           log.error("Cannot add property: " + entry.getKey() + " = " + entry.getValue(), e);
           }
         }
-      v.property("importDate",   _date);
-      processGenericRecord((GenericRecord)(record.get("pca")),
-                           "PCA",
-                           null,
-                           true,
-                           v,
-                           "has",
-                           null,
-                           objectId);
+      v.property("importDate", _date);      
+      processGenericRecordArray((Array<Double>)(record.get("pca")),
+                                "PCA",
+                                v,
+                                "has",
+                                objectId);
       }
     else {
       log.error("Failed to create pca from " + record);
       }
     timer("pcas processed", ++_n, _reportLimit, _commitLimit); 
+    return v;
+    }
+    
+  /** Process <em>Avro</em> {@link GenericRecord.Array}.
+    * @param array        The {@link GenericRecord.Array} to process.
+    * @param name         The name of new {@link Vertex}.
+    * @param mother       The mother {@link Vertex}.
+    * @param edgerName    The name of the edge to the mother {@link Vertex}.
+    * @param objectId     The <em>objectId</em> of the containing source.
+    * @return             The created {@link Vertex}. */
+  private Vertex processGenericRecordArray(Array<Double> array,
+                                           String        name,
+                                           Vertex        mother,
+                                           String        edgeName,
+                                           String        objectId) {
+    //Vertex v = vertex(record, name, idName);
+    Vertex v = g().addV(name).property("lbl", name).next();
+    Iterator<Double> it = array.iterator();
+    while (it.hasNext()) {
+      v.property(, it.next());
+      }
+    _gr.addEdge(mother, v, edgeName);
     return v;
     }
    
@@ -385,7 +404,7 @@ public class AvroImporter extends JanusClient {
     if (record.get("dec") != null && record.get("ra") != null) {
       v.property("direction", Geoshape.point(new Double(record.get("dec").toString()), new Double(record.get("ra").toString()) - 180));
       }
-    _gr.addEdge(mother, v, "has");
+    _gr.addEdge(mother, v, edgeName);
     if (hbaseUrl() != null) {
       _jd = record.get("jd").toString();
       _gr.attachDataLink(v,
