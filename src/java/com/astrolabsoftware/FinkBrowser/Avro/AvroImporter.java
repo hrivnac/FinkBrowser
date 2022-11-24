@@ -19,6 +19,7 @@ import org.apache.avro.generic.GenericDatumReader;
 // Tinker Pop
 import static org.apache.tinkerpop.gremlin.process.traversal.dsl.graph.__.unfold;
 import org.apache.tinkerpop.gremlin.structure.Vertex;
+import org.apache.tinkerpop.gremlin.process.traversal.util.DefaultTraversal;
 
 // Janus Graph
 import org.janusgraph.core.JanusGraph;
@@ -320,10 +321,14 @@ public class AvroImporter extends JanusClient {
     log.debug("pca:"); 
     Vertex v = vertex(record, "PCA", null);
     if (v != null) {
-      String objectId = record.get("objectId").toString();
+      String objectId = record.get("objectId").toString();org.apache.tinkerpop.gremlin.process.traversal.util.DefaultTraversal
       //Vertex s = _gr.getOrCreate("source", "objectId", objectId).get(0);
-      Vertex s = g().V().has("lbl", "source").has("objectId", objectId).next();
-      log.info(s);
+      DefaultTraversal<?, Vertex> t = g().V().has("lbl", "source").has("objectId", objectId);
+      if (t.hasNext()) {
+        log.error("Cannot add PCA because source does not exist for objectId = " + objectId);
+        return null;
+        }
+      s = t.next();
       _gr.addEdge(s, v, "has");
       Array<Double> array = (Array<Double>)(record.get("pca"));
       Iterator<Double> it = array.iterator();
