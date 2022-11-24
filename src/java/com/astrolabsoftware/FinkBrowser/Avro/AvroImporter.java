@@ -257,7 +257,7 @@ public class AvroImporter extends JanusClient {
                                                                                       "cutoutScience",
                                                                                       "cutoutTemplate",
                                                                                       "cutoutDifference"}));
-    log.info("alert:"); 
+    log.debug("alert:"); 
     Vertex v = vertex(record, "alert", null);
     if (v != null) {
       String objectId = record.get("objectId").toString();
@@ -316,7 +316,7 @@ public class AvroImporter extends JanusClient {
     Map<String, String> values = getSimpleValues(record, getSimpleFields(record,
                                                                          null,
                                                                          new String[]{}));
-    log.info("pca:"); 
+    log.debug("pca:"); 
     Vertex v = vertex(record, "PCA", null);
     if (v != null) {
       String objectId = record.get("objectId").toString();
@@ -474,7 +474,9 @@ public class AvroImporter extends JanusClient {
       type = field.schema().getType();
       name = field.name();
       veto = false;
-      if (!keeps.contains(name)) {
+      if (keeps == null) {
+        }
+      else if (!keeps.contains(name)) {
         veto = true;
         }
       else {
