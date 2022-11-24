@@ -321,7 +321,9 @@ public class AvroImporter extends JanusClient {
     Vertex v = vertex(record, "PCA", null);
     if (v != null) {
       String objectId = record.get("objectId").toString();
-      Vertex s = _gr.getOrCreate("source", "objectId", objectId).get(0); // TBD: check uniqueness
+      //Vertex s = _gr.getOrCreate("source", "objectId", objectId).get(0);
+      Vertex s = g().V().has("lbl", "source").has("objectId", objectId).next();
+      log.info(s);
       _gr.addEdge(s, v, "has");
       Array<Double> array = (Array<Double>)(record.get("pca"));
       Iterator<Double> it = array.iterator();
