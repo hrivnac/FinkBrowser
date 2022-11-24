@@ -332,7 +332,7 @@ public class AvroImporter extends JanusClient {
           }
         }
       v.property("importDate", _date);      
-      processGenericRecordArray(record),
+      processGenericRecordArray(record,
                                 "PCA",
                                 "pca",
                                 v,
