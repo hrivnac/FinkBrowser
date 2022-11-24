@@ -450,8 +450,7 @@ public class AvroImporter extends JanusClient {
         }
       }
     return content;
-    }mgmt.commit()
-
+    }
     
   /** Get {@link Field}s corresponding to simple types
     * and having non-<code>null</code> values.
