@@ -453,6 +453,9 @@ public class AvroImporter extends JanusClient {
     Type type;
     String name;
     boolean veto;
+    log.info(record);
+    log.info(record.getSchema());
+    log.info(record.getSchema().getFields());
     for (Field field : record.getSchema().getFields()) {
       type = field.schema().getType();
       name = field.name();
