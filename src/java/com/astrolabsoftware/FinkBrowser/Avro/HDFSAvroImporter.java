@@ -152,7 +152,7 @@ public class HDFSAvroImporter extends AvroImporter {
     GenericRecord record = null;
     while (dataFileReader.hasNext()) {
       record = dataFileReader.next(record);
-      processAlert(record);
+      processRecord(record);
       }
     dataFileReader.close();
     }     

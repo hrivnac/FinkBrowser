@@ -230,7 +230,8 @@ public class AvroImporter extends JanusClient {
     dataFileReader.close();
     } 
     
-  /** TBD */
+  /** Process {@link GenericRecord} of the requested type.
+    * @param record The {@link GenericRecord} to be rocessed. */
   public void processRecord(GenericRecord record) {
     if (_dataType.equals("alert")) {
       processAlert(record);
