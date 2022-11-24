@@ -572,7 +572,6 @@ public class AvroImporter extends JanusClient {
     else if (_dataType.equals("pca")) {
       nProp = "nPSAs";
       }
-    else if 
     g().V().has("lbl", "Import").has("importSource", _topFn).has("importDate", _date).property("complete", true).property(nProp, _nAlerts).next();
     commit();
     log.info("Import statistics:");
