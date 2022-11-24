@@ -225,19 +225,23 @@ public class AvroImporter extends JanusClient {
     GenericRecord record = null;
     while (dataFileReader.hasNext()) {
       record = dataFileReader.next(record);
-      log.info(_dataType);
-      if (_dataType.equals("alert")) {
-        processAlert(record);
-        }
-      else if (_dataType.equals("pca")) {
-        processPCA(record);
-        }
-      else {
-        log.error("Unknown data type: " + _dataType);
-        }
+      processRecord(record);
       }
     dataFileReader.close();
     } 
+    
+  /** TBD */
+  public void processRecord(GenericRecord record) {
+    if (_dataType.equals("alert")) {
+      processAlert(record);
+      }
+    else if (_dataType.equals("pca")) {
+      processPCA(record);
+      }
+    else {
+      log.error("Unknown data type: " + _dataType);
+      }
+    }
    
   /** Process <em>Avro</em> alert.
     * @param record The full alert {@link GenericRecord}.
