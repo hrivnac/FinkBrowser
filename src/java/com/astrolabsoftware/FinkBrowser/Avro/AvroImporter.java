@@ -328,7 +328,7 @@ public class AvroImporter extends JanusClient {
         log.error("Cannot add PCA because source does not exist for objectId = " + objectId);
         return null;
         }
-      s = t.next();
+      Vertex s = t.next();
       _gr.addEdge(s, v, "has");
       Array<Double> array = (Array<Double>)(record.get("pca"));
       Iterator<Double> it = array.iterator();
