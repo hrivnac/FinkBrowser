@@ -269,14 +269,30 @@ public class AvroImporter extends JanusClient {
       v.property("alertVersion", VERSION);
       v.property("importDate",   _date);
       String ss;
-      processGenericRecord((GenericRecord)(record.get("pca")),
-                           "PCA",
-                           null,
+      processGenericRecord((GenericRecord)(record.get("candidate")),
+                           "candidate",
+                           "candid",
                            true,
                            v,
                            "has",
-                           null,
+                           COLUMNS_CANDIDATE,
                            objectId);
+      Vertex vv = vertex(record, "prv_candidates", null);
+      _gr.addEdge(v, vv, "has");    
+      Array a = (Array)record.get("prv_candidates");
+      if (a != null) {
+        for (Object o : a) {
+          _nPrvCandidates++;
+          processGenericRecord((GenericRecord)o,
+                               "prv_candidate",
+                               "candid",
+                               true,
+                               vv,
+                               "holds",
+                               COLUMNS_CANDIDATE,
+                               objectId);
+          } 
+        }
       processCutout(record, v, objectId, _jd); // _jd taken from candidate
       }
     else {
@@ -294,7 +310,7 @@ public class AvroImporter extends JanusClient {
     Map<String, String> values = getSimpleValues(record, getSimpleFields(record,
                                                                          null,
                                                                          new String[]{}));
-    log.debug("pca:"); 
+    log.debug("info:"); 
     Vertex v = vertex(record, "PCA", null);
     if (v != null) {
       String objectId = record.get("objectId").toString();
@@ -310,6 +326,14 @@ public class AvroImporter extends JanusClient {
           }
         }
       v.property("importDate",   _date);
+      processGenericRecord((GenericRecord)(record.get("pca")),
+                           "PCA",
+                           null,
+                           true,
+                           v,
+                           "has",
+                           null,
+                           objectId);
       }
     else {
       log.error("Failed to create pca from " + record);
@@ -321,7 +345,7 @@ public class AvroImporter extends JanusClient {
   /** Process <em>Avro</em> {@link GenericRecord}.
     * @param record       The {@link GenericRecord} to process.
     * @param name         The name of new {@link Vertex}.
-    * @param idName       The name of the unique identifying field. May be <tt>null</tt>.
+    * @param idName       The name of the unique identifying field.
     * @param tryDirection Whether try created <em>Direction</em> property from <em>ra,dec</em> fields.
     * @param mother       The mother {@link Vertex}.
     * @param edgerName    The name of the edge to the mother {@link Vertex}.
@@ -343,7 +367,6 @@ public class AvroImporter extends JanusClient {
     else {
       idNameA = new String[]{idName};
       }
-    log.info(record);
     Map<String, String> values = getSimpleValues(record, getSimpleFields(record, fields, idNameA));
     Vertex v = vertex(record, name, idName);
     if (v == null) {
