@@ -277,22 +277,6 @@ public class AvroImporter extends JanusClient {
                            "has",
                            COLUMNS_CANDIDATE,
                            objectId);
-      Vertex vv = vertex(record, "prv_candidates", null);
-      _gr.addEdge(v, vv, "has");    
-      Array a = (Array)record.get("prv_candidates");
-      if (a != null) {
-        for (Object o : a) {
-          _nPrvCandidates++;
-          processGenericRecord((GenericRecord)o,
-                               "prv_candidate",
-                               "candid",
-                               true,
-                               vv,
-                               "holds",
-                               COLUMNS_CANDIDATE,
-                               objectId);
-          } 
-        }
       processCutout(record, v, objectId, _jd); // _jd taken from candidate
       }
     else {
