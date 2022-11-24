@@ -360,7 +360,7 @@ public class AvroImporter extends JanusClient {
                                            Vertex        mother,
                                            String        edgeName,
                                            String        objectId) {
-    Array<Double> array = (Array<Double>)(record.get("pca");
+    Array<Double> array = (Array<Double>)(record.get("pca"));
     //Vertex v = vertex(record, name, idName);
     Vertex v = g().addV(name).property("lbl", name).next();
     Iterator<Double> it = array.iterator();
