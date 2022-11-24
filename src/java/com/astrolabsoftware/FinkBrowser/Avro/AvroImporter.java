@@ -316,31 +316,22 @@ public class AvroImporter extends JanusClient {
     * @return       The created {@link Vertex}. */
   public Vertex processPCA(GenericRecord record) {
     _nAlerts++;
-    Map<String, String> values = getSimpleValues(record, getSimpleFields(record,
-                                                                         null,
-                                                                         new String[]{}));
     log.debug("pca:"); 
-    Vertex v = vertex(record, "PCA", null);
-    if (v != null) {
-      String objectId = record.get("objectId").toString();
-      //Vertex s = _gr.getOrCreate("source", "objectId", objectId).get(0);
-      GraphTraversal<Vertex, Vertex> t = g().V().has("lbl", "source").has("objectId", objectId);
-      if (!t.hasNext()) {
-        log.error("Cannot add PCA because source does not exist for objectId = " + objectId);
-        return null;
-        }
-      Vertex s = t.next();
-      _gr.addEdge(s, v, "has");
-      Array<Double> array = (Array<Double>)(record.get("pca"));
-      Iterator<Double> it = array.iterator();
-      while (it.hasNext()) {
-        v.property("pcas", it.next());
-        }
-      v.property("importDate", _date);      
+    GraphTraversal<Vertex, Vertex> t = g().V().has("lbl", "source").has("objectId", objectId);
+    f (!t.hasNext()) {
+     log.debug("Cannot add PCA because source does not exist for objectId = " + objectId);
+     return null;
+     }
+    Vertex s = t.next();
+    Vertex v = g.addV("PCA").property("lbl", "PCA").next();
+    String objectId = record.get("objectId").toString();
+    _gr.addEdge(s, v, "has");
+    Array<Double> array = (Array<Double>)(record.get("pca"));
+    Iterator<Double> it = array.iterator();
+    while (it.hasNext()) {
+      v.property("pcas", it.next());
       }
-    else {
-      log.error("Failed to create pca from " + record);
-      }
+    v.property("importDate", _date);      
     timer("pcas processed", ++_n, _reportLimit, _commitLimit); 
     return v;
     }
