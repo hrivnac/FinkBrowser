@@ -154,7 +154,7 @@ public class AvroImporter extends JanusClient {
   /** Process directory with <em>Avro</em> alert files (recursive).
     * @param dirFN The dirname of directiory with data file.
     * @param fileExt The file extention.
-     * @throws IOException      If problem with file reading. */
+    * @throws IOException      If problem with file reading. */
   public void processDir(String dirFN,
                          String fileExt) throws IOException {  
     log.info("Loading directory " + dirFN);
@@ -251,7 +251,7 @@ public class AvroImporter extends JanusClient {
                                                                                       "cutoutScience",
                                                                                       "cutoutTemplate",
                                                                                       "cutoutDifference"}));
-    log.debug("alert:"); 
+    log.info("alert:"); 
     Vertex v = vertex(record, "alert", null);
     if (v != null) {
       String objectId = record.get("objectId").toString();
@@ -310,7 +310,7 @@ public class AvroImporter extends JanusClient {
     Map<String, String> values = getSimpleValues(record, getSimpleFields(record,
                                                                          null,
                                                                          new String[]{}));
-    log.debug("info:"); 
+    log.info("pca:"); 
     Vertex v = vertex(record, "PCA", null);
     if (v != null) {
       String objectId = record.get("objectId").toString();
