@@ -566,7 +566,7 @@ public class AvroImporter extends JanusClient {
   @Override
   public void close() { 
     String nProp = "nAlerts";
-    if (_dataType.equals("alert") {
+    if (_dataType.equals("alert")) {
       nProp = "nAlerts";
       }
     else if (_dataType.equals("pca")) {
