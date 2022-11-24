@@ -325,7 +325,7 @@ public class AvroImporter extends JanusClient {
       String objectId = record.get("objectId").toString();
       //Vertex s = _gr.getOrCreate("source", "objectId", objectId).get(0);
       GraphTraversal<Vertex, Vertex> t = g().V().has("lbl", "source").has("objectId", objectId);
-      if (t.hasNext()) {
+      if (!t.hasNext()) {
         log.error("Cannot add PCA because source does not exist for objectId = " + objectId);
         return null;
         }
