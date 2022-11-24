@@ -317,14 +317,9 @@ public class AvroImporter extends JanusClient {
   public Vertex processPCA(GenericRecord record) {
     _nAlerts++;
     log.debug("pca:"); 
-    String objectId = record.get("objectId").toString();
-    GraphTraversal<Vertex, Vertex> t = g().V().has("lbl", "source").has("objectId", objectId);
-    if (!t.hasNext()) {
-      log.debug("Cannot add PCA because source does not exist for objectId = " + objectId);
-      return null;
-      }
-    Vertex s = t.next();
     Vertex v = g().addV("PCA").property("lbl", "PCA").next();
+    String objectId = record.get("objectId").toString();
+    Vertex s = _gr.getOrCreate("source", "objectId", objectId).get(0); // TBD: check uniqueness
     _gr.addEdge(s, v, "has");
     Array<Double> array = (Array<Double>)(record.get("pca"));
     Iterator<Double> it = array.iterator();
