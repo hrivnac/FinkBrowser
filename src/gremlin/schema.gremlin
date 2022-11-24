@@ -105,6 +105,7 @@ ml_score_1           = mgmt.makePropertyKey('ml_score_1'          ).dataType(Dou
 ml_score_2           = mgmt.makePropertyKey('ml_score_2'          ).dataType(Double.class  ).cardinality(Cardinality.SINGLE).make()
 mulens               = mgmt.makePropertyKey('mulens'              ).dataType(Float.class   ).cardinality(Cardinality.SINGLE).make()
 nAlerts              = mgmt.makePropertyKey('nAlerts'             ).dataType(Integer.class ).cardinality(Cardinality.SINGLE).make()
+nPCAs                = mgmt.makePropertyKey('nPCAs'               ).dataType(Integer.class ).cardinality(Cardinality.SINGLE).make()
 nalerthist           = mgmt.makePropertyKey('nalerthist'          ).dataType(Integer.class ).cardinality(Cardinality.SINGLE).make()
 nbad                 = mgmt.makePropertyKey('nbad'                ).dataType(Integer.class ).cardinality(Cardinality.SINGLE).make() 
 ncovhist             = mgmt.makePropertyKey('ncovhist'            ).dataType(Integer.class ).cardinality(Cardinality.SINGLE).make() 
@@ -394,7 +395,8 @@ mgmt.addProperties(Import,
                    importSource,
                    importDate,
                    complete,
-                   nAlerts) 
+                   nAlerts,
+                   nPCAs) 
                                       
 // Edge properties
 mgmt.addProperties(has,

@@ -704,6 +704,7 @@
       <arg value="${alerts_commitLimit}"/>
       <arg value="${alerts_strategy}"/>
       <arg value="${alerts_hbase}"/>
+      <arg value="${alerts_datatype}"/>
       <env key="HADOOP_CLASSPATH" path="${classpath.janusgraph.content}"/>
       </exec>
     </target>

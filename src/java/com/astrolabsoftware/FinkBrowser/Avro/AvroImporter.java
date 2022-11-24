@@ -59,6 +59,7 @@ public class AvroImporter extends JanusClient {
     * @param args[4] The number of events to use for progress report (-1 means no report untill the end).
     * @param args[5] The number of events to commit in one step (-1 means commit only at the end).
     * @param args[6] The creation strategy. <tt>create,drop,replace,skip</tt>.
+    * @param args[7] The data type, <tt>alert|pca</tt>. If <tt>null<tt>, then considering as <tt>alert</tt>.
     * @throws LomikelException If anything goes wrong. */
    public static void main(String[] args) throws IOException {
     Init.init();
@@ -72,7 +73,8 @@ public class AvroImporter extends JanusClient {
                                                new Integer(args[5]),
                                                            args[6],
                                                            args[2],
-                                                           args[3]);
+                                                           args[3],
+                                                           args[7]);
       importer.timerStart();                    
       importer.process(args[1]);
       if (!importer.skip()) {
@@ -92,14 +94,15 @@ public class AvroImporter extends JanusClient {
     * @param commitLimit The number of events to commit in one step (-1 means commit only at the end).
     * @param strategy    The creation strategy. <tt>drop,replace,getOrCreate</tt>.
     * @param fitsDir     The directory for FITS files. If <tt>null</tt> or empty, FITS are included in the Graph. Ignored if HBase url set.
-    * @param hbaseUrl    The url for HBase table with full data as <tt>ip:port:table:schema</tt>. May be <tt>null</tt> or empty. */
-    
+    * @param hbaseUrl    The url for HBase table with full data as <tt>ip:port:table:schema</tt>. May be <tt>null</tt> or empty.
+    * @param dataType    The data type, <tt>alert|pca</tt>.  If <tt>null<tt>, then considering as <tt>alert</tt>.*/  
   public AvroImporter(String properties,
                       int    reportLimit,
                       int    commitLimit,
                       String strategy,
                       String fitsDir,
-                      String hbaseUrl) {
+                      String hbaseUrl,
+                      String dataType) {
     super(properties);
     if (fitsDir != null && fitsDir.trim().equals("")) {
       fitsDir = null;
@@ -110,6 +113,7 @@ public class AvroImporter extends JanusClient {
     log.info("Reporting after each " + reportLimit + " alerts");
     log.info("Committing after each " + commitLimit + " alerts");
     log.info("Using strategy: " + strategy);
+    log.info("Importing " + dataType + "s");
     if (fitsDir == null) {
       log.info("Writing FITS into Graph");
       }
@@ -124,6 +128,7 @@ public class AvroImporter extends JanusClient {
     _commitLimit = commitLimit;
     _fitsDir     = fitsDir;
     _hbaseUrl    = hbaseUrl;
+    _dataType    = dataType;
     _create      = false;
     _reuse       = false;
     _replace     = false;
@@ -220,7 +225,15 @@ public class AvroImporter extends JanusClient {
     GenericRecord record = null;
     while (dataFileReader.hasNext()) {
       record = dataFileReader.next(record);
-      processAlert(record);
+      if (_dataType.equals("alert")) {
+        processAlert(record);
+        }
+      else if (_dataType.equals("pca")) {
+        processPCA(record);
+        }
+      else {
+        log.error("Unknown data type: " + _dataType);
+        }
       }
     dataFileReader.close();
     } 
@@ -289,6 +302,38 @@ public class AvroImporter extends JanusClient {
     return v;
     }
    
+  /** Process <em>Avro</em> PCA.
+    * @param record The full PCA {@link GenericRecord}.
+    * @return       The created {@link Vertex}. */
+  public Vertex processPCA(GenericRecord record) {
+    _nAlerts++;
+    Map<String, String> values = getSimpleValues(record, getSimpleFields(record,
+                                                                         null,
+                                                                         new String[]{}));
+    log.debug("pca:"); 
+    Vertex v = vertex(record, "PCA", null);
+    if (v != null) {
+      String objectId = record.get("objectId").toString();
+      Vertex s = _gr.getOrCreate("source", "objectId", objectId).get(0); // TBD: check uniqueness
+      _gr.addEdge(s, v, "has");
+      for (Map.Entry<String, String> entry : values.entrySet()) {
+        log.debug("\t" + entry.getKey() + " = " + entry.getValue());
+        try {
+          v.property(entry.getKey(), entry.getValue());
+          }
+        catch (IllegalArgumentExckachlikt@gmail.comeption e) {
+          log.error("Cannot add property: " + entry.getKey() + " = " + entry.getValue(), e);
+          }
+        }
+      v.property("importDate",   _date);
+      }
+    else {
+      log.error("Failed to create pca from " + record);
+      }
+    timer("pcas processed", ++_n, _reportLimit, _commitLimit); 
+    return v;
+    }
+   
   /** Process <em>Avro</em> {@link GenericRecord}.
     * @param record       The {@link GenericRecord} to process.
     * @param name         The name of new {@link Vertex}.
@@ -330,10 +375,10 @@ public class AvroImporter extends JanusClient {
     if (hbaseUrl() != null) {
       _jd = record.get("jd").toString();
       _gr.attachDataLink(v,
-                     "Candidate data",
-                     "HBase",
-                     _hbaseUrl,
-                     "return client.scan('" + objectId + "_" + _jd + "', null, '*', 0, true, true)");
+                        "Candidate data",
+                        "HBase",
+                        _hbaseUrl,
+                        "return client.scan('" + objectId + "_" + _jd + "', null, '*', 0, true, true)");
       }
     return v;
     }
@@ -519,11 +564,19 @@ public class AvroImporter extends JanusClient {
     }
     
   @Override
-  public void close() {    
-    g().V().has("lbl", "Import").has("importSource", _topFn).has("importDate", _date).property("complete", true).property("nAlerts", _nAlerts).next();
+  public void close() { 
+    String nProp = "nAlerts";
+    if (_dataType.equals("alert") {
+      nProp = "nAlerts";
+      }
+    else if (_dataType.equals("pca")) {
+      nProp = "nPSAs";
+      }
+    else if 
+    g().V().has("lbl", "Import").has("importSource", _topFn).has("importDate", _date).property("complete", true).property(nProp, _nAlerts).next();
     commit();
     log.info("Import statistics:");
-    log.info("\talerts:         " + _nAlerts);
+    log.info("\t" + _dataType + "s: " + _nAlerts);
     log.info("\tprv_candidates: " + _nPrvCandidates);
     log.info("Imported at " + _date);
     super.close();
@@ -590,6 +643,8 @@ public class AvroImporter extends JanusClient {
   private String _fitsDir;
   
   private String _hbaseUrl;
+  
+  private String _dataType;
   
   private boolean _create;
   
