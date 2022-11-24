@@ -63,8 +63,8 @@ public class AvroImporter extends JanusClient {
     * @throws LomikelException If anything goes wrong. */
    public static void main(String[] args) throws IOException {
     Init.init();
-    if (args.length != 7) {
-      log.error("AvroImporter.exe.jar <JanusGraph properties> [<file>|<directory>] <hbaseUrl> <report limit> <commit limit> [create|reuse|drop]");
+    if (args.length != 8) {
+      log.error("AvroImporter.exe.jar <JanusGraph properties> [<file>|<directory>] <hbaseUrl> <report limit> <commit limit> [create|reuse|drop] [alert|pca]");
       System.exit(-1);
       }
     try {
