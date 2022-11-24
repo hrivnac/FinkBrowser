@@ -321,7 +321,7 @@ public class AvroImporter extends JanusClient {
         try {
           v.property(entry.getKey(), entry.getValue());
           }
-        catch (IllegalArgumentExckachlikt@gmail.comeption e) {
+        catch (IllegalArgumentException e) {
           log.error("Cannot add property: " + entry.getKey() + " = " + entry.getValue(), e);
           }
         }
