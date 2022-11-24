@@ -450,7 +450,8 @@ public class AvroImporter extends JanusClient {
         }
       }
     return content;
-    }
+    }mgmt.commit()
+
     
   /** Get {@link Field}s corresponding to simple types
     * and having non-<code>null</code> values.
@@ -467,9 +468,6 @@ public class AvroImporter extends JanusClient {
     Type type;
     String name;
     boolean veto;
-    log.info(record);
-    log.info(record.getSchema());
-    log.info(record.getSchema().getFields());
     for (Field field : record.getSchema().getFields()) {
       type = field.schema().getType();
       name = field.name();
@@ -494,7 +492,8 @@ public class AvroImporter extends JanusClient {
             type == Type.INT     ||
             type == Type.UNION   ||
             type == Type.STRING  ||
-            type == Type.BYTES) {
+            type == Type.BYTES   ||
+            type == Type.ARRAY) {
             fields.add(name);
           }
         else {

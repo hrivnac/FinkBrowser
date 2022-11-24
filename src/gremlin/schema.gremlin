@@ -12,11 +12,11 @@ site              = mgmt.makeVertexLabel('site'             ).make()
 AlertsCollection  = mgmt.makeVertexLabel('AlertsCollection' ).make()
 source            = mgmt.makeVertexLabel('source'           ).make()
 alert             = mgmt.makeVertexLabel('alert'            ).make()
+PCA               = mgmt.makeVertexLabel('PCA'              ).make()
 candidate         = mgmt.makeVertexLabel('candidate'        ).make()
 prv_candidates    = mgmt.makeVertexLabel('prv_candidates'   ).make()
 prv_candidate     = mgmt.makeVertexLabel('prv_candidate'    ).make()
 cutout            = mgmt.makeVertexLabel('cutout'           ).make()
-PCA               = mgmt.makeVertexLabel('PCA'              ).make()
 Imports           = mgmt.makeVertexLabel('Imports'          ).make()
 Import            = mgmt.makeVertexLabel('Import'           ).make()
 
@@ -106,7 +106,7 @@ ml_score_1           = mgmt.makePropertyKey('ml_score_1'          ).dataType(Dou
 ml_score_2           = mgmt.makePropertyKey('ml_score_2'          ).dataType(Double.class  ).cardinality(Cardinality.SINGLE).make()
 mulens               = mgmt.makePropertyKey('mulens'              ).dataType(Float.class   ).cardinality(Cardinality.SINGLE).make()
 nAlerts              = mgmt.makePropertyKey('nAlerts'             ).dataType(Integer.class ).cardinality(Cardinality.SINGLE).make()
-nPCAs                = mgmt.makePropertyKey('nPCAs'               ).dataType(Integer.class ).cardinality(Cardinality.SINGLE).make()
+nPCAs                = mgmt.makePropertyKey('nPCas'               ).dataType(Integer.class ).cardinality(Cardinality.SINGLE).make()
 nalerthist           = mgmt.makePropertyKey('nalerthist'          ).dataType(Integer.class ).cardinality(Cardinality.SINGLE).make()
 nbad                 = mgmt.makePropertyKey('nbad'                ).dataType(Integer.class ).cardinality(Cardinality.SINGLE).make() 
 ncovhist             = mgmt.makePropertyKey('ncovhist'            ).dataType(Integer.class ).cardinality(Cardinality.SINGLE).make() 
@@ -122,6 +122,7 @@ objectId             = mgmt.makePropertyKey('objectId'            ).dataType(Str
 objectidps1          = mgmt.makePropertyKey('objectidps1'         ).dataType(Long.class    ).cardinality(Cardinality.SINGLE).make() 
 objectidps2          = mgmt.makePropertyKey('objectidps2'         ).dataType(Long.class    ).cardinality(Cardinality.SINGLE).make() 
 objectidps3          = mgmt.makePropertyKey('objectidps3'         ).dataType(Long.class    ).cardinality(Cardinality.SINGLE).make() 
+pcas                 = mgmt.makePropertyKey('pcas'                ).dataType(Double.class  ).cardinality(Cardinality.LIST  ).make() 
 pdiffimfilename      = mgmt.makePropertyKey('pdiffimfilename'     ).dataType(String.class  ).cardinality(Cardinality.SINGLE).make() 
 pid                  = mgmt.makePropertyKey('pid'                 ).dataType(Long.class    ).cardinality(Cardinality.SINGLE).make() 
 programid            = mgmt.makePropertyKey('programid'           ).dataType(Integer.class ).cardinality(Cardinality.SINGLE).make() 
@@ -135,8 +136,7 @@ rcid                 = mgmt.makePropertyKey('rcid'                ).dataType(Int
 rf_kn_vs_nonkn       = mgmt.makePropertyKey('rf_kn_vs_nonkn'      ).dataType(Float.class   ).cardinality(Cardinality.SINGLE).make() 
 rf_snia_vs_nonia     = mgmt.makePropertyKey('rf_snia_vs_nonia'    ).dataType(Float.class   ).cardinality(Cardinality.SINGLE).make() 
 rfid                 = mgmt.makePropertyKey('rfid'                ).dataType(Long.class    ).cardinality(Cardinality.SINGLE).make() 
-roid                 = mgmt.makePropertyKey('roPlx                  = mgmt.makePropertyKey('Plx'                 ).dataType(Double.class  ).cardinality(Cardinality.SINGLE).make()
-id'                ).dataType(Integer.class ).cardinality(Cardinality.SINGLE).make()
+roid                 = mgmt.makePropertyKey('roid'                ).dataType(Integer.class ).cardinality(Cardinality.SINGLE).make()
 schemavsn            = mgmt.makePropertyKey('schemavsn'           ).dataType(String.class  ).cardinality(Cardinality.SINGLE).make() 
 scorr                = mgmt.makePropertyKey('scorr'               ).dataType(Double.class  ).cardinality(Cardinality.SINGLE).make() 
 seeratio             = mgmt.makePropertyKey('seeratio'            ).dataType(Float.class   ).cardinality(Cardinality.SINGLE).make() 
@@ -208,6 +208,10 @@ mgmt.addProperties(alert,
                    snn_snia_vs_nonia,
                    snn_sn_vs_all,
                    tracklet)
+mgmt.addProperties(PCA,
+                   lbl,
+                   importDate,
+                   pcas)
 mgmt.addProperties(candidate,
                    lbl,
                    aimage,
@@ -415,6 +419,7 @@ mgmt.addConnection(holds,      Imports,          Import)
 mgmt.addConnection(contains,   AlertsCollection, alert)
 mgmt.addConnection(holds,      site,             AlertsCollection)
 mgmt.addConnection(has,        source,           alert)
+mgmt.addConnection(has,        source,           PCA)
 mgmt.addConnection(has,        alert,            candidate)
 mgmt.addConnection(has,        alert,            cutout)
 mgmt.addConnection(has,        alert,            prv_candidates)
