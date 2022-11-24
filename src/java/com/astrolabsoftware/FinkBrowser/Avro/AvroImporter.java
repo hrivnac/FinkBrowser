@@ -269,13 +269,13 @@ public class AvroImporter extends JanusClient {
       v.property("alertVersion", VERSION);
       v.property("importDate",   _date);
       String ss;
-      processGenericRecord((GenericRecord)(record.get("candidate")),
-                           "candidate",
-                           "candid",
+      processGenericRecord((GenericRecord)(record.get("pca")),
+                           "PCA",
+                           null,
                            true,
                            v,
                            "has",
-                           COLUMNS_CANDIDATE,
+                           null,
                            objectId);
       processCutout(record, v, objectId, _jd); // _jd taken from candidate
       }
@@ -321,7 +321,7 @@ public class AvroImporter extends JanusClient {
   /** Process <em>Avro</em> {@link GenericRecord}.
     * @param record       The {@link GenericRecord} to process.
     * @param name         The name of new {@link Vertex}.
-    * @param idName       The name of the unique identifying field.
+    * @param idName       The name of the unique identifying field. May be <tt>null</tt>.
     * @param tryDirection Whether try created <em>Direction</em> property from <em>ra,dec</em> fields.
     * @param mother       The mother {@link Vertex}.
     * @param edgerName    The name of the edge to the mother {@link Vertex}.
