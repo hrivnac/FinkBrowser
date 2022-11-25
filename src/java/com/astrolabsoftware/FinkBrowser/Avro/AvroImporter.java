@@ -260,7 +260,7 @@ public class AvroImporter extends JanusClient {
                                                                                       "cutoutScience",
                                                                                       "cutoutTemplate",
                                                                                       "cutoutDifference"}));
-    log.debug("alert:"); 
+    //log.debug("alert:"); 
     Vertex v = vertex(record, "alert", null);
     if (v != null) {
       String objectId = record.get("objectId").toString();
@@ -316,7 +316,7 @@ public class AvroImporter extends JanusClient {
     * @return       The created {@link Vertex}. */
   public Vertex processPCA(GenericRecord record) {
     _nAlerts++;
-    log.debug("pca:"); 
+    //log.debug("pca:"); 
     Vertex v = g().addV("PCA").property("lbl", "PCA").next();
     String objectId = record.get("objectId").toString();
     Vertex s = _gr.getOrCreate("source", "objectId", objectId).get(0); // TBD: check uniqueness
@@ -506,21 +506,21 @@ public class AvroImporter extends JanusClient {
         return v;
         }
       else {
-        log.debug("Creating: " + label);
+        //log.debug("Creating: " + label);
         return g().addV(label).property("lbl", label).next();
         }
       }
     // Unique Vertex
     if (_drop || _replace) {
-      log.debug("Dropping " + label + ": " + property + " = " + record.get(property));
+      //log.debug("Dropping " + label + ": " + property + " = " + record.get(property));
       _gr.drop(label, property, record.get(property), true);
       }
     if (_reuse) {
-      log.info("Getting " + label + ": " + property + " = " + record.get(property));
+      //log.info("Getting " + label + ": " + property + " = " + record.get(property));
       v = _gr.getOrCreate(label, property, record.get(property)).get(0);
       }
     if (_create || _replace) {
-      log.debug("Creating " + label + ": " + property + " = " + record.get(property));
+      //log.debug("Creating " + label + ": " + property + " = " + record.get(property));
       v = g().addV(label).property("lbl", label).property(property, record.get(property)).next();
       }
     return v;
