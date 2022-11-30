@@ -35,7 +35,6 @@ stylesheet.nodes.site = {
     borderDashes:[1,0],
     value:"0"         
     },
-
   actions:[
     {name:"Livy",               url:"Livy"         , target:"external"},
     {name:"Spark",              url:"Spark"        , target:"external"},
@@ -103,7 +102,26 @@ stylesheet.nodes.alert = {
     borderRadius:"0", 
     borderWidth:"2",  
     borderDashes:[1,1],
-    value:{gremlin:"out().out().has('lbl', 'prv_candicate').count().join().toString()"}        
+    value:{gremlin:"out().out().has('lbl', 'prv_candidate').count().join().toString()"}        
+    },
+  actions:[                                                                 
+    {name:"Show",    url:{gremlin:"id().next().toString().replaceFirst(\"^\", \"Node.jsp?id=\")" }, target:"result"  },
+    {name:"Table",   url:{gremlin:"id().next().toString().replaceFirst(\"^\", \"Nodes.jsp?id=\")"}, target:"table"   }
+    ]
+  }
+stylesheet.nodes.PCA = {
+  properties:{gremlin:"valueMap('lbl').toList()[0]"},
+  graphics: {
+    label:"lbl",
+    title:"lbl",        
+    subtitle:" ",
+    group:{gremlin:"in().has('lbl', 'source').values('objectId').toList()[0]"},        
+    shape:"box",      
+    image:"",        
+    borderRadius:"0", 
+    borderWidth:"2",  
+    borderDashes:[1,1],
+    value:"0"        
     },
   actions:[                                                                 
     {name:"Show",    url:{gremlin:"id().next().toString().replaceFirst(\"^\", \"Node.jsp?id=\")" }, target:"result"  },
