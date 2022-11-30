@@ -122,7 +122,7 @@ objectId             = mgmt.makePropertyKey('objectId'            ).dataType(Str
 objectidps1          = mgmt.makePropertyKey('objectidps1'         ).dataType(Long.class    ).cardinality(Cardinality.SINGLE).make() 
 objectidps2          = mgmt.makePropertyKey('objectidps2'         ).dataType(Long.class    ).cardinality(Cardinality.SINGLE).make() 
 objectidps3          = mgmt.makePropertyKey('objectidps3'         ).dataType(Long.class    ).cardinality(Cardinality.SINGLE).make() 
-pcas                 = mgmt.makePropertyKey('pcas'                ).dataType(Double.class  ).cardinality(Cardinality.LIST  ).make() 
+pca                  = mgmt.makePropertyKey('pca'                 ).dataType(Double.class  ).cardinality(Cardinality.LIST  ).make() 
 pdiffimfilename      = mgmt.makePropertyKey('pdiffimfilename'     ).dataType(String.class  ).cardinality(Cardinality.SINGLE).make() 
 pid                  = mgmt.makePropertyKey('pid'                 ).dataType(Long.class    ).cardinality(Cardinality.SINGLE).make() 
 programid            = mgmt.makePropertyKey('programid'           ).dataType(Integer.class ).cardinality(Cardinality.SINGLE).make() 
@@ -211,7 +211,7 @@ mgmt.addProperties(alert,
 mgmt.addProperties(PCA,
                    lbl,
                    importDate,
-                   pcas)
+                   pca)
 mgmt.addProperties(candidate,
                    lbl,
                    aimage,
