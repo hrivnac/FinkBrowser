@@ -11,7 +11,7 @@ if [[ ! "x" = "x${graphviz}" ]]; then
 for JAR in ../extlib/*.jar; do
   export CLASSPATH=${CLASSPATH}:${JAR} 
   done
-export GREMLIN_CLASSPATH=`pwd`/"${groovy_sql_jar}":`pwd`/"${bsh_jar}":`pwd`/"${healpix_jar}"  
+export GREMLIN_CLASSPATH="${groovy_sql_jar}:${bsh_jar}:${healpix_jar}"  
 
 export janusgraph_dir
 export zookeeper
