@@ -2,9 +2,10 @@ HADOOP_CLASSPATH=/opt/janusgraph/lib/RoaringBitmap-0.5.11.jar:/opt/janusgraph/li
 /opt/hadoop/bin/hadoop\
   com.astrolabsoftware.FinkBrowser.Avro.HDFSAvroImporter \
   /opt/janusgraph/conf/gremlin-server/Local-batch.properties \
-  /user/hrivnac/year=2021/month=04/day=30 \
-  /user/hrivnac/fits \
+  ${1} \
+  "" \
   hbase-1.lal.in2p3.fr:2183:ztf:schema_2.2_2.0.0 \
   1000 \
   2000 \
-  create
+  create \
+  ${2}
