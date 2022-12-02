@@ -320,6 +320,7 @@ public class AvroImporter extends JanusClient {
     * @return       The created {@link Vertex}. */
   public Vertex processPCA(GenericRecord record) {
     //log.debug("pca:"); 
+    _m++;
     String objectId = record.get("objectId").toString();
     GraphTraversal<Vertex, Vertex> gt = g().V().has("lbl", "source").has("objectId", objectId);
     if (!gt.hasNext()) {
@@ -337,7 +338,7 @@ public class AvroImporter extends JanusClient {
         v.property("pca", it.next());
         }
       v.property("importDate", _date);      
-      timer("pcas processed(" + ++_m + " read)", ++_n, _reportLimit, _commitLimit); 
+      timer("pcas processed (" + _m + " read)", ++_n, _reportLimit, _commitLimit); 
       return v;
       }
     }
