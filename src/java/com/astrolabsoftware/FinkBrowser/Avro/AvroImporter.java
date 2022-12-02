@@ -211,7 +211,7 @@ public class AvroImporter extends JanusClient {
   public void register(String fn) {
     if (_top) {
       _topFn = fn;
-      now();
+      now(); 
       Vertex import1 = g().addV("Import").property("lbl", "Import").property("importSource", fn).property("importDate", _date).next();
       Vertex imports = g().V().has("lbl", "site").has("title", "IJCLab").out().has("lbl", "Imports").next();
       _gr.addEdge(imports, import1, "has"); 
