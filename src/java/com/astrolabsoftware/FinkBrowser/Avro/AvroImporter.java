@@ -210,7 +210,7 @@ public class AvroImporter extends JanusClient {
      *           or directory with files. */
   public void register(String fn) {
     if (_top) {
-      _topFn = fn;
+      _topFn = fn;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
       now();
       Vertex import1 = g().addV("Import").property("lbl", "Import").property("importSource", fn).property("importDate", _date).next();
       Vertex imports = g().V().has("lbl", "site").has("title", "IJCLab").out().has("lbl", "Imports").next();
@@ -320,6 +320,7 @@ public class AvroImporter extends JanusClient {
     * @return       The created {@link Vertex}. */
   public Vertex processPCA(GenericRecord record) {
     //log.debug("pca:"); 
+    int _m = 0;
     String objectId = record.get("objectId").toString();
     GraphTraversal<Vertex, Vertex> gt = g().V().has("lbl", "source").has("objectId", objectId);
     if (!gt.hasNext()) {
@@ -327,7 +328,7 @@ public class AvroImporter extends JanusClient {
       return null;
       }
     else {
-      _nAlerts++;
+      _nPCAs++;
       Vertex s = gt.next();
       Vertex v = g().addV("PCA").property("lbl", "PCA").next();
       _gr.addEdge(s, v, "has");
@@ -337,7 +338,7 @@ public class AvroImporter extends JanusClient {
         v.property("pca", it.next());
         }
       v.property("importDate", _date);      
-      timer("pcas processed", ++_n, _reportLimit, _commitLimit); 
+      timer("pcas processed(" + ++m + " read)", ++_n, _reportLimit, _commitLimit); 
       return v;
       }
     }
@@ -586,8 +587,9 @@ public class AvroImporter extends JanusClient {
     g().V().has("lbl", "Import").has("importSource", _topFn).has("importDate", _date).property("complete", true).property(nProp, _nAlerts).next();
     commit();
     log.info("Import statistics:");
-    log.info("\t" + _dataType + "s: " + _nAlerts);
+    log.info("\talerts: " + _nAlerts);
     log.info("\tprv_candidates: " + _nPrvCandidates);
+    log.info("\tpcas: " + _nPCAs);
     log.info("Imported at " + _date);
     super.close();
     }
@@ -669,6 +671,8 @@ public class AvroImporter extends JanusClient {
   private int _nAlerts = 0;
   
   private int _nPrvCandidates = 0;
+  
+  private int _nPCAs = 0;
   
   private String _date = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS").format(new Date()).toString();
   
