@@ -21,7 +21,7 @@ import static org.apache.tinkerpop.gremlin.process.traversal.dsl.graph.__.unfold
 import org.apache.tinkerpop.gremlin.structure.Vertex;
 import org.apache.tinkerpop.gremlin.process.traversal.util.DefaultTraversal;
 import org.apache.tinkerpop.gremlin.process.traversal.dsl.graph.GraphTraversal;
-import org.apache.tinkerpop.gremlin.process.traversal.util.DefaultTraversal;
+import org.apache.tinkerpop.gremlin.process.traversal.dsl.graph.DefaultGraphTraversal;
 
 // Janus Graph
 import org.janusgraph.core.JanusGraph;
@@ -321,7 +321,7 @@ public class AvroImporter extends JanusClient {
   public Vertex processPCA(GenericRecord record) {
     //log.debug("pca:"); 
     String objectId = record.get("objectId").toString();
-    DefaultGraphTraversal<Vertex, Vertex> gt = g().V().has("lbl", "source").has("objectId", objectId);
+    GraphTraversal<Vertex, Vertex> gt = g().V().has("lbl", "source").has("objectId", objectId);
     if (!gt.hasNext()) {
       log.error("Source with objectId = " + objectId + "does not exist, PCA not added");
       return null;
