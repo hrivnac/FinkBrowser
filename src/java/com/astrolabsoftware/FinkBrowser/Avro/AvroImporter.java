@@ -210,7 +210,7 @@ public class AvroImporter extends JanusClient {
      *           or directory with files. */
   public void register(String fn) {
     if (_top) {
-      _topFn = fn;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
+      _topFn = fn;
       now();
       Vertex import1 = g().addV("Import").property("lbl", "Import").property("importSource", fn).property("importDate", _date).next();
       Vertex imports = g().V().has("lbl", "site").has("title", "IJCLab").out().has("lbl", "Imports").next();
