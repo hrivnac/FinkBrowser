@@ -331,7 +331,7 @@ public class AvroImporter extends JanusClient {
       _nPCAs++;
       Vertex s = gt.next();
       Vertex v = g().addV("PCA").property("lbl", "PCA").next();
-      s.addEdge("has", v)
+      s.addEdge("has", v);
       Array<Double> array = (Array<Double>)(record.get("pca"));
       Iterator<Double> it = array.iterator();
       while (it.hasNext()) {
