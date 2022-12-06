@@ -327,42 +327,15 @@ public class AvroImporter extends JanusClient {
       //log.error("Source with objectId = " + objectId + " does not exist, PCA not added");
       return null;
       }
-    else {
+    else if (gt.out().has("lbl", "PCA").hasNext()) {
+      log.warn("Source with objectId = " + objectId + " already has PCA");
+      return null;
+      }
+     else {
       _nPCAs++;
       Vertex s = gt.next();
       Vertex v = g().addV("PCA").property("lbl", "PCA").next();
       s.addEdge("has", v);
-      Array<Double> array = (Array<Double>)(record.get("pca"));
-      Iterator<Double> it = array.iterator();
-      while (it.hasNext()) {
-        v.property("pca", it.next());
-        }
-      v.property("importDate", _date);      
-      timer("pcas processed (" + _m + " read)", ++_n, _reportLimit, _commitLimit); 
-      return v;
-      }
-    }
-   
-  /** Process <em>Avro</em> PCA.
-    * Only create PCAs for already existing sources.
-    * Do not verify if the PCA already exists (so multiple
-    * PCAs fvor one source may be created.
-    * @param record The full PCA {@link GenericRecord}.
-    * @return       The created {@link Vertex}. */
-  public Vertex processPCA_old(GenericRecord record) {
-    //log.debug("pca:"); 
-    _m++;
-    String objectId = record.get("objectId").toString();
-    GraphTraversal<Vertex, Vertex> gt = g().V().has("lbl", "source").has("objectId", objectId);
-    if (!gt.hasNext()) {
-      //log.error("Source with objectId = " + objectId + " does not exist, PCA not added");
-      return null;
-      }
-    else {
-      _nPCAs++;
-      Vertex s = gt.next();
-      Vertex v = g().addV("PCA").property("lbl", "PCA").next();
-      _gr.addEdge(s, v, "has");
       Array<Double> array = (Array<Double>)(record.get("pca"));
       Iterator<Double> it = array.iterator();
       while (it.hasNext()) {
