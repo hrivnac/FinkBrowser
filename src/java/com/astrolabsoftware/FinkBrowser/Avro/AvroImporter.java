@@ -327,11 +327,7 @@ public class AvroImporter extends JanusClient {
       //log.error("Source with objectId = " + objectId + " does not exist, PCA not added");
       return null;
       }
-    else if (gt.out().has("lbl", "PCA").hasNext()) {
-      log.warn("Source with objectId = " + objectId + " already has PCA");
-      return null;
-      }
-     else {
+    else {
       _nPCAs++;
       Vertex s = gt.next();
       Vertex v = g().addV("PCA").property("lbl", "PCA").next();
