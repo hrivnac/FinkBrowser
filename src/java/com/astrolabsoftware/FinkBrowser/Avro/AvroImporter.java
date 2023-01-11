@@ -334,8 +334,9 @@ public class AvroImporter extends JanusClient {
       s.addEdge("has", v);
       Array<Double> array = (Array<Double>)(record.get("pca"));
       Iterator<Double> it = array.iterator();
+      short pcai = 0;
       while (it.hasNext()) {
-        v.property("pca", it.next());
+        v.property(PCAS[pcai++], it.next());
         }
       v.property("importDate", _date);      
       timer("pcas processed (" + _m + " read)", ++_n, _reportLimit, _commitLimit); 
@@ -681,6 +682,33 @@ public class AvroImporter extends JanusClient {
   private boolean _top = true;
   
   private String _topFn;
+  
+  private static String[] PCAS = new String[]{"pca00",
+                                              "pca01",
+                                              "pca02",
+                                              "pca03",
+                                              "pca04",
+                                              "pca05",
+                                              "pca06",
+                                              "pca07",
+                                              "pca08",
+                                              "pca09",
+                                              "pca10",
+                                              "pca11",
+                                              "pca12",
+                                              "pca13",
+                                              "pca14",
+                                              "pca15",
+                                              "pca16",
+                                              "pca17",
+                                              "pca18",
+                                              "pca19",
+                                              "pca20",
+                                              "pca21",
+                                              "pca22",
+                                              "pca23",
+                                              "pca24",
+                                              "pca25"} 
      
   private static String VERSION = "ztf-3.2";
     
