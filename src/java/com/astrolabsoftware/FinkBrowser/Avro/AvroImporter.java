@@ -707,8 +707,7 @@ public class AvroImporter extends JanusClient {
                                               "pca21",
                                               "pca22",
                                               "pca23",
-                                              "pca24",
-                                              "pca25"} 
+                                              "pca24"};
      
   private static String VERSION = "ztf-3.2";
     
