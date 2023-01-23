@@ -63,6 +63,7 @@ public class FinkHBaseClient extends HBaseClient {
   public FinkHBaseClient(String zookeepers,
                          int    clientPort) throws LomikelException {
     super(zookeepers, clientPort);
+    setFinkEvaluatorFunctions();
     }
    
   /** Create.
@@ -70,6 +71,7 @@ public class FinkHBaseClient extends HBaseClient {
     * @throws LomikelException If anything goes wrong. */
   public FinkHBaseClient(String url) throws LomikelException {
     super(url);
+    setFinkEvaluatorFunctions();
     }
    
   /** Create on <em>localhost</em>.
@@ -77,6 +79,18 @@ public class FinkHBaseClient extends HBaseClient {
   // TBD: is it needed, does it work ok ?
   public FinkHBaseClient() throws LomikelException {
     super(null, null);
+    setFinkEvaluatorFunctions();
+    }
+    
+  /** TBD */
+  private void setFinkEvaluatorFunctions() {
+    try {
+      evaluator().setEvaluatorFunctions("com.astrolabsoftware.FinkBrowser.HBaser.FinkEvaluatorFunctions", "com/astrolabsoftware/FinkBrowser/HBaser/FinkEvaluatorFunctions.bsh");
+      evaluator().setEvaluatorFunctions(null, "com/astrolabsoftware/FinkBrowser/WebService/FinkHBaseColumnsProcessor.bsh");
+      }
+    catch (LomikelException e) {
+      log.error("Cannot set EvaluatorFunctions", e);
+      }
     }
 
   /** Get alerts between two Julian dates (inclusive).

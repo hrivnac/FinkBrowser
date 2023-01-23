@@ -37,10 +37,6 @@ public class Init {
       return;
       }
     try {
-      HBaseEvaluator.setAuxFuctions("com.astrolabsoftware.FinkBrowser.HBaser.FinkEvaluatorFunctions",
-                                    "com/astrolabsoftware/FinkBrowser/HBaser/FinkEvaluatorFunctions.bsh"); 
-      HBaseEvaluator.setAuxFuctions(null,
-                                    "com/astrolabsoftware/FinkBrowser/WebService/FinkHBaseColumnsProcessor.bsh"); 
       if (ws) {
         NotifierURL.notify("", "FinkBrowserWS", Info.release());
         }
