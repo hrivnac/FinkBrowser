@@ -107,7 +107,7 @@ class FinkBrowser {
                                            }
                                          }
                                        }
-    println '' + sumClusters + 'in clusters out of ' + g.V().has('lbl', 'PCA').count() + ' PCAs' 
+    println '' + sumClusters + ' in clusters out of ' + g.V().has('lbl', 'PCA').count().next() + ' PCAs' 
     return clusters
     }
       
