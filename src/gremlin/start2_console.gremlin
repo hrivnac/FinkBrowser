@@ -89,6 +89,7 @@ class FinkBrowser {
   def static findPCAClusters(g, edgeName, edgeValue, minSize, minDist) {
     def clusters = []
     def ids = []
+    def sumClusters = 0
     def i
     def clusterPCA
     g.V().has('lbl', 'PCA').each {v -> i = v.id()
@@ -101,10 +102,12 @@ class FinkBrowser {
                                              cluster += [g.V(pca.id()).in().has('lbl', 'source').values('objectId').next()]
                                              }
                                            clusters += [cluster]
+                                           sumClusters += cluster.size()
                                            println '+ ' + cluster.size()
                                            }
                                          }
                                        }
+    println '' + sumClusters + 'in clusters out of ' + g.V().has('lbl', 'PCA').count() + ' PCAs' 
     return clusters
     }
       
