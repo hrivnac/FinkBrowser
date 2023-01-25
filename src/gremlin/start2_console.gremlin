@@ -80,13 +80,39 @@ class FinkBrowser {
   def static candidates(g, objectId) {
     return g.V().has('objectId', objectId).out().out().has('lbl', 'candidate')
     }  
+    
+  def static findPCAClusters_help() {
+    // g, 'distance', 'difference', 8, 0
+    return 'findPCAClusters(g, edgeName, edgeValue, minSize, minDist)'
+    }
+    
+  def static findPCAClusters(g, edgeName, edgeValue, minSize, minDist) 
+    clusters = []
+    ids = []
+    g.V().has('lbl', 'PCA').each {v -> i = v.id()
+                                       if (!ids.contains(i)) {
+                                         clusterPCA = g.V(i).emit().repeat(outE(edgeName).has(edgeValue, gt(minDist)).inV().dedup()).toSet().sort()
+                                         if (clusterPCA.size() >= minSize) {
+                                           cluster = []
+                                           for (pca in clusterPCA) {
+                                             ids += [pca.id()]
+                                             cluster += [g.V(pca.id()).in().has('lbl', 'source').values('objectId').next()]
+                                             }
+                                           clusters += [cluster]
+                                           println '+ ' + cluster.size()
+                                           }
+                                         }
+                                       }
+    return clusters
+    }
       
   def static help() {
     return getDataLink_help()  + "\n" +
            geosearch_help()    + "\n" +
            drop_by_date_help() + "\n" +
            importStatus_help() + "\n" +
-           candidates_help()
+           candidates_help()   + "\n" +
+           findPCAClusters_help()
     }
 
   def static clientH  
