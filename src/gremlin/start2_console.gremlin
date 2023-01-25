@@ -107,8 +107,7 @@ class FinkBrowser {
     }
       
   def static help() {
-    return getDataLink_help()  + "\n" +
-           geosearch_help()    + "\n" +
+    return geosearch_help()    + "\n" +
            drop_by_date_help() + "\n" +
            importStatus_help() + "\n" +
            candidates_help()   + "\n" +
