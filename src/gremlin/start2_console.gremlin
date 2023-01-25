@@ -89,6 +89,7 @@ class FinkBrowser {
   def static findPCAClusters(g, edgeName, edgeValue, minSize, minDist) {
     def clusters = []
     def ids = []
+    def i
     g.V().has('lbl', 'PCA').each {v -> i = v.id()
                                        if (!ids.contains(i)) {
                                          clusterPCA = g.V(i).emit().repeat(outE(edgeName).has(edgeValue, gt(minDist)).inV().dedup()).toSet().sort()
