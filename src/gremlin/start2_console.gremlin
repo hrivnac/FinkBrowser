@@ -83,10 +83,10 @@ class FinkBrowser {
     
   def static findPCAClusters_help() {
     // g, 'distance', 'difference', 8, 0
-    return 'findPCAClusters(g, edgeName, edgeValue, minSize, minDist)'
+    return 'findPCAClusters(g, edgeName, edgeValue, minSize, maxDist)'
     }
     
-  def static findPCAClusters(g, edgeName, edgeValue, minSize, minDist) {
+  def static findPCAClusters(g, edgeName, edgeValue, minSize, maxDist) {
     def clusters = []
     def ids = []
     def sumClusters = 0
@@ -94,7 +94,7 @@ class FinkBrowser {
     def clusterPCA
     g.V().has('lbl', 'PCA').each {v -> i = v.id()
                                        if (!ids.contains(i)) {
-                                         clusterPCA = g.V(i).emit().repeat(outE(edgeName).has(edgeValue, gt(minDist)).inV().dedup()).toSet().sort()
+                                         clusterPCA = g.V(i).emit().repeat(outE(edgeName).has(edgeValue, lt(maxDist)).inV().dedup()).toSet().sort()
                                          if (clusterPCA.size() >= minSize) {
                                            def cluster = []
                                            for (pca in clusterPCA) {
