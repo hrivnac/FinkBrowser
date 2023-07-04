@@ -21,22 +21,20 @@ Imports           = mgmt.makeVertexLabel('Imports'          ).make()
 Import            = mgmt.makeVertexLabel('Import'           ).make()
 
 // Edges
-has        = mgmt.getEdgeLabel( 'has'     )
-contains   = mgmt.getEdgeLabel( 'contains')
-props      = mgmt.getEdgeLabel( 'props'   )
-overlaps   = mgmt.getEdgeLabel( 'overlaps')
-from       = mgmt.makeEdgeLabel('from'    ).multiplicity(SIMPLE  ).make() // TBD: move to Lomikel
-holds      = mgmt.makeEdgeLabel('holds'   ).multiplicity(ONE2MANY).make()
+props    = mgmt.makeEdgeLabel('props'   ).multiplicity(SIMPLE  ).make()
+has      = mgmt.makeEdgeLabel('has'     ).multiplicity(ONE2MANY).make()
+contains = mgmt.makeEdgeLabel('contains').multiplicity(MULTI   ).make()
+overlaps = mgmt.makeEdgeLabel('overlaps').multiplicity(SIMPLE  ).make()
+from     = mgmt.makeEdgeLabel('from'    ).multiplicity(SIMPLE  ).make() // TBD: move to Lomikel
+holds    = mgmt.makeEdgeLabel('holds'   ).multiplicity(ONE2MANY).make()
 
 // Properties
-dec                  = mgmt.getPropertyKey('dec'                  )
 fullfill             = mgmt.getPropertyKey('fullfill'             )
 hbase                = mgmt.getPropertyKey('hbase'                )
 importDate           = mgmt.getPropertyKey('importDate'           )
 importSource         = mgmt.getPropertyKey('importSource'         )
 lbl                  = mgmt.getPropertyKey('lbl'                  )
 name                 = mgmt.getPropertyKey('name'                 )
-ra                   = mgmt.getPropertyKey('ra'                   )
 timestamp            = mgmt.getPropertyKey('timestamp'            )
 title                = mgmt.getPropertyKey('title'                )
 aimage               = mgmt.makePropertyKey('aimage'              ).dataType(Float.class   ).cardinality(Cardinality.SINGLE).make() 
@@ -62,6 +60,7 @@ cutoutScienceFn      = mgmt.makePropertyKey('cutoutScienceFn'     ).dataType(Str
 cutoutScience        = mgmt.makePropertyKey('cutoutScience'       ).dataType(String.class  ).cardinality(Cardinality.SINGLE).make()
 cutoutTemplateFn     = mgmt.makePropertyKey('cutoutTemplateFn'    ).dataType(String.class  ).cardinality(Cardinality.SINGLE).make()
 cutoutTemplate       = mgmt.makePropertyKey('cutoutTemplate'      ).dataType(String.class  ).cardinality(Cardinality.SINGLE).make()
+dec                  = mgmt.makePropertyKey('dec'                 ).dataType(Double.class ).cardinality(Cardinality.SINGLE).make() 
 decnr                = mgmt.makePropertyKey('decnr'               ).dataType(Double.class  ).cardinality(Cardinality.SINGLE).make() 
 diffmaglim           = mgmt.makePropertyKey('diffmaglim'          ).dataType(Float.class   ).cardinality(Cardinality.SINGLE).make() 
 direction            = mgmt.makePropertyKey('direction'           ).dataType(Geoshape.class).cardinality(Cardinality.SINGLE).make()
@@ -153,6 +152,7 @@ programid            = mgmt.makePropertyKey('programid'           ).dataType(Int
 programpi            = mgmt.makePropertyKey('programpi'           ).dataType(String.class  ).cardinality(Cardinality.SINGLE).make() 
 publisher            = mgmt.makePropertyKey('publisher'           ).dataType(String.class  ).cardinality(Cardinality.SINGLE).make()
 Plx                  = mgmt.makePropertyKey('Plx'                 ).dataType(Double.class  ).cardinality(Cardinality.SINGLE).make()
+ra                   = mgmt.makePropertyKey('ra'                  ).dataType(Double.class ).cardinality(Cardinality.SINGLE).make() 
 ranr                 = mgmt.makePropertyKey('ranr'                ).dataType(Double.class  ).cardinality(Cardinality.SINGLE).make() 
 rb                   = mgmt.makePropertyKey('rb'                  ).dataType(Float.class   ).cardinality(Cardinality.SINGLE).make() 
 rbversion            = mgmt.makePropertyKey('rbversion'           ).dataType(String.class  ).cardinality(Cardinality.SINGLE).make() 
@@ -453,6 +453,8 @@ mgmt.addProperties(Import,
                    nPCAs) 
                                       
 // Edge properties
+mgmt.addProperties(props,
+                   lbl)
 mgmt.addProperties(has,
                    lbl)
 mgmt.addProperties(contains,
