@@ -510,6 +510,7 @@ public class AvroImporter extends JanusClient {
                         String        label,
                         String        property,
                         String        strategy) {
+    log.info("For creation " + label + " " + strategy);
     if (strategy == null) {
       strategy = "";
       }
@@ -544,7 +545,7 @@ public class AvroImporter extends JanusClient {
       v = _gr.getOrCreate(label, property, record.get(property)).get(0); // TBD: check uniqueness
       }
     if (create || replace) {
-      //log.debug("Creating " + label + ": " + property + " = " + record.get(property));
+      log.debug("Creating " + label + ": " + property + " = " + record.get(property));
       v = g().addV(label).property("lbl", label).property(property, record.get(property)).next();
       }
     return v;
