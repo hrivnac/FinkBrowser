@@ -510,7 +510,6 @@ public class AvroImporter extends JanusClient {
                         String        label,
                         String        property,
                         String        strategy) {
-    log.info("For creation " + label + " " + strategy);
     if (strategy == null) {
       strategy = "";
       }
@@ -531,17 +530,17 @@ public class AvroImporter extends JanusClient {
         return v;
         }
       else {
-        //log.debug("Creating: " + label);
+        log.debug("Creating: " + label);
         return g().addV(label).property("lbl", label).next();
         }
       }
     // Unique Vertex
     if (drop || replace) {
-      //log.debug("Dropping " + label + ": " + property + " = " + record.get(property));
+      log.debug("Dropping " + label + ": " + property + " = " + record.get(property));
       _gr.drop(label, property, record.get(property), true);
       }
     if (reuse) {
-      //log.info("Getting " + label + ": " + property + " = " + record.get(property));
+      log.info("Getting " + label + ": " + property + " = " + record.get(property));
       v = _gr.getOrCreate(label, property, record.get(property)).get(0); // TBD: check uniqueness
       }
     if (create || replace) {
