@@ -260,10 +260,11 @@ public class AvroImporter extends JanusClient {
                                                                                       "cutoutTemplate",
                                                                                       "cutoutDifference"}));
     //log.debug("alert:"); 
-    Vertex v = vertex(record, "alert", null);
+    Vertex v = vertex(record, "alert", null, "create");
     if (v != null) {
       String objectId = record.get("objectId").toString();
-      Vertex s = _gr.getOrCreate("source", "objectId", objectId).get(0); // TBD: check uniqueness
+      //Vertex s = _gr.getOrCreate("source", "objectId", objectId).get(0); // TBD: check uniqueness
+      Vertex s = vertex("source", "objectId", record, "reuse");
       _gr.addEdge(s, v, "has");
       for (Map.Entry<String, String> entry : values.entrySet()) {
         //log.debug("\t" + entry.getKey() + " = " + entry.getValue());
@@ -285,7 +286,7 @@ public class AvroImporter extends JanusClient {
                            "has",
                            COLUMNS_CANDIDATE,
                            objectId);
-      Vertex vv = vertex(record, "prv_candidates", null);
+      Vertex vv = vertex(record, "prv_candidates", null, "create");
       _gr.addEdge(v, vv, "has");    
       Array a = (Array)record.get("prv_candidates");
       if (a != null) {
@@ -368,7 +369,7 @@ public class AvroImporter extends JanusClient {
       idNameA = new String[]{idName};
       }
     Map<String, String> values = getSimpleValues(record, getSimpleFields(record, fields, idNameA));
-    Vertex v = vertex(record, name, idName);
+    Vertex v = vertex(record, name, idName, "create");
     if (v == null) {
       return v;
       }
@@ -400,7 +401,7 @@ public class AvroImporter extends JanusClient {
                              Vertex        mother,
                              String        objectId,
                              String        jd) {
-    Vertex v = vertex(record, "cutout", null);
+    Vertex v = vertex(record, "cutout", null, "create");
     GenericRecord r;
     String fn;
     String key = objectId + "_" + jd;
@@ -502,18 +503,30 @@ public class AvroImporter extends JanusClient {
     * @param label     The {@link Vertex} label.
     * @param property  The name of {@link Vertex} property.
     *                  If <tt>null</tt> strategy is ignored and {@link Vertex} is created.
+    * @param strategy  The creation strategy: <tt>drop, replace, reuse, skip, create</tt>.
+    *                  If anything else, the global strategy b  is used.
     * @return          The created {@link Vertex} or <tt>null</tt>. */
   private Vertex vertex(GenericRecord record,
                         String        label,
-                        String        property) {
+                        String        property
+                        String        strategy) {
+    if (strategy == null) {
+      strategy = "";
+      }
+    strategy        = strategy.trim();
+    boolean drop    = strategy.equals("drop")    || _drop;
+    boolean skip    = strategy.equals("skip")    || _skip;
+    boolean create  = strategy.equals("create")  || _create;
+    boolean reuse   = strategy.equals("reuse")   || _reuse;
+    boolean replace = strategy.equals("replace") || _replace;
     Vertex v = null;
     // Do nothing
-    if (_skip) {
+    if (skip) {
       return v;
       }
     // Not unique Vertex
     if (property == null) {
-      if (_drop) {
+      if (drop) {
         return v;
         }
       else {
@@ -522,15 +535,15 @@ public class AvroImporter extends JanusClient {
         }
       }
     // Unique Vertex
-    if (_drop || _replace) {
+    if (drop || replace) {
       //log.debug("Dropping " + label + ": " + property + " = " + record.get(property));
       _gr.drop(label, property, record.get(property), true);
       }
-    if (_reuse) {
+    if (reuse) {
       //log.info("Getting " + label + ": " + property + " = " + record.get(property));
-      v = _gr.getOrCreate(label, property, record.get(property)).get(0);
+      v = _gr.getOrCreate(label, property, record.get(property)).get(0); // TBD: check uniqueness
       }
-    if (_create || _replace) {
+    if (create || replace) {
       //log.debug("Creating " + label + ": " + property + " = " + record.get(property));
       v = g().addV(label).property("lbl", label).property(property, record.get(property)).next();
       }

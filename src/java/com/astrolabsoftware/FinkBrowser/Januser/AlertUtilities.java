@@ -61,10 +61,10 @@ public class AlertUtilities extends JanusClient {
 
   /** Search {@link Vertex}es between <em>Julian Dates</em>.
     * @param since The end <em>Julian Date</em>.
-    * @param till The start <em>Julian Date</em>.
-    * @param lbl The {@link Vertex} label.
+    * @param till  The start <em>Julian Date</em>.
+    * @param lbl   The {@link Vertex} label.
     * @param limit The maximal number of resuolts to give.
-    * @return      The {@link List> of
+    * @return      The {@link List} of {@link Vertex}es.
     */
   public List<Vertex> searchJd(double since,
                                double till,
