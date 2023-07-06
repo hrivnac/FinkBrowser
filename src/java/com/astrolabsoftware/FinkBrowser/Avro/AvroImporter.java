@@ -514,11 +514,11 @@ public class AvroImporter extends JanusClient {
       strategy = "";
       }
     strategy        = strategy.trim();
-    boolean drop    = strategy.equals("drop")    || _drop;
-    boolean skip    = strategy.equals("skip")    || _skip;
-    boolean create  = strategy.equals("create")  || _create;
-    boolean reuse   = strategy.equals("reuse")   || _reuse;
-    boolean replace = strategy.equals("replace") || _replace;
+    boolean drop    = strategy.equals("drop");
+    boolean skip    = strategy.equals("skip");   
+    boolean create  = strategy.equals("create"); 
+    boolean reuse   = strategy.equals("reuse");  
+    boolean replace = strategy.equals("replace");
     Vertex v = null;
     // Do nothing
     if (skip) {
