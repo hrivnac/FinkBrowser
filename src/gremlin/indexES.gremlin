@@ -20,9 +20,9 @@ direction  = mgmt.getPropertyKey('direction')
 alert      = mgmt.getVertexLabel('alert'    )
 
 //  Indexes                      
-mgmt.buildIndex('byImportDateES', Vertex.class).addKey(importDate,     Mapping.TEXTS.asParameter())      .buildMixedIndex('search')
-mgmt.buildIndex('byObjectIdES',   Vertex.class).addKey(objectId,       Mapping.TEXTS.asParameter())      .buildMixedIndex('search')
-mgmt.buildIndex('bySsnamenrES',   Vertex.class).addKey(ssnamenr,       Mapping.TEXTS.asParameter())      .buildMixedIndex('search')
+mgmt.buildIndex('byImportDateES', Vertex.class).addKey(importDate,     Mapping.TEXT.asParameter())       .buildMixedIndex('search')
+mgmt.buildIndex('byObjectIdES',   Vertex.class).addKey(objectId,       Mapping.TEXT.asParameter())       .buildMixedIndex('search')
+mgmt.buildIndex('bySsnamenrES',   Vertex.class).addKey(ssnamenr,       Mapping.TEXT.asParameter())       .buildMixedIndex('search')
 //mgmt.buildIndex('byCandidES',     Vertex.class).addKey(candid)                                           .buildMixedIndex('search')
 //mgmt.buildIndex('byJdES',         Vertex.class).addKey(jd)                                               .buildMixedIndex('search')
 //mgmt.buildIndex('byRaDecES',      Vertex.class).addKey(ra).addKey(dec)                                   .buildMixedIndex('search')
