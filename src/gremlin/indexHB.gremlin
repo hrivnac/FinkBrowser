@@ -21,7 +21,7 @@ alert      = mgmt.getVertexLabel('alert'     )
 
 //  Indexes                                                            
 //mgmt.buildIndex('byImportDate', Vertex.class).addKey(importDate)    .buildCompositeIndex()
-//mgmt.buildIndex('byObjectId',   Vertex.class).addKey(objectId)      .buildCompositeIndex()
+mgmt.buildIndex('byObjectId',   Vertex.class).addKey(objectId)      .buildCompositeIndex()
 //mgmt.buildIndex('bySsnamenr',   Vertex.class).addKey(ssnamenr)      .buildCompositeIndex()
 mgmt.buildIndex('byCandid',     Vertex.class).addKey(candid)        .buildCompositeIndex()
 mgmt.buildIndex('byJd',         Vertex.class).addKey(jd)            .buildCompositeIndex()
