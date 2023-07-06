@@ -508,7 +508,7 @@ public class AvroImporter extends JanusClient {
     * @return          The created {@link Vertex} or <tt>null</tt>. */
   private Vertex vertex(GenericRecord record,
                         String        label,
-                        String        property
+                        String        property,
                         String        strategy) {
     if (strategy == null) {
       strategy = "";
