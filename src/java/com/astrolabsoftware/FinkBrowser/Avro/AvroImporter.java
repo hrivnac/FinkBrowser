@@ -264,7 +264,7 @@ public class AvroImporter extends JanusClient {
     if (v != null) {
       String objectId = record.get("objectId").toString();
       //Vertex s = _gr.getOrCreate("source", "objectId", objectId).get(0); // TBD: check uniqueness
-      Vertex s = vertex("source", "objectId", record, "reuse");
+      Vertex s = vertex(record, "source", "objectId", "reuse");
       _gr.addEdge(s, v, "has");
       for (Map.Entry<String, String> entry : values.entrySet()) {
         //log.debug("\t" + entry.getKey() + " = " + entry.getValue());
