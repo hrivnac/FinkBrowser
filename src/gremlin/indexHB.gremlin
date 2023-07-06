@@ -32,7 +32,7 @@ mgmt.commit()
 
 // Wait for index
 //ManagementSystem.awaitGraphIndexStatus(graph, 'byImportDate').status(SchemaStatus.REGISTERED).call()
-//ManagementSystem.awaitGraphIndexStatus(graph, 'byObjectId'  ).status(SchemaStatus.REGISTERED).call()
+ManagementSystem.awaitGraphIndexStatus(graph, 'byObjectId'  ).status(SchemaStatus.REGISTERED).call()
 //ManagementSystem.awaitGraphIndexStatus(graph, 'bySsnamenr'  ).status(SchemaStatus.REGISTERED).call()
 ManagementSystem.awaitGraphIndexStatus(graph, 'byCandid'    ).status(SchemaStatus.REGISTERED).call()
 ManagementSystem.awaitGraphIndexStatus(graph, 'byJd'        ).status(SchemaStatus.REGISTERED).call()
@@ -42,7 +42,7 @@ ManagementSystem.awaitGraphIndexStatus(graph, 'byRaDec'     ).status(SchemaStatu
 // Reindex existing data
 mgmt = graph.openManagement()
 //mgmt.updateIndex(mgmt.getGraphIndex('byImportDate'), SchemaAction.REINDEX).get()
-//mgmt.updateIndex(mgmt.getGraphIndex('byObjectId'  ), SchemaAction.REINDEX).get()
+mgmt.updateIndex(mgmt.getGraphIndex('byObjectId'  ), SchemaAction.REINDEX).get()
 //mgmt.updateIndex(mgmt.getGraphIndex('bySsnamenr'  ), SchemaAction.REINDEX).get()
 mgmt.updateIndex(mgmt.getGraphIndex('byCandid'    ), SchemaAction.REINDEX).get()
 mgmt.updateIndex(mgmt.getGraphIndex('byJd'        ), SchemaAction.REINDEX).get()
@@ -54,7 +54,7 @@ mgmt.commit()
 
 // Enable index
 //ManagementSystem.awaitGraphIndexStatus(graph, 'byImportDate').status(SchemaStatus.ENABLED).call()
-//ManagementSystem.awaitGraphIndexStatus(graph, 'byObjectId'  ).status(SchemaStatus.ENABLED).call()
+ManagementSystem.awaitGraphIndexStatus(graph, 'byObjectId'  ).status(SchemaStatus.ENABLED).call()
 //ManagementSystem.awaitGraphIndexStatus(graph, 'bySsnamenr'  ).status(SchemaStatus.ENABLED).call()
 ManagementSystem.awaitGraphIndexStatus(graph, 'byCandid'    ).status(SchemaStatus.ENABLED).call()
 ManagementSystem.awaitGraphIndexStatus(graph, 'byJd'        ).status(SchemaStatus.ENABLED).call()
