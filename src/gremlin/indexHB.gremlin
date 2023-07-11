@@ -2,7 +2,6 @@
 // (Lomikel schema should be already loaded)
 // (uses direct indexing, big data can use also MR indexing) 
 // =========================================================
-mgmt.buildIndex('booksBySummary', Vertex.class).addKey(name, Mapping.STRING.asParameter()).buildMixedIndex("search")
 
 graph.tx().rollback()
 
@@ -21,8 +20,8 @@ direction  = mgmt.getPropertyKey('direction' )
 alert      = mgmt.getVertexLabel('alert'     )
 
 //  Indexes                                                            
-//mgmt.buildIndex('byImportDate', Vertex.class).addKey(importDate, Mapping.STRING.asParameter())    .buildCompositeIndex()
-mgmt.buildIndex('byObjectId',   Vertex.class).addKey(objectId, Mapping.STRING.asParameter())      .buildCompositeIndex()
+//mgmt.buildIndex('byImportDate', Vertex.class).addKey(importDate,     Mapping.STRING.asParameter())      .buildCompositeIndex()
+//mgmt.buildIndex('byObjectIdx',   Vertex.class).addKey(objectIdx,     Mapping.STRING.asParameter())      .buildCompositeIndex()
 //mgmt.buildIndex('bySsnamenr',   Vertex.class).addKey(ssnamenr,       Mapping.STRING.asParameter())      .buildCompositeIndex()
 mgmt.buildIndex('byCandid',     Vertex.class).addKey(candid)        .buildCompositeIndex()
 mgmt.buildIndex('byJd',         Vertex.class).addKey(jd)            .buildCompositeIndex()
@@ -33,7 +32,7 @@ mgmt.commit()
 
 // Wait for index
 //ManagementSystem.awaitGraphIndexStatus(graph, 'byImportDate').status(SchemaStatus.REGISTERED).call()
-ManagementSystem.awaitGraphIndexStatus(graph, 'byObjectId'  ).status(SchemaStatus.REGISTERED).call()
+//ManagementSystem.awaitGraphIndexStatus(graph, 'byObjectId'  ).status(SchemaStatus.REGISTERED).call()
 //ManagementSystem.awaitGraphIndexStatus(graph, 'bySsnamenr'  ).status(SchemaStatus.REGISTERED).call()
 ManagementSystem.awaitGraphIndexStatus(graph, 'byCandid'    ).status(SchemaStatus.REGISTERED).call()
 ManagementSystem.awaitGraphIndexStatus(graph, 'byJd'        ).status(SchemaStatus.REGISTERED).call()
@@ -43,7 +42,7 @@ ManagementSystem.awaitGraphIndexStatus(graph, 'byRaDec'     ).status(SchemaStatu
 // Reindex existing data
 mgmt = graph.openManagement()
 //mgmt.updateIndex(mgmt.getGraphIndex('byImportDate'), SchemaAction.REINDEX).get()
-mgmt.updateIndex(mgmt.getGraphIndex('byObjectId'  ), SchemaAction.REINDEX).get()
+//mgmt.updateIndex(mgmt.getGraphIndex('byObjectId'  ), SchemaAction.REINDEX).get()
 //mgmt.updateIndex(mgmt.getGraphIndex('bySsnamenr'  ), SchemaAction.REINDEX).get()
 mgmt.updateIndex(mgmt.getGraphIndex('byCandid'    ), SchemaAction.REINDEX).get()
 mgmt.updateIndex(mgmt.getGraphIndex('byJd'        ), SchemaAction.REINDEX).get()
@@ -55,7 +54,7 @@ mgmt.commit()
 
 // Enable index
 //ManagementSystem.awaitGraphIndexStatus(graph, 'byImportDate').status(SchemaStatus.ENABLED).call()
-ManagementSystem.awaitGraphIndexStatus(graph, 'byObjectId'  ).status(SchemaStatus.ENABLED).call()
+//ManagementSystem.awaitGraphIndexStatus(graph, 'byObjectId'  ).status(SchemaStatus.ENABLED).call()
 //ManagementSystem.awaitGraphIndexStatus(graph, 'bySsnamenr'  ).status(SchemaStatus.ENABLED).call()
 ManagementSystem.awaitGraphIndexStatus(graph, 'byCandid'    ).status(SchemaStatus.ENABLED).call()
 ManagementSystem.awaitGraphIndexStatus(graph, 'byJd'        ).status(SchemaStatus.ENABLED).call()

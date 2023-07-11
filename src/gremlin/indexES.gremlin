@@ -20,9 +20,9 @@ direction  = mgmt.getPropertyKey('direction')
 alert      = mgmt.getVertexLabel('alert'    )
 
 //  Indexes                      
-mgmt.buildIndex('byImportDateES', Vertex.class).addKey(importDate,     Mapping.STRING.asParameter())       .buildMixedIndex('search')
-//mgmt.buildIndex('byObjectIdES',   Vertex.class).addKey(objectId,       Mapping.STRING.asParameter())       .buildMixedIndex('search')
-mgmt.buildIndex('bySsnamenrES',   Vertex.class).addKey(ssnamenr,       Mapping.STRING.asParameter())       .buildMixedIndex('search')
+mgmt.buildIndex('byImportDateES', Vertex.class).addKey(importDate,     Mapping.TEXTSTRING.asParameter())       .buildMixedIndex('search')
+mgmt.buildIndex('byObjectIdES',   Vertex.class).addKey(objectId,       Mapping.TEXTSTRING.asParameter())       .buildMixedIndex('search')
+mgmt.buildIndex('bySsnamenrES',   Vertex.class).addKey(ssnamenr,       Mapping.TEXTSTRING.asParameter())       .buildMixedIndex('search')
 //mgmt.buildIndex('byCandidES',     Vertex.class).addKey(candid)                                           .buildMixedIndex('search')
 //mgmt.buildIndex('byJdES',         Vertex.class).addKey(jd)                                               .buildMixedIndex('search')
 //mgmt.buildIndex('byRaDecES',      Vertex.class).addKey(ra).addKey(dec)                                   .buildMixedIndex('search')
@@ -32,7 +32,7 @@ mgmt.commit()
 
 // Wait for index
 ManagementSystem.awaitGraphIndexStatus(graph, 'byImportDateES').status(SchemaStatus.REGISTERED).call()
-//ManagementSystem.awaitGraphIndexStatus(graph, 'byObjectIdES'  ).status(SchemaStatus.REGISTERED).call()
+ManagementSystem.awaitGraphIndexStatus(graph, 'byObjectIdES'  ).status(SchemaStatus.REGISTERED).call()
 ManagementSystem.awaitGraphIndexStatus(graph, 'bySsnamenrES'  ).status(SchemaStatus.REGISTERED).call()
 //ManagementSystem.awaitGraphIndexStatus(graph, 'byCandidES'    ).status(SchemaStatus.REGISTERED).call()
 //ManagementSystem.awaitGraphIndexStatus(graph, 'byJdES'        ).status(SchemaStatus.REGISTERED).call()
@@ -42,7 +42,7 @@ ManagementSystem.awaitGraphIndexStatus(graph, 'byDirectionES' ).status(SchemaSta
 // Reindex existing data
 mgmt = graph.openManagement()
 mgmt.updateIndex(mgmt.getGraphIndex('byImportDateES'), SchemaAction.REINDEX).get()
-//mgmt.updateIndex(mgmt.getGraphIndex('byObjectIdES'  ), SchemaAction.REINDEX).get()
+mgmt.updateIndex(mgmt.getGraphIndex('byObjectIdES'  ), SchemaAction.REINDEX).get()
 mgmt.updateIndex(mgmt.getGraphIndex('bySsnamenrES'  ), SchemaAction.REINDEX).get()
 //mgmt.updateIndex(mgmt.getGraphIndex('byCandidES'    ), SchemaAction.REINDEX).get()
 //mgmt.updateIndex(mgmt.getGraphIndex('byJdES'        ), SchemaAction.REINDEX).get()
@@ -54,7 +54,7 @@ mgmt.commit()
 
 // Enable index
 ManagementSystem.awaitGraphIndexStatus(graph, 'byImportDateES').status(SchemaStatus.ENABLED).call()
-//ManagementSystem.awaitGraphIndexStatus(graph, 'byObjectIdES'  ).status(SchemaStatus.ENABLED).call()
+ManagementSystem.awaitGraphIndexStatus(graph, 'byObjectIdES'  ).status(SchemaStatus.ENABLED).call()
 ManagementSystem.awaitGraphIndexStatus(graph, 'bySsnamenrES'  ).status(SchemaStatus.ENABLED).call()
 //ManagementSystem.awaitGraphIndexStatus(graph, 'byCandidES'    ).status(SchemaStatus.ENABLED).call()
 //ManagementSystem.awaitGraphIndexStatus(graph, 'byJdES'        ).status(SchemaStatus.ENABLED).call()
