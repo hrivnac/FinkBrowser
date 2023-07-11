@@ -274,6 +274,7 @@ public class AvroImporter extends JanusClient {
           log.error("Cannot add property: " + entry.getKey() + " = " + entry.getValue(), e);
           }
         }
+      v.property("objectId",     objectId);
       v.property("alertVersion", VERSION);
       v.property("importDate",   _date);
       String ss;
