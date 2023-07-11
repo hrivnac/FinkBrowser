@@ -54,6 +54,7 @@ clrcounc             = mgmt.makePropertyKey('clrcounc'            ).dataType(Flo
 clrmed               = mgmt.makePropertyKey('clrmed'              ).dataType(Float.class   ).cardinality(Cardinality.SINGLE).make() 
 clrrms               = mgmt.makePropertyKey('clrrms'              ).dataType(Float.class   ).cardinality(Cardinality.SINGLE).make() 
 complete             = mgmt.makePropertyKey('complete'            ).dataType(Boolean.class ).cardinality(Cardinality.SINGLE).make() 
+connected            = mgmt.makePropertyKey('connected'           ).dataType(Boolean.class ).cardinality(Cardinality.SINGLE).make() 
 cutoutDifferenceFn   = mgmt.makePropertyKey('cutoutDifferenceFn'  ).dataType(String.class  ).cardinality(Cardinality.SINGLE).make()
 cutoutDifference     = mgmt.makePropertyKey('cutoutDifference'    ).dataType(String.class  ).cardinality(Cardinality.SINGLE).make()
 cutoutScienceFn      = mgmt.makePropertyKey('cutoutScienceFn'     ).dataType(String.class  ).cardinality(Cardinality.SINGLE).make()
@@ -449,6 +450,7 @@ mgmt.addProperties(Import,
                    importSource,
                    importDate,
                    complete,
+                   connected,
                    nAlerts,
                    nPCAs) 
                                       
