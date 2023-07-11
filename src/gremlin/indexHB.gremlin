@@ -2,6 +2,7 @@
 // (Lomikel schema should be already loaded)
 // (uses direct indexing, big data can use also MR indexing) 
 // =========================================================
+mgmt.buildIndex('booksBySummary', Vertex.class).addKey(name, Mapping.STRING.asParameter()).buildMixedIndex("search")
 
 graph.tx().rollback()
 
@@ -20,9 +21,9 @@ direction  = mgmt.getPropertyKey('direction' )
 alert      = mgmt.getVertexLabel('alert'     )
 
 //  Indexes                                                            
-//mgmt.buildIndex('byImportDate', Vertex.class).addKey(importDate)    .buildCompositeIndex()
-mgmt.buildIndex('byObjectId',   Vertex.class).addKey(objectId)      .buildCompositeIndex()
-//mgmt.buildIndex('bySsnamenr',   Vertex.class).addKey(ssnamenr)      .buildCompositeIndex()
+//mgmt.buildIndex('byImportDate', Vertex.class).addKey(importDate, Mapping.STRING.asParameter())    .buildCompositeIndex()
+mgmt.buildIndex('byObjectId',   Vertex.class).addKey(objectId, Mapping.STRING.asParameter())      .buildCompositeIndex()
+//mgmt.buildIndex('bySsnamenr',   Vertex.class).addKey(ssnamenr,       Mapping.STRING.asParameter())      .buildCompositeIndex()
 mgmt.buildIndex('byCandid',     Vertex.class).addKey(candid)        .buildCompositeIndex()
 mgmt.buildIndex('byJd',         Vertex.class).addKey(jd)            .buildCompositeIndex()
 mgmt.buildIndex('byRaDec',      Vertex.class).addKey(ra).addKey(dec).buildCompositeIndex()
