@@ -1,0 +1,21 @@
+import com.Lomikel.Januser.GremlinRecipies
+i0 = 0
+i = 0
+lim = 100
+t0 = System.currentTimeMillis()
+gr = new GremlinRecipies(g)
+while (i == 0 || i > i0) {
+  i0 = i
+  g.V().has('lbl', 'alert').has('objectId').limit(lim).each { a ->
+    def idd = a.id()
+    def objectId = a.values('objectId').next()
+    def s = gr.getOrCreate('source', 'objectId', objectId).get(0)
+    gr.addEdge(s, a, 'has')
+    g.V(idd).properties('objectId', objectId).drop().iterate()
+    i++
+    }          
+  g.getGraph().tx().commit()
+  t = (System.currentTimeMillis() - t0) / 1000
+  println('' + i + ' alerts connected in ' + t + 's, freq = ' + (int)(i / t) + 'Hz')
+  }
+  
