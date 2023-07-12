@@ -1,7 +1,7 @@
 import com.Lomikel.Januser.GremlinRecipies
 icom = 10
 gr = new GremlinRecipies(g)
-importDates = g.V().has('lbl', 'Imports').out().has('lbl', 'Import').or(hasNot('connected'), has('connected', false)).limit(1).values('importDate').toSet();[]
+importDates = g.V().has('lbl', 'Imports').out().has('lbl', 'Import').has('complete', true).or(hasNot('connected'), has('connected', false)).limit(1).values('importDate').toSet();[]
 println('' + importDates.size() + ' impots to connect')
 for (importDate in importDates) {
   idds = g.V().has('importDate', importDate).has('lbl', 'alert').has('objectId').id().toSet();[]
