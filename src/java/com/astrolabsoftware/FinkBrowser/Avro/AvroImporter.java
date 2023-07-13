@@ -179,7 +179,7 @@ public class AvroImporter extends JanusClient {
         log.warn("Not " + fileExt + " file: " + dataFN);
         }
       }
-    timer("alerts created", _n, -1, -1);      
+    timer("alerts/pcas created", _n, -1, -1);      
     log.info("" + i + " files loaded");
     }
      
@@ -560,8 +560,8 @@ public class AvroImporter extends JanusClient {
     return _hbaseUrl;
     } 
     
-  /** Give number of created alerts.
-    * @return The number of created alerts. */
+  /** Give number of created alerts/pcas.
+    * @return The number of created alerts/pcas. */
   protected int n() {
     return _n;
     }
@@ -634,8 +634,6 @@ public class AvroImporter extends JanusClient {
   private GremlinRecipies _gr;
   
   private String _jd;
-  
-  private int _n = 0;
   
   private int _reportLimit;
   
