@@ -1,32 +1,42 @@
 import com.Lomikel.Januser.GremlinRecipies
+
 icom = 10
 gr = new GremlinRecipies(g)
+
 importDates = g.V().has('lbl', 'Imports').out().has('lbl', 'Import').has('complete', true).or(hasNot('connected'), has('connected', false)).values('importDate').toSet();[]
 println('' + importDates.size() + ' imports to connect')
+
 for (importDate in importDates) {
   idds = g.V().has('importDate', importDate).has('lbl', 'alert').has('objectId').id().toSet();[]
-  println('' + idds.size() + ' alerts to connect for imports on ' + importDate)
-  t0 = System.currentTimeMillis()
-  i = 0
-  for (idd in idds) {
-    def a = g.V(idd).next()
-    def objectId = a.values('objectId').next()
-    //def s = g.addV('source').property('lbl', 'source').property('objectId', objectId).addE('has').to(a).next()
-    def s = gr.getOrCreate('source', 'objectId', objectId).get(0)
-    gr.addEdge(s, a, 'has')
-    g.V(idd).properties('objectId', objectId).drop().iterate()
-    if (i > 0 && ++i % icom == 0) {
+  if (idds.size( == 0) {
+    println('Removing empty import on ' + importDate)
+    g.V().has('lbl', 'Imports').out().has('lbl', 'Import').has('importDate', importDate).drop().iterate()
+    g.getGraph().tx().commit()
+    }
+  else {
+    println('' + idds.size() + ' alerts to connect for imports on ' + importDate)
+    t0 = System.currentTimeMillis()
+    i = 0
+    for (idd in idds) {
+      def a = g.V(idd).next()
+      def objectId = a.values('objectId').next()
+      //def s = g.addV('source').property('lbl', 'source').property('objectId', objectId).addE('has').to(a).next()
+      def s = gr.getOrCreate('source', 'objectId', objectId).get(0)
+      gr.addEdge(s, a, 'has')
+      g.V(idd).properties('objectId', objectId).drop().iterate()
+      if (i > 0 && ++i % icom == 0) {
+        g.getGraph().tx().commit()
+        t = (System.currentTimeMillis() - t0) / 1000
+        println('' + i + ' alerts connected in ' + t + 's, freq = ' + (int)(i / t) + 'Hz')
+        }
+      }
+    if (i > 0) {
       g.getGraph().tx().commit()
       t = (System.currentTimeMillis() - t0) / 1000
       println('' + i + ' alerts connected in ' + t + 's, freq = ' + (int)(i / t) + 'Hz')
+      g.V().has('lbl', 'Imports').out().has('lbl', 'Import').has('importDate', importDate).property('connected', true).iterate()
+      g.getGraph().tx().commit()
       }
     }        
-  if (i > 0) {
-    g.getGraph().tx().commit()
-    t = (System.currentTimeMillis() - t0) / 1000
-    println('' + i + ' alerts connected in ' + t + 's, freq = ' + (int)(i / t) + 'Hz')
-    g.V().has('lbl', 'Imports').out().has('lbl', 'Import').has('importDate', importDate).property('connected', true).iterate()
-    g.getGraph().tx().commit()
-    }
   }
   
