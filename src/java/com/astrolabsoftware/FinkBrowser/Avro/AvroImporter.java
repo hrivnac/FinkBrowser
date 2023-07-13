@@ -589,14 +589,12 @@ public class AvroImporter extends JanusClient {
     
   @Override
   public void close() { 
-    String nProp = "nAlerts";
     if (_dataType.equals("alert")) {
-      nProp = "nAlerts";
+      g().V().has("lbl", "Import").has("importSource", _topFn).has("importDate", _date).property("complete", true)                            .property("nAlerts", _nAlerts).next();
       }
     else if (_dataType.equals("pca")) {
-      nProp = "nPSAs";
+      g().V().has("lbl", "Import").has("importSource", _topFn).has("importDate", _date).property("complete", true).property("connected", true).property("nPCAs", _nPCAs).next();
       }
-    g().V().has("lbl", "Import").has("importSource", _topFn).has("importDate", _date).property("complete", true).property(nProp, _nAlerts).next();
     commit();
     log.info("Import statistics:");
     log.info("\talerts: " + _nAlerts);
