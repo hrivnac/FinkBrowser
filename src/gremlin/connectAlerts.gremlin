@@ -1,6 +1,6 @@
 import com.Lomikel.Januser.GremlinRecipies
 
-icom = 10
+icom = 100
 gr = new GremlinRecipies(g)
 
 importDates = g.V().has('lbl', 'Imports').out().has('lbl', 'Import').has('complete', true).or(hasNot('connected'), has('connected', false)).values('importDate').toSet();[]
@@ -8,7 +8,7 @@ println('' + importDates.size() + ' imports to connect')
 
 for (importDate in importDates) {
   idds = g.V().has('importDate', importDate).has('lbl', 'alert').has('objectId').id().toSet();[]
-  if (idds.size( == 0) {
+  if (idds.size() == 0) {
     println('Removing empty import on ' + importDate)
     g.V().has('lbl', 'Imports').out().has('lbl', 'Import').has('importDate', importDate).drop().iterate()
     g.getGraph().tx().commit()
@@ -24,7 +24,7 @@ for (importDate in importDates) {
       def s = gr.getOrCreate('source', 'objectId', objectId).get(0)
       gr.addEdge(s, a, 'has')
       g.V(idd).properties('objectId', objectId).drop().iterate()
-      if (i > 0 && ++i % icom == 0) {
+      if (++i % icom == 0) {
         g.getGraph().tx().commit()
         t = (System.currentTimeMillis() - t0) / 1000
         println('' + i + ' alerts connected in ' + t + 's, freq = ' + (int)(i / t) + 'Hz')

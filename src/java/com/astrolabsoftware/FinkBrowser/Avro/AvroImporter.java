@@ -259,14 +259,10 @@ public class AvroImporter extends JanusClient {
                                                                                       "cutoutScience",
                                                                                       "cutoutTemplate",
                                                                                       "cutoutDifference"}));
-    //log.debug("alert:"); 
     Vertex v = vertex(record, "alert", null, "create");
     if (v != null) {
       String objectId = record.get("objectId").toString();
-      //Vertex s = vertex(record, "source", "objectId", "reuse");
-      //_gr.addEdge(s, v, "has");
       for (Map.Entry<String, String> entry : values.entrySet()) {
-        //log.debug("\t" + entry.getKey() + " = " + entry.getValue());
         try {
           v.property(entry.getKey(), entry.getValue());
           }
@@ -318,29 +314,18 @@ public class AvroImporter extends JanusClient {
     * @param record The full PCA {@link GenericRecord}.
     * @return       The created {@link Vertex}. */
   public Vertex processPCA(GenericRecord record) {
-    //log.debug("pca:"); 
-    _m++;
+    _nPCAs++;
     String objectId = record.get("objectId").toString();
-    GraphTraversal<Vertex, Vertex> gt = g().V().has("lbl", "source").has("objectId", objectId);
-    if (!gt.hasNext()) {
-      //log.error("Source with objectId = " + objectId + " does not exist, PCA not added");
-      return null;
+    Vertex v = g().addV("PCA").property("lbl", "PCA").property("objectId", objectId).next();
+    Array<Double> array = (Array<Double>)(record.get("pca"));
+    Iterator<Double> it = array.iterator();
+    short pcai = 0;
+    while (it.hasNext()) {
+      v.property(PCAS[pcai++], it.next());
       }
-    else {
-      _nPCAs++;
-      Vertex s = gt.next();
-      Vertex v = g().addV("PCA").property("lbl", "PCA").next();
-      s.addEdge("has", v);
-      Array<Double> array = (Array<Double>)(record.get("pca"));
-      Iterator<Double> it = array.iterator();
-      short pcai = 0;
-      while (it.hasNext()) {
-        v.property(PCAS[pcai++], it.next());
-        }
-      v.property("importDate", _date);      
-      timer("pcas processed (" + _m + " read)", ++_n, _reportLimit, _commitLimit); 
-      return v;
-      }
+    v.property("importDate", _date);      
+    timer("pcas processed" ++_n, _reportLimit, _commitLimit); 
+    return v;
     }
    
   /** Process <em>Avro</em> {@link GenericRecord}.
@@ -657,8 +642,6 @@ public class AvroImporter extends JanusClient {
   private String _jd;
   
   private int _n = 0;
-  
-  private int _m = 0;
   
   private int _reportLimit;
   
