@@ -250,7 +250,7 @@ public class AvroImporter extends JanusClient {
     * @param record The full alert {@link GenericRecord}.
     * @return       The created {@link Vertex}. */
   public Vertex processAlert(GenericRecord record) {
-    _nAlerts++;
+    _n++;
     Map<String, String> values = getSimpleValues(record, getSimpleFields(record,
                                                                          COLUMNS_ALERT,
                                                                          new String[]{"objectId",
@@ -314,7 +314,7 @@ public class AvroImporter extends JanusClient {
     * @param record The full PCA {@link GenericRecord}.
     * @return       The created {@link Vertex}. */
   public Vertex processPCA(GenericRecord record) {
-    _nPCAs++;
+    _n++;
     String objectId = record.get("objectId").toString();
     Vertex v = g().addV("PCA").property("lbl", "PCA").property("objectId", objectId).next();
     Array<Double> array = (Array<Double>)(record.get("pca"));
@@ -574,17 +574,11 @@ public class AvroImporter extends JanusClient {
     
   @Override
   public void close() { 
-    if (_dataType.equals("alert")) {
-      g().V().has("lbl", "Import").has("importSource", _topFn).has("importDate", _date).property("complete", true)                            .property("nAlerts", _nAlerts).next();
-      }
-    else if (_dataType.equals("pca")) {
-      g().V().has("lbl", "Import").has("importSource", _topFn).has("importDate", _date).property("complete", true).property("connected", true).property("nPCAs", _nPCAs).next();
-      }
+    g().V().has("lbl", "Import").has("importSource", _topFn).has("importDate", _date).property("complete", true).property("n", _n).next();
     commit();
     log.info("Import statistics:");
-    log.info("\talerts: " + _nAlerts);
+    log.info("\talerts/pcas: " + _n);
     log.info("\tprv_candidates: " + _nPrvCandidates);
-    log.info("\tpcas: " + _nPCAs);
     log.info("Imported at " + _date);
     super.close();
     }
@@ -663,11 +657,9 @@ public class AvroImporter extends JanusClient {
   
   private boolean _skip;
   
-  private int _nAlerts = 0;
+  private int _n = 0;
   
   private int _nPrvCandidates = 0;
-  
-  private int _nPCAs = 0;
   
   private String _date = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS").format(new Date()).toString();
   
