@@ -324,7 +324,7 @@ public class AvroImporter extends JanusClient {
       v.property(PCAS[pcai++], it.next());
       }
     v.property("importDate", _date);      
-    timer("pcas processed" ++_n, _reportLimit, _commitLimit); 
+    timer("pcas processed" + ++_n, _reportLimit, _commitLimit); 
     return v;
     }
    
