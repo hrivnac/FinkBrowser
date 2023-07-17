@@ -7,11 +7,11 @@ importDates = g.V().has('lbl', 'Imports').out().has('lbl', 'Import').has('comple
 println('' + importDates.size() + ' imports to connect')
 
 for (importDate in importDates) {
-  idds = g.V().has('importDate', importDate).or(has('lbl', 'alertt'), has('lbl', 'PCA')).has('objectId').id().toSet();[]
+  idds = g.V().has('importDate', importDate).or(has('lbl', 'alert'), has('lbl', 'PCA')).has('objectId').id().toSet();[]
   if (idds.size() == 0) {
-    println('Removing empty import on ' + importDate)
-    g.V().has('lbl', 'Imports').out().has('lbl', 'Import').has('importDate', importDate).drop().iterate()
-    g.getGraph().tx().commit()
+    println('Ignoring empty import on ' + importDate)
+    //g.V().has('lbl', 'Imports').out().has('lbl', 'Import').has('importDate', importDate).drop().iterate()
+    //g.getGraph().tx().commit()
     }
   else {
     println('' + idds.size() + ' vertexes to connect to source for imports on ' + importDate)
