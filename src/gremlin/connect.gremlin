@@ -20,10 +20,10 @@ for (importDate in importDates) {
     for (idd in idds) {
       def a = g.V(idd).next()
       def objectId = a.values('objectId').next()
-      //def s = g.addV('source').property('lbl', 'source').property('objectId', objectId).addE('has').to(a).next()
-      def s = gr.getOrCreate('source', 'objectId', objectId).get(0)
-      gr.addEdge(s, a, 'has')
-      g.V(idd).properties('objectId', objectId).drop().iterate()
+      def s = g.addV('source').property('lbl', 'source').property('objectId', objectId).addE('has').to(a).next()
+      //-def s = gr.getOrCreate('source', 'objectId', objectId).get(0)
+      //-gr.addEdge(s, a, 'has')
+      //-g.V(idd).properties('objectId', objectId).drop().iterate()
       if (++i % icom == 0) {
         g.getGraph().tx().commit()
         t = (System.currentTimeMillis() - t0) / 1000
