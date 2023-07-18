@@ -7,7 +7,7 @@ importDates = g.V().has('lbl', 'Imports').out().has('lbl', 'Import').has('comple
 println('' + importDates.size() + ' imports to connect')
 
 for (importDate in importDates) {
-  idds = g.V().has('importDate', importDate).or(has('lbl', 'alert'), has('lbl', 'PCA')).has('objectId').id().toSet();[]
+  idds = g.V().has('importDate', importDate).has('objectId').id().toSet();[]
   if (idds.size() == 0) {
     println('Ignoring empty import on ' + importDate)
     //g.V().has('lbl', 'Imports').out().has('lbl', 'Import').has('importDate', importDate).drop().iterate()
@@ -18,11 +18,12 @@ for (importDate in importDates) {
     t0 = System.currentTimeMillis()
     i = 0
     for (idd in idds) {
-      def a = g.V(idd).next()
-      def objectId = a.values('objectId').next()
-      def s = g.addV('source').property('lbl', 'source').property('objectId', objectId).addE('has').to(a).next()
-      //-def s = gr.getOrCreate('source', 'objectId', objectId).get(0)
-      //-gr.addEdge(s, a, 'has')
+      a = g.V(idd).next()
+      objectId = a.values('objectId').next()
+      //+s = g.addV('source').property('lbl', 'source').property('objectId', objectId).addE('has').to(a).next()
+      //s = gr.getOrCreate('source', 'objectId', objectId).get(0)
+      Lomikel.get_or_create(g, 'source', 'objectId', objectId).addE('has').to(a).next()
+      //gr.addEdge(s, a, 'has')
       g.V(idd).properties('objectId', objectId).drop().iterate()
       if (++i % icom == 0) {
         g.getGraph().tx().commit()
