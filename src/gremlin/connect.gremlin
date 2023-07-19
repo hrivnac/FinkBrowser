@@ -30,6 +30,7 @@ for (importDate in importDates) {
       if (idsource == null) {
         ia++
         s = g.addV('source').property('lbl', 'source').property('objectId', objectId)
+        sources += [(objectId):(s.id())]
         }
       else {
         ir++
