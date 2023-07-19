@@ -303,7 +303,7 @@ public class AvroImporter extends JanusClient {
     else {
       log.error("Failed to create alert from " + record);
       }
-    timer("alerts processed", ++_n, _reportLimit, _commitLimit); 
+    timer("alerts processed", _n, _reportLimit, _commitLimit); 
     return v;
     }
    
