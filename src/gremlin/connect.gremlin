@@ -1,7 +1,4 @@
-import com.Lomikel.Januser.GremlinRecipies
-
 icom = 100
-gr = new GremlinRecipies(g)
 
 importDates = g.V().has('lbl', 'Imports').out().has('lbl', 'Import').has('complete', true).or(hasNot('connected'), has('connected', false)).values('importDate').toSet();[]
 println('' + importDates.size() + ' imports to connect')
@@ -11,37 +8,32 @@ g.V().has('lbl', 'source').elementMap().toStream().each{sources += [(it['objectI
 println('' + sources.size() + ' sources already exist')
 
 for (importDate in importDates) {
-  idds = g.V().has('importDate', importDate).has('objectId').id().toSet();[]
-  if (idds.size() == 0) {
+  idVs = g.V().has('importDate', importDate).has('objectId').id().toSet();[]
+  if (idVs.size() == 0) {
     println('Ignoring empty import on ' + importDate)
     //g.V().has('lbl', 'Imports').out().has('lbl', 'Import').has('importDate', importDate).drop().iterate()
     //g.getGraph().tx().commit()
     }
   else {
-    println('' + idds.size() + ' vertexes to connect to source for imports on ' + importDate)
+    println('' + idVs.size() + ' vertexes to connect to source for imports on ' + importDate)
     t0 = System.currentTimeMillis()
     i  = 0
     ia = 0
     ir = 0
-    for (idd in idds) {
-      a = g.V(idd).next()
-      objectId = a.values('objectId').next()
-      idsource = sources[objectId]
-      if (idsource == null) {
+    for (idV in idVs) {
+      a = g.V(idV).next()
+      objectId = g.V(idV).values('objectId').next()
+      idSource = sources[objectId]
+      if (idSource == null) {
         ia++
-        s = g.addV('source').property('lbl', 'source').property('objectId', objectId)
-        sources += [(objectId):(s.id())]
+        idSource = g.addV('source').property('lbl', 'source').property('objectId', objectId).sideEffect(addE('has').to(a)).id().next()
+        sources += [(objectId):(idSource)]
         }
       else {
         ir++
-        s = g.V(idsource)        
+        g.V(idSource).addE('has').to(a).iterate() 
         }
-      s.addE('has').to(a).next() 
-      //s = g.addV('source').property('lbl', 'source').property('objectId', objectId).addE('has').to(a).next()
-      //s = gr.getOrCreate('source', 'objectId', objectId).get(0)
-      //Lomikel.get_or_create(g, 'source', 'objectId', objectId).addE('has').to(a).next()
-      //gr.addEdge(s, a, 'has')
-      g.V(idd).properties('objectId', objectId).drop().iterate()
+      g.V(idV).properties('objectId', objectId).drop().iterate()
       if (++i % icom == 0) {
         g.getGraph().tx().commit()
         t = (System.currentTimeMillis() - t0) / 1000
