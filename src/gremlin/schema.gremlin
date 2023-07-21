@@ -10,7 +10,7 @@ datalink          = mgmt.getVertexLabel('datalink'    )
 AstroLabNet       = mgmt.makeVertexLabel('AstroLabNet'      ).make()
 site              = mgmt.makeVertexLabel('site'             ).make()
 AlertsCollection  = mgmt.makeVertexLabel('AlertsCollection' ).make()
-source            = mgmt.makeVertexLabel('source'           ).make()
+//source            = mgmt.makeVertexLabel('source'           ).make()
 alert             = mgmt.makeVertexLabel('alert'            ).make()
 PCA               = mgmt.makeVertexLabel('PCA'              ).make()
 candidate         = mgmt.makeVertexLabel('candidate'        ).make()
@@ -212,9 +212,9 @@ mgmt.addProperties(site,
 mgmt.addProperties(AlertsCollection,
                    lbl,
                    title)   
-mgmt.addProperties(source,
-                   lbl,
-                   objectId)   
+//mgmt.addProperties(source,
+//                   lbl,
+//                   objectId)   
 mgmt.addProperties(alert,
                    lbl,
                    alertVersion,
@@ -470,8 +470,8 @@ mgmt.addConnection(props,      site,             Imports)
 mgmt.addConnection(holds,      Imports,          Import)
 mgmt.addConnection(contains,   AlertsCollection, alert)
 mgmt.addConnection(holds,      site,             AlertsCollection)
-mgmt.addConnection(has,        source,           alert)
-mgmt.addConnection(has,        source,           PCA)
+//mgmt.addConnection(has,        source,           alert)
+//mgmt.addConnection(has,        source,           PCA)
 mgmt.addConnection(has,        alert,            candidate)
 mgmt.addConnection(has,        alert,            cutout)
 mgmt.addConnection(has,        alert,            prv_candidates)

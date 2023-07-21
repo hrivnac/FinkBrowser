@@ -10,9 +10,9 @@ println('' + sources.size() + ' sources already exist')
 for (importDate in importDates) {
   idVs = g.V().has('importDate', importDate).has('objectId').id().toSet();[]
   if (idVs.size() == 0) {
-    println('Ignoring empty import on ' + importDate)
-    //g.V().has('lbl', 'Imports').out().has('lbl', 'Import').has('importDate', importDate).drop().iterate()
-    //g.getGraph().tx().commit()
+    println('Empty import on ' + importDate)
+    g.V().has('lbl', 'Imports').out().has('lbl', 'Import').has('importDate', importDate).property('connected', true).iterate()
+    g.getGraph().tx().commit()
     }
   else {
     println('' + idVs.size() + ' vertexes to connect to source for imports on ' + importDate)
