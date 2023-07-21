@@ -6,7 +6,7 @@ weights = [3.6924474493307935, 2.6044502127140468, 2.31359755336152, 1.965166317
 com.Lomikel.Januser.GremlinEvaluatorFunctions.setDistanceWeights((double[])weights)
 
 difference = 'qdistance(new double[][]{' + variables.replaceAll(' ', ',') + '}, true)'
-new GremlinRecipies(g).structurise(g.V().has('lbl', 'PCA'), difference, variables, 2, 'distance', 'difference', 100)
+new GremlinRecipies(g).structurise(g.V().has('lbl', 'PCA'), difference, variables, 0.3, 'distance', 'difference', 100)
 
 //difference = 'ldistance(new double[][]{' + variables.replaceAll(' ', ',') + '}, true)'
 //new GremlinRecipies(g).structurise(g.V().has('lbl', 'PCA'), difference, variables, 5, 'distanceL', 'differenceL', 100)
