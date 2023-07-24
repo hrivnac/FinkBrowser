@@ -1,15 +1,13 @@
 variables = 'pca00 pca01 pca02 pca03 pca04 pca05 pca06 pca07 pca08 pca09 pca10 pca11 pca12 pca13 pca14 pca15 pca16 pca17 pca18 pca19 pca20 pca21 pca22 pca23 pca24'
-//variables.split().stream().each { v ->
-//  g.V().has('lbl', 'PCA').values(v).fold().as(v).mean(local).as('mean').select(v).unfold().math('(_-mean)^2').mean().math('sqrt(_)').map{sd -> println  v + ': ' + sd}.next()
-//  }
-weights = [3.6924474493307935, 2.6044502127140468, 2.31359755336152, 1.9651663171016558, 2.136671852965558, 0.58362925234291, 1.4548935142942236, 0.7930695156944931, 0.2797217614992614, 1.2983257517874067, 1.1058094035562271, 1.6693211351842852, 0.553027887982675, 1.0487815682456547, 1.2926901489459857, 2.292226616623336, 1.3636117375981376, 0.9538701762174475, 0.9046947496553709, 0.8452323090378521, 0.894727115465801, 0.8715129342833893, 0.9222062073102045, 0.8670532685100895, 0.7772042160092725]
+Lomikel.standardDeviation(g, 'PCA', variables)
+weights = [3.4533244312856115, 2.49233952793408, 2.2218889827341433, 2.006945222479876, 1.7813088016056047, 1.6607214436722957, 1.5576348577639902, 1.4185410177298612, 1.3346004443683377, 1.253120936556101, 1.1513528890448161, 1.1238917522777037, 1.0433585534480576, 1.039030274660006, 1.0060974115231491, 0.9987088825733796, 0.997269295215325, 0.966635859816028, 0.8689367015217481, 0.8439102981811192, 0.8203596777185184, 0.8030287464934972, 0.7823409738734414, 0.7780307086300583, 0.7499251616820342]
 com.Lomikel.Januser.GremlinEvaluatorFunctions.setDistanceWeights((double[])weights)
 
 difference = 'qdistance(new double[][]{' + variables.replaceAll(' ', ',') + '}, true)'
-new GremlinRecipies(g).structurise(g.V().has('lbl', 'PCA'), difference, variables, 0.3, 'distance', 'difference', 100)
+new GremlinRecipies(g).structurise(g.V().has('lbl', 'PCA'), difference, variables, 0.06, 'distance', 'difference', 100)
 
-//difference = 'ldistance(new double[][]{' + variables.replaceAll(' ', ',') + '}, true)'
-//new GremlinRecipies(g).structurise(g.V().has('lbl', 'PCA'), difference, variables, 5, 'distanceL', 'differenceL', 100)
+difference = 'ldistance(new double[][]{' + variables.replaceAll(' ', ',') + '}, true)'
+new GremlinRecipies(g).structurise(g.V().has('lbl', 'PCA'), difference, variables, 0.04, 'distanceL', 'differenceL', 100)
 
 //FinkBrowser.findPCAClusters(g, 'distance', 'difference', 2, 10.5);[]
 
