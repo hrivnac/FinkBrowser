@@ -70,33 +70,13 @@ stylesheet.nodes.datalink = {
     {name:"Table",   url:{gremlin:"id().next().toString().replaceFirst(\"^\", \"Nodes.jsp?id=\")"       }, target:"table"   }
     ]
   }
-stylesheet.nodes.source = {
-  properties:{gremlin:"valueMap('objectId').toList()[0]"},
-  graphics: {
-    label:"objectId",
-    title:"objectId",        
-    subtitle:" ",
-    group:"objectId",        
-    shape:"hexagon",      
-    image:"",        
-    borderRadius:"0", 
-    borderWidth:"3",  
-    borderDashes:[1,0],
-    value:{gremlin:"out().count().join().toString()"}        
-    },
-  actions:[                                                                 
-    {name:"Analyse", url:{js:"'http://134.158.75.151:24000/' + objectId"                         }, target:"external"},
-    {name:"Show",    url:{gremlin:"id().next().toString().replaceFirst(\"^\", \"Node.jsp?id=\")" }, target:"result"  },
-    {name:"Table",   url:{gremlin:"id().next().toString().replaceFirst(\"^\", \"Nodes.jsp?id=\")"}, target:"table"   }
-    ]
-  }
 stylesheet.nodes.alert = {
   properties:{gremlin:"valueMap('lbl').toList()[0]"},
   graphics: {
     label:"lbl",
     title:"lbl",        
     subtitle:" ",
-    group:{gremlin:"in().has('lbl', 'source').values('objectId').toList()[0]"},        
+    group:{gremlin:"values('objectId').toList()[0]"},        
     shape:"hexagon",      
     image:"",        
     borderRadius:"0", 
@@ -115,7 +95,7 @@ stylesheet.nodes.PCA = {
     label:"lbl",
     title:"lbl",        
     subtitle:" ",
-    group:{gremlin:"in().has('lbl', 'source').values('objectId').toList()[0]"},        
+    group:{gremlin:"values('objectId').toList()[0]"},        
     shape:"box",      
     image:"",        
     borderRadius:"0", 
@@ -134,7 +114,7 @@ stylesheet.nodes.candidate = {
     label:"candid",
     title:"candid",        
     subtitle:" ",
-    group:{gremlin:"in().in().has('lbl', 'source').values('objectId').toList()[0]"},        
+    group:{gremlin:"in().has('lbl', 'alert').values('objectId').toList()[0]"},        
     shape:"dot",      
     image:"",        
     borderRadius:"0", 
@@ -153,7 +133,7 @@ stylesheet.nodes.prv_candidates = {
     label:"prv_candidates",
     title:"prv_candidates",        
     subtitle:" ",
-    group:{gremlin:"in().in().has('lbl','source').values('objectId').toList()[0]"},        
+    group:{gremlin:"in().has('lbl','alert').values('objectId').toList()[0]"},        
     shape:"dot",      
     image:"",        
     borderRadius:"0", 
@@ -172,7 +152,7 @@ stylesheet.nodes.prv_candidate = {
     label:"jd",
     title:"jd",        
     subtitle:" ",
-    group:{gremlin:"in().in().in().has('lbl','source').values('objectId').toList()[0]"},        
+    group:{gremlin:"in().in().has('lbl','alert').values('objectId').toList()[0]"},        
     shape:"dot",      
     image:"",        
     borderRadius:"0", 
@@ -191,7 +171,7 @@ stylesheet.nodes.cutout = {
     label:"cutout",
     title:"cutout",        
     subtitle:" ",
-    group:{gremlin:"in().in().has('lbl', 'source').values('objectId').toList()[0]"},        
+    group:{gremlin:"in().has('lbl', 'alert').values('objectId').toList()[0]"},        
     shape:"triangle",      
     image:"",        
     borderRadius:"0", 
@@ -200,31 +180,6 @@ stylesheet.nodes.cutout = {
     value:{gremlin:"both().count().join().toString()"}        
     },
   actions:[                                                                 
-    {name:"Show",       url:{gremlin:"id().next().toString().replaceFirst(\"^\", \"Node.jsp?id=\")" }, target:"result"  },
-    {name:"Table",      url:{gremlin:"id().next().toString().replaceFirst(\"^\", \"Nodes.jsp?id=\")"}, target:"table"   }
-    ]
-  }
-stylesheet.nodes.cutoutX = {
-  properties:{gremlin:"valueMap('cutoutScienceFn', 'cutoutTemplateFn', 'cutoutDifferenceFn', 'cutoutScience', 'cutoutTemplate', 'cutoutDifference').toList()[0]"},
-  graphics: {
-    label:"cutout",
-    title:"cutout",        
-    subtitle:" ",
-    group:{gremlin:"in().in().has('lbl', 'source').values('objectId').toList()[0]"},        
-    shape:"triangle",      
-    image:"",        
-    borderRadius:"0", 
-    borderWidth:"3",  
-    borderDashes:[1,0],
-    value:{gremlin:"both().count().join().toString()"}        
-    },
-  actions:[                                                                 
-    {name:"Science",    url:{js:"storeData(cutoutScienceFn,    cutoutScience)"                      }, target:"image"   },
-    {name:"Science",    url:{js:"storeData(cutoutScienceFn,    cutoutScience)"                      }, target:"external"},
-    {name:"Template",   url:{js:"storeData(cutoutTemplateFn,   cutoutTemplate)"                     }, target:"image"   },
-    {name:"Template",   url:{js:"storeData(cutoutTemplateFn,   cutoutTemplate)"                     }, target:"external"},
-    {name:"Difference", url:{js:"storeData(cutoutDifferenceFn, cutoutDifference)"                   }, target:"image"   },
-    {name:"Difference", url:{js:"storeData(cutoutDifferenceFn, cutoutDifference)"                   }, target:"external"},
     {name:"Show",       url:{gremlin:"id().next().toString().replaceFirst(\"^\", \"Node.jsp?id=\")" }, target:"result"  },
     {name:"Table",      url:{gremlin:"id().next().toString().replaceFirst(\"^\", \"Nodes.jsp?id=\")"}, target:"table"   }
     ]
