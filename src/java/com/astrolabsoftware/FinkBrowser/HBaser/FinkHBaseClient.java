@@ -2,6 +2,7 @@ package com.astrolabsoftware.FinkBrowser.HBaser;
 
 // Lomikel
 import com.Lomikel.HBaser.HBaseClient;
+import com.Lomikel.HBaser.HBaseSQLClient;
 import com.Lomikel.Utils.DateTimeManagement;
 import com.Lomikel.Utils.Pair;
 import com.Lomikel.Utils.LomikelException;
@@ -45,7 +46,7 @@ import org.apache.log4j.Logger;
   * @opt types
   * @opt visibility
   * @author <a href="mailto:Julius.Hrivnac@cern.ch">J.Hrivnac</a> */
-public class FinkHBaseClient extends HBaseClient {
+public class FinkHBaseClient extends HBaseSQLClient {
    
   /** Create.
     * @param zookeepers The comma-separated list of zookeper ids.
