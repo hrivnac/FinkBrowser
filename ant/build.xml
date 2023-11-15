@@ -44,6 +44,7 @@
       <include name="*.jar"/>
       <exclude name="*.exe.jar"/>
       </fileset>
+    <pathelement path="${phoenix_jar}"/>
     <path refid="classpath.build"/>
     </path>
     
@@ -333,7 +334,11 @@
         <attribute name="AppName"    value="FinkBrowser"/>
         <attribute name="AppVersion" value="${version} ${TSTAMP}"/>
         <attribute name="Main-Class" value="com.astrolabsoftware.FinkBrowser.Apps.FUC"/>
+        <attribute name="Class-Path" value="/home/opt/phoenix-hbase-2.2-5.1.3-bin/phoenix-client-embedded-hbase-2.2-5.1.3.jar"/>
         </manifest>
+      <service type="java.sql.Driver">
+        <provider classname="org.apache.phoenix.jdbc.PhoenixDriver"/>
+        </service>
       </jar>
     </target>
         
