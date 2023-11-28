@@ -12,7 +12,7 @@ FINK_JARS=${FINK_HOME}/libs/fink-broker_2.11-1.2.jar,\
 ${FINK_HOME}/libs/hbase-spark-hbase2.2_spark3_scala2.11_hadoop2.7.jar,\
 ${FINK_HOME}/libs/hbase-spark-protocol-shaded-hbase2.2_spark3_scala2.11_hadoop2.7.jar
 
-PYSPARK_DRIVER_PYTHON_OPTS="/opt/anaconda/bin/jupyter-notebook --debug --no-browser --port=22345" pyspark \
+PYSPARK_DRIVER_PYTHON_OPTS="/opt/anaconda/bin/jupyter-notebook --debug --no-browser --port=22567" pyspark \
     --master mesos://vm-75063.lal.in2p3.fr:5050 \
     --conf spark.mesos.principal=lsst \
     --conf spark.mesos.secret=secret \
