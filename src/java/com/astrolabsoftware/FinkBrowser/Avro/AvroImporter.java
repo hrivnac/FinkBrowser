@@ -526,7 +526,7 @@ public class AvroImporter extends JanusClient {
       }
     if (reuse) {
       //log.info("Getting " + label + ": " + property + " = " + record.get(property));
-      v = _gr.getOrCreate(label, property, record.get(property)).get(0); // TBD: check uniqueness
+      v = _gr.getOrCreate(label, property, record.get(property)).next(); // TBD: check uniqueness
       }
     if (create || replace) {
       //log.debug("Creating " + label + ": " + property + " = " + record.get(property));
